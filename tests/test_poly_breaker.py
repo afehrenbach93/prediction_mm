@@ -1,0 +1,87 @@
+"""
+Tests for the poly_runner live risk breaker + position parsing.
+Run: PYTHONPATH=. python -m unittest tests.test_poly_breaker -v
+"""
+import unittest
+
+import poly_runner as pr
+
+
+class FakeClient:
+    def __init__(self, positions=None, book=(0.50, 0.50), open_orders=None):
+        self._pos = positions or {}
+        self._book = book
+        self._open = open_orders or []
+        self.cancelled = []
+
+    def get_positions(self):
+        return 200, {"positions": self._pos}
+
+    def get_book(self, slug):
+        bb, ba = self._book
+        return [(bb, 100)], [(ba, 100)]
+
+    def get_open_orders(self):
+        return 200, {"orders": self._open}
+
+    def cancel_order(self, oid, market_slug=""):
+        self.cancelled.append((oid, market_slug))
+        return 200, {}
+
+
+class TestPositionsParse(unittest.TestCase):
+    def test_defensive_field_parsing(self):
+        c = FakeClient(positions={
+            "m1": {"net": "120", "avgPrice": {"value": "0.55"}},
+            "m2": {"quantity": -50, "costBasis": 0.40},
+        })
+        out = pr.positions_net(c)
+        self.assertEqual(out["m1"]["net"], 120.0)
+        self.assertEqual(out["m1"]["entry"], 0.55)
+        self.assertEqual(out["m2"]["net"], -50.0)
+
+
+class TestBreaker(unittest.TestCase):
+    def setUp(self):
+        pr.MAX_INV, pr.EXPOSURE_CAP, pr.DAILY_LOSS = 300.0, 300.0, 15.0
+
+    def test_no_trip_when_flat(self):
+        trip, _ = pr.breaker_check(FakeClient(), {})
+        self.assertFalse(trip)
+
+    def test_inventory_cap_trips(self):
+        trip, reason = pr.breaker_check(FakeClient(), {"m": {"net": 400, "entry": 0.5}})
+        self.assertTrue(trip)
+        self.assertIn("inventory", reason)
+
+    def test_exposure_cap_trips(self):
+        c = FakeClient(book=(0.89, 0.91))  # mark 0.90
+        pos = {"a": {"net": 200, "entry": 0.9}, "b": {"net": 200, "entry": 0.9}}
+        trip, reason = pr.breaker_check(c, pos)  # 200*.9 + 200*.9 = 360 > 300
+        self.assertTrue(trip)
+        self.assertIn("exposure", reason)
+
+    def test_unrealized_loss_trips(self):
+        c = FakeClient(book=(0.39, 0.41))  # mark 0.40
+        # long 100 @ 0.60, now 0.40 -> unreal 100*(0.40-0.60) = -20 <= -15
+        trip, reason = pr.breaker_check(c, {"m": {"net": 100, "entry": 0.60}})
+        self.assertTrue(trip)
+        self.assertIn("unrealized", reason)
+
+    def test_small_position_no_trip(self):
+        c = FakeClient(book=(0.49, 0.51))
+        trip, _ = pr.breaker_check(c, {"m": {"net": 20, "entry": 0.50}})
+        self.assertFalse(trip)
+
+
+class TestCancelAll(unittest.TestCase):
+    def test_cancels_every_open_order_with_marketslug(self):
+        c = FakeClient(open_orders=[{"id": "a", "marketSlug": "m1"},
+                                    {"id": "b", "marketSlug": "m2"}])
+        n = pr.cancel_all_orders(c)
+        self.assertEqual(n, 2)
+        self.assertEqual(c.cancelled, [("a", "m1"), ("b", "m2")])
+
+
+if __name__ == "__main__":
+    unittest.main()

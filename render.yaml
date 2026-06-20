@@ -1,0 +1,41 @@
+# Render Blueprint — prediction-mm (Polymarket US liquidity-reward maker).
+#
+# One background worker. The live service was created manually in the Render
+# dashboard (start command + env can only be edited there, not via MCP), so
+# this file is infrastructure-as-reference.
+#
+# To stand it up manually:
+#   New → Background Worker → repo afehrenbach93/prediction_mm, branch main,
+#   Language: Python (NOT Docker)
+#   Build:  pip install -r requirements.txt
+#   Start:  python poly_runner.py
+#
+# Secrets (set per service in the Render dashboard, never in this file):
+#   POLYMARKET_API_KEY, POLYMARKET_SECRET
+
+services:
+  # ── POLYMARKET US — liquidity-reward maker ─────────────────────────────
+  # Quotes post-only at the touch on reward-eligible markets. SHADOW until the
+  # reward economics validate live, then the operator flips BOT_MODE=live.
+  - type: worker
+    name: polymarket-mm
+    runtime: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: python poly_runner.py
+    envVars:
+      - key: BOT_MODE
+        value: "shadow"          # flip to "live" ONLY after the live reward test
+      - key: POLY_BUDGET
+        value: "200"
+      - key: POLY_SIZE
+        value: "100"
+      - key: POLY_MAX_INVENTORY
+        value: "300"
+      - key: POLY_DAILY_LOSS
+        value: "15"
+      - key: POLY_MAX_MARKETS
+        value: "5"
+      - key: POLYMARKET_API_KEY
+        sync: false
+      - key: POLYMARKET_SECRET
+        sync: false
