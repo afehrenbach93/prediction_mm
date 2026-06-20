@@ -68,3 +68,33 @@ two convergence scanners** (`poly_wx_scan`, `poly_sports_scan`) per Andrew — t
 were closed-thesis tools depending on dropped modules (weatherfeed/gamefeed/
 convergence→alpha); only `poly_scan.py` (live reward thesis) came along. See
 `FOLLOWONS.md` for the esports-orders investigation (do before any live quoting).
+
+### 2026-06-20 — Migration phases 3–5 (cutover)
+- **Render (Phase 4, done):** the live poly worker physically *is* the old
+  `kalshi-bot-hourly` service (`srv-d8kmtfrtqb8s73eg6tu0`, runs `python
+  poly_runner.py`) — **renamed to `polymarket-mm`**. Deleted the 4 dead Kalshi
+  workers (kalshi-mm core, kalshi-bot-sports, kalshi-bot-alpha, kalshi-runner).
+  Kept: polymarket-mm, kalshi-mm-app (static), kalshi-mm (dashboard web),
+  just_pick_it (unrelated).
+- **Render (Phase 4, BLOCKED):** repointing polymarket-mm's repo to
+  `prediction_mm` fails — Render's GitHub App lacks access to the new **private**
+  repo ("invalid or unfetchable"). It still builds from `kalshi-mm@main` (byte-
+  identical poly code). **Unblock:** grant Render's GitHub App access to
+  `afehrenbach93/prediction_mm`, then PATCH the service repo→prediction_mm/main.
+- **Supabase (Phase 3, done — nothing to delete):** project `pecafqwbfveovymyjako`
+  ("Andrew's Project"). The plan's cleanup targets are already absent — no `macro`
+  bot_control row, no `bot_markets`/`bot_series` tables, zero test-pollution rows
+  (shadow_orders/fills/etc. for tickers A/B/TICK or bot_id='t'). `0001_baseline.sql`
+  stays deferred until poly telemetry lands (follow-on #2). **Security:** 4 tables
+  have RLS disabled (market_snapshots, bot_config, fix_requests, app_users).
+- **Phase 5 (BLOCKED from this session):** archiving `kalshi-mm` + deleting its 8
+  dead branches need GitHub repo-settings/ref-delete access not available here (git
+  proxy blocks delete refspecs; no MCP delete-ref tool). Also hold the archive
+  until polymarket-mm is repointed off kalshi-mm. **Do manually** (or once tooling
+  allows): delete branches `claude/kalshi-mm-multi-bot-x5xrd5`,
+  `claude/kalshi-mm-premortem-93GCf`, `claude/kalshi-multi-agent-build-ctzKn`,
+  `claude/kalshi-multi-agent-session-g8ftz5`, `claude/migration-plan-continuation-grzs6d`,
+  `claude/review-share-purchase-logic-Gq3wk`, `claude/trusting-knuth-6b8fcd`,
+  `feature/mm/web-app-development-scaffold`; keep `main`.
+- **Keys:** Render key already rotated (Andrew). Polymarket key rotation is
+  operator-only (rotate in Polymarket UI + update polymarket-mm env).
