@@ -37,6 +37,10 @@ DAILY_LOSS = float(os.getenv("POLY_DAILY_LOSS", "15"))
 EXPOSURE_CAP = float(os.getenv("POLY_EXPOSURE_CAP", str(round(BUDGET * 1.5))))
 MAX_MARKETS = int(os.getenv("POLY_MAX_MARKETS", "5"))   # cap breadth -> bound budget
 POLL = int(os.getenv("POLY_POLL_SECS", "20"))
+# Slugs the bot must NOT quote AND must NOT let trip the inventory breaker. Used to
+# carve out held legacy/manual positions the bot isn't managing (e.g. a pre-existing
+# WC-futures bet) so they neither get quoted nor stand the bot down. Comma-separated.
+DENY_SLUGS = {s.strip() for s in os.getenv("POLY_DENY_SLUGS", "").split(",") if s.strip()}
 META_REFRESH = 600          # refresh reward-market metadata every 10 min
 PARAMS = MakerParams(size=SIZE, max_inventory=MAX_INV)
 
@@ -67,6 +71,8 @@ class RewardMarketCache:
             by_slug.setdefault(tp["marketSlug"], []).append(tp)
         out = {}
         for slug, tps in by_slug.items():
+            if slug in DENY_SLUGS:        # never quote denied/held-legacy markets
+                continue
             mk = self.c.get_market(slug)
             if not mk or mk.get("closed"):
                 continue
@@ -180,6 +186,8 @@ def breaker_check(client: PolyClient, positions: dict) -> tuple[bool, str]:
     needing exact P&L fields), or (c) best-effort unrealized loss past DAILY_LOSS."""
     total_exposure, unreal = 0.0, 0.0
     for slug, info in positions.items():
+        if slug in DENY_SLUGS:    # held legacy position the bot isn't managing — ignore
+            continue
         net, entry = info["net"], info["entry"]
         if abs(net) > MAX_INV:
             return True, f"inventory {net:+.0f} on {slug[:34]} exceeds cap {MAX_INV:.0f}"
