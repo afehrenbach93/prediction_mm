@@ -69,6 +69,29 @@ class TestPositionsParse(unittest.TestCase):
 class TestBreaker(unittest.TestCase):
     def setUp(self):
         pr.MAX_INV, pr.EXPOSURE_CAP, pr.DAILY_LOSS = 300.0, 300.0, 15.0
+        pr.DENY_SLUGS = set()
+
+    def tearDown(self):
+        pr.DENY_SLUGS = set()
+
+    def test_denied_legacy_position_does_not_trip(self):
+        # A held legacy WC-futures bet over the cap must NOT stand the bot down
+        # when its slug is denied (we keep it, but the bot doesn't manage it).
+        pr.MAX_INV = 50.0
+        pr.DENY_SLUGS = {"tec-f-wc-2026-07-19-groupb-winner-bih"}
+        trip, _ = pr.breaker_check(
+            FakeClient(), {"tec-f-wc-2026-07-19-groupb-winner-bih":
+                           {"net": 332, "entry": 0.08}})
+        self.assertFalse(trip)
+
+    def test_denied_slug_does_not_mask_other_market_trip(self):
+        pr.MAX_INV = 50.0
+        pr.DENY_SLUGS = {"legacy"}
+        trip, reason = pr.breaker_check(
+            FakeClient(), {"legacy": {"net": 332, "entry": 0.08},
+                           "pilot": {"net": 80, "entry": 0.5}})
+        self.assertTrue(trip)
+        self.assertIn("pilot", reason)
 
     def test_no_trip_when_flat(self):
         trip, _ = pr.breaker_check(FakeClient(), {})
