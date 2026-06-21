@@ -120,3 +120,33 @@ safely redeploys a SHADOW worker.
   pools and the bot quotes whatever is reward-eligible; if esports should be excluded,
   add an allow/deny slug-prefix filter on `RewardMarketCache.refresh()`. Stay shadow
   until the live reward economics validate regardless.
+
+### 2026-06-21 (later) — WENT LIVE on a small bounded PILOT (Andrew funded $150, "switch live")
+Validated all of the below in SHADOW via Render logs before flipping. **The worker
+is now `BOT_MODE=live`** on the $50 pilot. See `PILOT.md` for the full runbook.
+- **`POLY_DENY_SLUGS`** added (`#2`): denied slugs are excluded from selection AND
+  from the per-market inventory breaker, so we **keep** the held 332-lot WC future
+  (`tec-f-wc-2026-07-19-groupb-winner-bih`, cost $26.68) without it standing the bot
+  down. Verified live-account read: with deny set, the process goes to *idle* (not
+  *tripped*) on the 332. Andrew chose to keep the loose COD orders too, but the
+  full-reconcile loop cleared them on go-live (now 0 resting orders).
+- **Pilot env (Render):** `BOT_MODE=live`, `POLY_BUDGET=50`, `POLY_SIZE=25`,
+  `POLY_MAX_MARKETS=2`, `POLY_MAX_INVENTORY=50`, `POLY_EXPOSURE_CAP=75`,
+  `POLY_DAILY_LOSS=15`. Confirmed in the live START line.
+- **Earnings cadence (verified vs PM docs):** reward score snapshot ~1/s; PM **US
+  credits earnings ~5+2 business days after a period ends** (uncompressible). So the
+  pilot is judged in 24–48h on SELF-COMPUTED signals (resting reward-score share +
+  real-time adverse selection from `/v1/portfolio/positions` + maker rebate), with
+  the credited number as later confirmation. Macro reward pools are **$10k/day split
+  pro-rata across instruments** (pools are real, not a smear).
+- **RENDER GOTCHA (cost two cycles):** updating env-vars via the API does NOT
+  propagate to the running process, and a `restart` reuses the deploy's OLD env
+  snapshot. You must trigger a fresh **deploy** (`POST /deploys`) to pick up env
+  changes — confirm via the START line values before trusting them.
+- **State at handoff:** live but IDLE — "no reward window now" on the 2 current
+  reward markets; it arms and quotes at pilot size when a window opens. A filtered
+  log monitor watches for first-quote / order-count stability / breaker trips /
+  errors. **Watch when it first quotes:** confirm stable order count (the historical
+  120-order accumulation bug) and check the quoted slugs/periods — only ONE WC-future
+  slug is denied, so if it quotes other weeks-long futures, add them to
+  `POLY_DENY_SLUGS` (pilot wants short-period markets).
