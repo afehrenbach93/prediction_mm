@@ -129,10 +129,25 @@ def positions_net(client: PolyClient) -> dict:
     for slug, p in items:
         if not isinstance(p, dict):
             continue
+        # `netPosition` is the CONFIRMED live field (raw shape logged 2026-06-20:
+        # {'netPosition':'332','qtyBought':'332','qtySold':'0',...}). It MUST come
+        # first — without it the breaker read net=0 and did not trip on a
+        # 332-contract position that exceeded MAX_INV. The remaining keys are
+        # defensive fallbacks for schema drift. If netPosition is absent, derive
+        # net from qtyBought-qtySold.
+        net = _first_num(p, ("netPosition", "net", "netQuantity",
+                             "quantity", "size", "position"))
+        if net == 0.0 and ("qtyBought" in p or "qtySold" in p):
+            net = _first_num(p, ("qtyBought",)) - _first_num(p, ("qtySold",))
         out[slug] = {
-            "net": _first_num(p, ("net", "netQuantity", "quantity", "size", "position")),
+            "net": net,
+            # entry/avg-cost field name is NOT yet confirmed from a live position;
+            # keep a broad defensive set. The breaker's inventory + exposure caps
+            # do not depend on entry, so an unparsed entry only disables the
+            # (best-effort) unrealized-loss check, never the hard caps.
             "entry": _first_num(p, ("avgPrice", "averagePrice", "avgEntryPrice",
-                                    "costBasis", "price")),
+                                    "avgPriceBought", "costBasis", "entryPrice",
+                                    "price")),
         }
     return out
 
