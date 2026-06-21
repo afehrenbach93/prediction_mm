@@ -10,19 +10,24 @@ is reward-eligible — the scope, not the selection logic, is the issue. Halted 
 `BOT_MODE=shadow` per Andrew.
 
 **TWO real items left after the halt:**
-1. **Resting live orders not cancelled.** `cancel_order` is shadow-gated, so the
-   ~4–6 real COD orders placed during the live window are STILL resting on the
-   exchange (shadow can't cancel them, and this environment can't reach Polymarket
-   to cancel). **Cancel them manually in the Polymarket UI**, or via a one-shot live
-   `cancel_all_orders` run with creds. Also a pre-existing **332-contract position
-   on `tec-f-wc-2026-07-19-groupb-winner-bih`** (WC futures) is open.
-2. **Breaker is blind to real positions (BUG).** `poly_runner.positions_net` parses
-   net from keys `net/netQuantity/quantity/size/position`, but the live API field is
-   **`netPosition`** (raw shape logged: `{'netPosition':'332','qtyBought':'332',
-   'qtySold':'0',...}`). So `breaker_check` read net=0 and did NOT trip on the
-   332-contract position even though it exceeds `MAX_INV=300`. **Fix the field
-   mapping (add `netPosition`, and `avgPrice`/entry equivalents) and verify against
-   the logged raw shape BEFORE any future live run.**
+1. **Resting live orders not cancelled — STILL OPEN; needs an operator run.** The
+   ~4–6 real COD orders + the **332-contract position on
+   `tec-f-wc-2026-07-19-groupb-winner-bih`** are still on the account. This Claude
+   environment is geo/network-blocked from `api.polymarket.us` (HTTP 403, no creds
+   present), so it CANNOT cancel them from here. Tool added 2026-06-21:
+   **`scripts/cancel_all_live.py`** — a one-shot, risk-reducing-only live cancel
+   (places no orders; requires `CONFIRM_LIVE_CANCEL=yes`). **Operator action:** run
+   it where Polymarket is reachable (e.g. a Render one-off shell on `polymarket-mm`,
+   which already has the creds + US egress) — dry-run first, then confirm. It does
+   NOT close the 332 position (closing needs an order); close that in the UI.
+2. **Breaker netPosition bug — FIXED 2026-06-21.** `poly_runner.positions_net` now
+   reads `netPosition` FIRST (confirmed live field), derives net from
+   `qtyBought-qtySold` as a fallback, and broadens the entry-field candidates. Added
+   regression tests against the logged raw shape (`test_live_netposition_field`,
+   `test_live_position_trips_inventory_cap`) — the 332-contract position now trips
+   the inventory cap. 29 tests green. (Entry/avg-cost field name is still unverified
+   from a live position; the hard inventory + exposure caps don't depend on it, so
+   an unparsed entry only disables the best-effort unrealized-loss check.)
 
 ## #1 — Investigate esports orders (DO BEFORE ANY LIVE QUOTING)
 Andrew saw esports orders on the Polymarket account. The old Kalshi DB is clean

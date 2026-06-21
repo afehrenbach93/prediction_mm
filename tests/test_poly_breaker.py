@@ -40,6 +40,31 @@ class TestPositionsParse(unittest.TestCase):
         self.assertEqual(out["m1"]["entry"], 0.55)
         self.assertEqual(out["m2"]["net"], -50.0)
 
+    def test_live_netposition_field(self):
+        # CONFIRMED live raw shape (2026-06-20). The old code parsed net=0 here
+        # (no `netPosition` key) so the breaker did NOT trip on this 332-contract
+        # position. Regression guard: net must read 332 from `netPosition`.
+        c = FakeClient(positions={
+            "tec-f-wc-2026-07-19-groupb-winner-bih":
+                {"netPosition": "332", "qtyBought": "332", "qtySold": "0"},
+        })
+        out = pr.positions_net(c)
+        self.assertEqual(
+            out["tec-f-wc-2026-07-19-groupb-winner-bih"]["net"], 332.0)
+
+    def test_net_derived_from_qty_when_no_netposition(self):
+        c = FakeClient(positions={"m": {"qtyBought": "200", "qtySold": "120"}})
+        out = pr.positions_net(c)
+        self.assertEqual(out["m"]["net"], 80.0)
+
+    def test_live_position_trips_inventory_cap(self):
+        # End-to-end: the confirmed live shape must now trip the inventory cap.
+        c = FakeClient(positions={"m": {"netPosition": "332"}})
+        positions = pr.positions_net(c)
+        trip, reason = pr.breaker_check(c, positions)
+        self.assertTrue(trip)
+        self.assertIn("inventory", reason)
+
 
 class TestBreaker(unittest.TestCase):
     def setUp(self):

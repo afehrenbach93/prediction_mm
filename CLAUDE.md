@@ -98,3 +98,25 @@ convergence→alpha); only `poly_scan.py` (live reward thesis) came along. See
   `feature/mm/web-app-development-scaffold`; keep `main`.
 - **Keys:** Render key already rotated (Andrew). Polymarket key rotation is
   operator-only (rotate in Polymarket UI + update polymarket-mm env).
+
+### 2026-06-21 — Breaker netPosition bug fixed; Phase 4 confirmed done; orphan-cancel tool
+"Global access keys added" = `RENDER_API_KEY` in env + `prediction_mm` now in the
+GitHub scope. Verified via the Render API: **Phase 4 cutover is already done** — the
+`polymarket-mm` worker (`srv-d8kmtfrtqb8s73eg6tu0`) builds from
+`prediction_mm@main`, `autoDeploy=on commit`, and **`BOT_MODE=shadow`** (the
+2026-06-20 halt is in effect; no orders reach the exchange). So a merge to `main`
+safely redeploys a SHADOW worker.
+- **Fixed the breaker `netPosition` bug** (FOLLOWONS #0.2, the must-fix-before-live
+  item): `positions_net` now reads `netPosition` first (+ `qtyBought-qtySold`
+  fallback); the 332-contract WC position now trips the inventory cap. +3 regression
+  tests; 29 green.
+- **Added `scripts/cancel_all_live.py`** — one-shot, risk-reducing-only live cancel
+  for the orphaned COD orders (no order placement; `CONFIRM_LIVE_CANCEL=yes` gate,
+  dry-run by default). This Claude env is geo-blocked from `api.polymarket.us`
+  (403), so the **operator must run it** (Render one-off shell on `polymarket-mm`
+  has creds + US egress). It does not close the 332 position — close that in the UI.
+- **OPEN for Andrew:** (a) run the cancel tool + close the 332 position; (b) decide
+  the esports scope policy — `/v1/incentives` currently lists COD `aec-cod-*` reward
+  pools and the bot quotes whatever is reward-eligible; if esports should be excluded,
+  add an allow/deny slug-prefix filter on `RewardMarketCache.refresh()`. Stay shadow
+  until the live reward economics validate regardless.
