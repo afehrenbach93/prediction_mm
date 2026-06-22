@@ -219,6 +219,16 @@ def refresh_quotes(client: PolyClient, slug: str, positions: dict, size: float):
         st, resp = client.place_order(slug, intent, price, qty, post_only=True)
         if st == 200:
             ok += 1
+            # DIAGNOSTIC: order is 200-accepted but the account shows 0 resting.
+            # Log the create response and read the order back to see its true state
+            # (OPEN vs CANCELLED/REJECTED + reason) — `placed_ok` (HTTP 200) is NOT
+            # proof of a resting order.
+            oid = (resp.get("orderId") or resp.get("id")
+                   or (resp.get("order") or {}).get("id")) if isinstance(resp, dict) else None
+            log(f"  place OK {slug[:22]} {intent.split('_')[-1]}@{price} resp={str(resp)[:150]}")
+            if oid:
+                rs, ro = client.get_order(str(oid))
+                log(f"    readback id={oid} st={rs} {str(ro)[:180]}")
         else:
             rej += 1
             # surface WHY a live order bounced (post-only cross / tick / market state)
