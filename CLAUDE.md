@@ -7,6 +7,11 @@ repo.
 
 > **Standing rule:** after every bug fix, ship, or significant decision, add a
 > dated entry to the Incident Log below. Keep this file ≤ ~1 page.
+>
+> **Status-summary discipline:** when reporting status in chat, lead with a
+> one-line TL;DR, then ≤4 bullets — *Live? · Money at risk · Next · Need from
+> you*. Deep detail goes in the worklog/PR, not the chat. No raw log dumps unless
+> asked.
 
 ## Thesis
 Polymarket US (CFTC/QCEX-regulated, `api.polymarket.us`) **pays market makers** —
@@ -150,3 +155,21 @@ is now `BOT_MODE=live`** on the $50 pilot. See `PILOT.md` for the full runbook.
   120-order accumulation bug) and check the quoted slugs/periods — only ONE WC-future
   slug is denied, so if it quotes other weeks-long futures, add them to
   `POLY_DENY_SLUGS` (pilot wants short-period markets).
+
+### 2026-06-22 — PILOT first-quote: post-only orders DON'T REST (no risk); worker SUSPENDED
+First reward window hit (2 Dota2 esports `aec-dota2-*`, `day_of`). The bot placed
+4 orders/cycle but the account showed **0 resting orders every cycle**, repeating.
+Added `place_order` response logging (`#4`): live cycles show **`placed_ok=2 rej=0`
+but `resting(pre-cancel)=0`** — orders are 200-ACCEPTED yet never rest. **Andrew
+confirmed 0 open orders in the Polymarket UI** (ground truth — this env is geo-
+blocked from the API). So: **no accumulation, $0 at risk** (also corroborated by
+`rej=0` over 20+ cycles — real resting orders would reserve cash and eventually
+exhaust the $150 → rejects, which never happened). Worker **SUSPENDED + `BOT_MODE=
+off`** (instant hard stop). The held 332 WC position is untouched.
+- **OPEN BUG (next step):** why don't our post-only (`participateDontInitiate`)
+  quotes rest? join-the-touch at best_bid/best_ask should rest. Diagnose by logging
+  each order's status read-back (`get_order`) right after placing — one focused
+  watched live cycle — then fix `maker_quotes`/order body. Likely: post-only killed
+  (would-cross/lock), bad intent for opening a side, or tick/price issue per market.
+- **Lesson reinforced:** the order layer keeps shipping live-untested; `placed_ok`
+  (HTTP 200) ≠ a resting order. Verify resting via the UI / a read-back, not the ack.
