@@ -253,10 +253,17 @@ def scan_markets(client: PolyClient, budget: float):
     for tp in client.get_incentives():
         progs.setdefault(tp["marketSlug"], []).append(tp)
     rows = []
+    dumped = False
     for slug, tps in progs.items():
         mk = client.get_market(slug)
         if not mk or mk.get("closed"):
             continue
+        if not dumped:                       # one-time: find the human-name field
+            log(f"market fields: {list(mk.keys())}")
+            dumped = True
+        # human-readable name to search in the UI (try the common title fields)
+        name = (mk.get("title") or mk.get("question") or mk.get("name")
+                or mk.get("shortTitle") or mk.get("description") or "")
         pool = max((float(t.get("rewardPool") or 0) for t in tps), default=0.0)
         period = ",".join(sorted({t.get("period", "") for t in tps}))
         bids, offers = client.get_book(slug)
@@ -267,13 +274,12 @@ def scan_markets(client: PolyClient, budget: float):
         spread = round(ba - bb, 4) if (bb and ba) else None
         mycon = (budget / bb) if bb else 0.0           # contracts if we rest at bid
         share = mycon / (bbq + mycon) if bb else 0.0   # our share of the bid touch
-        rows.append((share * pool, slug, period, pool, bb, ba, bbq, baq, spread, share))
+        rows.append((share * pool, slug, name, period, bb, ba, bbq, baq, share))
     rows.sort(reverse=True)
     log(f"=== REWARD SCAN (rest ${budget:.0f} at bid) — {len(rows)} markets, ranked ===")
-    for er, slug, period, pool, bb, ba, bbq, baq, spread, share in rows[:18]:
-        log(f"  {slug[:40]:40} {period:12} pool=${pool:>7.0f} "
-            f"bid={bb}x{bbq:.0f} ask={ba}x{baq:.0f} spr={spread} "
-            f"myShare={share*100:>4.1f}% estReward=${er:.2f}")
+    for er, slug, name, period, bb, ba, bbq, baq, share in rows[:18]:
+        log(f"  '{str(name)[:48]}' | {slug[:34]} | {period:11} "
+            f"bid={bb}x{bbq:.0f} ask={ba}x{baq:.0f} myShare={share*100:>4.1f}%")
 
 
 def main():
