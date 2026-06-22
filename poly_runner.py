@@ -214,11 +214,19 @@ def refresh_quotes(client: PolyClient, slug: str, positions: dict, size: float):
     pos = positions.get(slug, {}).get("net", 0.0)
     params = MakerParams(size=size, max_inventory=MAX_INV)
     quotes = maker_quotes(best_bid, best_ask, pos, params)
-    n = 0
+    ok = rej = 0
     for intent, price, qty in quotes:
-        client.place_order(slug, intent, price, qty, post_only=True)
-        n += 1
-    return n, best_bid, best_ask
+        st, resp = client.place_order(slug, intent, price, qty, post_only=True)
+        if st == 200:
+            ok += 1
+        else:
+            rej += 1
+            # surface WHY a live order bounced (post-only cross / tick / market state)
+            # — the response was previously discarded, hiding rejections as phantom
+            # "placed" orders that never rested.
+            log(f"  place REJECT {slug[:28]} {intent.split('_')[-1]}@{price} "
+                f"st={st} {str(resp)[:140]}")
+    return ok, rej, best_bid, best_ask
 
 
 def main():
@@ -267,14 +275,18 @@ def main():
                     # resting collateral (~$1/contract worst case) stays within budget
                     sel = sorted(windows, key=lambda w: -w[2])[:MAX_MARKETS]
                     size = max(1.0, min(SIZE, BUDGET / len(sel)))
-                    total = 0
+                    placed_ok = placed_rej = 0
                     for slug, period, pool in sel:
-                        n, bb, ba = refresh_quotes(client, slug, positions, size)
-                        total += n
-                        log(f"  {period:10} {slug[:38]} bid={bb} ask={ba} -> {n}@{size:.0f}"
+                        ok, rej, bb, ba = refresh_quotes(client, slug, positions, size)
+                        placed_ok += ok
+                        placed_rej += rej
+                        log(f"  {period:10} {slug[:38]} bid={bb} ask={ba} -> ok={ok} rej={rej}@{size:.0f}"
                             + (" [SHADOW]" if not live else ""))
-                    log(f"cycle: cancelled {ncx}, {len(sel)}/{len(windows)} quoted @ "
-                        f"size={size:.0f}, {total} orders; shadow_log={len(client.shadow_orders)}")
+                    # `resting` is the authoritative count from the exchange (what the
+                    # next cancel will see); placed_ok/rej shows this cycle's placements.
+                    log(f"cycle: resting(pre-cancel)={ncx}, {len(sel)}/{len(windows)} mkts, "
+                        f"placed_ok={placed_ok} rej={placed_rej} @size={size:.0f}; "
+                        f"shadow_log={len(client.shadow_orders)}")
         except Exception as e:
             log(f"loop error: {e}")
         time.sleep(POLL)
