@@ -249,37 +249,36 @@ def scan_markets(client: PolyClient, budget: float):
     `budget`-sized resting order would capture. Pure public reads (no orders).
     share = my_contracts / (touch_depth + my_contracts); est = share * pool is an
     optimistic per-market ceiling for relative ranking."""
+    now = datetime.now(timezone.utc).timestamp()
     progs: dict[str, list] = {}
     for tp in client.get_incentives():
         progs.setdefault(tp["marketSlug"], []).append(tp)
     rows = []
-    dumped = False
     for slug, tps in progs.items():
         mk = client.get_market(slug)
         if not mk or mk.get("closed"):
             continue
-        if not dumped:                       # one-time: find the human-name field
-            log(f"market fields: {list(mk.keys())}")
-            dumped = True
-        # human-readable name to search in the UI (try the common title fields)
-        name = (mk.get("title") or mk.get("question") or mk.get("name")
-                or mk.get("shortTitle") or mk.get("description") or "")
-        pool = max((float(t.get("rewardPool") or 0) for t in tps), default=0.0)
-        period = ",".join(sorted({t.get("period", "") for t in tps}))
+        name = (mk.get("question") or mk.get("title") or "")
+        gstart = iso_ts(mk.get("gameStartTime"))
+        settle = iso_ts(mk.get("endDate"))
+        # is a reward window EARNING right now? (else rewards don't accrue yet)
+        active = any(program_active(now, t.get("period"), iso_ts(t.get("start")),
+                                    iso_ts(t.get("end")), gstart, settle) for t in tps)
         bids, offers = client.get_book(slug)
         bb = bids[0][0] if bids else None
         ba = offers[0][0] if offers else None
         bbq = bids[0][1] if bids else 0.0
         baq = offers[0][1] if offers else 0.0
-        spread = round(ba - bb, 4) if (bb and ba) else None
-        mycon = (budget / bb) if bb else 0.0           # contracts if we rest at bid
+        mycon = (budget / bb) if bb else 0.0
         share = mycon / (bbq + mycon) if bb else 0.0   # our share of the bid touch
-        rows.append((share * pool, slug, name, period, bb, ba, bbq, baq, share))
-    rows.sort(reverse=True)
-    log(f"=== REWARD SCAN (rest ${budget:.0f} at bid) — {len(rows)} markets, ranked ===")
-    for er, slug, name, period, bb, ba, bbq, baq, share in rows[:18]:
-        log(f"  '{str(name)[:48]}' | {slug[:34]} | {period:11} "
-            f"bid={bb}x{bbq:.0f} ask={ba}x{baq:.0f} myShare={share*100:>4.1f}%")
+        rows.append((active, share, slug, name, gstart, bb, ba, bbq, baq))
+    rows.sort(key=lambda r: (r[0], r[1]), reverse=True)   # earning first, then share
+    log(f"=== REWARD SCAN (rest ${budget:.0f} at bid) — {len(rows)} markets ===")
+    for active, share, slug, name, gstart, bb, ba, bbq, baq in rows[:18]:
+        gs = (datetime.fromtimestamp(gstart, timezone.utc).strftime('%m-%d %H:%MZ')
+              if gstart else '?')
+        log(f"  [{'EARNING-NOW' if active else 'waiting   '}] share={share*100:>4.1f}% "
+            f"bid={bb}x{bbq:.0f} ask={ba}x{baq:.0f} game={gs} | {str(name)[:54]} | {slug}")
 
 
 def main():
