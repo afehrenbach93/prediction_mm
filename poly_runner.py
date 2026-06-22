@@ -227,8 +227,13 @@ def refresh_quotes(client: PolyClient, slug: str, positions: dict, size: float):
                    or (resp.get("order") or {}).get("id")) if isinstance(resp, dict) else None
             log(f"  place OK {slug[:22]} {intent.split('_')[-1]}@{price} resp={str(resp)[:150]}")
             if oid:
+                # orders are ASYNC — the create returns an id before the order is
+                # queryable/terminal. Poll after a short delay (docs: ~100ms) so the
+                # read-back shows the TRUE state (OPEN vs REJECTED/CANCELLED + reason),
+                # not a transient 404.
+                time.sleep(0.4)
                 rs, ro = client.get_order(str(oid))
-                log(f"    readback id={oid} st={rs} {str(ro)[:180]}")
+                log(f"    readback id={oid} st={rs} {str(ro)[:200]}")
         else:
             rej += 1
             # surface WHY a live order bounced (post-only cross / tick / market state)
