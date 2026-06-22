@@ -303,19 +303,29 @@ def main():
     if MODE == "research":
         # READ-ONLY: (1) the TRUTH on rewards — authed earnings endpoint; (2) the
         # non-esports venue map (weather/climate markets + their books). No orders.
-        log("START mode=RESEARCH (earnings truth + non-esports venue map)")
+        log("START mode=RESEARCH (earnings truth + full venue census)")
         es, ed = client.get_incentive_earnings()
         log(f"INCENTIVE EARNINGS: http={es} body={str(ed)[:600]}")
-        for cat in ("weather", "climate"):
-            mks = client.get_markets(category=cat)
-            log(f"category '{cat}': {len(mks)} markets")
-            for m in mks[:25]:
-                slug = m.get("slug", "")
-                q = (m.get("question") or m.get("title") or "")[:60]
-                bids, offers = client.get_book(slug)
-                bb = bids[0][0] if bids else None
-                ba = offers[0][0] if offers else None
-                log(f"  {slug[:46]:46} bid={bb} ask={ba} | {q}")
+        mks = client.get_markets()       # whole active catalog (category filter is ignored)
+        log(f"VENUE CENSUS: {len(mks)} active markets")
+        # histogram by category segment (slug = '<prefix>-<category>-...'), and flag
+        # weather/temperature markets by keyword so we know what's tradeable here.
+        from collections import Counter
+        cats = Counter()
+        wx = []
+        WX_KW = ("temperature", "weather", "high temp", "rain", "snow", "degrees", "°")
+        for m in mks:
+            slug = m.get("slug", "")
+            parts = slug.split("-")
+            cats[parts[1] if len(parts) > 1 else slug] += 1
+            q = (m.get("question") or m.get("title") or "")
+            if any(k in q.lower() for k in WX_KW):
+                wx.append((slug, q[:70]))
+        for cat, n in cats.most_common(30):
+            log(f"  category[{cat}] = {n}")
+        log(f"WEATHER/TEMP markets found: {len(wx)}")
+        for slug, q in wx[:25]:
+            log(f"  WX {slug[:44]:44} | {q}")
         log("=== research pass complete; idling ===")
         while True:
             time.sleep(300)
