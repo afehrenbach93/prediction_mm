@@ -180,6 +180,29 @@ class PolyClient:
             seen.add(key)
         return list(out.values())
 
+    def get_markets(self, category: str = "", limit: int = 100, max_pages: int = 30,
+                    active: bool = True):
+        """Paginated market catalog (optionally filtered by category, e.g.
+        'climate'/'weather'/'sports'). Public read; returns a flat list of market
+        dicts. Used to discover non-esports venues (weather, etc.)."""
+        out, offset = [], 0
+        for _ in range(max_pages):
+            params = {"limit": limit, "offset": offset}
+            if active:
+                params["active"] = "true"
+                params["closed"] = "false"
+            if category:
+                params["category"] = category
+            s, d = self.public_get("/v1/markets", **params)
+            page = (d.get("markets") if isinstance(d, dict) else d) or []
+            if s != 200 or not page:
+                break
+            out.extend(page)
+            if len(page) < limit:
+                break
+            offset += limit
+        return out
+
     def get_market(self, slug: str):
         s, d = self.public_get(f"/v1/market/slug/{slug}")
         return d.get("market") if isinstance(d, dict) else None

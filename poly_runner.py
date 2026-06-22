@@ -300,6 +300,25 @@ def main():
             except Exception as e:
                 log(f"scan error: {e}")
             time.sleep(120)
+    if MODE == "research":
+        # READ-ONLY: (1) the TRUTH on rewards — authed earnings endpoint; (2) the
+        # non-esports venue map (weather/climate markets + their books). No orders.
+        log("START mode=RESEARCH (earnings truth + non-esports venue map)")
+        es, ed = client.get_incentive_earnings()
+        log(f"INCENTIVE EARNINGS: http={es} body={str(ed)[:600]}")
+        for cat in ("weather", "climate"):
+            mks = client.get_markets(category=cat)
+            log(f"category '{cat}': {len(mks)} markets")
+            for m in mks[:25]:
+                slug = m.get("slug", "")
+                q = (m.get("question") or m.get("title") or "")[:60]
+                bids, offers = client.get_book(slug)
+                bb = bids[0][0] if bids else None
+                ba = offers[0][0] if offers else None
+                log(f"  {slug[:46]:46} bid={bb} ask={ba} | {q}")
+        log("=== research pass complete; idling ===")
+        while True:
+            time.sleep(300)
     log(f"START mode={'LIVE' if live else 'SHADOW'} budget=${BUDGET} size={SIZE} "
         f"max_inv={MAX_INV} daily_loss=${DAILY_LOSS} poll={POLL}s")
     if not live:
