@@ -244,6 +244,38 @@ def refresh_quotes(client: PolyClient, slug: str, positions: dict, size: float):
     return ok, rej, best_bid, best_ask
 
 
+def scan_markets(client: PolyClient, budget: float):
+    """READ-ONLY: rank every active reward market by the retail reward share a
+    `budget`-sized resting order would capture. Pure public reads (no orders).
+    share = my_contracts / (touch_depth + my_contracts); est = share * pool is an
+    optimistic per-market ceiling for relative ranking."""
+    progs: dict[str, list] = {}
+    for tp in client.get_incentives():
+        progs.setdefault(tp["marketSlug"], []).append(tp)
+    rows = []
+    for slug, tps in progs.items():
+        mk = client.get_market(slug)
+        if not mk or mk.get("closed"):
+            continue
+        pool = max((float(t.get("rewardPool") or 0) for t in tps), default=0.0)
+        period = ",".join(sorted({t.get("period", "") for t in tps}))
+        bids, offers = client.get_book(slug)
+        bb = bids[0][0] if bids else None
+        ba = offers[0][0] if offers else None
+        bbq = bids[0][1] if bids else 0.0
+        baq = offers[0][1] if offers else 0.0
+        spread = round(ba - bb, 4) if (bb and ba) else None
+        mycon = (budget / bb) if bb else 0.0           # contracts if we rest at bid
+        share = mycon / (bbq + mycon) if bb else 0.0   # our share of the bid touch
+        rows.append((share * pool, slug, period, pool, bb, ba, bbq, baq, spread, share))
+    rows.sort(reverse=True)
+    log(f"=== REWARD SCAN (rest ${budget:.0f} at bid) — {len(rows)} markets, ranked ===")
+    for er, slug, period, pool, bb, ba, bbq, baq, spread, share in rows[:18]:
+        log(f"  {slug[:40]:40} {period:12} pool=${pool:>7.0f} "
+            f"bid={bb}x{bbq:.0f} ask={ba}x{baq:.0f} spr={spread} "
+            f"myShare={share*100:>4.1f}% estReward=${er:.2f}")
+
+
 def main():
     if MODE == "off":
         log("BOT_MODE=off — exiting without quoting.")
@@ -253,6 +285,16 @@ def main():
     secret = os.getenv("POLYMARKET_SECRET") or env.get("POLYMARKET_SECRET", "")
     live = (MODE == "live")
     client = PolyClient(api_key_id=api_key, secret_b64=secret, live=live)
+    if MODE == "scan":
+        # READ-ONLY market scan — no orders ever placed. Loops so the ranked table
+        # is easy to capture from logs, then refreshes as books move.
+        log(f"START mode=SCAN budget=${BUDGET} (read-only reward-market ranking)")
+        while True:
+            try:
+                scan_markets(client, BUDGET)
+            except Exception as e:
+                log(f"scan error: {e}")
+            time.sleep(120)
     log(f"START mode={'LIVE' if live else 'SHADOW'} budget=${BUDGET} size={SIZE} "
         f"max_inv={MAX_INV} daily_loss=${DAILY_LOSS} poll={POLL}s")
     if not live:
