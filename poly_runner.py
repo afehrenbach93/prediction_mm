@@ -170,6 +170,30 @@ def soccer_pass(recorded_days: set):
         log("  no upcoming fixtures to predict this pass.")
 
 
+def settle_pass():
+    """Resolve predictions whose settle_date has passed against realized outcomes
+    (weather: observed daily high; soccer: ESPN final), writing realized_yes + pnl
+    back to the tracker. Read/scoring only — touches no exchange. Used by settle +
+    track modes; safe to run repeatedly (only unsettled past-date rows are touched)."""
+    from core import track, settle, soccerfeed, wxfeed
+    today_iso = datetime.now(timezone.utc).date().isoformat()
+    rows = track.fetch_unsettled(today_iso)
+    if not rows:
+        log("settle: nothing due.")
+        return
+    wx_rows = [r for r in rows if r["model"] == "weather"]
+    sc_rows = [r for r in rows if r["model"] == "soccer-elo"]
+    resolved = {}
+    resolved.update(settle.settle_weather(wx_rows, wxfeed.daily_high_observed))
+    resolved.update(settle.settle_soccer(sc_rows, soccerfeed.finals_map))
+    ok = 0
+    for pid, (ry, pnl) in resolved.items():
+        if track.mark_settled(pid, ry, pnl) in (200, 204):
+            ok += 1
+    log(f"settle: due={len(rows)} (wx={len(wx_rows)} soc={len(sc_rows)}) "
+        f"resolved={len(resolved)} written={ok}")
+
+
 def iso_ts(s: str) -> float:
     try:
         return datetime.fromisoformat((s or "").replace("Z", "+00:00")).timestamp()
@@ -441,15 +465,26 @@ def main():
             except Exception as e:
                 log(f"soccer error: {e}")
             time.sleep(3600)
+    if MODE == "settle":
+        # READ-ONLY settlement loop: resolve due predictions against realized outcomes
+        # every ~30 min. Scoring only — no orders. (Also runs inside track mode.)
+        log("START mode=SETTLE (resolve due predictions, read-only)")
+        while True:
+            try:
+                settle_pass()
+            except Exception as e:
+                log(f"settle error: {e}")
+            time.sleep(1800)
     if MODE == "track":
         # READ-ONLY combined tracker: ONE worker accumulates BOTH the weather and
-        # soccer prediction tracks continuously (weather ~10min, soccer ~hourly) so a
-        # single Render service builds the full calibration record. No orders.
-        WX_EVERY, SOC_EVERY = 600, 3600
+        # soccer prediction tracks continuously (weather ~10min, soccer ~hourly) and
+        # settles due predictions (~hourly), so a single Render service builds the full
+        # calibration record AND scores it. No orders.
+        WX_EVERY, SOC_EVERY, SETTLE_EVERY = 600, 3600, 3600
         wx_rec: set[str] = set()
         soc_rec: set[str] = set()
-        last_wx = last_soc = 0.0
-        log("START mode=TRACK (weather + soccer recorders on one worker, read-only)")
+        last_wx = last_soc = last_settle = 0.0
+        log("START mode=TRACK (weather + soccer record + settle on one worker, read-only)")
         while True:
             now = time.time()
             if now - last_wx >= WX_EVERY:
@@ -464,6 +499,12 @@ def main():
                 except Exception as e:
                     log(f"track/soccer error: {e}")
                 last_soc = now
+            if now - last_settle >= SETTLE_EVERY:
+                try:
+                    settle_pass()
+                except Exception as e:
+                    log(f"track/settle error: {e}")
+                last_settle = now
             time.sleep(30)
     if MODE == "research":
         # READ-ONLY: (1) the TRUTH on rewards — authed earnings endpoint; (2) the

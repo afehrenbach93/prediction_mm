@@ -48,3 +48,13 @@ def daily_high_forecast(station: str, date: str, default_sigma: float = 2.5):
     if not highs or highs[0] is None:
         return None
     return float(highs[0]), default_sigma
+
+
+def daily_high_observed(station: str, date: str):
+    """Realized daily high °F for a PAST date (settlement). Open-Meteo serves the
+    archived/observed temperature_2m_max for past dates from the same endpoint, so
+    this mirrors the forecast call. Returns float or None. NOTE: this is the observed
+    high; Polymarket's official settlement (NWS climate report) can differ slightly on
+    spike/QC days — fine for model calibration, caveat for trading P&L."""
+    res = daily_high_forecast(station, date)
+    return res[0] if res else None
