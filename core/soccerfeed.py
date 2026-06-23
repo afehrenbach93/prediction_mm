@@ -99,3 +99,10 @@ def upcoming_fixtures(league: str, dates: str | None = None) -> list[dict]:
     ms = [m for m in fetch_scoreboard(league, dates) if m["state"] == "pre"]
     ms.sort(key=lambda m: m["date"])
     return ms
+
+
+def finals_map(league: str, dates: str | None = None) -> dict:
+    """{espn_id: match} for COMPLETED matches on `dates` — settlement lookup by id."""
+    return {m["id"]: m for m in fetch_scoreboard(league, dates)
+            if m["completed"] and m["home_score"] is not None
+            and m["away_score"] is not None}

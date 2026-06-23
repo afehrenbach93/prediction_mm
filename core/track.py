@@ -9,6 +9,7 @@ from the accumulated history — the data-backed go/no-go for going live.
 """
 import json
 import os
+import urllib.parse
 import urllib.request
 
 TABLE = "model_predictions"
@@ -51,3 +52,42 @@ def record_predictions(rows: list[dict]) -> tuple[int, str]:
             return e.code, "(error)"
     except Exception as e:
         return -1, str(e)[:200]
+
+
+def fetch_unsettled(before_date: str, limit: int = 2000) -> list[dict]:
+    """Predictions whose settle_date is strictly before `before_date` (ISO) and not
+    yet settled — the settlement pass's work queue. Returns [] without creds/on error."""
+    url, key = _creds()
+    if not url or not key:
+        return []
+    q = urllib.parse.urlencode({
+        "select": "id,model,market_slug,outcome,settle_date,market_ask,meta",
+        "settled": "is.null", "settle_date": f"lt.{before_date}",
+        "limit": str(limit), "order": "settle_date.asc",
+    })
+    req = urllib.request.Request(f"{url}/rest/v1/{TABLE}?{q}",
+                                 headers={"apikey": key, "Authorization": f"Bearer {key}"})
+    try:
+        with urllib.request.urlopen(req, timeout=25) as r:
+            return json.loads(r.read())
+    except Exception:
+        return []
+
+
+def mark_settled(pred_id: int, realized_yes: bool, pnl: float | None) -> int:
+    """Write the resolved outcome back to one prediction row. Returns http status."""
+    url, key = _creds()
+    if not url or not key:
+        return 0
+    body = json.dumps({"settled": True, "realized_yes": realized_yes, "pnl": pnl}).encode()
+    req = urllib.request.Request(
+        f"{url}/rest/v1/{TABLE}?id=eq.{pred_id}", data=body, method="PATCH",
+        headers={"apikey": key, "Authorization": f"Bearer {key}",
+                 "Content-Type": "application/json", "Prefer": "return=minimal"})
+    try:
+        with urllib.request.urlopen(req, timeout=25) as r:
+            return r.status
+    except urllib.error.HTTPError as e:
+        return e.code
+    except Exception:
+        return -1
