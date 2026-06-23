@@ -32,7 +32,10 @@ def record_predictions(rows: list[dict]) -> tuple[int, str]:
         data=json.dumps(rows).encode(),
         method="POST",
         headers={"apikey": key, "Authorization": f"Bearer {key}",
-                 "Content-Type": "application/json", "Prefer": "return=minimal"},
+                 "Content-Type": "application/json",
+                 # idempotent: a unique (model, market_slug, settle_date, run_date)
+                 # index makes re-runs (e.g. deploy overlap) no-op instead of dupe.
+                 "Prefer": "return=minimal,resolution=ignore-duplicates"},
     )
     try:
         with urllib.request.urlopen(req, timeout=25) as r:
