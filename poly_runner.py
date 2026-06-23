@@ -374,6 +374,7 @@ def main():
                             "market_bid": bid, "market_ask": ask,
                             "edge": round(edge, 4) if edge > -9 else None,
                             "liquid": liquid, "settle_date": p["date"],
+                            "run_date": today_iso,
                             "meta": {"city": p["city"], "forecast_high": high,
                                      "sigma": sigma, "days_out": d_out,
                                      "spread": spread, "run_date": today_iso},
@@ -385,6 +386,61 @@ def main():
             except Exception as e:
                 log(f"wxedge error: {e}")
             time.sleep(600)
+    if MODE == "soccer":
+        # READ-ONLY soccer model recorder: seed Elo from recent results, predict
+        # upcoming fixtures, record 1X2 probabilities to the tracker. Places NO
+        # orders — this builds the calibration track (model vs realized result) that
+        # has to validate before soccer is ever quoted. Also logs any live Polymarket
+        # soccer markets so we learn the real slug schema for later price comparison.
+        from core import soccerfeed as sf
+        from lib import soccer as sc
+        from datetime import timedelta
+        leagues = [s.strip() for s in os.getenv("SOCCER_LEAGUES", "wc,epl,mls").split(",") if s.strip()]
+        seed_days = int(os.getenv("SOCCER_SEED_DAYS", "120"))   # history window for Elo
+        ahead_days = int(os.getenv("SOCCER_AHEAD_DAYS", "3"))   # fixtures to predict
+        recorded_days: set[str] = set()
+        log(f"START mode=SOCCER leagues={leagues} (Elo predict, read-only, records to tracker)")
+        while True:
+            try:
+                from core import track
+                today = datetime.now(timezone.utc).date()
+                today_iso = today.isoformat()
+                window = f"{(today - timedelta(days=seed_days)):%Y%m%d}-{today:%Y%m%d}"
+                fut = f"{today:%Y%m%d}-{(today + timedelta(days=ahead_days)):%Y%m%d}"
+                payload = []
+                for lg in leagues:
+                    model = sc.EloTable()
+                    results = sf.recent_results(lg, window)
+                    for m in results:
+                        model.observe(m["home"], m["away"], m["home_score"], m["away_score"])
+                    fixtures = sf.upcoming_fixtures(lg, fut)
+                    log(f"  {lg}: seeded {len(results)} results, {len(fixtures)} upcoming fixtures")
+                    for fx in fixtures:
+                        ph, pd, pa = model.probabilities(fx["home"], fx["away"])
+                        sdate = (fx["date"] or "")[:10] or today_iso
+                        for outcome, prob in (("home", ph), ("draw", pd), ("away", pa)):
+                            payload.append({
+                                "model": "soccer-elo", "sport": "soccer",
+                                "market_slug": f"espn:{lg}:{fx['id']}:{outcome}",
+                                "outcome": outcome, "model_prob": round(prob, 4),
+                                "market_bid": None, "market_ask": None, "edge": None,
+                                "liquid": None, "settle_date": sdate, "run_date": today_iso,
+                                "meta": {"league": lg, "espn_id": fx["id"],
+                                         "home": fx["home_raw"], "away": fx["away_raw"],
+                                         "r_home": round(model.rating(fx["home"]), 1),
+                                         "r_away": round(model.rating(fx["away"]), 1),
+                                         "kickoff": fx["date"], "run_date": today_iso},
+                            })
+                if payload and today_iso not in recorded_days:
+                    st, note = track.record_predictions(payload)
+                    log(f"tracker: recorded {len(payload)} soccer predictions -> http={st} {note}")
+                    if st in (200, 201):
+                        recorded_days.add(today_iso)
+                elif not payload:
+                    log("  no upcoming fixtures to predict this pass.")
+            except Exception as e:
+                log(f"soccer error: {e}")
+            time.sleep(3600)
     if MODE == "research":
         # READ-ONLY: (1) the TRUTH on rewards — authed earnings endpoint; (2) the
         # non-esports venue map (weather/climate markets + their books). No orders.
