@@ -63,6 +63,29 @@ read-only before funding; reconcile any tape-derived P&L against account balance
 
 ## Incident Log
 
+### 2026-06-23 — Prediction tracker + soccer feed shipped; one-week validation clock started
+Andrew green-lit the prediction tracker + a soccer results feed, "keep it scalable
+(all sports later)", **one week then go live**. Built read-only (no orders, $0 risk):
+- **`model_predictions` (Supabase)** — model-agnostic schema (`model`/`sport` cols +
+  `meta` jsonb) so new sports need ZERO schema change. `core/track.py` = stdlib
+  PostgREST writer. Unique `(model,market_slug,settle_date,run_date)` index +
+  `on_conflict` target = idempotent daily snapshots (deploy overlap/restart safe;
+  early version 409'd on the wrong conflict target — fixed to no-op 200).
+- **`core/soccerfeed.py`** — ESPN scoreboard (no key; runs on worker, this sandbox is
+  egress-blocked like wxfeed). Pure `parse_scoreboard` unit-tested; `recent_results`
+  (seed Elo) + `upcoming_fixtures`. Wires the existing `lib/soccer` Elo into a recorder.
+- **`BOT_MODE`** `wxedge`/`soccer`/**`track`** — `track` runs BOTH passes on one
+  worker (weather ~10min, soccer ~hourly). Worker (`srv-d8kmtfrtqb8s73eg6tu0`) now on
+  `BOT_MODE=track`, SUPABASE_URL/ANON_KEY set. **Live verified:** weather 60 buckets +
+  soccer 66 (WC seeded ~45 results→~20 fixtures; EPL/MLS offseason=0), 0 dupes.
+- Next: **settlement pass** (ESPN finals + NWS official highs → `realized_yes`/`pnl`)
+  so the week ends with a calibration + net-edge verdict, not just raw predictions.
+- **Weather-tuning Q (Andrew):** validate-first — DON'T tune blind now. Highest-value
+  tune is empirical σ from this week's realized error (replaces hand-set 2+1.5°F/day),
+  then a multi-model ensemble + intraday max-so-far conditioning. Model skill likely
+  isn't the binding constraint (Kalshi weather was efficient; settlement-source nuance
+  was the killer) — the tracker is what tells us.
+
 ### 2026-06-20 — Repo migrated from kalshi-mm (Phase 1)
 Assembled the Polymarket keeper tree as a clean baseline: `poly_runner.py`,
 `core/polyclient.py`, `core/polymaker.py`, `scripts/poly_scan.py`, the poly tests,
