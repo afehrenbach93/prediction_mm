@@ -170,12 +170,48 @@ def soccer_pass(recorded_days: set):
         log("  no upcoming fixtures to predict this pass.")
 
 
+def sports_pass(recorded_days: set):
+    """One pass over all configured head-to-head sports (NBA/NFL/NCAAF/MLB/tennis):
+    seed Elo from recent ESPN results, predict upcoming fixtures, record once per UTC
+    day. Read-only. Golf is excluded (field/winner model, separate)."""
+    from core import espnfeed, sportstrack, track
+    from datetime import timedelta
+    enabled = [s.strip() for s in os.getenv(
+        "SPORTS", "nba,nfl,ncaaf,mlb,atp,wta").split(",") if s.strip()]
+    seed_days = int(os.getenv("SPORTS_SEED_DAYS", "120"))
+    ahead_days = int(os.getenv("SPORTS_AHEAD_DAYS", "3"))
+    today = datetime.now(timezone.utc).date()
+    today_iso = today.isoformat()
+    if today_iso in recorded_days:
+        return
+    window = f"{(today - timedelta(days=seed_days)):%Y%m%d}-{today:%Y%m%d}"
+    fut = f"{today:%Y%m%d}-{(today + timedelta(days=ahead_days)):%Y%m%d}"
+    payload = []
+    for key in enabled:
+        cfg = sportstrack.SPORTS.get(key)
+        if not cfg:
+            log(f"  {key}: unknown sport, skipping")
+            continue
+        path, neutral = cfg
+        recent = espnfeed.recent_results(path, window)
+        fixtures = espnfeed.upcoming_fixtures(path, fut)
+        log(f"  {key}: seeded {len(recent)} results, {len(fixtures)} upcoming fixtures")
+        payload += sportstrack.build_sport_rows(key, path, neutral, recent, fixtures, today_iso)
+    if payload:
+        st, note = track.record_predictions(payload)
+        log(f"tracker: recorded {len(payload)} sports predictions -> http={st} {note}")
+        if st in (200, 201):
+            recorded_days.add(today_iso)
+    else:
+        log("  no upcoming fixtures across enabled sports this pass.")
+
+
 def settle_pass():
     """Resolve predictions whose settle_date has passed against realized outcomes
     (weather: observed daily high; soccer: ESPN final), writing realized_yes + pnl
     back to the tracker. Read/scoring only — touches no exchange. Used by settle +
     track modes; safe to run repeatedly (only unsettled past-date rows are touched)."""
-    from core import track, settle, soccerfeed, wxfeed
+    from core import track, settle, soccerfeed, wxfeed, espnfeed
     today_iso = datetime.now(timezone.utc).date().isoformat()
     rows = track.fetch_unsettled(today_iso)
     if not rows:
@@ -183,15 +219,17 @@ def settle_pass():
         return
     wx_rows = [r for r in rows if r["model"] == "weather"]
     sc_rows = [r for r in rows if r["model"] == "soccer-elo"]
+    sport_rows = [r for r in rows if (r["model"] or "").startswith("elo-")]
     resolved = {}
     resolved.update(settle.settle_weather(wx_rows, wxfeed.daily_high_observed))
     resolved.update(settle.settle_soccer(sc_rows, soccerfeed.finals_map))
+    resolved.update(settle.settle_sport(sport_rows, espnfeed.finals_map))
     ok = 0
     for pid, (ry, pnl) in resolved.items():
         if track.mark_settled(pid, ry, pnl) in (200, 204):
             ok += 1
-    log(f"settle: due={len(rows)} (wx={len(wx_rows)} soc={len(sc_rows)}) "
-        f"resolved={len(resolved)} written={ok}")
+    log(f"settle: due={len(rows)} (wx={len(wx_rows)} soc={len(sc_rows)} "
+        f"sport={len(sport_rows)}) resolved={len(resolved)} written={ok}")
 
 
 def iso_ts(s: str) -> float:
@@ -480,11 +518,12 @@ def main():
         # soccer prediction tracks continuously (weather ~10min, soccer ~hourly) and
         # settles due predictions (~hourly), so a single Render service builds the full
         # calibration record AND scores it. No orders.
-        WX_EVERY, SOC_EVERY, SETTLE_EVERY = 600, 3600, 3600
+        WX_EVERY, SOC_EVERY, SPORTS_EVERY, SETTLE_EVERY = 600, 3600, 3600, 3600
         wx_rec: set[str] = set()
         soc_rec: set[str] = set()
-        last_wx = last_soc = last_settle = 0.0
-        log("START mode=TRACK (weather + soccer record + settle on one worker, read-only)")
+        sports_rec: set[str] = set()
+        last_wx = last_soc = last_sports = last_settle = 0.0
+        log("START mode=TRACK (weather + soccer + sports record & settle, read-only)")
         while True:
             now = time.time()
             if now - last_wx >= WX_EVERY:
@@ -499,6 +538,12 @@ def main():
                 except Exception as e:
                     log(f"track/soccer error: {e}")
                 last_soc = now
+            if now - last_sports >= SPORTS_EVERY:
+                try:
+                    sports_pass(sports_rec)
+                except Exception as e:
+                    log(f"track/sports error: {e}")
+                last_sports = now
             if now - last_settle >= SETTLE_EVERY:
                 try:
                     settle_pass()
