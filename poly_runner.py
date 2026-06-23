@@ -300,6 +300,50 @@ def main():
             except Exception as e:
                 log(f"scan error: {e}")
             time.sleep(120)
+    if MODE == "wxedge":
+        # READ-ONLY weather edge-finder: pull a live forecast per city and compare
+        # it to the live tc-temp book; log where the market mis-prices vs forecast.
+        # Places NO orders — this is the validate-first read before any funding.
+        from core import wxfeed
+        from lib import weather as wx
+        log("START mode=WXEDGE (forecast vs tc-temp market, read-only)")
+        while True:
+            try:
+                mks = client.get_markets(max_pages=300)
+                temps = []
+                for m in mks:
+                    p = wx.parse_temp_slug(m.get("slug", ""))
+                    if p:
+                        temps.append((m.get("slug", ""), p))
+                log(f"tc-temp markets live: {len(temps)}")
+                fc, rows = {}, []
+                for slug, p in temps:
+                    key = (p["station"], p["date"])
+                    if key not in fc:
+                        fc[key] = wxfeed.daily_high_forecast(p["station"], p["date"])
+                    f = fc[key]
+                    if not f:
+                        continue
+                    high, sigma = f
+                    prob = wx.bucket_probability(high, sigma, p["lo"], p["hi"])
+                    bids, offers = client.get_book(slug)
+                    bid = bids[0][0] if bids else None
+                    ask = offers[0][0] if offers else None
+                    fee = wx.taker_fee(ask) if ask else 0.0
+                    edge = wx.buy_edge(prob, ask, fee)
+                    rows.append((edge if edge is not None else -9.0,
+                                 slug, p, high, prob, bid, ask))
+                rows.sort(reverse=True)
+                miss = sum(1 for _, _, _, _, _, _, a in rows if a is None)
+                log(f"=== WEATHER EDGES (model P vs ask, net fee) — {len(rows)} buckets, "
+                    f"{miss} no-ask ===")
+                for edge, slug, p, high, prob, bid, ask in rows[:24]:
+                    tag = " <== EDGE" if edge >= 0.05 else ""
+                    log(f"  edge={edge:+.3f} P={prob:.2f} ask={ask} bid={bid} "
+                        f"fc_high={high:.1f} {p['city'][:11]} {p['lo']}-{p['hi']}{tag}")
+            except Exception as e:
+                log(f"wxedge error: {e}")
+            time.sleep(600)
     if MODE == "research":
         # READ-ONLY: (1) the TRUTH on rewards — authed earnings endpoint; (2) the
         # non-esports venue map (weather/climate markets + their books). No orders.
