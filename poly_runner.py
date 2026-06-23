@@ -308,6 +308,7 @@ def main():
         from lib import weather as wx
         from datetime import date as _date
         LIQ_SPREAD = 0.06        # a bucket is "tradeable" only if its book is this tight
+        recorded_days: set[str] = set()   # record predictions once per UTC day
         log("START mode=WXEDGE (forecast vs tc-temp market, read-only)")
         while True:
             try:
@@ -358,6 +359,29 @@ def main():
                         f"spr={spread} d+{d_out} sig={sigma:.1f} {p['city'][:10]} {p['lo']}-{p['hi']}")
                 if not liq:
                     log("  no tradeable (liquid) edges this pass.")
+                # record EVERY bucket's prediction (durable track record for the
+                # data-backed go/no-go). Once per UTC day to avoid spamming the table.
+                if today.isoformat() not in recorded_days:
+                    from core import track
+                    today_iso = today.isoformat()
+                    payload = []
+                    for r in rows:
+                        edge, slug, p, high, sigma, prob, bid, ask, spread, liquid, d_out = r
+                        payload.append({
+                            "model": "weather", "sport": "temp", "market_slug": slug,
+                            "outcome": f"{p['lo']}-{p['hi']}",
+                            "model_prob": round(prob, 4),
+                            "market_bid": bid, "market_ask": ask,
+                            "edge": round(edge, 4) if edge > -9 else None,
+                            "liquid": liquid, "settle_date": p["date"],
+                            "meta": {"city": p["city"], "forecast_high": high,
+                                     "sigma": sigma, "days_out": d_out,
+                                     "spread": spread, "run_date": today_iso},
+                        })
+                    st, note = track.record_predictions(payload)
+                    log(f"tracker: recorded {len(payload)} predictions -> http={st} {note}")
+                    if st in (200, 201):
+                        recorded_days.add(today.isoformat())
             except Exception as e:
                 log(f"wxedge error: {e}")
             time.sleep(600)
