@@ -40,6 +40,33 @@ def settle_weather(rows: list[dict], fetch_high) -> dict[int, tuple[bool, float 
     return out
 
 
+def settle_sport(rows: list[dict], fetch_finals) -> dict[int, tuple[bool, float | None]]:
+    """Resolve 2-way (win/loss) sport rows — NBA/NFL/NCAAF/MLB/tennis. `fetch_finals(
+    espn_path, dateYYYYMMDD) -> {espn_id: match}`. realized_yes = (row.outcome == the
+    winner home/away). Ties (rare) are skipped (no 2-way winner). Returns
+    {prediction_id: (realized_yes, pnl)} for completed matches only."""
+    out, cache = {}, {}
+    for r in rows:
+        meta = r.get("meta") or {}
+        path, eid = meta.get("espn_path"), meta.get("espn_id")
+        date = (r.get("settle_date") or "")
+        if not path or not eid or not date:
+            continue
+        key = (path, date)
+        if key not in cache:
+            cache[key] = fetch_finals(path, date.replace("-", ""))
+        match = (cache[key] or {}).get(str(eid))
+        if not match:
+            continue
+        hs, as_ = match["home_score"], match["away_score"]
+        if hs == as_:
+            continue   # tie — no 2-way winner; leave unsettled
+        winner = "home" if hs > as_ else "away"
+        ry = (r.get("outcome") == winner)
+        out[r["id"]] = (ry, _pnl(ry, r.get("market_ask")))
+    return out
+
+
 def settle_soccer(rows: list[dict], fetch_finals) -> dict[int, tuple[bool, float | None]]:
     """Resolve soccer 1X2 rows. `fetch_finals(league, date) -> {espn_id: match}` with
     home_score/away_score. realized_yes = (row.outcome == actual winner home/draw/away).
