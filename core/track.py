@@ -12,6 +12,10 @@ import os
 import urllib.request
 
 TABLE = "model_predictions"
+# unique snapshot key — must match the DB unique index. Naming it as the conflict
+# target makes PostgREST emit ON CONFLICT (...) DO NOTHING (it otherwise defaults to
+# the primary key and a unique-index clash 409s instead of being ignored).
+CONFLICT = "model,market_slug,settle_date,run_date"
 
 
 def _creds():
@@ -28,7 +32,7 @@ def record_predictions(rows: list[dict]) -> tuple[int, str]:
     if not rows:
         return 0, "no rows"
     req = urllib.request.Request(
-        f"{url}/rest/v1/{TABLE}",
+        f"{url}/rest/v1/{TABLE}?on_conflict={CONFLICT}",
         data=json.dumps(rows).encode(),
         method="POST",
         headers={"apikey": key, "Authorization": f"Bearer {key}",
