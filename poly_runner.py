@@ -306,9 +306,12 @@ def main():
         # Places NO orders — this is the validate-first read before any funding.
         from core import wxfeed
         from lib import weather as wx
+        from datetime import date as _date
+        LIQ_SPREAD = 0.06        # a bucket is "tradeable" only if its book is this tight
         log("START mode=WXEDGE (forecast vs tc-temp market, read-only)")
         while True:
             try:
+                today = datetime.now(timezone.utc).date()
                 mks = client.get_markets(max_pages=300)
                 temps = []
                 for m in mks:
@@ -320,27 +323,41 @@ def main():
                 for slug, p in temps:
                     key = (p["station"], p["date"])
                     if key not in fc:
-                        fc[key] = wxfeed.daily_high_forecast(p["station"], p["date"])
-                    f = fc[key]
-                    if not f:
+                        ff = wxfeed.daily_high_forecast(p["station"], p["date"])
+                        fc[key] = ff[0] if ff else None
+                    high = fc[key]
+                    if high is None:
                         continue
-                    high, sigma = f
+                    # lead-time sigma: forecast error grows with days-out. same-day ~2°F,
+                    # +1.5°F/day, capped — stops the model being overconfident on far dates.
+                    try:
+                        d_out = max(0, (_date.fromisoformat(p["date"]) - today).days)
+                    except Exception:
+                        d_out = 0
+                    sigma = min(8.0, 2.0 + 1.5 * d_out)
                     prob = wx.bucket_probability(high, sigma, p["lo"], p["hi"])
                     bids, offers = client.get_book(slug)
                     bid = bids[0][0] if bids else None
                     ask = offers[0][0] if offers else None
+                    spread = (ask - bid) if (bid is not None and ask is not None) else None
                     fee = wx.taker_fee(ask) if ask else 0.0
                     edge = wx.buy_edge(prob, ask, fee)
-                    rows.append((edge if edge is not None else -9.0,
-                                 slug, p, high, prob, bid, ask))
+                    liquid = spread is not None and spread <= LIQ_SPREAD
+                    rows.append((edge if edge is not None else -9.0, slug, p,
+                                 high, sigma, prob, bid, ask, spread, liquid, d_out))
                 rows.sort(reverse=True)
-                miss = sum(1 for _, _, _, _, _, _, a in rows if a is None)
-                log(f"=== WEATHER EDGES (model P vs ask, net fee) — {len(rows)} buckets, "
-                    f"{miss} no-ask ===")
-                for edge, slug, p, high, prob, bid, ask in rows[:24]:
-                    tag = " <== EDGE" if edge >= 0.05 else ""
-                    log(f"  edge={edge:+.3f} P={prob:.2f} ask={ask} bid={bid} "
-                        f"fc_high={high:.1f} {p['city'][:11]} {p['lo']}-{p['hi']}{tag}")
+                liq = [r for r in rows if r[9] and r[0] >= 0.05]
+                log(f"=== WEATHER EDGES — {len(rows)} buckets; "
+                    f"*** TRADEABLE (liquid, edge>=5pts): {len(liq)} *** ===")
+                for r in rows[:26]:
+                    edge, slug, p, high, sigma, prob, bid, ask, spread, liquid, d_out = r
+                    if edge < 0.05:
+                        continue
+                    tag = "LIQUID-EDGE" if liquid else "thin(skip)"
+                    log(f"  [{tag}] edge={edge:+.3f} P={prob:.2f} ask={ask} bid={bid} "
+                        f"spr={spread} d+{d_out} sig={sigma:.1f} {p['city'][:10]} {p['lo']}-{p['hi']}")
+                if not liq:
+                    log("  no tradeable (liquid) edges this pass.")
             except Exception as e:
                 log(f"wxedge error: {e}")
             time.sleep(600)
