@@ -306,14 +306,15 @@ def main():
         log("START mode=RESEARCH (earnings truth + full venue census)")
         es, ed = client.get_incentive_earnings()
         log(f"INCENTIVE EARNINGS: http={es} body={str(ed)[:600]}")
-        mks = client.get_markets()       # whole active catalog (category filter is ignored)
+        mks = client.get_markets(max_pages=300)   # FULL catalog (no 3k sample cap)
         log(f"VENUE CENSUS: {len(mks)} active markets")
         # histogram by category segment (slug = '<prefix>-<category>-...'), and flag
         # weather/temperature markets by keyword so we know what's tradeable here.
         from collections import Counter
         cats = Counter()
         wx = []
-        WX_KW = ("temperature", "weather", "high temp", "rain", "snow", "degrees", "°")
+        WX_KW = ("temperatur", "weather", "high temp", "rainfall", "snowfall",
+                 "degrees", "°", "celsius", "fahrenheit", "climate")
         for m in mks:
             slug = m.get("slug", "")
             parts = slug.split("-")
@@ -321,9 +322,10 @@ def main():
             q = (m.get("question") or m.get("title") or "")
             if any(k in q.lower() for k in WX_KW):
                 wx.append((slug, q[:70]))
-        for cat, n in cats.most_common(30):
+        log(f"TOTAL distinct categories: {len(cats)}")
+        for cat, n in cats.most_common():
             log(f"  category[{cat}] = {n}")
-        log(f"WEATHER/TEMP markets found: {len(wx)}")
+        log(f"*** WEATHER/TEMP markets found: {len(wx)} ***")
         for slug, q in wx[:25]:
             log(f"  WX {slug[:44]:44} | {q}")
         log("=== research pass complete; idling ===")
