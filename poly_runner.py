@@ -45,8 +45,129 @@ META_REFRESH = 600          # refresh reward-market metadata every 10 min
 PARAMS = MakerParams(size=SIZE, max_inventory=MAX_INV)
 
 
+LIQ_SPREAD = 0.06        # a weather bucket is "tradeable" only if its book is this tight
+
+
 def log(msg: str):
     print(f"[poly] {datetime.now(timezone.utc):%H:%M:%S}Z {msg}", flush=True)
+
+
+def wx_pass(client, recorded_days: set):
+    """One weather scan: forecast vs tc-temp book; log edges; record predictions
+    once per UTC day. Read-only — places no orders. Used by wxedge + track modes."""
+    from core import wxfeed, track
+    from lib import weather as wx
+    from datetime import date as _date
+    today = datetime.now(timezone.utc).date()
+    mks = client.get_markets(max_pages=300)
+    temps = []
+    for m in mks:
+        p = wx.parse_temp_slug(m.get("slug", ""))
+        if p:
+            temps.append((m.get("slug", ""), p))
+    log(f"tc-temp markets live: {len(temps)}")
+    fc, rows = {}, []
+    for slug, p in temps:
+        key = (p["station"], p["date"])
+        if key not in fc:
+            ff = wxfeed.daily_high_forecast(p["station"], p["date"])
+            fc[key] = ff[0] if ff else None
+        high = fc[key]
+        if high is None:
+            continue
+        # lead-time sigma: forecast error grows with days-out. same-day ~2°F,
+        # +1.5°F/day, capped — stops the model being overconfident on far dates.
+        try:
+            d_out = max(0, (_date.fromisoformat(p["date"]) - today).days)
+        except Exception:
+            d_out = 0
+        sigma = min(8.0, 2.0 + 1.5 * d_out)
+        prob = wx.bucket_probability(high, sigma, p["lo"], p["hi"])
+        bids, offers = client.get_book(slug)
+        bid = bids[0][0] if bids else None
+        ask = offers[0][0] if offers else None
+        spread = (ask - bid) if (bid is not None and ask is not None) else None
+        fee = wx.taker_fee(ask) if ask else 0.0
+        edge = wx.buy_edge(prob, ask, fee)
+        liquid = spread is not None and spread <= LIQ_SPREAD
+        rows.append((edge if edge is not None else -9.0, slug, p,
+                     high, sigma, prob, bid, ask, spread, liquid, d_out))
+    rows.sort(reverse=True)
+    liq = [r for r in rows if r[9] and r[0] >= 0.05]
+    log(f"=== WEATHER EDGES — {len(rows)} buckets; "
+        f"*** TRADEABLE (liquid, edge>=5pts): {len(liq)} *** ===")
+    for r in rows[:26]:
+        edge, slug, p, high, sigma, prob, bid, ask, spread, liquid, d_out = r
+        if edge < 0.05:
+            continue
+        tag = "LIQUID-EDGE" if liquid else "thin(skip)"
+        log(f"  [{tag}] edge={edge:+.3f} P={prob:.2f} ask={ask} bid={bid} "
+            f"spr={spread} d+{d_out} sig={sigma:.1f} {p['city'][:10]} {p['lo']}-{p['hi']}")
+    if not liq:
+        log("  no tradeable (liquid) edges this pass.")
+    today_iso = today.isoformat()
+    if today_iso not in recorded_days:
+        payload = []
+        for r in rows:
+            edge, slug, p, high, sigma, prob, bid, ask, spread, liquid, d_out = r
+            payload.append({
+                "model": "weather", "sport": "temp", "market_slug": slug,
+                "outcome": f"{p['lo']}-{p['hi']}", "model_prob": round(prob, 4),
+                "market_bid": bid, "market_ask": ask,
+                "edge": round(edge, 4) if edge > -9 else None,
+                "liquid": liquid, "settle_date": p["date"], "run_date": today_iso,
+                "meta": {"city": p["city"], "forecast_high": high, "sigma": sigma,
+                         "days_out": d_out, "spread": spread, "run_date": today_iso},
+            })
+        st, note = track.record_predictions(payload)
+        log(f"tracker: recorded {len(payload)} weather predictions -> http={st} {note}")
+        if st in (200, 201):
+            recorded_days.add(today_iso)
+
+
+def soccer_pass(recorded_days: set):
+    """One soccer pass: seed Elo from recent results, predict upcoming fixtures,
+    record 1X2 probabilities once per UTC day. Read-only. wxedge analogue for soccer."""
+    from core import soccerfeed as sf, track
+    from lib import soccer as sc
+    from datetime import timedelta
+    leagues = [s.strip() for s in os.getenv("SOCCER_LEAGUES", "wc,epl,mls").split(",") if s.strip()]
+    seed_days = int(os.getenv("SOCCER_SEED_DAYS", "120"))   # history window for Elo
+    ahead_days = int(os.getenv("SOCCER_AHEAD_DAYS", "3"))   # fixtures to predict
+    today = datetime.now(timezone.utc).date()
+    today_iso = today.isoformat()
+    window = f"{(today - timedelta(days=seed_days)):%Y%m%d}-{today:%Y%m%d}"
+    fut = f"{today:%Y%m%d}-{(today + timedelta(days=ahead_days)):%Y%m%d}"
+    payload = []
+    for lg in leagues:
+        model = sc.EloTable()
+        results = sf.recent_results(lg, window)
+        for m in results:
+            model.observe(m["home"], m["away"], m["home_score"], m["away_score"])
+        fixtures = sf.upcoming_fixtures(lg, fut)
+        log(f"  {lg}: seeded {len(results)} results, {len(fixtures)} upcoming fixtures")
+        for fx in fixtures:
+            ph, pd, pa = model.probabilities(fx["home"], fx["away"])
+            sdate = (fx["date"] or "")[:10] or today_iso
+            for outcome, prob in (("home", ph), ("draw", pd), ("away", pa)):
+                payload.append({
+                    "model": "soccer-elo", "sport": "soccer",
+                    "market_slug": f"espn:{lg}:{fx['id']}:{outcome}",
+                    "outcome": outcome, "model_prob": round(prob, 4),
+                    "market_bid": None, "market_ask": None, "edge": None,
+                    "liquid": None, "settle_date": sdate, "run_date": today_iso,
+                    "meta": {"league": lg, "espn_id": fx["id"], "home": fx["home_raw"],
+                             "away": fx["away_raw"], "r_home": round(model.rating(fx["home"]), 1),
+                             "r_away": round(model.rating(fx["away"]), 1),
+                             "kickoff": fx["date"], "run_date": today_iso},
+                })
+    if payload and today_iso not in recorded_days:
+        st, note = track.record_predictions(payload)
+        log(f"tracker: recorded {len(payload)} soccer predictions -> http={st} {note}")
+        if st in (200, 201):
+            recorded_days.add(today_iso)
+    elif not payload:
+        log("  no upcoming fixtures to predict this pass.")
 
 
 def iso_ts(s: str) -> float:
@@ -301,146 +422,49 @@ def main():
                 log(f"scan error: {e}")
             time.sleep(120)
     if MODE == "wxedge":
-        # READ-ONLY weather edge-finder: pull a live forecast per city and compare
-        # it to the live tc-temp book; log where the market mis-prices vs forecast.
-        # Places NO orders — this is the validate-first read before any funding.
-        from core import wxfeed
-        from lib import weather as wx
-        from datetime import date as _date
-        LIQ_SPREAD = 0.06        # a bucket is "tradeable" only if its book is this tight
-        recorded_days: set[str] = set()   # record predictions once per UTC day
+        # READ-ONLY weather edge-finder: forecast vs tc-temp book, records predictions.
+        recorded: set[str] = set()
         log("START mode=WXEDGE (forecast vs tc-temp market, read-only)")
         while True:
             try:
-                today = datetime.now(timezone.utc).date()
-                mks = client.get_markets(max_pages=300)
-                temps = []
-                for m in mks:
-                    p = wx.parse_temp_slug(m.get("slug", ""))
-                    if p:
-                        temps.append((m.get("slug", ""), p))
-                log(f"tc-temp markets live: {len(temps)}")
-                fc, rows = {}, []
-                for slug, p in temps:
-                    key = (p["station"], p["date"])
-                    if key not in fc:
-                        ff = wxfeed.daily_high_forecast(p["station"], p["date"])
-                        fc[key] = ff[0] if ff else None
-                    high = fc[key]
-                    if high is None:
-                        continue
-                    # lead-time sigma: forecast error grows with days-out. same-day ~2°F,
-                    # +1.5°F/day, capped — stops the model being overconfident on far dates.
-                    try:
-                        d_out = max(0, (_date.fromisoformat(p["date"]) - today).days)
-                    except Exception:
-                        d_out = 0
-                    sigma = min(8.0, 2.0 + 1.5 * d_out)
-                    prob = wx.bucket_probability(high, sigma, p["lo"], p["hi"])
-                    bids, offers = client.get_book(slug)
-                    bid = bids[0][0] if bids else None
-                    ask = offers[0][0] if offers else None
-                    spread = (ask - bid) if (bid is not None and ask is not None) else None
-                    fee = wx.taker_fee(ask) if ask else 0.0
-                    edge = wx.buy_edge(prob, ask, fee)
-                    liquid = spread is not None and spread <= LIQ_SPREAD
-                    rows.append((edge if edge is not None else -9.0, slug, p,
-                                 high, sigma, prob, bid, ask, spread, liquid, d_out))
-                rows.sort(reverse=True)
-                liq = [r for r in rows if r[9] and r[0] >= 0.05]
-                log(f"=== WEATHER EDGES — {len(rows)} buckets; "
-                    f"*** TRADEABLE (liquid, edge>=5pts): {len(liq)} *** ===")
-                for r in rows[:26]:
-                    edge, slug, p, high, sigma, prob, bid, ask, spread, liquid, d_out = r
-                    if edge < 0.05:
-                        continue
-                    tag = "LIQUID-EDGE" if liquid else "thin(skip)"
-                    log(f"  [{tag}] edge={edge:+.3f} P={prob:.2f} ask={ask} bid={bid} "
-                        f"spr={spread} d+{d_out} sig={sigma:.1f} {p['city'][:10]} {p['lo']}-{p['hi']}")
-                if not liq:
-                    log("  no tradeable (liquid) edges this pass.")
-                # record EVERY bucket's prediction (durable track record for the
-                # data-backed go/no-go). Once per UTC day to avoid spamming the table.
-                if today.isoformat() not in recorded_days:
-                    from core import track
-                    today_iso = today.isoformat()
-                    payload = []
-                    for r in rows:
-                        edge, slug, p, high, sigma, prob, bid, ask, spread, liquid, d_out = r
-                        payload.append({
-                            "model": "weather", "sport": "temp", "market_slug": slug,
-                            "outcome": f"{p['lo']}-{p['hi']}",
-                            "model_prob": round(prob, 4),
-                            "market_bid": bid, "market_ask": ask,
-                            "edge": round(edge, 4) if edge > -9 else None,
-                            "liquid": liquid, "settle_date": p["date"],
-                            "run_date": today_iso,
-                            "meta": {"city": p["city"], "forecast_high": high,
-                                     "sigma": sigma, "days_out": d_out,
-                                     "spread": spread, "run_date": today_iso},
-                        })
-                    st, note = track.record_predictions(payload)
-                    log(f"tracker: recorded {len(payload)} predictions -> http={st} {note}")
-                    if st in (200, 201):
-                        recorded_days.add(today.isoformat())
+                wx_pass(client, recorded)
             except Exception as e:
                 log(f"wxedge error: {e}")
             time.sleep(600)
     if MODE == "soccer":
-        # READ-ONLY soccer model recorder: seed Elo from recent results, predict
-        # upcoming fixtures, record 1X2 probabilities to the tracker. Places NO
-        # orders — this builds the calibration track (model vs realized result) that
-        # has to validate before soccer is ever quoted. Also logs any live Polymarket
-        # soccer markets so we learn the real slug schema for later price comparison.
-        from core import soccerfeed as sf
-        from lib import soccer as sc
-        from datetime import timedelta
-        leagues = [s.strip() for s in os.getenv("SOCCER_LEAGUES", "wc,epl,mls").split(",") if s.strip()]
-        seed_days = int(os.getenv("SOCCER_SEED_DAYS", "120"))   # history window for Elo
-        ahead_days = int(os.getenv("SOCCER_AHEAD_DAYS", "3"))   # fixtures to predict
-        recorded_days: set[str] = set()
-        log(f"START mode=SOCCER leagues={leagues} (Elo predict, read-only, records to tracker)")
+        # READ-ONLY soccer recorder: seed Elo from results, predict fixtures, record.
+        recorded: set[str] = set()
+        log("START mode=SOCCER (Elo predict, read-only, records to tracker)")
         while True:
             try:
-                from core import track
-                today = datetime.now(timezone.utc).date()
-                today_iso = today.isoformat()
-                window = f"{(today - timedelta(days=seed_days)):%Y%m%d}-{today:%Y%m%d}"
-                fut = f"{today:%Y%m%d}-{(today + timedelta(days=ahead_days)):%Y%m%d}"
-                payload = []
-                for lg in leagues:
-                    model = sc.EloTable()
-                    results = sf.recent_results(lg, window)
-                    for m in results:
-                        model.observe(m["home"], m["away"], m["home_score"], m["away_score"])
-                    fixtures = sf.upcoming_fixtures(lg, fut)
-                    log(f"  {lg}: seeded {len(results)} results, {len(fixtures)} upcoming fixtures")
-                    for fx in fixtures:
-                        ph, pd, pa = model.probabilities(fx["home"], fx["away"])
-                        sdate = (fx["date"] or "")[:10] or today_iso
-                        for outcome, prob in (("home", ph), ("draw", pd), ("away", pa)):
-                            payload.append({
-                                "model": "soccer-elo", "sport": "soccer",
-                                "market_slug": f"espn:{lg}:{fx['id']}:{outcome}",
-                                "outcome": outcome, "model_prob": round(prob, 4),
-                                "market_bid": None, "market_ask": None, "edge": None,
-                                "liquid": None, "settle_date": sdate, "run_date": today_iso,
-                                "meta": {"league": lg, "espn_id": fx["id"],
-                                         "home": fx["home_raw"], "away": fx["away_raw"],
-                                         "r_home": round(model.rating(fx["home"]), 1),
-                                         "r_away": round(model.rating(fx["away"]), 1),
-                                         "kickoff": fx["date"], "run_date": today_iso},
-                            })
-                if payload and today_iso not in recorded_days:
-                    st, note = track.record_predictions(payload)
-                    log(f"tracker: recorded {len(payload)} soccer predictions -> http={st} {note}")
-                    if st in (200, 201):
-                        recorded_days.add(today_iso)
-                elif not payload:
-                    log("  no upcoming fixtures to predict this pass.")
+                soccer_pass(recorded)
             except Exception as e:
                 log(f"soccer error: {e}")
             time.sleep(3600)
+    if MODE == "track":
+        # READ-ONLY combined tracker: ONE worker accumulates BOTH the weather and
+        # soccer prediction tracks continuously (weather ~10min, soccer ~hourly) so a
+        # single Render service builds the full calibration record. No orders.
+        WX_EVERY, SOC_EVERY = 600, 3600
+        wx_rec: set[str] = set()
+        soc_rec: set[str] = set()
+        last_wx = last_soc = 0.0
+        log("START mode=TRACK (weather + soccer recorders on one worker, read-only)")
+        while True:
+            now = time.time()
+            if now - last_wx >= WX_EVERY:
+                try:
+                    wx_pass(client, wx_rec)
+                except Exception as e:
+                    log(f"track/wx error: {e}")
+                last_wx = now
+            if now - last_soc >= SOC_EVERY:
+                try:
+                    soccer_pass(soc_rec)
+                except Exception as e:
+                    log(f"track/soccer error: {e}")
+                last_soc = now
+            time.sleep(30)
     if MODE == "research":
         # READ-ONLY: (1) the TRUTH on rewards — authed earnings endpoint; (2) the
         # non-esports venue map (weather/climate markets + their books). No orders.
