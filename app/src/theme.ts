@@ -23,6 +23,7 @@ export const MODEL_META: Record<string, { label: string; color: string }> = {
   'elo-mlb': { label: 'MLB · Elo', color: C.red },
   'elo-atp': { label: 'Tennis ATP · Elo', color: C.green },
   'elo-wta': { label: 'Tennis WTA · Elo', color: C.purple },
+  'golf-skill': { label: 'Golf · Field model', color: C.amber },
 };
 
 export const modelLabel = (m: string) => MODEL_META[m]?.label ?? m;

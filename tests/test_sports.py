@@ -26,6 +26,21 @@ TENNIS = {"events": [
          {"athlete": {"displayName": "Carlos Alcaraz"}, "score": {"value": None}},
          {"athlete": {"displayName": "Jannik Sinner"}, "score": {"value": None}}]}]},
 ]}
+# real ESPN tennis shape: matches nested under events[].groupings[].competitions[]
+TENNIS_GROUPED = {"events": [
+    {"id": "T1", "date": "2026-06-24T00:00Z", "groupings": [{"competitions": [
+        {"id": "m1", "date": "2026-06-24T12:00Z",
+         "status": {"type": {"state": "post", "completed": True}},
+         "competitors": [
+             {"athlete": {"displayName": "Iga Swiatek"}, "score": {"value": 2}},
+             {"athlete": {"displayName": "Coco Gauff"}, "score": {"value": 1}}]},
+        {"id": "m2", "date": "2026-06-25T12:00Z",
+         "status": {"type": {"state": "pre", "completed": False}},
+         "competitors": [
+             {"athlete": {"displayName": "Aryna Sabalenka"}, "score": {"value": None}},
+             {"athlete": {"displayName": "Elena Rybakina"}, "score": {"value": None}}]},
+    ]}]},
+]}
 
 
 class TestEspnFeed(unittest.TestCase):
@@ -46,6 +61,17 @@ class TestEspnFeed(unittest.TestCase):
         fm = {m["id"]: m for m in espnfeed.parse_scoreboard(NBA)
               if m["completed"]}
         self.assertEqual(list(fm), ["1"])
+
+    def test_tennis_grouping_shape(self):
+        ms = espnfeed.parse_scoreboard(TENNIS_GROUPED)
+        self.assertEqual(len(ms), 2)                       # both nested matches found
+        ids = {m["id"] for m in ms}
+        self.assertEqual(ids, {"m1", "m2"})                # uses competition id
+        done = [m for m in ms if m["completed"]]
+        self.assertEqual(done[0]["home"], "iga swiatek")
+        self.assertEqual((done[0]["home_score"], done[0]["away_score"]), (2, 1))
+        pre = [m for m in ms if m["state"] == "pre"]
+        self.assertEqual(pre[0]["away"], "elena rybakina")
 
 
 class TestElo(unittest.TestCase):

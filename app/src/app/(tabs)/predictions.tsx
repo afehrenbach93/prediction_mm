@@ -60,6 +60,7 @@ export default function Predictions() {
 function describe(r: Prediction): string {
   const m = r.meta ?? {};
   if (r.model === 'weather') return `${m.city ?? r.market_slug} · ${r.outcome}°F`;
+  if (r.model === 'golf-skill') return `${m.player_name ?? m.player ?? '?'} · ${m.tournament ?? 'golf'}`;
   if (m.home && m.away) return `${m.away} @ ${m.home}`;
   return r.market_slug;
 }

@@ -206,12 +206,57 @@ def sports_pass(recorded_days: set):
         log("  no upcoming fixtures across enabled sports this pass.")
 
 
+def golf_pass(recorded_days: set):
+    """Seed player skill from recent tournaments, predict P(win) for the field of the
+    current/next tournament, record the top contenders once per UTC day. Read-only."""
+    from core import golffeed, track
+    from lib import golf
+    from datetime import timedelta
+    if not os.getenv("GOLF", "pga"):
+        return
+    tour = os.getenv("GOLF_TOUR", "golf/pga")
+    seed_days = int(os.getenv("GOLF_SEED_DAYS", "120"))
+    top_n = int(os.getenv("GOLF_TOP_N", "50"))   # record the most-probable contenders
+    today = datetime.now(timezone.utc).date()
+    today_iso = today.isoformat()
+    if today_iso in recorded_days:
+        return
+    window = f"{(today - timedelta(days=seed_days)):%Y%m%d}-{today:%Y%m%d}"
+    model = golf.SkillTable().seed(golffeed.recent_events(tour, window))
+    fut = f"{today:%Y%m%d}-{(today + timedelta(days=7)):%Y%m%d}"
+    ev = golffeed.current_event(tour, fut) or golffeed.current_event(tour)
+    if not ev:
+        log("  golf: no current/upcoming tournament.")
+        return
+    field = [p["player"] for p in ev["field"]]
+    raw = {p["player"]: p["player_raw"] for p in ev["field"]}
+    probs = model.win_probs(field)
+    ranked = sorted(probs.items(), key=lambda kv: kv[1], reverse=True)[:top_n]
+    sdate = (ev["date"] or "")[:10] or today_iso
+    payload = [{
+        "model": "golf-skill", "sport": "golf",
+        "market_slug": f"espn:golf:{ev['id']}:{player}",
+        "outcome": "win", "model_prob": round(prob, 4),
+        "market_bid": None, "market_ask": None, "edge": None, "liquid": None,
+        "settle_date": sdate, "run_date": today_iso,
+        "meta": {"sport": "golf", "tourney_id": ev["id"], "tournament": ev["name"],
+                 "player": player, "player_name": raw.get(player, player),
+                 "skill": round(model.skill(player), 3), "run_date": today_iso},
+    } for player, prob in ranked]
+    log(f"  golf: {ev['name'][:40]} — field {len(field)}, recorded top {len(payload)}")
+    if payload:
+        st, note = track.record_predictions(payload)
+        log(f"tracker: recorded {len(payload)} golf predictions -> http={st} {note}")
+        if st in (200, 201):
+            recorded_days.add(today_iso)
+
+
 def settle_pass():
     """Resolve predictions whose settle_date has passed against realized outcomes
     (weather: observed daily high; soccer: ESPN final), writing realized_yes + pnl
     back to the tracker. Read/scoring only — touches no exchange. Used by settle +
     track modes; safe to run repeatedly (only unsettled past-date rows are touched)."""
-    from core import track, settle, soccerfeed, wxfeed, espnfeed
+    from core import track, settle, soccerfeed, wxfeed, espnfeed, golffeed
     today_iso = datetime.now(timezone.utc).date().isoformat()
     rows = track.fetch_unsettled(today_iso)
     if not rows:
@@ -220,16 +265,18 @@ def settle_pass():
     wx_rows = [r for r in rows if r["model"] == "weather"]
     sc_rows = [r for r in rows if r["model"] == "soccer-elo"]
     sport_rows = [r for r in rows if (r["model"] or "").startswith("elo-")]
+    golf_rows = [r for r in rows if r["model"] == "golf-skill"]
     resolved = {}
     resolved.update(settle.settle_weather(wx_rows, wxfeed.daily_high_observed))
     resolved.update(settle.settle_soccer(sc_rows, soccerfeed.finals_map))
     resolved.update(settle.settle_sport(sport_rows, espnfeed.finals_map))
+    resolved.update(settle.settle_golf(golf_rows, lambda d: golffeed.winners_map(dates=d)))
     ok = 0
     for pid, (ry, pnl) in resolved.items():
         if track.mark_settled(pid, ry, pnl) in (200, 204):
             ok += 1
     log(f"settle: due={len(rows)} (wx={len(wx_rows)} soc={len(sc_rows)} "
-        f"sport={len(sport_rows)}) resolved={len(resolved)} written={ok}")
+        f"sport={len(sport_rows)} golf={len(golf_rows)}) resolved={len(resolved)} written={ok}")
 
 
 def iso_ts(s: str) -> float:
@@ -523,6 +570,7 @@ def main():
         wx_rec: set[str] = set()
         soc_rec: set[str] = set()
         sports_rec: set[str] = set()
+        golf_rec: set[str] = set()
         last_wx = last_soc = last_sports = last_settle = last_hb = 0.0
         log("START mode=TRACK (weather + soccer + sports record & settle, read-only)")
         while True:
@@ -559,6 +607,10 @@ def main():
                     sports_pass(sports_rec)
                 except Exception as e:
                     log(f"track/sports error: {e}")
+                try:
+                    golf_pass(golf_rec)
+                except Exception as e:
+                    log(f"track/golf error: {e}")
                 last_sports = now
             if now - last_settle >= SETTLE_EVERY:
                 try:
