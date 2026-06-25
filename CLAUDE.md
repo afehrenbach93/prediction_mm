@@ -63,6 +63,27 @@ read-only before funding; reconcile any tape-derived P&L against account balance
 
 ## Incident Log
 
+### 2026-06-25 — All-sports buildout (Phase A) + settlement + Expo control app
+Andrew: "build all sports — NBA, Tennis, Golf, NFL, NCAA Football, MLB — then the app
+like before." Delivered read-only (no orders), in phases:
+- **Settlement pass** (`core/settle.py`, injected fetchers, tested): weather buckets vs
+  observed daily high, soccer/sport 1X2 vs ESPN finals → writes realized_yes/pnl.
+  `scripts/calibration.py` = per-model Brier + reliability. Folded into track mode.
+- **Phase A generic engine:** `core/espnfeed.py` (one ESPN parser, team OR athlete),
+  `lib/elo.py` (2-way win/loss Elo, HFA off for neutral/tennis), `core/sportstrack.py`
+  (SPORTS registry — add a sport = one line). Live: **MLB 55 fixtures→110 preds**, NBA
+  seeded 400, NFL/NCAAF correctly 0 (offseason). **Tennis (atp/wta) returns 0** — ESPN
+  tennis nests matches under tournament *groupings*, different shape; feed fix = Phase B.
+- **Golf NOT built** — field/winner model, not head-to-head (Phase C).
+- **Expo control app** (`app/`, mirrors kalshi-mm-app stack; typechecks + web bundle
+  builds): auth, Overview (worker status + per-model Brier/hit-rate), Predictions,
+  Calibration (reliability bars), Settings (mode/kill switch). Tables `poly_status`
+  (worker heartbeat) + `poly_control` (desired_mode) — worker honors `off` (idle) +
+  heartbeats each 60s. Trading modes gated/reported, not executed. Deploy = Render
+  static site (app/, `npx expo export -p web`, publish app/dist, SPA rewrite).
+- NEXT: Phase B tennis-feed shape + Phase C golf; deploy the app static site; controls
+  for budgets/go-live unlock when an edge validates.
+
 ### 2026-06-23 — Prediction tracker + soccer feed shipped; one-week validation clock started
 Andrew green-lit the prediction tracker + a soccer results feed, "keep it scalable
 (all sports later)", **one week then go live**. Built read-only (no orders, $0 risk):

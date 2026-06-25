@@ -23,6 +23,11 @@ def _creds():
     return os.getenv("SUPABASE_URL", ""), os.getenv("SUPABASE_ANON_KEY", "")
 
 
+def _now() -> str:
+    from datetime import datetime, timezone
+    return datetime.now(timezone.utc).isoformat()
+
+
 def record_predictions(rows: list[dict]) -> tuple[int, str]:
     """Bulk-insert prediction rows. Each dict matches model_predictions columns
     (model, sport, market_slug, outcome, model_prob, market_bid, market_ask, edge,
@@ -52,6 +57,42 @@ def record_predictions(rows: list[dict]) -> tuple[int, str]:
             return e.code, "(error)"
     except Exception as e:
         return -1, str(e)[:200]
+
+
+def heartbeat(mode: str, status: str, detail: dict | None = None) -> int:
+    """Write the worker's live status to poly_status (single row id=1) so the app's
+    Overview shows it. Returns http status; best-effort (never raises)."""
+    url, key = _creds()
+    if not url or not key:
+        return 0
+    body = json.dumps({"mode": mode, "status": status,
+                       "last_seen": _now(), "detail": detail or {}, "updated": _now()}).encode()
+    req = urllib.request.Request(
+        f"{url}/rest/v1/poly_status?id=eq.1", data=body, method="PATCH",
+        headers={"apikey": key, "Authorization": f"Bearer {key}",
+                 "Content-Type": "application/json", "Prefer": "return=minimal"})
+    try:
+        with urllib.request.urlopen(req, timeout=15) as r:
+            return r.status
+    except Exception:
+        return -1
+
+
+def get_desired_mode() -> str | None:
+    """Read the operator's desired mode from poly_control (the app's kill switch /
+    mode control). Returns the string or None if unavailable."""
+    url, key = _creds()
+    if not url or not key:
+        return None
+    req = urllib.request.Request(
+        f"{url}/rest/v1/poly_control?id=eq.1&select=desired_mode",
+        headers={"apikey": key, "Authorization": f"Bearer {key}"})
+    try:
+        with urllib.request.urlopen(req, timeout=15) as r:
+            rows = json.loads(r.read())
+            return rows[0]["desired_mode"] if rows else None
+    except Exception:
+        return None
 
 
 def fetch_unsettled(before_date: str, limit: int = 2000) -> list[dict]:
