@@ -19,6 +19,20 @@ K_FACTOR = 20.0
 HFA_DEFAULT = 65.0    # Elo points of home advantage for team sports (~0.59 even game)
 
 
+def _home_won(m: dict) -> bool | None:
+    """True/False/None — did the home/first side win? Prefers ESPN's 'winner' flag
+    (tennis scores are sets, not ints); falls back to numeric scores. None = tie/unknown."""
+    w = m.get("winner")
+    if w == "home":
+        return True
+    if w == "away":
+        return False
+    hs, as_ = m.get("home_score"), m.get("away_score")
+    if hs is None or as_ is None or hs == as_:
+        return None
+    return hs > as_
+
+
 def expected_score(r_a: float, r_b: float, hfa: float = 0.0) -> float:
     """Elo win expectation for side A (the home/first side), [0,1]."""
     return 1.0 / (1.0 + 10 ** (-((r_a + hfa) - r_b) / 400.0))
@@ -47,19 +61,21 @@ class Elo:
     def _hfa(self, neutral: bool) -> float:
         return 0.0 if (self.neutral or neutral) else self.hfa
 
-    def observe(self, home: str, away: str, home_score: int, away_score: int,
+    def observe(self, home: str, away: str, home_won: bool,
                 neutral: bool = False) -> None:
-        """Feed one finished game (ties ignored — rare in these sports)."""
-        if home_score == away_score:
-            return
+        """Feed one finished game with a known winner."""
         rh, ra = self.rating(home), self.rating(away)
-        nh, na = update(rh, ra, home_score > away_score, self.k, self._hfa(neutral))
+        nh, na = update(rh, ra, home_won, self.k, self._hfa(neutral))
         self.ratings[home], self.ratings[away] = nh, na
 
     def seed(self, results: list[dict]) -> "Elo":
+        """Feed finished matches. Each dict needs home/away and a result, decided by a
+        'winner' ('home'/'away') flag or numeric home_score/away_score. Ties skipped."""
         for m in results:
-            self.observe(m["home"], m["away"], int(m["home_score"]),
-                         int(m["away_score"]), m.get("neutral", False))
+            hw = _home_won(m)
+            if hw is None:
+                continue
+            self.observe(m["home"], m["away"], hw, m.get("neutral", False))
         return self
 
     def win_probs(self, home: str, away: str,
