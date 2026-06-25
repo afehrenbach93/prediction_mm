@@ -74,15 +74,24 @@ like before." Delivered read-only (no orders), in phases:
   (SPORTS registry — add a sport = one line). Live: **MLB 55 fixtures→110 preds**, NBA
   seeded 400, NFL/NCAAF correctly 0 (offseason). **Tennis (atp/wta) returns 0** — ESPN
   tennis nests matches under tournament *groupings*, different shape; feed fix = Phase B.
-- **Golf NOT built** — field/winner model, not head-to-head (Phase C).
+- **Phase B (tennis) DONE:** `espnfeed.parse_scoreboard` now also descends into
+  `events[].groupings[].competitions[]` (ESPN nests tennis matches per tournament) and
+  keys on the competition id — ATP/WTA now parse. Tested on the grouped shape.
+- **Phase C (golf) DONE:** `lib/golf.py` (per-player skill in [0,1] seeded from finish
+  positions → softmax win probs), `core/golffeed.py` (ESPN leaderboard parse → field +
+  winners), `golf_pass` records top-50 contenders of the current tournament, `settle_golf`
+  resolves vs the winner. 94 tests green. ESPN tennis/golf JSON shapes built from spec —
+  verify per-sport seed counts in worker logs (this sandbox is geo-blocked from ESPN).
 - **Expo control app** (`app/`, mirrors kalshi-mm-app stack; typechecks + web bundle
   builds): auth, Overview (worker status + per-model Brier/hit-rate), Predictions,
   Calibration (reliability bars), Settings (mode/kill switch). Tables `poly_status`
   (worker heartbeat) + `poly_control` (desired_mode) — worker honors `off` (idle) +
   heartbeats each 60s. Trading modes gated/reported, not executed. Deploy = Render
   static site (app/, `npx expo export -p web`, publish app/dist, SPA rewrite).
-- NEXT: Phase B tennis-feed shape + Phase C golf; deploy the app static site; controls
-  for budgets/go-live unlock when an edge validates.
+- **App DEPLOYED:** Render static site `prediction-mm-app` (srv-d8unq5egvqtc73bc6pug)
+  at https://prediction-mm-app.onrender.com (SPA rewrite set, EXPO_PUBLIC_SUPABASE_* env).
+- NEXT: verify tennis/golf seed counts in worker logs; App Phase 2 trading controls
+  (budgets/go-live) unlock when an edge validates.
 
 ### 2026-06-23 — Prediction tracker + soccer feed shipped; one-week validation clock started
 Andrew green-lit the prediction tracker + a soccer results feed, "keep it scalable

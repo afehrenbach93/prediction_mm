@@ -67,6 +67,27 @@ def settle_sport(rows: list[dict], fetch_finals) -> dict[int, tuple[bool, float 
     return out
 
 
+def settle_golf(rows: list[dict], fetch_winners) -> dict[int, tuple[bool, float | None]]:
+    """Resolve golf 'win' rows. `fetch_winners(dateYYYYMMDD) -> {tourney_id: winner}`.
+    realized_yes = (this row's player == the tournament winner). Resolves only once the
+    tournament is final (winner present). {prediction_id: (realized_yes, pnl)}."""
+    out, cache = {}, {}
+    for r in rows:
+        meta = r.get("meta") or {}
+        tid, player = meta.get("tourney_id"), meta.get("player")
+        date = (r.get("settle_date") or "")
+        if not tid or not player or not date:
+            continue
+        if date not in cache:
+            cache[date] = fetch_winners(date.replace("-", ""))
+        winner = (cache[date] or {}).get(str(tid))
+        if not winner:
+            continue   # not final yet
+        ry = (player == winner)
+        out[r["id"]] = (ry, _pnl(ry, r.get("market_ask")))
+    return out
+
+
 def settle_soccer(rows: list[dict], fetch_finals) -> dict[int, tuple[bool, float | None]]:
     """Resolve soccer 1X2 rows. `fetch_finals(league, date) -> {espn_id: match}` with
     home_score/away_score. realized_yes = (row.outcome == actual winner home/draw/away).

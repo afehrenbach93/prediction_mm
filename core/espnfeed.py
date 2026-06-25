@@ -39,42 +39,47 @@ def parse_scoreboard(raw: dict) -> list[dict]:
     {id, date, state(pre|in|post), completed, neutral, home, away, home_score,
      away_score, home_raw, away_raw}. Scores int when present, else None. 'home' is
      the home/first competitor; neutral-site games still have a nominal home/away."""
+    def _score(c):
+        v = c.get("score")
+        if isinstance(v, dict):              # tennis nests score under {value/displayValue}
+            v = v.get("value")
+        try:
+            return int(float(v))
+        except (TypeError, ValueError):
+            return None
+
     out = []
     for ev in (raw or {}).get("events", []) or []:
-        comps = ev.get("competitions") or []
-        if not comps:
-            continue
-        comp = comps[0]
-        cs = comp.get("competitors") or []
-        home = next((c for c in cs if c.get("homeAway") == "home"), None)
-        away = next((c for c in cs if c.get("homeAway") == "away"), None)
-        if not home or not away:
-            # some feeds (tennis) omit homeAway — take the first two competitors
-            if len(cs) == 2:
-                home, away = cs[0], cs[1]
-            else:
+        # team sports put the match at events[].competitions[]; tennis nests each
+        # match under events[].groupings[].competitions[] (per-tournament grouping).
+        comps = list(ev.get("competitions") or [])
+        for g in (ev.get("groupings") or []):
+            comps.extend(g.get("competitions") or [])
+        for comp in comps:
+            cs = comp.get("competitors") or []
+            home = next((c for c in cs if c.get("homeAway") == "home"), None)
+            away = next((c for c in cs if c.get("homeAway") == "away"), None)
+            if not home or not away:
+                if len(cs) == 2:             # tennis omits homeAway — first two players
+                    home, away = cs[0], cs[1]
+                else:
+                    continue
+            # status/date can live on the competition (tennis) or the event (teams)
+            status = ((comp.get("status") or {}).get("type")
+                      or (ev.get("status") or {}).get("type") or {})
+            hr, ar = _competitor_name(home), _competitor_name(away)
+            if not hr or not ar:
                 continue
-        status = (ev.get("status") or {}).get("type") or {}
-
-        def _score(c):
-            v = c.get("score")
-            if isinstance(v, dict):          # tennis nests score under {value/displayValue}
-                v = v.get("value")
-            try:
-                return int(float(v))
-            except (TypeError, ValueError):
-                return None
-
-        hr, ar = _competitor_name(home), _competitor_name(away)
-        out.append({
-            "id": str(ev.get("id", "")), "date": ev.get("date", ""),
-            "state": status.get("state", ""),
-            "completed": bool(status.get("completed", False)),
-            "neutral": bool(comp.get("neutralSite", False)),
-            "home": normalize_name(hr), "away": normalize_name(ar),
-            "home_raw": hr, "away_raw": ar,
-            "home_score": _score(home), "away_score": _score(away),
-        })
+            out.append({
+                "id": str(comp.get("id") or ev.get("id", "")),
+                "date": comp.get("date") or ev.get("date", ""),
+                "state": status.get("state", ""),
+                "completed": bool(status.get("completed", False)),
+                "neutral": bool(comp.get("neutralSite", False)),
+                "home": normalize_name(hr), "away": normalize_name(ar),
+                "home_raw": hr, "away_raw": ar,
+                "home_score": _score(home), "away_score": _score(away),
+            })
     return out
 
 
