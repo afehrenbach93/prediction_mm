@@ -90,8 +90,15 @@ like before." Delivered read-only (no orders), in phases:
   static site (app/, `npx expo export -p web`, publish app/dist, SPA rewrite).
 - **App DEPLOYED:** Render static site `prediction-mm-app` (srv-d8unq5egvqtc73bc6pug)
   at https://prediction-mm-app.onrender.com (SPA rewrite set, EXPO_PUBLIC_SUPABASE_* env).
-- NEXT: verify tennis/golf seed counts in worker logs; App Phase 2 trading controls
-  (budgets/go-live) unlock when an edge validates.
+- **VERIFIED LIVE (all six sports + golf + settlement):** worker logs confirm tennis now
+  parses (atp/wta 11 fixtures each — grouping fix), golf records (Travelers Champ field
+  72 → top 50), MLB/NBA seed + record. **Settlement fixed:** `due=11 resolved=0 → 11`
+  after switching to a ±1-day ESPN window (TZ boundary: 23:00Z games file under prev ET
+  day). DB: MLB 86 settled, soccer 36, weather 150; golf/tennis settle as events finish.
+- **KNOWN REFINEMENTS (not blocking):** (1) tennis Elo NOT seeded — ESPN range query
+  returns 0 historical tennis, so atp/wta predict ~50/50 (uninformative) until per-event
+  seeding added; (2) App Phase 2 trading controls (budgets/go-live) unlock when an edge
+  validates. The validation-week clock is running with all models recording + scoring.
 
 ### 2026-06-23 — Prediction tracker + soccer feed shipped; one-week validation clock started
 Andrew green-lit the prediction tracker + a soccer results feed, "keep it scalable
