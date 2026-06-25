@@ -193,7 +193,12 @@ def sports_pass(recorded_days: set):
             log(f"  {key}: unknown sport, skipping")
             continue
         path, neutral = cfg
-        recent = espnfeed.recent_results(path, window)
+        # tennis history isn't returned for a wide range — seed it week-by-week.
+        if key in ("atp", "wta"):
+            recent = espnfeed.results_over(path, (today - timedelta(days=seed_days)).isoformat(),
+                                           today.isoformat(), step_days=7)
+        else:
+            recent = espnfeed.recent_results(path, window)
         fixtures = espnfeed.upcoming_fixtures(path, fut)
         log(f"  {key}: seeded {len(recent)} results, {len(fixtures)} upcoming fixtures")
         payload += sportstrack.build_sport_rows(key, path, neutral, recent, fixtures, today_iso)

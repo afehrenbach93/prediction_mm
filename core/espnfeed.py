@@ -113,6 +113,27 @@ def upcoming_fixtures(sport_path: str, dates: str | None = None) -> list[dict]:
     return ms
 
 
+def results_over(sport_path: str, start_iso: str, end_iso: str,
+                 step_days: int = 7) -> list[dict]:
+    """Finished matches across [start_iso, end_iso], fetched in `step_days` chunks and
+    deduped by id. Tennis only returns near-current data for a wide range, so seeding
+    its Elo needs week-by-week fetches; team sports work with a single range but this
+    is a safe superset. Chronological."""
+    from datetime import date, timedelta
+    try:
+        cur = date.fromisoformat(start_iso[:10])
+        end = date.fromisoformat(end_iso[:10])
+    except Exception:
+        return recent_results(sport_path, None)
+    seen: dict[str, dict] = {}
+    while cur <= end:
+        chunk_end = min(end, cur + timedelta(days=step_days - 1))
+        for m in recent_results(sport_path, f"{cur:%Y%m%d}-{chunk_end:%Y%m%d}"):
+            seen[m["id"]] = m
+        cur = chunk_end + timedelta(days=1)
+    return sorted(seen.values(), key=lambda m: m["date"])
+
+
 def finals_map(sport_path: str, dates: str | None = None) -> dict:
     """{espn_id: match} for COMPLETED matches — settlement lookup by id."""
     return {m["id"]: m for m in fetch(sport_path, dates)
