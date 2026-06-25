@@ -116,8 +116,15 @@ class TestElo(unittest.TestCase):
 
     def test_tie_ignored(self):
         e = elo.Elo()
-        e.observe("a", "b", 5, 5)
+        e.seed([{"home": "a", "away": "b", "home_score": 5, "away_score": 5}])
         self.assertEqual(e.rating("a"), elo.BASE_RATING)
+
+    def test_seed_uses_winner_flag(self):
+        # tennis: scores are None but a winner flag decides the result
+        e = elo.Elo(neutral=True)
+        e.seed([{"home": "alcaraz", "away": "sinner", "home_score": None,
+                 "away_score": None, "winner": "home"}])
+        self.assertGreater(e.rating("alcaraz"), e.rating("sinner"))
 
 
 class TestRowBuilder(unittest.TestCase):

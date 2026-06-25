@@ -71,10 +71,12 @@ def settle_sport(rows: list[dict], fetch_finals) -> dict[int, tuple[bool, float 
         match = (cache[key] or {}).get(str(eid))
         if not match:
             continue
-        hs, as_ = match["home_score"], match["away_score"]
-        if hs == as_:
-            continue   # tie — no 2-way winner; leave unsettled
-        winner = "home" if hs > as_ else "away"
+        winner = match.get("winner")
+        if winner not in ("home", "away"):
+            hs, as_ = match.get("home_score"), match.get("away_score")
+            if hs is None or as_ is None or hs == as_:
+                continue   # no determinable winner yet
+            winner = "home" if hs > as_ else "away"
         ry = (r.get("outcome") == winner)
         out[r["id"]] = (ry, _pnl(ry, r.get("market_ask")))
     return out

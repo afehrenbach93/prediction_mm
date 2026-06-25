@@ -70,6 +70,10 @@ def parse_scoreboard(raw: dict) -> list[dict]:
             hr, ar = _competitor_name(home), _competitor_name(away)
             if not hr or not ar:
                 continue
+            # winner flag is authoritative (tennis scores are sets, not ints, so the
+            # numeric score is None there — the flag is how we know who won)
+            winner = ("home" if home.get("winner") else
+                      "away" if away.get("winner") else None)
             out.append({
                 "id": str(comp.get("id") or ev.get("id", "")),
                 "date": comp.get("date") or ev.get("date", ""),
@@ -79,8 +83,21 @@ def parse_scoreboard(raw: dict) -> list[dict]:
                 "home": normalize_name(hr), "away": normalize_name(ar),
                 "home_raw": hr, "away_raw": ar,
                 "home_score": _score(home), "away_score": _score(away),
+                "winner": winner,
             })
     return out
+
+
+def winner_of(m: dict) -> str | None:
+    """'home' / 'away' / None — the result of a match. Prefers ESPN's winner flag
+    (works when scores are non-numeric, e.g. tennis sets); falls back to scores."""
+    w = m.get("winner")
+    if w in ("home", "away"):
+        return w
+    hs, as_ = m.get("home_score"), m.get("away_score")
+    if hs is None or as_ is None or hs == as_:
+        return None
+    return "home" if hs > as_ else "away"
 
 
 def fetch(sport_path: str, dates: str | None = None) -> list[dict]:
@@ -98,10 +115,10 @@ def fetch(sport_path: str, dates: str | None = None) -> list[dict]:
 
 
 def recent_results(sport_path: str, dates: str | None = None) -> list[dict]:
-    """Finished matches (completed, both scores present) — chronological, for Elo."""
+    """Finished matches with a determinable winner — chronological, for Elo. Uses the
+    winner flag (tennis) or numeric scores (team sports)."""
     ms = [m for m in fetch(sport_path, dates)
-          if m["completed"] and m["home_score"] is not None
-          and m["away_score"] is not None]
+          if m["completed"] and winner_of(m) is not None]
     ms.sort(key=lambda m: m["date"])
     return ms
 
@@ -135,7 +152,6 @@ def results_over(sport_path: str, start_iso: str, end_iso: str,
 
 
 def finals_map(sport_path: str, dates: str | None = None) -> dict:
-    """{espn_id: match} for COMPLETED matches — settlement lookup by id."""
+    """{espn_id: match} for COMPLETED matches with a determinable winner — settlement."""
     return {m["id"]: m for m in fetch(sport_path, dates)
-            if m["completed"] and m["home_score"] is not None
-            and m["away_score"] is not None}
+            if m["completed"] and winner_of(m) is not None}
