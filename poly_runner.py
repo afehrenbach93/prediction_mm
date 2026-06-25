@@ -197,6 +197,14 @@ def sports_pass(recorded_days: set):
         if key in ("atp", "wta"):
             recent = espnfeed.results_over(path, (today - timedelta(days=seed_days)).isoformat(),
                                            today.isoformat(), step_days=7)
+            if not recent:
+                # DIAG: ESPN tennis returns 0 completed even chunked — log what it
+                # actually returns (state histogram) so the shape can be fixed from logs.
+                from collections import Counter
+                probe = espnfeed.fetch(path, f"{(today - timedelta(days=7)):%Y%m%d}-{today:%Y%m%d}")
+                states = Counter(m["state"] for m in probe)
+                log(f"  {key} DIAG: {len(probe)} raw matches, states={dict(states)}, "
+                    f"completed={sum(1 for m in probe if m['completed'])}")
         else:
             recent = espnfeed.recent_results(path, window)
         fixtures = espnfeed.upcoming_fixtures(path, fut)
