@@ -62,6 +62,27 @@ class TestEspnFeed(unittest.TestCase):
               if m["completed"]}
         self.assertEqual(list(fm), ["1"])
 
+    def test_results_over_chunks_and_dedupes(self):
+        # results_over should step through the window in weekly chunks and dedupe by id
+        calls = []
+
+        def fake_fetch(path, dates=None):
+            calls.append(dates)
+            # same completed match id appears in overlapping fetches → must dedupe
+            return [{"id": "x", "date": "2026-06-10T12:00Z", "state": "post",
+                     "completed": True, "home": "a", "away": "b", "home_raw": "A",
+                     "away_raw": "B", "home_score": 2, "away_score": 1, "neutral": False}]
+
+        orig = espnfeed.fetch
+        espnfeed.fetch = fake_fetch
+        try:
+            out = espnfeed.results_over("tennis/atp", "2026-06-01", "2026-06-21", step_days=7)
+        finally:
+            espnfeed.fetch = orig
+        self.assertEqual(len(out), 1)              # deduped to one match
+        self.assertEqual(len(calls), 3)            # 3 weekly chunks over 21 days
+        self.assertTrue(all("-" in c for c in calls))   # each chunk is a range
+
     def test_tennis_grouping_shape(self):
         ms = espnfeed.parse_scoreboard(TENNIS_GROUPED)
         self.assertEqual(len(ms), 2)                       # both nested matches found
