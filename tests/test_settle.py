@@ -70,10 +70,10 @@ class TestSoccer(unittest.TestCase):
         res = settle.settle_soccer(self._rows(), lambda lg, dt: {})
         self.assertEqual(res, {})
 
-    def test_date_passed_without_dashes(self):
+    def test_date_passed_as_window(self):
         seen = []
         settle.settle_soccer(self._rows(), lambda lg, dt: seen.append(dt) or {})
-        self.assertEqual(seen, ["20260622"])   # ESPN wants YYYYMMDD
+        self.assertEqual(seen, ["20260621-20260623"])   # ±1-day window (TZ-robust)
 
 
 if __name__ == "__main__":

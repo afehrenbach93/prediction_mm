@@ -10,6 +10,8 @@ pnl = the P&L of having BOUGHT YES at the recorded ask ((1 if yes else 0) − as
 None when no market price was recorded (e.g. soccer, price-less for now). Rows whose
 outcome can't be determined yet (no data) are skipped — left unsettled to retry.
 """
+from datetime import date as _date, timedelta
+
 from lib.weather import parse_temp_slug
 
 
@@ -17,6 +19,17 @@ def _pnl(realized_yes: bool, ask) -> float | None:
     if ask is None:
         return None
     return (1.0 if realized_yes else 0.0) - float(ask)
+
+
+def _window(iso: str) -> str:
+    """ESPN 'YYYYMMDD-YYYYMMDD' spanning the day before/after `iso`. A game at 23:00Z
+    is filed by ESPN under the previous ET day, so settling on a single UTC date can
+    miss it — query a ±1-day window and match by id."""
+    try:
+        d = _date.fromisoformat(iso[:10])
+        return f"{(d - timedelta(days=1)):%Y%m%d}-{(d + timedelta(days=1)):%Y%m%d}"
+    except Exception:
+        return iso.replace("-", "")
 
 
 def settle_weather(rows: list[dict], fetch_high) -> dict[int, tuple[bool, float | None]]:
@@ -54,7 +67,7 @@ def settle_sport(rows: list[dict], fetch_finals) -> dict[int, tuple[bool, float 
             continue
         key = (path, date)
         if key not in cache:
-            cache[key] = fetch_finals(path, date.replace("-", ""))
+            cache[key] = fetch_finals(path, _window(date))
         match = (cache[key] or {}).get(str(eid))
         if not match:
             continue
@@ -79,7 +92,7 @@ def settle_golf(rows: list[dict], fetch_winners) -> dict[int, tuple[bool, float 
         if not tid or not player or not date:
             continue
         if date not in cache:
-            cache[date] = fetch_winners(date.replace("-", ""))
+            cache[date] = fetch_winners(_window(date))
         winner = (cache[date] or {}).get(str(tid))
         if not winner:
             continue   # not final yet
@@ -101,7 +114,7 @@ def settle_soccer(rows: list[dict], fetch_finals) -> dict[int, tuple[bool, float
             continue
         key = (league, date)
         if key not in cache:
-            cache[key] = fetch_finals(league, date.replace("-", ""))
+            cache[key] = fetch_finals(league, _window(date))
         match = (cache[key] or {}).get(str(eid))
         if not match:
             continue   # not final yet (or not on this date) — retry later

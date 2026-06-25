@@ -138,7 +138,7 @@ class TestSettleSport(unittest.TestCase):
     def test_date_formatted_for_espn(self):
         seen = []
         settle.settle_sport(self._rows(), lambda p, d: seen.append(d) or {})
-        self.assertEqual(seen, ["20260620"])
+        self.assertEqual(seen, ["20260619-20260621"])   # ±1-day window
 
 
 if __name__ == "__main__":

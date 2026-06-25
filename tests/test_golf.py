@@ -88,7 +88,7 @@ class TestSettle(unittest.TestCase):
     def test_date_passed_yyyymmdd(self):
         seen = []
         settle.settle_golf(self._rows(), lambda d: seen.append(d) or {})
-        self.assertEqual(seen, ["20260621"])
+        self.assertEqual(seen, ["20260620-20260622"])   # ±1-day window
 
 
 if __name__ == "__main__":
