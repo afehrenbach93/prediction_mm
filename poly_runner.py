@@ -518,14 +518,30 @@ def main():
         # soccer prediction tracks continuously (weather ~10min, soccer ~hourly) and
         # settles due predictions (~hourly), so a single Render service builds the full
         # calibration record AND scores it. No orders.
-        WX_EVERY, SOC_EVERY, SPORTS_EVERY, SETTLE_EVERY = 600, 3600, 3600, 3600
+        from core import track as _track
+        WX_EVERY, SOC_EVERY, SPORTS_EVERY, SETTLE_EVERY, HB_EVERY = 600, 3600, 3600, 3600, 60
         wx_rec: set[str] = set()
         soc_rec: set[str] = set()
         sports_rec: set[str] = set()
-        last_wx = last_soc = last_sports = last_settle = 0.0
+        last_wx = last_soc = last_sports = last_settle = last_hb = 0.0
         log("START mode=TRACK (weather + soccer + sports record & settle, read-only)")
         while True:
             now = time.time()
+            # operator kill switch / mode from the app (poly_control). 'off' idles the
+            # worker (no recording); anything else runs the tracker. Trading modes
+            # (shadow/live) are gated until an edge validates — reported, not executed.
+            desired = _track.get_desired_mode() or "track"
+            if desired == "off":
+                if now - last_hb >= HB_EVERY:
+                    _track.heartbeat("track", "off", {"note": "idled by operator"})
+                    last_hb = now
+                time.sleep(15)
+                continue
+            if now - last_hb >= HB_EVERY:
+                st = "recording" if desired in ("track",) else f"tracking (req={desired}, trading gated)"
+                _track.heartbeat("track", st,
+                                 {"weather": len(wx_rec), "soccer": len(soc_rec), "sports": len(sports_rec)})
+                last_hb = now
             if now - last_wx >= WX_EVERY:
                 try:
                     wx_pass(client, wx_rec)
