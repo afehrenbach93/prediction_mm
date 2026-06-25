@@ -95,10 +95,15 @@ like before." Delivered read-only (no orders), in phases:
   72 → top 50), MLB/NBA seed + record. **Settlement fixed:** `due=11 resolved=0 → 11`
   after switching to a ±1-day ESPN window (TZ boundary: 23:00Z games file under prev ET
   day). DB: MLB 86 settled, soccer 36, weather 150; golf/tennis settle as events finish.
-- **KNOWN REFINEMENTS (not blocking):** (1) tennis Elo NOT seeded — ESPN range query
-  returns 0 historical tennis, so atp/wta predict ~50/50 (uninformative) until per-event
-  seeding added; (2) App Phase 2 trading controls (budgets/go-live) unlock when an edge
-  validates. The validation-week clock is running with all models recording + scoring.
+- **TENNIS SEEDING FIXED (diagnostic-driven):** atp/wta seeded 0 because (a) ESPN won't
+  return wide-range tennis history → fetch in weekly chunks (`espnfeed.results_over`); and
+  (b) the real blocker — `recent_results` required NUMERIC scores, but tennis scores are
+  sets so `_score`→None filtered every completed match out. Fix: decide results by ESPN's
+  per-competitor `winner` flag (`winner_of`/`_home_won`), falling back to scores for team
+  sports. Now **atp seeds 2639, wta 3514** real results → informed ratings. 96 tests green.
+- **REMAINING:** App Phase 2 trading controls (budgets/go-live) unlock when an edge
+  validates. Validation-week clock running with all 8 models recording + scoring on real
+  signals.
 
 ### 2026-06-23 — Prediction tracker + soccer feed shipped; one-week validation clock started
 Andrew green-lit the prediction tracker + a soccer results feed, "keep it scalable
