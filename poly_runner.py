@@ -338,6 +338,10 @@ class RewardMarketCache:
         by_slug: dict[str, list] = {}
         for tp in self.c.get_incentives():
             by_slug.setdefault(tp["marketSlug"], []).append(tp)
+        # DIAG: what reward markets exist BEFORE the WC allow-filter — distinguishes
+        # "no WC rewards right now" from "filter too narrow / slug schema changed".
+        sample = [(s, [tp.get("programId") for tp in tps][:1]) for s, tps in list(by_slug.items())[:8]]
+        log(f"reward markets pre-filter: {len(by_slug)} | allow={sorted(ALLOW_TOKENS)} | sample={sample}")
         out = {}
         for slug, tps in by_slug.items():
             if slug in DENY_SLUGS:        # never quote denied/held-legacy markets
