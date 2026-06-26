@@ -684,7 +684,7 @@ def main():
                 was_live = False
             if desired == "off":
                 if now - last_hb >= HB_EVERY:
-                    _track.heartbeat("off", "off", {"note": "idled by operator"})
+                    _track.heartbeat("off", "off", {"note": "idled by operator", "armed": LIVE_ARMED})
                     last_hb = now
                 time.sleep(15)
                 continue
@@ -702,10 +702,12 @@ def main():
                     last_hb = now
                 time.sleep(POLL)
                 continue
-            # default: read-only tracker (weather/soccer/sports/golf record + settle)
+            # default: read-only tracker (weather/soccer/sports/golf record + settle).
+            # include `armed` so the app's Go Live dialog correctly warns real-vs-shadow.
             if now - last_hb >= HB_EVERY:
                 _track.heartbeat("track", "recording",
-                                 {"weather": len(wx_rec), "soccer": len(soc_rec), "sports": len(sports_rec)})
+                                 {"weather": len(wx_rec), "soccer": len(soc_rec),
+                                  "sports": len(sports_rec), "armed": LIVE_ARMED})
                 last_hb = now
             if now - last_wx >= WX_EVERY:
                 try:
