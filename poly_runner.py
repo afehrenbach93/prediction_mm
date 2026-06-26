@@ -262,7 +262,16 @@ def golf_pass(recorded_days: set):
     raw = {p["player"]: p["player_raw"] for p in ev["field"]}
     probs = model.win_probs(field)
     ranked = sorted(probs.items(), key=lambda kv: kv[1], reverse=True)[:top_n]
-    sdate = (ev["date"] or "")[:10] or today_iso
+    # settle on the tournament END (winner only known then). Prefer ESPN endDate; else
+    # start + 4 days (a typical Thu–Sun event) so settlement fires after it finishes.
+    sdate = (ev.get("end_date") or "")[:10]
+    if not sdate:
+        from datetime import timedelta as _td
+        try:
+            sdate = ((datetime.fromisoformat((ev["date"] or "").replace("Z", "+00:00")).date())
+                     + _td(days=4)).isoformat()
+        except Exception:
+            sdate = today_iso
     payload = [{
         "model": "golf-skill", "sport": "golf",
         "market_slug": f"espn:golf:{ev['id']}:{player}",

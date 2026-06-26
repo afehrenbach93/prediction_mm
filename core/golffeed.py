@@ -52,6 +52,7 @@ def parse_golf(raw: dict) -> list[dict]:
         out.append({
             "id": str(ev.get("id", "")), "name": ev.get("name", ""),
             "date": ev.get("date", ""),
+            "end_date": ev.get("endDate", "") or ev.get("end", ""),
             "state": status.get("state", ""),
             "completed": bool(status.get("completed", False)),
             "field": field,
