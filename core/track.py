@@ -81,18 +81,43 @@ def heartbeat(mode: str, status: str, detail: dict | None = None) -> int:
 def get_desired_mode() -> str | None:
     """Read the operator's desired mode from poly_control (the app's kill switch /
     mode control). Returns the string or None if unavailable."""
+    c = get_control()
+    return c.get("desired_mode") if c else None
+
+
+def get_control() -> dict:
+    """Read the full control row (desired_mode, budget, live_until) from poly_control.
+    Returns {} if unavailable."""
     url, key = _creds()
     if not url or not key:
-        return None
+        return {}
     req = urllib.request.Request(
-        f"{url}/rest/v1/poly_control?id=eq.1&select=desired_mode",
+        f"{url}/rest/v1/poly_control?id=eq.1&select=desired_mode,budget,live_until",
         headers={"apikey": key, "Authorization": f"Bearer {key}"})
     try:
         with urllib.request.urlopen(req, timeout=15) as r:
             rows = json.loads(r.read())
-            return rows[0]["desired_mode"] if rows else None
+            return rows[0] if rows else {}
     except Exception:
-        return None
+        return {}
+
+
+def set_desired_mode(mode: str) -> int:
+    """Write desired_mode back to poly_control (e.g. the worker auto-reverting 'live'
+    -> 'track' when the live window expires). Returns http status."""
+    url, key = _creds()
+    if not url or not key:
+        return 0
+    body = json.dumps({"desired_mode": mode, "updated": _now()}).encode()
+    req = urllib.request.Request(
+        f"{url}/rest/v1/poly_control?id=eq.1", data=body, method="PATCH",
+        headers={"apikey": key, "Authorization": f"Bearer {key}",
+                 "Content-Type": "application/json", "Prefer": "return=minimal"})
+    try:
+        with urllib.request.urlopen(req, timeout=15) as r:
+            return r.status
+    except Exception:
+        return -1
 
 
 def fetch_unsettled(before_date: str, limit: int = 2000) -> list[dict]:
