@@ -63,6 +63,25 @@ read-only before funding; reconcile any tape-derived P&L against account balance
 
 ## Incident Log
 
+### 2026-06-26 — App "Go Live" button (WC reward-maker) — armed-gated, bounded, auto-revert
+Andrew wanted a button in the app to flip a one-day live test (World-Cup only) instead of
+doing it via CLI. Built it end-to-end, safe-by-default:
+- **poly_control** gained `budget` (default 50) + `live_until`. App Settings has a **Go
+  Live — World Cup** card (budget $25/$50/$100, confirm dialog, live status + auto-revert
+  time, Stop button). `setLive(budget, hours)` writes desired_mode=live + live_until=now+24h.
+- **Worker (`track` loop is now control-driven):** honors `live` → runs the WC reward-maker
+  (`live_cycle`, extracted from the legacy quoting loop) bounded by control budget; idles on
+  `off`; auto-reverts to `track` when `live_until` passes; **cancels all resting orders when
+  leaving live** (no orphans). Heartbeats live status to the app.
+- **Two safety gates:** (1) `POLY_ALLOW` allow-filter (default `worldcup,fwc,-wc-`) → live
+  only quotes WC markets; (2) **`POLY_LIVE_ARMED`** operator env — REAL orders require it;
+  unarmed, the button runs the live path in **shadow ($0)**. So the button is safe to ship;
+  real money needs a deliberate one-time `POLY_LIVE_ARMED=true` on the worker.
+- 102 tests green (+6: allow-filter, live_cycle gating). App typechecks + web bundle builds.
+- **CAVEAT (unchanged):** the live order path isn't proven — last pilot's post-only orders
+  didn't rest ($0 traded). Arming may still trade $0 until the order layer is fixed; watch
+  the Overview after going live.
+
 ### 2026-06-25 — All-sports buildout (Phase A) + settlement + Expo control app
 Andrew: "build all sports — NBA, Tennis, Golf, NFL, NCAA Football, MLB — then the app
 like before." Delivered read-only (no orders), in phases:

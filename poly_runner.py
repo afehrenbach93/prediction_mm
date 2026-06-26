@@ -41,6 +41,15 @@ POLL = int(os.getenv("POLY_POLL_SECS", "20"))
 # carve out held legacy/manual positions the bot isn't managing (e.g. a pre-existing
 # WC-futures bet) so they neither get quoted nor stand the bot down. Comma-separated.
 DENY_SLUGS = {s.strip() for s in os.getenv("POLY_DENY_SLUGS", "").split(",") if s.strip()}
+# Allow-list of lowercase substrings: if set, ONLY reward markets whose slug or any
+# program id contains one of these tokens are quoted. The live "Go Live" path uses
+# this to stay World-Cup-only (default tokens below). Empty = quote everything.
+# Safe failure mode: if nothing matches, the bot just idles (no orders).
+ALLOW_TOKENS = {s.strip().lower() for s in
+                os.getenv("POLY_ALLOW", "worldcup,fwc,-wc-").split(",") if s.strip()}
+# Real orders require BOTH an app "live" request AND this operator-set env arm. Unarmed,
+# the live path runs in shadow (records intended orders, $0) — so the button is safe.
+LIVE_ARMED = os.getenv("POLY_LIVE_ARMED", "").strip().lower() in ("1", "true", "yes")
 META_REFRESH = 600          # refresh reward-market metadata every 10 min
 PARAMS = MakerParams(size=SIZE, max_inventory=MAX_INV)
 
@@ -50,6 +59,14 @@ LIQ_SPREAD = 0.06        # a weather bucket is "tradeable" only if its book is t
 
 def log(msg: str):
     print(f"[poly] {datetime.now(timezone.utc):%H:%M:%S}Z {msg}", flush=True)
+
+
+def _allowed(slug: str, tps: list) -> bool:
+    """True if this reward market matches ALLOW_TOKENS (slug or any program id). Used
+    to restrict the live path to World-Cup markets."""
+    hay = slug.lower() + " " + " ".join(
+        str(tp.get("programId", "")).lower() for tp in tps)
+    return any(tok in hay for tok in ALLOW_TOKENS)
 
 
 def wx_pass(client, recorded_days: set):
@@ -316,6 +333,8 @@ class RewardMarketCache:
         for slug, tps in by_slug.items():
             if slug in DENY_SLUGS:        # never quote denied/held-legacy markets
                 continue
+            if ALLOW_TOKENS and not _allowed(slug, tps):   # WC-only (or other) gate
+                continue
             mk = self.c.get_market(slug)
             if not mk or mk.get("closed"):
                 continue
@@ -487,6 +506,44 @@ def refresh_quotes(client: PolyClient, slug: str, positions: dict, size: float):
     return ok, rej, best_bid, best_ask
 
 
+def live_cycle(client: PolyClient, cache: "RewardMarketCache", state: dict,
+               budget: float, live: bool) -> dict:
+    """One reward-maker iteration: breaker check, full reconcile (cancel-all then
+    re-post), quote the in-window reward markets (WC-only via ALLOW_TOKENS), bounded by
+    `budget`. `state['tripped']` persists across cycles. Returns a status dict for the
+    heartbeat. Shared by the legacy BOT_MODE=live loop and the app-driven live path."""
+    now = datetime.now(timezone.utc).timestamp()
+    positions = positions_net(client)           # reads real positions; shadow stays flat
+    if not state.get("tripped"):
+        trip, reason = breaker_check(client, positions)
+        if trip:
+            state["tripped"] = True
+            nx = cancel_all_orders(client)
+            log(f"*** BREAKER TRIPPED: {reason} -> cancelled {nx} orders, standing aside. ***")
+    windows = cache.in_window(now)
+    if state.get("tripped"):
+        log("breaker tripped — standing aside (no quotes).")
+        return {"status": "tripped"}
+    ncx = cancel_all_orders(client)             # full reconcile: cancel ALL first
+    if not windows:
+        log(f"no reward window now — idle (cleared {ncx} stale orders).")
+        return {"status": "idle", "markets": 0}
+    sel = sorted(windows, key=lambda w: -w[2])[:MAX_MARKETS]
+    size = max(1.0, min(SIZE, budget / len(sel)))
+    placed_ok = placed_rej = 0
+    for slug, period, pool in sel:
+        ok, rej, bb, ba = refresh_quotes(client, slug, positions, size)
+        placed_ok += ok
+        placed_rej += rej
+        log(f"  {period:10} {slug[:38]} bid={bb} ask={ba} -> ok={ok} rej={rej}@{size:.0f}"
+            + (" [SHADOW]" if not live else ""))
+    log(f"cycle: resting(pre-cancel)={ncx}, {len(sel)}/{len(windows)} mkts, "
+        f"placed_ok={placed_ok} rej={placed_rej} @size={size:.0f}"
+        + ("" if live else " [SHADOW]"))
+    return {"status": "quoting", "markets": len(sel), "placed_ok": placed_ok,
+            "rej": placed_rej, "size": size}
+
+
 def scan_markets(client: PolyClient, budget: float):
     """READ-ONLY: rank every active reward market by the retail reward share a
     `budget`-sized resting order would capture. Pure public reads (no orders).
@@ -585,22 +642,60 @@ def main():
         sports_rec: set[str] = set()
         golf_rec: set[str] = set()
         last_wx = last_soc = last_sports = last_settle = last_hb = 0.0
-        log("START mode=TRACK (weather + soccer + sports record & settle, read-only)")
+        # live trading client (REAL only when POLY_LIVE_ARMED; else shadow) + cache +
+        # breaker state for the app-driven "Go Live" path.
+        live_client = client
+        if LIVE_ARMED:
+            live_client = PolyClient(api_key_id=api_key, secret_b64=secret, live=True)
+        live_cache = RewardMarketCache(live_client)
+        live_state = {"tripped": False}
+        was_live = False
+        log(f"START mode=TRACK (control-driven; live-arm="
+            f"{'ON (real orders)' if LIVE_ARMED else 'off (shadow)'}, allow={sorted(ALLOW_TOKENS)})")
         while True:
             now = time.time()
-            # operator kill switch / mode from the app (poly_control). 'off' idles the
-            # worker (no recording); anything else runs the tracker. Trading modes
-            # (shadow/live) are gated until an edge validates — reported, not executed.
-            desired = _track.get_desired_mode() or "track"
+            ctrl = _track.get_control()
+            desired = (ctrl.get("desired_mode") or "track").lower()
+            budget = float(ctrl.get("budget") or BUDGET)
+            # auto-revert: a "Go Live" request carries live_until; once it passes, flip
+            # back to the read-only tracker (enforces "one day only" even if forgotten).
+            lu = ctrl.get("live_until")
+            if desired == "live" and lu:
+                try:
+                    if datetime.now(timezone.utc).timestamp() > datetime.fromisoformat(str(lu).replace("Z", "+00:00")).timestamp():
+                        _track.set_desired_mode("track")
+                        log("live window expired -> auto-reverted to track")
+                        desired = "track"
+                except Exception:
+                    pass
+            # leaving live -> cancel any resting orders so none are orphaned on the book
+            if was_live and desired != "live":
+                nx = cancel_all_orders(live_client)
+                log(f"left live -> cancelled {nx} resting orders")
+                was_live = False
             if desired == "off":
                 if now - last_hb >= HB_EVERY:
-                    _track.heartbeat("track", "off", {"note": "idled by operator"})
+                    _track.heartbeat("off", "off", {"note": "idled by operator"})
                     last_hb = now
                 time.sleep(15)
                 continue
+            if desired == "live":
+                was_live = True
+                lstat = "live" if LIVE_ARMED else "live-shadow"
+                try:
+                    res = live_cycle(live_client, live_cache, live_state, budget, LIVE_ARMED)
+                except Exception as e:
+                    log(f"live error: {e}")
+                    res = {"status": f"error: {e}"}
+                if now - last_hb >= HB_EVERY:
+                    _track.heartbeat(lstat, res.get("status", "?"),
+                                     {"budget": budget, "armed": LIVE_ARMED, **res})
+                    last_hb = now
+                time.sleep(POLL)
+                continue
+            # default: read-only tracker (weather/soccer/sports/golf record + settle)
             if now - last_hb >= HB_EVERY:
-                st = "recording" if desired in ("track",) else f"tracking (req={desired}, trading gated)"
-                _track.heartbeat("track", st,
+                _track.heartbeat("track", "recording",
                                  {"weather": len(wx_rec), "soccer": len(soc_rec), "sports": len(sports_rec)})
                 last_hb = now
             if now - last_wx >= WX_EVERY:
@@ -672,46 +767,10 @@ def main():
     log(f"breaker: max_inv={MAX_INV}/mkt, exposure_cap=${EXPOSURE_CAP:.0f}, "
         f"daily_loss=${DAILY_LOSS:.0f}")
     cache = RewardMarketCache(client)
-    tripped = False
+    state = {"tripped": False}
     while True:
         try:
-            now = datetime.now(timezone.utc).timestamp()
-            # risk check every cycle (reads real positions; shadow stays flat)
-            positions = positions_net(client)
-            if not tripped:
-                trip, reason = breaker_check(client, positions)
-                if trip:
-                    tripped = True
-                    nx = cancel_all_orders(client)
-                    log(f"*** BREAKER TRIPPED: {reason} -> cancelled {nx} orders, "
-                        f"standing aside. Set BOT_MODE and redeploy to resume. ***")
-            windows = cache.in_window(now)
-            if tripped:
-                log("breaker tripped — standing aside (no quotes).")
-            else:
-                # FULL RECONCILE every cycle: cancel ALL resting orders first, then
-                # re-post only the selected set. This prevents order accumulation
-                # and clears stale orders on markets that rotated out of reward.
-                ncx = cancel_all_orders(client)
-                if not windows:
-                    log(f"no reward window now — idle (cleared {ncx} stale orders).")
-                else:
-                    # cap breadth to the highest-pool markets and scale size so total
-                    # resting collateral (~$1/contract worst case) stays within budget
-                    sel = sorted(windows, key=lambda w: -w[2])[:MAX_MARKETS]
-                    size = max(1.0, min(SIZE, BUDGET / len(sel)))
-                    placed_ok = placed_rej = 0
-                    for slug, period, pool in sel:
-                        ok, rej, bb, ba = refresh_quotes(client, slug, positions, size)
-                        placed_ok += ok
-                        placed_rej += rej
-                        log(f"  {period:10} {slug[:38]} bid={bb} ask={ba} -> ok={ok} rej={rej}@{size:.0f}"
-                            + (" [SHADOW]" if not live else ""))
-                    # `resting` is the authoritative count from the exchange (what the
-                    # next cancel will see); placed_ok/rej shows this cycle's placements.
-                    log(f"cycle: resting(pre-cancel)={ncx}, {len(sel)}/{len(windows)} mkts, "
-                        f"placed_ok={placed_ok} rej={placed_rej} @size={size:.0f}; "
-                        f"shadow_log={len(client.shadow_orders)}")
+            live_cycle(client, cache, state, BUDGET, live)
         except Exception as e:
             log(f"loop error: {e}")
         time.sleep(POLL)

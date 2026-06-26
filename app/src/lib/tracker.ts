@@ -119,17 +119,35 @@ export async function fetchBotStatus(): Promise<BotStatus | null> {
 
 // ---- control (write) ----------------------------------------------------
 
-export interface Control { desired_mode: string; updated: string | null; }
+export interface Control {
+  desired_mode: string;
+  budget: number | null;
+  live_until: string | null;
+  updated: string | null;
+}
 
 export async function fetchControl(): Promise<Control | null> {
   const { data } = await supabase.from('poly_control').select('*').eq('id', 1).maybeSingle();
   return (data as Control) ?? null;
 }
 
-/** Set the worker's desired mode (track | shadow | off). The worker polls this
- * each loop and switches; 'off' is the kill switch. */
+/** Set the worker's desired mode (track | shadow | off). Clears any live window so a
+ * later Go Live starts fresh. 'off' is the kill switch. */
 export async function setDesiredMode(mode: string): Promise<void> {
   const { error } = await supabase.from('poly_control')
-    .update({ desired_mode: mode, updated: new Date().toISOString() }).eq('id', 1);
+    .update({ desired_mode: mode, live_until: null, updated: new Date().toISOString() })
+    .eq('id', 1);
+  if (error) throw error;
+}
+
+/** Go Live: World-Cup reward-maker, bounded by `budget`, auto-reverting to the tracker
+ * after `hours`. The worker only places REAL orders if the operator armed it
+ * (POLY_LIVE_ARMED); otherwise it runs the live path in shadow ($0). */
+export async function setLive(budget: number, hours: number): Promise<void> {
+  const until = new Date(Date.now() + hours * 3600 * 1000).toISOString();
+  const { error } = await supabase.from('poly_control')
+    .update({ desired_mode: 'live', budget, live_until: until,
+              updated: new Date().toISOString() })
+    .eq('id', 1);
   if (error) throw error;
 }
