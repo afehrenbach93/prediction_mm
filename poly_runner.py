@@ -557,6 +557,40 @@ def live_cycle(client: PolyClient, cache: "RewardMarketCache", state: dict,
             "rej": placed_rej, "size": size}
 
 
+def pnl_snapshot(client: PolyClient) -> dict:
+    """Read-only account snapshot — balance, positions (+realized P&L), and reward
+    earnings — so the live P&L source is visible in logs/heartbeat. Returns a small
+    summary dict. Never raises."""
+    summ = {}
+    try:
+        sa, acc = client.get_accounts()
+        sp, pos = client.get_positions()
+        se, earn = client.get_incentive_earnings()
+        log(f"PNL accounts http={sa} {str(acc)[:300]}")
+        log(f"PNL positions http={sp} {str(pos)[:500]}")
+        log(f"PNL earnings  http={se} {str(earn)[:300]}")
+        # best-effort extraction of a realized-pnl total + open position count
+        rows = pos if isinstance(pos, list) else (pos.get("positions") if isinstance(pos, dict) else []) or []
+        rp = 0.0
+        n = 0
+        for r in rows if isinstance(rows, list) else []:
+            if not isinstance(r, dict):
+                continue
+            n += 1
+            for k in ("realizedPnl", "realized_pnl", "realizedPnL"):
+                v = r.get(k)
+                if v is not None:
+                    try:
+                        rp += float(v)
+                    except Exception:
+                        pass
+                    break
+        summ = {"positions": n, "realized_pnl": round(rp, 4)}
+    except Exception as e:
+        log(f"pnl snapshot error: {e}")
+    return summ
+
+
 def scan_markets(client: PolyClient, budget: float):
     """READ-ONLY: rank every active reward market by the retail reward share a
     `budget`-sized resting order would capture. Pure public reads (no orders).
@@ -654,7 +688,9 @@ def main():
         soc_rec: set[str] = set()
         sports_rec: set[str] = set()
         golf_rec: set[str] = set()
-        last_wx = last_soc = last_sports = last_settle = last_hb = 0.0
+        last_wx = last_soc = last_sports = last_settle = last_hb = last_pnl = 0.0
+        PNL_EVERY = 300          # log an account P&L snapshot every 5 min while live
+        pnl_summ: dict = {}
         # live trading client (REAL only when POLY_LIVE_ARMED; else shadow) + cache +
         # breaker state for the app-driven "Go Live" path.
         live_client = client
@@ -700,9 +736,12 @@ def main():
                 except Exception as e:
                     log(f"live error: {e}")
                     res = {"status": f"error: {e}"}
+                if now - last_pnl >= PNL_EVERY:        # periodic account P&L snapshot
+                    pnl_summ = pnl_snapshot(live_client)
+                    last_pnl = now
                 if now - last_hb >= HB_EVERY:
                     _track.heartbeat(lstat, res.get("status", "?"),
-                                     {"budget": budget, "armed": LIVE_ARMED, **res})
+                                     {"budget": budget, "armed": LIVE_ARMED, **res, **pnl_summ})
                     last_hb = now
                 time.sleep(POLL)
                 continue
