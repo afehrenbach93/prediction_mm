@@ -558,34 +558,49 @@ def live_cycle(client: PolyClient, cache: "RewardMarketCache", state: dict,
 
 
 def pnl_snapshot(client: PolyClient) -> dict:
-    """Read-only account snapshot — balance, positions (+realized P&L), and reward
-    earnings — so the live P&L source is visible in logs/heartbeat. Returns a small
-    summary dict. Never raises."""
+    """Read-only account snapshot — positions (realized P&L per market) + balance — so
+    the live P&L source is visible in logs/heartbeat. /v1/portfolio/positions returns
+    a dict keyed by slug, each with realized.value + netPosition. Returns a summary
+    dict. Never raises."""
     summ = {}
     try:
-        sa, acc = client.get_accounts()
         sp, pos = client.get_positions()
-        se, earn = client.get_incentive_earnings()
-        log(f"PNL accounts http={sa} {str(acc)[:300]}")
-        log(f"PNL positions http={sp} {str(pos)[:500]}")
-        log(f"PNL earnings  http={se} {str(earn)[:300]}")
-        # best-effort extraction of a realized-pnl total + open position count
-        rows = pos if isinstance(pos, list) else (pos.get("positions") if isinstance(pos, dict) else []) or []
-        rp = 0.0
-        n = 0
-        for r in rows if isinstance(rows, list) else []:
+        positions = pos.get("positions") if isinstance(pos, dict) else {}
+        positions = positions if isinstance(positions, dict) else {}
+        total_real = 0.0
+        net_contracts = 0.0
+        per = []
+        for slug, r in positions.items():
             if not isinstance(r, dict):
                 continue
-            n += 1
-            for k in ("realizedPnl", "realized_pnl", "realizedPnL"):
-                v = r.get(k)
-                if v is not None:
-                    try:
-                        rp += float(v)
-                    except Exception:
-                        pass
+            try:
+                rv = float((r.get("realized") or {}).get("value", 0) or 0)
+            except Exception:
+                rv = 0.0
+            try:
+                np_ = float(r.get("netPosition", 0) or 0)
+            except Exception:
+                np_ = 0.0
+            total_real += rv
+            net_contracts += abs(np_)
+            per.append((round(rv, 2), int(np_), slug[:34]))
+        per.sort()
+        log(f"PNL SUMMARY: markets={len(positions)} total_realized={total_real:+.2f} "
+            f"open_contracts={net_contracts:.0f}")
+        if per:
+            log(f"PNL worst: {per[:3]}")
+            log(f"PNL best:  {per[-3:]}")
+        # find a working balance/portfolio endpoint (paths have shifted before)
+        for path in ("/v1/portfolio", "/v1/portfolio/balance", "/v1/accounts/balance"):
+            try:
+                sb, bal = client.signed_get(path)
+                if sb == 200:
+                    log(f"PNL balance {path} {str(bal)[:220]}")
                     break
-        summ = {"positions": n, "realized_pnl": round(rp, 4)}
+            except Exception:
+                pass
+        summ = {"markets": len(positions), "realized_pnl": round(total_real, 2),
+                "open_contracts": round(net_contracts)}
     except Exception as e:
         log(f"pnl snapshot error: {e}")
     return summ
