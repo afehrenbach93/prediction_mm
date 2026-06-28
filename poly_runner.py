@@ -590,15 +590,21 @@ def pnl_snapshot(client: PolyClient) -> dict:
         if per:
             log(f"PNL worst: {per[:3]}")
             log(f"PNL best:  {per[-3:]}")
-        # find a working balance/portfolio endpoint (paths have shifted before)
-        for path in ("/v1/portfolio", "/v1/portfolio/balance", "/v1/accounts/balance"):
+        # the positions snapshot DROPS settled markets, so the $ gain lives in cash.
+        # log the top-level response shape (cash/value may be here) + probe endpoints
+        # for the balance and the fills/transactions history (where settled wins show).
+        if isinstance(pos, dict):
+            log(f"PNL pos top-level keys={list(pos.keys())} "
+                f"scalars={ {k: v for k, v in pos.items() if not isinstance(v, (dict, list))} }")
+        for path in ("/v1/portfolio", "/v1/portfolio/summary", "/v1/portfolio/value",
+                     "/v1/balance", "/v1/balances", "/v1/wallet",
+                     "/v1/transactions?limit=25", "/v1/fills?limit=25",
+                     "/v1/portfolio/history", "/v1/accounts"):
             try:
                 sb, bal = client.signed_get(path)
-                if sb == 200:
-                    log(f"PNL balance {path} {str(bal)[:220]}")
-                    break
-            except Exception:
-                pass
+                log(f"PNL probe {path} http={sb} {str(bal)[:200]}")
+            except Exception as e:
+                log(f"PNL probe {path} err={str(e)[:60]}")
         summ = {"markets": len(positions), "realized_pnl": round(total_real, 2),
                 "open_contracts": round(net_contracts)}
     except Exception as e:
