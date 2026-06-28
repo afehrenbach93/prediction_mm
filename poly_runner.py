@@ -590,21 +590,34 @@ def pnl_snapshot(client: PolyClient) -> dict:
         if per:
             log(f"PNL worst: {per[:3]}")
             log(f"PNL best:  {per[-3:]}")
-        # the positions snapshot DROPS settled markets, so the $ gain lives in cash.
-        # log the top-level response shape (cash/value may be here) + probe endpoints
-        # for the balance and the fills/transactions history (where settled wins show).
-        if isinstance(pos, dict):
-            log(f"PNL pos top-level keys={list(pos.keys())} "
-                f"scalars={ {k: v for k, v in pos.items() if not isinstance(v, (dict, list))} }")
-        for path in ("/v1/portfolio", "/v1/portfolio/summary", "/v1/portfolio/value",
-                     "/v1/balance", "/v1/balances", "/v1/wallet",
-                     "/v1/transactions?limit=25", "/v1/fills?limit=25",
-                     "/v1/portfolio/history", "/v1/accounts"):
-            try:
-                sb, bal = client.signed_get(path)
-                log(f"PNL probe {path} http={sb} {str(bal)[:200]}")
-            except Exception as e:
-                log(f"PNL probe {path} err={str(e)[:60]}")
+        # correct endpoints (from the official SDK): balance + activity history. The
+        # positions snapshot drops settled markets, so the realized $ gain lives in the
+        # balance + shows up in activities (TRADE / SETTLEMENT / REWARD / REBATE).
+        try:
+            sb, bal = client.signed_get("/v1/account/balances")
+            log(f"PNL balance http={sb} {str(bal)[:300]}")
+        except Exception as e:
+            log(f"PNL balance err={str(e)[:80]}")
+        try:
+            sa, act = client.signed_get("/v1/portfolio/activities")
+            items = act.get("activities") if isinstance(act, dict) else act
+            items = items if isinstance(items, list) else []
+            by_type = {}
+            for a in items[:300]:
+                if not isinstance(a, dict):
+                    continue
+                t = a.get("type") or a.get("activityType") or "?"
+                amt = a.get("amount")
+                if isinstance(amt, dict):
+                    amt = amt.get("value")
+                try:
+                    by_type[t] = round(by_type.get(t, 0.0) + float(amt or 0), 2)
+                except Exception:
+                    by_type[t] = by_type.get(t, 0.0)
+            log(f"PNL activities http={sa} count={len(items)} by_type={by_type}")
+            log(f"PNL activities sample={str(items[:4])[:520]}")
+        except Exception as e:
+            log(f"PNL activities err={str(e)[:80]}")
         summ = {"markets": len(positions), "realized_pnl": round(total_real, 2),
                 "open_contracts": round(net_contracts)}
     except Exception as e:
