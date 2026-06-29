@@ -73,15 +73,23 @@ read-only before funding; reconcile any tape-derived P&L against account balance
 - **Option C (shipped):** `track` loop now runs the read-only tracker passes (wx/soccer/
   sports/golf/settle) in BOTH live and track modes — the cricket reward farm and the
   validation-week model tracking run on ONE worker. Fixed a double `time.sleep`.
-- **PM market-odds capture (shipped, diagnostic-first):** to measure model-vs-MARKET edge
-  (not just calibration). `core/espnfeed` now captures team `abbreviation`s; `pmodds`
-  matches a game to its PM market by team-token+date (abbrev/prefix aware, BOTH teams
-  required), reads the book, attaches `market_bid/ask` + `meta.pm_slug/pm_yes_side` to the
-  sports rows. `attach_market_odds` LOGS match-rate + samples (incl. the market outcome
-  label) so the PM moneyline slug structure is confirmed from logs before `edge` is
-  computed (stays null for now). NOTE: catalog samples so far were futures (champ/winner);
-  read `odds: matched X/Y` + `odds:` sample lines next deploy to verify per-game matching.
-  112 tests green.
+- **PM market-odds capture (shipped + VERIFIED WORKING):** measures model-vs-MARKET edge,
+  not just calibration. `core/espnfeed` captures team `abbreviation`s; `core/pmodds`
+  matches a game to its PM market by team-token + date (abbrev/prefix aware via `ABBR_ALIAS`,
+  e.g. ESPN `chw`→PM `cws`, `ari`→`az`; BOTH teams required). Diagnostic-first loop, all
+  read-only, settled the format from worker logs:
+  - per-game markets are `aec-mlb-<away>-<home>-<DATE>` (the same `aec` moneyline prefix as
+    the cricket farm); date matched within ±1 day (ESPN UTC vs PM ET off-by-one).
+  - **catalog must be fetched in full** — markets are created day-of and sort late; the
+    40-page/4000 cap silently truncated today's games (now `max_pages=150`, ~7700 markets).
+  - **price source:** each game market carries parallel `outcomes` (team names) +
+    `outcomePrices` arrays (NOT binary YES/NO). Map each single-team outcome to home/away,
+    read its price directly — no book read / YES-side guessing. `market_ask` = that side's
+    implied prob; **`edge = model_prob − implied` per row**.
+  - **Live result:** `odds: matched 37/51` MLB games, per-side prices sum ≈1.0, favorites
+    sensible (e.g. NYY home 0.575 vs DET 0.43). Misses = games 2-3 days out not yet listed
+    (match as game day nears). Today's rows were already recorded null this AM (idempotent
+    writer won't overwrite) → odds/edge populate from the next daily snapshot. 117 tests green.
 
 ### 2026-06-26 — App "Go Live" button (WC reward-maker) — armed-gated, bounded, auto-revert
 Andrew wanted a button in the app to flip a one-day live test (World-Cup only) instead of
