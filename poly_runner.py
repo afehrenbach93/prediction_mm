@@ -158,7 +158,6 @@ def soccer_pass(client, recorded_days: set):
     from core import pmodds
     payload = []
     all_fixtures = []
-    model_by_id = {}                       # espn_id -> (ph, pd, pa) 1X2 model probs
     for lg in leagues:
         model = sc.EloTable()
         results = sf.recent_results(lg, window)
@@ -169,7 +168,6 @@ def soccer_pass(client, recorded_days: set):
         all_fixtures += fixtures
         for fx in fixtures:
             ph, pd, pa = model.probabilities(fx["home"], fx["away"])
-            model_by_id[str(fx["id"])] = (ph, pd, pa)
             sdate = (fx["date"] or "")[:10] or today_iso
             for outcome, prob in (("home", ph), ("draw", pd), ("away", pa)):
                 payload.append({
@@ -183,29 +181,19 @@ def soccer_pass(client, recorded_days: set):
                              "r_away": round(model.rating(fx["away"]), 1),
                              "kickoff": fx["date"], "run_date": today_iso},
                 })
-    # WC R32 markets price "to advance" (2-way), so compare the model's ADVANCE prob
-    # (P(win in 90) + half the draw, ~penalties as a coin flip) to the market's advance
-    # price — apples-to-apples for knockout. edge = model_advance - market_advance.
+    # attach the internally-consistent 1X2 market (home/draw/away YES prices that sum ~1.0)
+    # and compare the model's 1X2 prob to the market price directly. edge = model - market.
     odds = pmodds.attach_soccer_odds(client, all_fixtures, log)
     for row in payload:
-        eid = str(row["meta"].get("espn_id", ""))
-        o = odds.get(eid)
-        if not o or eid not in model_by_id:
+        o = odds.get(str(row["meta"].get("espn_id", "")))
+        if not o:
             continue
-        ph, pd, pa = model_by_id[eid]
-        out = row["outcome"]
-        if out == "home":
-            implied, model_adv = o.get("home_price"), ph + 0.5 * pd
-        elif out == "away":
-            implied, model_adv = o.get("away_price"), pa + 0.5 * pd
-        else:                               # draw: usually no knockout market
-            implied, model_adv = o.get("draw_price"), pd
+        implied = o.get(f"{row['outcome']}_price")
         row["market_ask"] = implied
         row["liquid"] = implied is not None
-        if implied is not None:
-            row["edge"] = round(model_adv - implied, 4)
-            row["meta"]["model_advance"] = round(model_adv, 4)
-        row["meta"].update(pm_slug=o["slug"], pm_alts=o["alts"])
+        if implied is not None and row.get("model_prob") is not None:
+            row["edge"] = round(row["model_prob"] - implied, 4)
+        row["meta"].update(pm_slug=o["slug"], pm_alts=o["alts"], pm_psum=o.get("psum"))
     if payload and today_iso not in recorded_days:
         st, note = track.record_predictions(payload)
         log(f"tracker: recorded {len(payload)} soccer predictions -> http={st} {note}")

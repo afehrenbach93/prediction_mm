@@ -229,30 +229,54 @@ def attach_soccer_odds(client, fixtures: list[dict], log, max_pages: int = 150) 
                         if d and _date_near(d, date) and (toks & ht or toks & at)][:6]
                 misses.append(f'MISS {hr} v {ar} {date}: {near}')
             continue
-        prices = {}
-        for slug, _ in hits:                       # per-outcome binaries for this game
-            side = _slug_outcome_side(slug, hr, ha, ar, aa)
-            if not side or side in prices:
-                continue
-            yp = _yes_price(by_slug.get(slug, {}))
-            if yp is not None:
-                prices[side] = yp
+        prices, group_sum = _consistent_market(hits, by_slug, hr, ha, ar, aa)
         if not probed:
-            ps = by_slug.get(hits[0][0], {})
-            log(f"  soccer odds PROBE {hits[0][0]}: outcomes={ps.get('outcomes')} "
-                f"prices={ps.get('outcomePrices')} -> sides={prices}")
+            groups = _market_groups(hits, by_slug, hr, ha, ar, aa)
+            log(f"  soccer odds PROBE {hr} v {ar}: groups={groups}")
             probed = True
+        if not prices:                              # no internally-consistent 1X2 set found
+            continue
         out[str(fx["id"])] = {"slug": hits[0][0], "alts": len(hits),
                               "home_price": prices.get("home"), "draw_price": prices.get("draw"),
-                              "away_price": prices.get("away")}
+                              "away_price": prices.get("away"), "psum": round(group_sum, 3)}
         matched += 1
         if len(samples) < 11:
-            samples.append(f'{hr} v {ar} {date}: advance H={prices.get("home")} '
-                           f'D={prices.get("draw")} A={prices.get("away")}')
-    log(f"soccer odds: matched {matched}/{len(fixtures)} fixtures")
+            samples.append(f'{hr} v {ar} {date}: H={prices.get("home")} '
+                           f'D={prices.get("draw")} A={prices.get("away")} (sum {group_sum:.2f})')
+    log(f"soccer odds: matched {matched}/{len(fixtures)} fixtures (clean 1X2)")
     for s in samples + misses:
         log(f"  soccer odds: {s}")
     return out
+
+
+def _market_groups(hits, by_slug, hr, ha, ar, aa) -> dict:
+    """{base_slug: {side: yes_price}} — group the per-outcome binaries by their base
+    (slug minus the trailing outcome token), so each market TYPE (1X2, to-advance, F5,
+    handicap...) forms its own group. Used to pick a consistent set."""
+    from collections import defaultdict
+    groups = defaultdict(dict)
+    for slug, _ in hits:
+        side = _slug_outcome_side(slug, hr, ha, ar, aa)
+        if not side:
+            continue
+        base = "-".join(slug.split("-")[:-1])
+        yp = _yes_price(by_slug.get(slug, {}))
+        if yp is not None and side not in groups[base]:
+            groups[base][side] = yp
+    return {b: s for b, s in groups.items() if "home" in s and "away" in s}
+
+
+def _consistent_market(hits, by_slug, hr, ha, ar, aa, tol: float = 0.12):
+    """Pick the market-type group whose home/away(/draw) YES prices sum CLOSEST to 1.0 —
+    that's the internally-consistent result market. Returns ({side: price}, sum) or ({}, 0)
+    if none sums within `tol` of 1.0 (so contaminated/mismatched markets are rejected)."""
+    best, best_err, best_sum = {}, 9.0, 0.0
+    for sides in _market_groups(hits, by_slug, hr, ha, ar, aa).values():
+        s = sides.get("home", 0) + sides.get("away", 0) + sides.get("draw", 0)
+        err = abs(s - 1.0)
+        if err < best_err:
+            best, best_err, best_sum = sides, err, s
+    return (best, best_sum) if best_err <= tol else ({}, 0.0)
 
 
 def attach_market_odds(client, fixtures: list[dict], log, max_pages: int = 150) -> dict:
