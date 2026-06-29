@@ -154,7 +154,7 @@ def wx_settle_check(client, log):
     if not rows:
         log("wx-settle check: no settled weather rows yet")
         return
-    agree = mismatch = unknown = 0
+    agree = mismatch = unknown = corrected = 0
     samples, ruled = [], False
     for r in rows:
         m = client.get_market(r.get("market_slug", ""))
@@ -179,12 +179,17 @@ def wx_settle_check(client, log):
             agree += 1
         else:
             mismatch += 1
+            # RE-SETTLE to PM's authoritative outcome (what actually pays) so the edge
+            # re-measures against the real settlement, not our raw-obs proxy.
+            if r.get("id"):
+                if track.set_realized(int(r["id"]), bool(pm)) in (200, 204):
+                    corrected += 1
             if len(samples) < 8:
                 samples.append(f'{r.get("market_slug")} ours={ours} pm={pm}')
     tot = agree + mismatch
     rate = f"{agree}/{tot} ({100*agree/tot:.0f}%)" if tot else "n/a"
-    log(f"wx-settle check: AGREE {rate}, unknown/unresolved={unknown} "
-        f"(high agreement => our settlement matches PM => edge real)")
+    log(f"wx-settle check: AGREE {rate}, unknown/unresolved={unknown}, "
+        f"re-settled {corrected} rows to PM's outcome")
     for s in samples:
         log(f"  wx-settle mismatch: {s}")
 
