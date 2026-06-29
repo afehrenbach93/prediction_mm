@@ -114,6 +114,35 @@ class TestPmodds(unittest.TestCase):
         self.assertEqual(pmodds._slug_outcome_side(
             "atc-fwc-ger-par-2026-06-29-draw", "Germany", "GER", "Paraguay", "PAR"), "draw")
 
+    def test_consistent_market_picks_sum_near_one(self):
+        # two market types for the same game: a clean 1X2 (sums ~1.0) and a junk pair
+        # (sums 1.69). The selector must pick the 1X2 and reject the junk.
+        def mk(slug, yes):
+            return {"slug": slug, "outcomes": '["Yes","No"]',
+                    "outcomePrices": f'["{yes}","{1-yes}"]'}
+        rows = [mk("atc-fwc-ger-par-2026-06-29-ger", 0.62),
+                mk("atc-fwc-ger-par-2026-06-29-par", 0.20),
+                mk("atc-fwc-ger-par-2026-06-29-draw", 0.18),
+                mk("xx-fwc-ger-par-2026-06-29-ger", 0.76),    # junk type
+                mk("xx-fwc-ger-par-2026-06-29-par", 0.93)]
+        by_slug = {m["slug"]: m for m in rows}
+        hits = [(m["slug"], "") for m in rows]
+        prices, s = pmodds._consistent_market(hits, by_slug, "Germany", "GER", "Paraguay", "PAR")
+        self.assertEqual(prices.get("home"), 0.62)
+        self.assertEqual(prices.get("draw"), 0.18)
+        self.assertAlmostEqual(s, 1.0, places=2)
+
+    def test_consistent_market_rejects_all_contaminated(self):
+        def mk(slug, yes):
+            return {"slug": slug, "outcomes": '["Yes","No"]',
+                    "outcomePrices": f'["{yes}","{1-yes}"]'}
+        rows = [mk("atc-fwc-esp-aut-2026-07-02-esp", 0.76),
+                mk("atc-fwc-esp-aut-2026-07-02-aut", 0.93)]   # sum 1.69, no clean set
+        by_slug = {m["slug"]: m for m in rows}
+        hits = [(m["slug"], "") for m in rows]
+        prices, s = pmodds._consistent_market(hits, by_slug, "Spain", "ESP", "Austria", "AUT")
+        self.assertEqual(prices, {})
+
     def test_soccer_side_detects_draw(self):
         self.assertEqual(pmodds._soccer_side("Draw", "A", "B"), "draw")
         self.assertEqual(pmodds._soccer_side("Tie", "A", "B"), "draw")
