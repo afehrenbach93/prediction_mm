@@ -187,11 +187,11 @@ def soccer_pass(recorded_days: set):
         log("  no upcoming fixtures to predict this pass.")
 
 
-def sports_pass(recorded_days: set):
+def sports_pass(client, recorded_days: set):
     """One pass over all configured head-to-head sports (NBA/NFL/NCAAF/MLB/tennis):
     seed Elo from recent ESPN results, predict upcoming fixtures, record once per UTC
     day. Read-only. Golf is excluded (field/winner model, separate)."""
-    from core import espnfeed, sportstrack, track
+    from core import espnfeed, sportstrack, track, pmodds
     from datetime import timedelta
     enabled = [s.strip() for s in os.getenv(
         "SPORTS", "nba,nfl,ncaaf,mlb,atp,wta").split(",") if s.strip()]
@@ -199,6 +199,11 @@ def sports_pass(recorded_days: set):
     ahead_days = int(os.getenv("SPORTS_AHEAD_DAYS", "3"))
     today = datetime.now(timezone.utc).date()
     today_iso = today.isoformat()
+    # one-time PM-catalog sample per process — learn the real sports slug format so we
+    # can attach market odds to predictions (model-vs-market edge). Runs before the gate.
+    if "pmdiag" not in recorded_days:
+        pmodds.sports_market_sample(client, log)
+        recorded_days.add("pmdiag")
     if today_iso in recorded_days:
         return
     window = f"{(today - timedelta(days=seed_days)):%Y%m%d}-{today:%Y%m%d}"
@@ -762,9 +767,13 @@ def main():
                     last_hb = now
                 time.sleep(15)
                 continue
-            if desired == "live":
+            # LIVE farming runs alongside the read-only tracker (one worker does both):
+            # the live reward-maker quotes every cycle, while the prediction tracker
+            # records + settles on its own (much slower) timers.
+            live_now = (desired == "live")
+            res = {}
+            if live_now:
                 was_live = True
-                lstat = "live" if LIVE_ARMED else "live-shadow"
                 try:
                     res = live_cycle(live_client, live_cache, live_state, budget, LIVE_ARMED)
                 except Exception as e:
@@ -773,19 +782,7 @@ def main():
                 if now - last_pnl >= PNL_EVERY:        # periodic account P&L snapshot
                     pnl_summ = pnl_snapshot(live_client)
                     last_pnl = now
-                if now - last_hb >= HB_EVERY:
-                    _track.heartbeat(lstat, res.get("status", "?"),
-                                     {"budget": budget, "armed": LIVE_ARMED, **res, **pnl_summ})
-                    last_hb = now
-                time.sleep(POLL)
-                continue
-            # default: read-only tracker (weather/soccer/sports/golf record + settle).
-            # include `armed` so the app's Go Live dialog correctly warns real-vs-shadow.
-            if now - last_hb >= HB_EVERY:
-                _track.heartbeat("track", "recording",
-                                 {"weather": len(wx_rec), "soccer": len(soc_rec),
-                                  "sports": len(sports_rec), "armed": LIVE_ARMED})
-                last_hb = now
+            # tracker passes ALWAYS run (record models + settle) — live or not
             if now - last_wx >= WX_EVERY:
                 try:
                     wx_pass(client, wx_rec)
@@ -800,7 +797,7 @@ def main():
                 last_soc = now
             if now - last_sports >= SPORTS_EVERY:
                 try:
-                    sports_pass(sports_rec)
+                    sports_pass(client, sports_rec)
                 except Exception as e:
                     log(f"track/sports error: {e}")
                 try:
@@ -814,7 +811,18 @@ def main():
                 except Exception as e:
                     log(f"track/settle error: {e}")
                 last_settle = now
-            time.sleep(30)
+            if now - last_hb >= HB_EVERY:
+                if live_now:
+                    _track.heartbeat("live" if LIVE_ARMED else "live-shadow",
+                                     res.get("status", "?"),
+                                     {"budget": budget, "armed": LIVE_ARMED, "tracking": True,
+                                      **res, **pnl_summ})
+                else:
+                    _track.heartbeat("track", "recording",
+                                     {"weather": len(wx_rec), "soccer": len(soc_rec),
+                                      "sports": len(sports_rec), "armed": LIVE_ARMED})
+                last_hb = now
+            time.sleep(POLL if live_now else 30)
     if MODE == "research":
         # READ-ONLY: (1) the TRUTH on rewards — authed earnings endpoint; (2) the
         # non-esports venue map (weather/climate markets + their books). No orders.
