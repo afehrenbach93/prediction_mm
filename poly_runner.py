@@ -142,6 +142,53 @@ def wx_pass(client, recorded_days: set):
             recorded_days.add(today_iso)
 
 
+def wx_settle_check(client, log):
+    """VALIDATION (read-only): the weather edge is only real if OUR settlement (observed
+    daily high) matches how Polymarket actually resolves these buckets. For recently-settled
+    weather buckets, fetch PM's resolution (resolved outcomePrices) + its rules text, and
+    compare to our realized_yes. High agreement => edge is real; divergence => the Kalshi
+    settlement-source illusion. Logs agreement + sample mismatches + the resolution rules."""
+    import json as _json
+    from core import track
+    rows = track.fetch_settled("temp", 120)
+    if not rows:
+        log("wx-settle check: no settled weather rows yet")
+        return
+    agree = mismatch = unknown = 0
+    samples, ruled = [], False
+    for r in rows:
+        m = client.get_market(r.get("market_slug", ""))
+        if not m:
+            continue
+        if not ruled:
+            log(f"  wx-settle PM RULES: {str(m.get('description') or m.get('question'))[:260]}")
+            ruled = True
+        try:
+            prs = [float(x) for x in _json.loads(m.get("outcomePrices") or "[]")]
+        except Exception:
+            continue
+        if not prs:
+            continue
+        pm_yes = prs[0]                       # resolved markets go to ~1/0
+        pm = 1 if pm_yes > 0.9 else 0 if pm_yes < 0.1 else None
+        if pm is None:
+            unknown += 1
+            continue
+        ours = 1 if r.get("realized_yes") else 0
+        if pm == ours:
+            agree += 1
+        else:
+            mismatch += 1
+            if len(samples) < 8:
+                samples.append(f'{r.get("market_slug")} ours={ours} pm={pm}')
+    tot = agree + mismatch
+    rate = f"{agree}/{tot} ({100*agree/tot:.0f}%)" if tot else "n/a"
+    log(f"wx-settle check: AGREE {rate}, unknown/unresolved={unknown} "
+        f"(high agreement => our settlement matches PM => edge real)")
+    for s in samples:
+        log(f"  wx-settle mismatch: {s}")
+
+
 def soccer_pass(client, recorded_days: set):
     """One soccer pass: seed Elo from recent results, predict upcoming fixtures,
     record 1X2 probabilities once per UTC day. Read-only. wxedge analogue for soccer."""
@@ -767,6 +814,7 @@ def main():
         sports_rec: set[str] = set()
         golf_rec: set[str] = set()
         last_wx = last_soc = last_sports = last_settle = last_hb = last_pnl = 0.0
+        last_wxchk = 0.0
         PNL_EVERY = 300          # log an account P&L snapshot every 5 min while live
         pnl_summ: dict = {}
         # live trading client (REAL only when POLY_LIVE_ARMED; else shadow) + cache +
@@ -850,6 +898,12 @@ def main():
                 except Exception as e:
                     log(f"track/settle error: {e}")
                 last_settle = now
+            if now - last_wxchk >= 21600:          # settlement-source check ~every 6h
+                try:
+                    wx_settle_check(client, log)
+                except Exception as e:
+                    log(f"track/wx-settle error: {e}")
+                last_wxchk = now
             if now - last_hb >= HB_EVERY:
                 if live_now:
                     _track.heartbeat("live" if LIVE_ARMED else "live-shadow",

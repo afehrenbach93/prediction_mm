@@ -120,6 +120,26 @@ def set_desired_mode(mode: str) -> int:
         return -1
 
 
+def fetch_settled(sport: str, limit: int = 100) -> list[dict]:
+    """Recently-settled rows for one sport (market_slug, outcome, realized_yes,
+    settle_date) — used to cross-check OUR settlement against the venue's resolution."""
+    url, key = _creds()
+    if not url or not key:
+        return []
+    q = urllib.parse.urlencode({
+        "select": "market_slug,outcome,realized_yes,settle_date",
+        "sport": f"eq.{sport}", "settled": "is.true",
+        "order": "settle_date.desc", "limit": str(limit),
+    })
+    req = urllib.request.Request(f"{url}/rest/v1/{TABLE}?{q}",
+                                 headers={"apikey": key, "Authorization": f"Bearer {key}"})
+    try:
+        with urllib.request.urlopen(req, timeout=25) as r:
+            return json.loads(r.read())
+    except Exception:
+        return []
+
+
 def fetch_unsettled(before_date: str, limit: int = 2000) -> list[dict]:
     """Predictions whose settle_date is strictly before `before_date` (ISO) and not
     yet settled — the settlement pass's work queue. Returns [] without creds/on error."""
