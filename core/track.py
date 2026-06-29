@@ -127,7 +127,7 @@ def fetch_settled(sport: str, limit: int = 100) -> list[dict]:
     if not url or not key:
         return []
     q = urllib.parse.urlencode({
-        "select": "market_slug,outcome,realized_yes,settle_date",
+        "select": "id,market_slug,outcome,realized_yes,settle_date,meta",
         "sport": f"eq.{sport}", "settled": "is.true",
         "order": "settle_date.desc", "limit": str(limit),
     })
@@ -138,6 +138,25 @@ def fetch_settled(sport: str, limit: int = 100) -> list[dict]:
             return json.loads(r.read())
     except Exception:
         return []
+
+
+def set_realized(pred_id: int, realized_yes: bool) -> int:
+    """Re-settle one row's realized_yes to the AUTHORITATIVE venue resolution (what
+    actually pays). Used to correct weather rows that were settled from raw observations
+    to PM's official Climatological-Report outcome. Only touches realized_yes."""
+    url, key = _creds()
+    if not url or not key:
+        return 0
+    body = json.dumps({"realized_yes": realized_yes}).encode()
+    req = urllib.request.Request(
+        f"{url}/rest/v1/{TABLE}?id=eq.{pred_id}", data=body, method="PATCH",
+        headers={"apikey": key, "Authorization": f"Bearer {key}",
+                 "Content-Type": "application/json", "Prefer": "return=minimal"})
+    try:
+        with urllib.request.urlopen(req, timeout=15) as r:
+            return r.status
+    except Exception:
+        return -1
 
 
 def fetch_unsettled(before_date: str, limit: int = 2000) -> list[dict]:
