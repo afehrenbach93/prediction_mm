@@ -48,6 +48,19 @@ class TestPmodds(unittest.TestCase):
             idx, "Boston Red Sox", "New York Yankees", "2026-06-28",
             home_abbr="BOS", away_abbr="NYY"))
 
+    def test_find_market_slug_abbrev_alias(self):
+        # ESPN 'chw' (White Sox) vs PM 'cws' — alias must bridge the gap
+        idx = pmodds.build_index([{"slug": "aec-mlb-cws-bal-2026-06-29"}])
+        hit = pmodds.find_market_slug(idx, "Chicago White Sox", "Baltimore Orioles",
+                                      "2026-06-29", home_abbr="BAL", away_abbr="CHW")
+        self.assertEqual(hit, "aec-mlb-cws-bal-2026-06-29")
+
+    def test_build_index_label_from_alt_field(self):
+        # PM populates the YES label under groupItemTitle (not 'outcome') for game markets
+        idx = pmodds.build_index([{"slug": "aec-mlb-pit-phi-2026-06-29",
+                                   "groupItemTitle": "Philadelphia Phillies"}])
+        self.assertEqual(idx[0][3], "Philadelphia Phillies")
+
     def test_find_market_slug_date_filter_far(self):
         # >1 day off -> filtered out (date tolerance is ±1 day for TZ)
         idx = pmodds.build_index([{"slug": "aec-mlb-boston-newyork-2026-06-25"}])

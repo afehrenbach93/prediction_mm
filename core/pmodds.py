@@ -18,16 +18,29 @@ def norm_tokens(s: str) -> set:
     return set(re.findall(r"[a-z0-9]+", (s or "").lower()))
 
 
+# ESPN team code -> PM team code, where the two venues disagree (confirmed from the
+# odds-matcher MISS logs). Most codes match; only these few differ. Add as discovered.
+ABBR_ALIAS = {
+    "chw": "cws",   # Chicago White Sox
+    "ari": "az",    # Arizona Diamondbacks
+    "wsh": "was",   # Washington (PM sometimes 'was'); 'wsh' already matches too
+    "sf": "sf", "sd": "sd",
+}
+
+
 def team_tokens(name: str, abbr: str = "") -> set:
-    """Candidate match tokens for a team: its name words, the words concatenated, and
-    ESPN's short code (e.g. 'nyy'). Used to match against a PM slug's abbreviated tokens."""
+    """Candidate match tokens for a team: its name words, the words concatenated, ESPN's
+    short code (e.g. 'nyy'), and the PM alias for that code where the venues disagree."""
     words = norm_tokens(name)
     cands = set(words)
     if words:
         cands.add("".join(sorted(words)))   # order-independent concat fallback
         cands.add("".join(name.lower().split()))
     if abbr:
-        cands.add(abbr.lower())
+        a = abbr.lower()
+        cands.add(a)
+        if a in ABBR_ALIAS:
+            cands.add(ABBR_ALIAS[a])
     return {c for c in cands if c}
 
 
@@ -75,8 +88,13 @@ def build_index(markets: list[dict]) -> list[tuple[str, set, str, str]]:
         if not slug:
             continue
         mt = re.search(r"\d{4}-\d{2}-\d{2}", slug)
+        # the YES-side label lives under different keys across PM market types; take the
+        # first populated one so a price can be mapped to home/away.
+        label = next((str(m.get(k)) for k in
+                      ("outcome", "groupItemTitle", "shortTitle", "title", "question", "name")
+                      if m.get(k)), "")
         idx.append((slug, set(re.findall(r"[a-z0-9]+", slug.lower())),
-                    mt.group() if mt else "", str(m.get("outcome", "") or "")))
+                    mt.group() if mt else "", label))
     return idx
 
 

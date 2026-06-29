@@ -242,9 +242,20 @@ def sports_pass(client, recorded_days: set):
         o = odds.get(str(row["meta"].get("espn_id", "")))
         if not o:
             continue
-        row["market_bid"], row["market_ask"] = o["bid"], o["ask"]
-        row["liquid"] = o["bid"] is not None and o["ask"] is not None
-        row["meta"].update(pm_slug=o["slug"], pm_yes_side=o["yes_side"], pm_alts=o["alts"])
+        bid, ask, yes = o["bid"], o["ask"], o["yes_side"]
+        row["market_bid"], row["market_ask"] = bid, ask
+        row["liquid"] = bid is not None and ask is not None
+        # market-implied prob for THIS row's outcome (the matched market quotes the YES
+        # side; the other side ~= 1 - bid), then edge = model - market. Only when the
+        # market's YES side is known, else leave edge null (don't guess the sign).
+        implied = None
+        if yes == row["outcome"] and ask is not None:
+            implied = ask
+        elif yes and yes != row["outcome"] and bid is not None:
+            implied = 1 - bid
+        if implied is not None and row.get("model_prob") is not None:
+            row["edge"] = round(row["model_prob"] - implied, 4)
+        row["meta"].update(pm_slug=o["slug"], pm_yes_side=yes, pm_alts=o["alts"])
     if payload:
         st, note = track.record_predictions(payload)
         log(f"tracker: recorded {len(payload)} sports predictions -> http={st} {note}")
