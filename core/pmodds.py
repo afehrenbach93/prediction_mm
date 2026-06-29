@@ -133,13 +133,41 @@ def find_market_slug(idx, home: str, away: str, date_iso: str,
 
 
 def _side_of(outcome: str, home: str, away: str) -> str:
-    """Which side a market's YES outcome refers to ('home'/'away'/'') by name overlap."""
+    """Which side a SINGLE-team outcome label refers to ('home'/'away'/'') by name overlap.
+    Only meaningful when `outcome` names ONE team — PM's game-market title names both, so
+    use `yes_side_from_slug` for those (this stays for genuine single-outcome labels)."""
     ot = norm_tokens(outcome)
     if not ot:
         return ""
     hs = len(ot & norm_tokens(home))
     as_ = len(ot & norm_tokens(away))
     return "home" if hs > as_ else "away" if as_ > hs else ""
+
+
+def _last_team_pos(parts: list, name: str, abbr: str) -> int:
+    """Index of the LAST slug segment that identifies this team (-1 if none)."""
+    cands = team_tokens(name, abbr)
+    words = [w for w in norm_tokens(name) if len(w) >= 3]
+    pos = -1
+    for i, p in enumerate(parts):
+        if len(p) < 2 or p.isdigit():
+            continue
+        if p in cands or (len(p) >= 3 and any(w.startswith(p) or p.startswith(w) for w in words)):
+            pos = i
+    return pos
+
+
+def yes_side_from_slug(slug: str, home: str, home_abbr: str,
+                       away: str, away_abbr: str) -> str:
+    """Map a game market's YES side to 'home'/'away' by slug POSITION. PM game slugs are
+    `<teamA>-<teamB>` and YES is the later team token (confirmed on the cricket market
+    `aec-mlc-lakr-soe` -> YES 'Seattle Orcas', the 2nd token). '' if undeterminable."""
+    parts = slug.lower().split("-")
+    hp = _last_team_pos(parts, home, home_abbr)
+    ap = _last_team_pos(parts, away, away_abbr)
+    if hp < 0 or ap < 0 or hp == ap:
+        return ""
+    return "home" if hp > ap else "away"
 
 
 def attach_market_odds(client, fixtures: list[dict], log, max_pages: int = 150) -> dict:
@@ -155,8 +183,9 @@ def attach_market_odds(client, fixtures: list[dict], log, max_pages: int = 150) 
         log(f"odds: catalog fetch error: {e}")
         return {}
     idx = build_index(mks)
+    by_slug = {m.get("slug", ""): m for m in mks}
     log(f"odds: catalog {len(idx)} markets (max_pages={max_pages})")
-    out, matched, samples, misses = {}, 0, [], []
+    out, matched, samples, misses, probed = {}, 0, [], [], False
     for fx in fixtures:
         date = (fx.get("date") or "")[:10]
         hits = find_market_slugs(idx, fx.get("home_raw", ""), fx.get("away_raw", ""),
@@ -174,21 +203,32 @@ def attach_market_odds(client, fixtures: list[dict], log, max_pages: int = 150) 
                               f'{fx.get("home_abbr") or fx.get("home_raw")} {date}: '
                               f'near-date team-token slugs={near}')
             continue
-        slug, outcome = hits[0]
+        slug, label = hits[0]
+        # ONE-TIME authoritative probe: dump the matched market's keys + outcome-ish fields
+        # so the YES side can be confirmed against the positional rule from the next log.
+        if not probed:
+            m = by_slug.get(slug, {})
+            fields = {k: m.get(k) for k in
+                      ("outcome", "outcomes", "tokens", "groupItemTitle", "title")
+                      if k in m}
+            log(f"  odds PROBE {slug}: keys={sorted(m.keys())[:25]} fields={fields}")
+            probed = True
         try:
             bids, offers = client.get_book(slug)
         except Exception:
             bids, offers = [], []
         bid = bids[0][0] if bids else None
         ask = offers[0][0] if offers else None
-        yes_side = _side_of(outcome, fx.get("home_raw", ""), fx.get("away_raw", ""))
+        # YES side from slug position (the title names both teams, so it can't say which
+        # side YES is); fall back to a genuine single-team label if positional is ambiguous.
+        yes_side = yes_side_from_slug(slug, fx.get("home_raw", ""), fx.get("home_abbr", ""),
+                                      fx.get("away_raw", ""), fx.get("away_abbr", ""))
         out[str(fx["id"])] = {"slug": slug, "bid": bid, "ask": ask,
                               "yes_side": yes_side, "alts": len(hits)}
         matched += 1
         if len(samples) < 8:
             samples.append(f'{fx.get("away_raw")}@{fx.get("home_raw")} {date} -> '
-                           f'{slug} yes={yes_side or "?"}({outcome}) b{bid}/a{ask} '
-                           f'[{len(hits)} mkts]')
+                           f'{slug} yes={yes_side or "?"} b{bid}/a{ask} [{len(hits)} mkts]')
     log(f"odds: matched {matched}/{len(fixtures)} fixtures to PM markets")
     for s in samples:
         log(f"  odds: {s}")
