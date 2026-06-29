@@ -99,13 +99,20 @@ class TestPmodds(unittest.TestCase):
     def test_outcome_prices_bad_data(self):
         self.assertEqual(pmodds._outcome_prices({}, "A", "B"), (None, None))
 
-    def test_soccer_outcome_prices_three_way(self):
-        m = {"outcomes": '["United States","Draw","Mexico"]',
-             "outcomePrices": '["0.50","0.28","0.27"]'}
-        pr = pmodds.soccer_outcome_prices(m, "United States", "Mexico")
-        self.assertEqual(pr.get("home"), 0.50)
-        self.assertEqual(pr.get("draw"), 0.28)
-        self.assertEqual(pr.get("away"), 0.27)
+    def test_yes_price_of_binary_market(self):
+        m = {"outcomes": '["Yes","No"]', "outcomePrices": '["0.7400","0.265"]'}
+        self.assertEqual(pmodds._yes_price(m), 0.74)
+        self.assertIsNone(pmodds._yes_price({"outcomes": '["A","B"]',
+                                             "outcomePrices": '["0.5","0.5"]'}))
+
+    def test_slug_outcome_side_by_suffix(self):
+        # WC to-advance markets: ...-<home>-<away>-<date>-<team>
+        self.assertEqual(pmodds._slug_outcome_side(
+            "atc-fwc-ger-par-2026-06-29-ger", "Germany", "GER", "Paraguay", "PAR"), "home")
+        self.assertEqual(pmodds._slug_outcome_side(
+            "atc-fwc-ger-par-2026-06-29-par", "Germany", "GER", "Paraguay", "PAR"), "away")
+        self.assertEqual(pmodds._slug_outcome_side(
+            "atc-fwc-ger-par-2026-06-29-draw", "Germany", "GER", "Paraguay", "PAR"), "draw")
 
     def test_soccer_side_detects_draw(self):
         self.assertEqual(pmodds._soccer_side("Draw", "A", "B"), "draw")
