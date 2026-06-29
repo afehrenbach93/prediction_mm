@@ -209,6 +209,7 @@ def sports_pass(client, recorded_days: set):
     window = f"{(today - timedelta(days=seed_days)):%Y%m%d}-{today:%Y%m%d}"
     fut = f"{today:%Y%m%d}-{(today + timedelta(days=ahead_days)):%Y%m%d}"
     payload = []
+    all_fixtures = []
     for key in enabled:
         cfg = sportstrack.SPORTS.get(key)
         if not cfg:
@@ -231,7 +232,19 @@ def sports_pass(client, recorded_days: set):
             recent = espnfeed.recent_results(path, window)
         fixtures = espnfeed.upcoming_fixtures(path, fut)
         log(f"  {key}: seeded {len(recent)} results, {len(fixtures)} upcoming fixtures")
+        all_fixtures += fixtures
         payload += sportstrack.build_sport_rows(key, path, neutral, recent, fixtures, today_iso)
+    # attach live PM market odds to each game so we can measure model-vs-MARKET edge
+    # (not just calibration). Best-effort + richly logged so the PM moneyline structure
+    # can be confirmed from logs; edge stays null until that's pinned down.
+    odds = pmodds.attach_market_odds(client, all_fixtures, log)
+    for row in payload:
+        o = odds.get(str(row["meta"].get("espn_id", "")))
+        if not o:
+            continue
+        row["market_bid"], row["market_ask"] = o["bid"], o["ask"]
+        row["liquid"] = o["bid"] is not None and o["ask"] is not None
+        row["meta"].update(pm_slug=o["slug"], pm_yes_side=o["yes_side"], pm_alts=o["alts"])
     if payload:
         st, note = track.record_predictions(payload)
         log(f"tracker: recorded {len(payload)} sports predictions -> http={st} {note}")

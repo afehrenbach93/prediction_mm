@@ -63,6 +63,26 @@ read-only before funding; reconcile any tape-derived P&L against account balance
 
 ## Incident Log
 
+### 2026-06-29 — Tracker+farm on one worker; PM market-odds capture; golf-bet breaker wedge fixed
+- **Breaker wedge (fixed live):** after merging Option C, the worker tripped every cycle on
+  a **400-lot golf position** (`tec-pga-travcham-2026-06-28-w-wyncla`, Andrew's OWN manual
+  bet, not the bot) — 8× the 50 inventory cap → stood the whole bot aside. Added it to
+  `POLY_DENY_SLUGS` (excludes from breaker, like the old 332-WC future) + fresh deploy
+  (env needs a deploy, not restart). Farm resumed: `5/11 mkts placed_ok=8 rej=0`. No bot
+  bug — manual bet. Slug carries today's date; drop from deny after it settles.
+- **Option C (shipped):** `track` loop now runs the read-only tracker passes (wx/soccer/
+  sports/golf/settle) in BOTH live and track modes — the cricket reward farm and the
+  validation-week model tracking run on ONE worker. Fixed a double `time.sleep`.
+- **PM market-odds capture (shipped, diagnostic-first):** to measure model-vs-MARKET edge
+  (not just calibration). `core/espnfeed` now captures team `abbreviation`s; `pmodds`
+  matches a game to its PM market by team-token+date (abbrev/prefix aware, BOTH teams
+  required), reads the book, attaches `market_bid/ask` + `meta.pm_slug/pm_yes_side` to the
+  sports rows. `attach_market_odds` LOGS match-rate + samples (incl. the market outcome
+  label) so the PM moneyline slug structure is confirmed from logs before `edge` is
+  computed (stays null for now). NOTE: catalog samples so far were futures (champ/winner);
+  read `odds: matched X/Y` + `odds:` sample lines next deploy to verify per-game matching.
+  112 tests green.
+
 ### 2026-06-26 — App "Go Live" button (WC reward-maker) — armed-gated, bounded, auto-revert
 Andrew wanted a button in the app to flip a one-day live test (World-Cup only) instead of
 doing it via CLI. Built it end-to-end, safe-by-default:
