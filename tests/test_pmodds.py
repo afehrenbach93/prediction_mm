@@ -48,9 +48,17 @@ class TestPmodds(unittest.TestCase):
             idx, "Boston Red Sox", "New York Yankees", "2026-06-28",
             home_abbr="BOS", away_abbr="NYY"))
 
-    def test_find_market_slug_date_filter(self):
-        idx = pmodds.build_index([{"slug": "aec-mlb-boston-newyork-2026-06-27"}])
+    def test_find_market_slug_date_filter_far(self):
+        # >1 day off -> filtered out (date tolerance is ±1 day for TZ)
+        idx = pmodds.build_index([{"slug": "aec-mlb-boston-newyork-2026-06-25"}])
         self.assertIsNone(pmodds.find_market_slug(idx, "Boston", "New York", "2026-06-28"))
+
+    def test_find_market_slug_date_within_one_day(self):
+        # ESPN UTC date vs PM ET date can differ by a day -> still matches
+        idx = pmodds.build_index([{"slug": "aec-mlb-boston-newyork-2026-06-29"}])
+        self.assertEqual(
+            pmodds.find_market_slug(idx, "Boston", "New York", "2026-06-28"),
+            "aec-mlb-boston-newyork-2026-06-29")
 
     def test_find_market_slug_below_threshold(self):
         idx = pmodds.build_index([{"slug": "aec-mlb-xx-yy-2026-06-28"}])

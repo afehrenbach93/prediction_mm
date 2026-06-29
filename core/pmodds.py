@@ -84,15 +84,27 @@ def find_market_slugs(idx, home: str, away: str, date_iso: str,
                       home_abbr: str = "", away_abbr: str = "") -> list:
     """All markets on `date_iso` whose tokens identify BOTH teams — i.e. head-to-head
     markets for this game (a game can have several market types). Returned [(slug,
-    outcome)] best-first by token specificity. Empty if either side fails to match."""
+    outcome)] best-first by token specificity. Date matches within ±1 day (ESPN dates are
+    UTC, PM slugs are ET — late games shift a day, same gotcha as settlement). Empty if
+    either side fails to match."""
     hits = []
     for slug, toks, d, outcome in idx:
-        if date_iso and d and d != date_iso:
+        if date_iso and d and not _date_near(d, date_iso):
             continue
         if _team_matches(home, home_abbr, toks) and _team_matches(away, away_abbr, toks):
             hits.append((len(toks), slug, outcome))
     hits.sort()                               # fewer tokens = more specific game market
     return [(slug, outcome) for _, slug, outcome in hits]
+
+
+def _date_near(d1: str, d2: str, days: int = 1) -> bool:
+    """True if two YYYY-MM-DD strings are within `days` of each other (TZ tolerance)."""
+    from datetime import date
+    try:
+        a, b = date.fromisoformat(d1[:10]), date.fromisoformat(d2[:10])
+        return abs((a - b).days) <= days
+    except Exception:
+        return d1[:10] == d2[:10]
 
 
 def find_market_slug(idx, home: str, away: str, date_iso: str,
@@ -122,12 +134,23 @@ def attach_market_odds(client, fixtures: list[dict], log, max_pages: int = 40) -
         log(f"odds: catalog fetch error: {e}")
         return {}
     idx = build_index(mks)
-    out, matched, samples = {}, 0, []
+    out, matched, samples, misses = {}, 0, [], []
     for fx in fixtures:
         date = (fx.get("date") or "")[:10]
         hits = find_market_slugs(idx, fx.get("home_raw", ""), fx.get("away_raw", ""),
                                  date, fx.get("home_abbr", ""), fx.get("away_abbr", ""))
         if not hits:
+            # DIAG: for the first few misses, show the fixture + catalog slugs on date±1
+            # that share EITHER team token — reveals the real per-game slug format (or
+            # that PM lists no single-game market for this sport).
+            if len(misses) < 4:
+                ht = team_tokens(fx.get("home_raw", ""), fx.get("home_abbr", ""))
+                at = team_tokens(fx.get("away_raw", ""), fx.get("away_abbr", ""))
+                near = [s for s, toks, d, _ in idx
+                        if d and _date_near(d, date) and (toks & ht or toks & at)][:6]
+                misses.append(f'MISS {fx.get("away_abbr") or fx.get("away_raw")}@'
+                              f'{fx.get("home_abbr") or fx.get("home_raw")} {date}: '
+                              f'near-date team-token slugs={near}')
             continue
         slug, outcome = hits[0]
         try:
@@ -146,5 +169,7 @@ def attach_market_odds(client, fixtures: list[dict], log, max_pages: int = 40) -
                            f'[{len(hits)} mkts]')
     log(f"odds: matched {matched}/{len(fixtures)} fixtures to PM markets")
     for s in samples:
+        log(f"  odds: {s}")
+    for s in misses:
         log(f"  odds: {s}")
     return out
