@@ -9,6 +9,7 @@ worker by team-token + date overlap, read the book, and LOG match rate + the mat
 market's outcome label so the PM moneyline structure can be confirmed from logs before
 edge is computed. Pure helpers + a network attach pass (runs on the worker).
 """
+import json
 import re
 from collections import Counter
 
@@ -144,30 +145,23 @@ def _side_of(outcome: str, home: str, away: str) -> str:
     return "home" if hs > as_ else "away" if as_ > hs else ""
 
 
-def _last_team_pos(parts: list, name: str, abbr: str) -> int:
-    """Index of the LAST slug segment that identifies this team (-1 if none)."""
-    cands = team_tokens(name, abbr)
-    words = [w for w in norm_tokens(name) if len(w) >= 3]
-    pos = -1
-    for i, p in enumerate(parts):
-        if len(p) < 2 or p.isdigit():
-            continue
-        if p in cands or (len(p) >= 3 and any(w.startswith(p) or p.startswith(w) for w in words)):
-            pos = i
-    return pos
-
-
-def yes_side_from_slug(slug: str, home: str, home_abbr: str,
-                       away: str, away_abbr: str) -> str:
-    """Map a game market's YES side to 'home'/'away' by slug POSITION. PM game slugs are
-    `<teamA>-<teamB>` and YES is the later team token (confirmed on the cricket market
-    `aec-mlc-lakr-soe` -> YES 'Seattle Orcas', the 2nd token). '' if undeterminable."""
-    parts = slug.lower().split("-")
-    hp = _last_team_pos(parts, home, home_abbr)
-    ap = _last_team_pos(parts, away, away_abbr)
-    if hp < 0 or ap < 0 or hp == ap:
-        return ""
-    return "home" if hp > ap else "away"
+def _outcome_prices(market: dict, home: str, away: str):
+    """(home_price, away_price) market-implied probs from a game market's parallel
+    `outcomes` (team names) / `outcomePrices` arrays. Each outcome names ONE team, so
+    _side_of maps it cleanly. None where a side can't be mapped/parsed."""
+    try:
+        outs = json.loads(market.get("outcomes") or "[]")
+        prs = [float(x) for x in json.loads(market.get("outcomePrices") or "[]")]
+    except Exception:
+        return None, None
+    hp = ap = None
+    for nm, pr in zip(outs, prs):
+        s = _side_of(str(nm), home, away)
+        if s == "home":
+            hp = pr
+        elif s == "away":
+            ap = pr
+    return hp, ap
 
 
 def attach_market_odds(client, fixtures: list[dict], log, max_pages: int = 150) -> dict:
@@ -203,32 +197,21 @@ def attach_market_odds(client, fixtures: list[dict], log, max_pages: int = 150) 
                               f'{fx.get("home_abbr") or fx.get("home_raw")} {date}: '
                               f'near-date team-token slugs={near}')
             continue
-        slug, label = hits[0]
-        # ONE-TIME authoritative probe: dump the matched market's keys + outcome-ish fields
-        # so the YES side can be confirmed against the positional rule from the next log.
+        slug = hits[0][0]
+        m = by_slug.get(slug, {})
         if not probed:
-            m = by_slug.get(slug, {})
-            fields = {k: m.get(k) for k in
-                      ("outcome", "outcomes", "tokens", "groupItemTitle", "title")
-                      if k in m}
-            log(f"  odds PROBE {slug}: keys={sorted(m.keys())[:25]} fields={fields}")
+            log(f"  odds PROBE {slug}: outcomes={m.get('outcomes')} "
+                f"prices={m.get('outcomePrices')}")
             probed = True
-        try:
-            bids, offers = client.get_book(slug)
-        except Exception:
-            bids, offers = [], []
-        bid = bids[0][0] if bids else None
-        ask = offers[0][0] if offers else None
-        # YES side from slug position (the title names both teams, so it can't say which
-        # side YES is); fall back to a genuine single-team label if positional is ambiguous.
-        yes_side = yes_side_from_slug(slug, fx.get("home_raw", ""), fx.get("home_abbr", ""),
-                                      fx.get("away_raw", ""), fx.get("away_abbr", ""))
-        out[str(fx["id"])] = {"slug": slug, "bid": bid, "ask": ask,
-                              "yes_side": yes_side, "alts": len(hits)}
+        # game markets carry parallel outcomes/outcomePrices arrays (each outcome is ONE
+        # team) — map each to home/away directly; no YES-side guessing or book read needed.
+        home_p, away_p = _outcome_prices(m, fx.get("home_raw", ""), fx.get("away_raw", ""))
+        out[str(fx["id"])] = {"slug": slug, "home_price": home_p, "away_price": away_p,
+                              "alts": len(hits)}
         matched += 1
         if len(samples) < 8:
-            samples.append(f'{fx.get("away_raw")}@{fx.get("home_raw")} {date} -> '
-                           f'{slug} yes={yes_side or "?"} b{bid}/a{ask} [{len(hits)} mkts]')
+            samples.append(f'{fx.get("away_raw")}@{fx.get("home_raw")} {date} -> {slug} '
+                           f'home={home_p} away={away_p} [{len(hits)} mkts]')
     log(f"odds: matched {matched}/{len(fixtures)} fixtures to PM markets")
     for s in samples:
         log(f"  odds: {s}")

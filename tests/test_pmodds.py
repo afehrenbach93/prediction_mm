@@ -88,23 +88,16 @@ class TestPmodds(unittest.TestCase):
         # most specific (fewest tokens) first
         self.assertEqual(hits[0][0], "tec-mlb-bos-nyy-2026-06-28")
 
-    def test_yes_side_from_slug_positional(self):
-        # YES = later team token. pit(away)@phi(home) -> phi is 2nd -> home
-        self.assertEqual(
-            pmodds.yes_side_from_slug("aec-mlb-pit-phi-2026-06-29",
-                                      "Philadelphia Phillies", "PHI",
-                                      "Pittsburgh Pirates", "PIT"), "home")
-        # cws(away)@bal(home) via alias -> bal is 2nd -> home
-        self.assertEqual(
-            pmodds.yes_side_from_slug("aec-mlb-cws-bal-2026-06-29",
-                                      "Baltimore Orioles", "BAL",
-                                      "Chicago White Sox", "CHW"), "home")
+    def test_outcome_prices_maps_each_side(self):
+        # game markets carry parallel outcomes/outcomePrices arrays (one team each)
+        m = {"outcomes": '["Chicago White Sox","Baltimore Orioles"]',
+             "outcomePrices": '["0.45","0.55"]'}
+        hp, ap = pmodds._outcome_prices(m, "Baltimore Orioles", "Chicago White Sox")
+        self.assertEqual(hp, 0.55)   # home = Baltimore
+        self.assertEqual(ap, 0.45)   # away = White Sox
 
-    def test_yes_side_from_slug_away_second(self):
-        # away token appears later -> away is YES
-        self.assertEqual(
-            pmodds.yes_side_from_slug("aec-mlc-home-away-2026-06-29",
-                                      "Home Town", "HOME", "Away City", "AWAY"), "away")
+    def test_outcome_prices_bad_data(self):
+        self.assertEqual(pmodds._outcome_prices({}, "A", "B"), (None, None))
 
     def test_side_of_maps_outcome_to_team(self):
         self.assertEqual(pmodds._side_of("New York Yankees", "Boston Red Sox",
