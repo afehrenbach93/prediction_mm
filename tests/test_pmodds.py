@@ -10,31 +10,69 @@ class TestPmodds(unittest.TestCase):
         self.assertEqual(pmodds.norm_tokens("Boston Celtics"), {"boston", "celtics"})
         self.assertEqual(pmodds.norm_tokens(None), set())
 
-    def test_build_index_extracts_date_and_tokens(self):
-        idx = pmodds.build_index([{"slug": "aec-mlb-bos-nyy-2026-06-28"}, {"slug": ""}])
+    def test_team_tokens_includes_abbr(self):
+        toks = pmodds.team_tokens("New York Yankees", "NYY")
+        self.assertIn("nyy", toks)
+        self.assertIn("yankees", toks)
+
+    def test_build_index_extracts_date_tokens_outcome(self):
+        idx = pmodds.build_index([
+            {"slug": "aec-mlb-bos-nyy-2026-06-28", "outcome": "New York Yankees"},
+            {"slug": ""},
+        ])
         self.assertEqual(len(idx), 1)
-        slug, toks, date = idx[0]
+        slug, toks, date, outcome = idx[0]
         self.assertEqual(date, "2026-06-28")
         self.assertIn("bos", toks)
-        self.assertIn("mlb", toks)
+        self.assertEqual(outcome, "New York Yankees")
 
-    def test_find_market_slug_matches_on_tokens_and_date(self):
+    def test_find_market_slug_matches_on_name_tokens(self):
         idx = pmodds.build_index([
             {"slug": "aec-nba-boston-miami-2026-06-28"},
             {"slug": "aec-nba-la-sf-2026-06-28"},
         ])
-        # both team names share a token with the slug -> score 2 -> match
         hit = pmodds.find_market_slug(idx, "Boston Celtics", "Miami Heat", "2026-06-28")
         self.assertEqual(hit, "aec-nba-boston-miami-2026-06-28")
 
+    def test_find_market_slug_matches_on_abbrev(self):
+        # PM uses short codes; matching must work off ESPN abbreviations too.
+        idx = pmodds.build_index([{"slug": "tec-mlb-bos-nyy-2026-06-28"}])
+        hit = pmodds.find_market_slug(idx, "Boston Red Sox", "New York Yankees",
+                                      "2026-06-28", home_abbr="BOS", away_abbr="NYY")
+        self.assertEqual(hit, "tec-mlb-bos-nyy-2026-06-28")
+
+    def test_find_market_slug_requires_both_teams(self):
+        # only the away team is present -> not a head-to-head match for this game
+        idx = pmodds.build_index([{"slug": "tec-mlb-nyy-champ-2026-06-28"}])
+        self.assertIsNone(pmodds.find_market_slug(
+            idx, "Boston Red Sox", "New York Yankees", "2026-06-28",
+            home_abbr="BOS", away_abbr="NYY"))
+
     def test_find_market_slug_date_filter(self):
         idx = pmodds.build_index([{"slug": "aec-mlb-boston-newyork-2026-06-27"}])
-        # right teams, wrong date -> no match
         self.assertIsNone(pmodds.find_market_slug(idx, "Boston", "New York", "2026-06-28"))
 
     def test_find_market_slug_below_threshold(self):
         idx = pmodds.build_index([{"slug": "aec-mlb-xx-yy-2026-06-28"}])
         self.assertIsNone(pmodds.find_market_slug(idx, "Boston", "New York", "2026-06-28"))
+
+    def test_find_market_slugs_returns_all_sorted(self):
+        idx = pmodds.build_index([
+            {"slug": "tec-mlb-bos-nyy-2026-06-28-spread-extra"},
+            {"slug": "tec-mlb-bos-nyy-2026-06-28"},
+        ])
+        hits = pmodds.find_market_slugs(idx, "Boston Red Sox", "New York Yankees",
+                                        "2026-06-28", "BOS", "NYY")
+        self.assertEqual(len(hits), 2)
+        # most specific (fewest tokens) first
+        self.assertEqual(hits[0][0], "tec-mlb-bos-nyy-2026-06-28")
+
+    def test_side_of_maps_outcome_to_team(self):
+        self.assertEqual(pmodds._side_of("New York Yankees", "Boston Red Sox",
+                                         "New York Yankees"), "away")
+        self.assertEqual(pmodds._side_of("Boston Red Sox", "Boston Red Sox",
+                                         "New York Yankees"), "home")
+        self.assertEqual(pmodds._side_of("", "Boston", "New York"), "")
 
 
 if __name__ == "__main__":

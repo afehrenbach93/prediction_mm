@@ -34,6 +34,13 @@ def _competitor_name(c: dict) -> str:
     return ath.get("displayName") or ath.get("shortName") or ""
 
 
+def _competitor_abbr(c: dict) -> str:
+    """ESPN's short team code (e.g. 'NYY', 'BOS', 'LAL') — the token PM's abbreviated
+    game slugs tend to use. Empty for athletes (tennis) where there's no code."""
+    team = c.get("team") or {}
+    return (team.get("abbreviation") or "").lower()
+
+
 def parse_scoreboard(raw: dict) -> list[dict]:
     """Pure: ESPN scoreboard JSON -> list of match dicts. Each:
     {id, date, state(pre|in|post), completed, neutral, home, away, home_score,
@@ -82,6 +89,7 @@ def parse_scoreboard(raw: dict) -> list[dict]:
                 "neutral": bool(comp.get("neutralSite", False)),
                 "home": normalize_name(hr), "away": normalize_name(ar),
                 "home_raw": hr, "away_raw": ar,
+                "home_abbr": _competitor_abbr(home), "away_abbr": _competitor_abbr(away),
                 "home_score": _score(home), "away_score": _score(away),
                 "winner": winner,
             })
