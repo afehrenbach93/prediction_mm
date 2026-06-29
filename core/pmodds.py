@@ -124,16 +124,20 @@ def _side_of(outcome: str, home: str, away: str) -> str:
     return "home" if hs > as_ else "away" if as_ > hs else ""
 
 
-def attach_market_odds(client, fixtures: list[dict], log, max_pages: int = 40) -> dict:
+def attach_market_odds(client, fixtures: list[dict], log, max_pages: int = 150) -> dict:
     """For each upcoming fixture, find its PM market by team+date and read top-of-book.
     Returns {espn_id: {slug, bid, ask, yes_side, alts}}. yes_side maps the price to
-    'home'/'away' via the market's outcome label. Read-only; logs match rate + samples."""
+    'home'/'away' via the market's outcome label. Read-only; logs match rate + samples.
+    max_pages must cover the whole active catalog — per-game markets are created day-of
+    and sort late, so a small cap silently truncates them (first read missed today's games
+    at the 4000-market/40-page cap)."""
     try:
         mks = client.get_markets(max_pages=max_pages)
     except Exception as e:
         log(f"odds: catalog fetch error: {e}")
         return {}
     idx = build_index(mks)
+    log(f"odds: catalog {len(idx)} markets (max_pages={max_pages})")
     out, matched, samples, misses = {}, 0, [], []
     for fx in fixtures:
         date = (fx.get("date") or "")[:10]
