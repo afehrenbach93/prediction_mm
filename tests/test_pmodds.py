@@ -99,6 +99,19 @@ class TestPmodds(unittest.TestCase):
     def test_outcome_prices_bad_data(self):
         self.assertEqual(pmodds._outcome_prices({}, "A", "B"), (None, None))
 
+    def test_soccer_outcome_prices_three_way(self):
+        m = {"outcomes": '["United States","Draw","Mexico"]',
+             "outcomePrices": '["0.50","0.28","0.27"]'}
+        pr = pmodds.soccer_outcome_prices(m, "United States", "Mexico")
+        self.assertEqual(pr.get("home"), 0.50)
+        self.assertEqual(pr.get("draw"), 0.28)
+        self.assertEqual(pr.get("away"), 0.27)
+
+    def test_soccer_side_detects_draw(self):
+        self.assertEqual(pmodds._soccer_side("Draw", "A", "B"), "draw")
+        self.assertEqual(pmodds._soccer_side("Tie", "A", "B"), "draw")
+        self.assertEqual(pmodds._soccer_side("Brazil", "Brazil", "Spain"), "home")
+
     def test_side_of_maps_outcome_to_team(self):
         self.assertEqual(pmodds._side_of("New York Yankees", "Boston Red Sox",
                                          "New York Yankees"), "away")
