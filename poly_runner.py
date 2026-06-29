@@ -361,10 +361,15 @@ class RewardMarketCache:
         by_slug: dict[str, list] = {}
         for tp in self.c.get_incentives():
             by_slug.setdefault(tp["marketSlug"], []).append(tp)
-        # DIAG: what reward markets exist BEFORE the WC allow-filter — distinguishes
+        # DIAG: what reward markets exist BEFORE the allow-filter — distinguishes
         # "no WC rewards right now" from "filter too narrow / slug schema changed".
-        sample = [(s, [tp.get("programId") for tp in tps][:1]) for s, tps in list(by_slug.items())[:8]]
-        log(f"reward markets pre-filter: {len(by_slug)} | allow={sorted(ALLOW_TOKENS)} | sample={sample}")
+        from collections import Counter as _C
+        pref = _C("-".join(s.split("-")[:2]) for s in by_slug)
+        progs = _C(str(tp.get("programId")) for tps in by_slug.values() for tp in tps)
+        wc = [s for s in by_slug if any(k in s for k in ("fwc", "fifa", "-wc-", "worldcup", "soccer"))]
+        log(f"reward markets pre-filter: {len(by_slug)} | allow={sorted(ALLOW_TOKENS)} | "
+            f"prefixes={pref.most_common(12)} | programs={progs.most_common(8)} | "
+            f"wc_markets={wc[:10]}")
         out = {}
         for slug, tps in by_slug.items():
             if slug in DENY_SLUGS:        # never quote denied/held-legacy markets
