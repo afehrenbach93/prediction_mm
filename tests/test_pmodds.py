@@ -88,6 +88,24 @@ class TestPmodds(unittest.TestCase):
         # most specific (fewest tokens) first
         self.assertEqual(hits[0][0], "tec-mlb-bos-nyy-2026-06-28")
 
+    def test_yes_side_from_slug_positional(self):
+        # YES = later team token. pit(away)@phi(home) -> phi is 2nd -> home
+        self.assertEqual(
+            pmodds.yes_side_from_slug("aec-mlb-pit-phi-2026-06-29",
+                                      "Philadelphia Phillies", "PHI",
+                                      "Pittsburgh Pirates", "PIT"), "home")
+        # cws(away)@bal(home) via alias -> bal is 2nd -> home
+        self.assertEqual(
+            pmodds.yes_side_from_slug("aec-mlb-cws-bal-2026-06-29",
+                                      "Baltimore Orioles", "BAL",
+                                      "Chicago White Sox", "CHW"), "home")
+
+    def test_yes_side_from_slug_away_second(self):
+        # away token appears later -> away is YES
+        self.assertEqual(
+            pmodds.yes_side_from_slug("aec-mlc-home-away-2026-06-29",
+                                      "Home Town", "HOME", "Away City", "AWAY"), "away")
+
     def test_side_of_maps_outcome_to_team(self):
         self.assertEqual(pmodds._side_of("New York Yankees", "Boston Red Sox",
                                          "New York Yankees"), "away")
