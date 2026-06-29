@@ -55,8 +55,9 @@ def parse_scoreboard(raw: dict) -> list[dict]:
             except (TypeError, ValueError):
                 return None
 
-        hr = (home.get("team") or {}).get("displayName", "")
-        ar = (away.get("team") or {}).get("displayName", "")
+        ht, at = home.get("team") or {}, away.get("team") or {}
+        hr = ht.get("displayName", "")
+        ar = at.get("displayName", "")
         out.append({
             "id": str(ev.get("id", "")),
             "date": ev.get("date", ""),
@@ -64,6 +65,8 @@ def parse_scoreboard(raw: dict) -> list[dict]:
             "completed": bool(status.get("completed", False)),
             "home": normalize_team(hr), "away": normalize_team(ar),
             "home_raw": hr, "away_raw": ar,
+            "home_abbr": (ht.get("abbreviation") or "").lower(),
+            "away_abbr": (at.get("abbreviation") or "").lower(),
             "home_score": _score(home), "away_score": _score(away),
         })
     return out

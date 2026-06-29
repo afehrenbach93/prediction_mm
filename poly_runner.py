@@ -142,7 +142,7 @@ def wx_pass(client, recorded_days: set):
             recorded_days.add(today_iso)
 
 
-def soccer_pass(recorded_days: set):
+def soccer_pass(client, recorded_days: set):
     """One soccer pass: seed Elo from recent results, predict upcoming fixtures,
     record 1X2 probabilities once per UTC day. Read-only. wxedge analogue for soccer."""
     from core import soccerfeed as sf, track
@@ -155,7 +155,9 @@ def soccer_pass(recorded_days: set):
     today_iso = today.isoformat()
     window = f"{(today - timedelta(days=seed_days)):%Y%m%d}-{today:%Y%m%d}"
     fut = f"{today:%Y%m%d}-{(today + timedelta(days=ahead_days)):%Y%m%d}"
+    from core import pmodds
     payload = []
+    all_fixtures = []
     for lg in leagues:
         model = sc.EloTable()
         results = sf.recent_results(lg, window)
@@ -163,6 +165,7 @@ def soccer_pass(recorded_days: set):
             model.observe(m["home"], m["away"], m["home_score"], m["away_score"])
         fixtures = sf.upcoming_fixtures(lg, fut)
         log(f"  {lg}: seeded {len(results)} results, {len(fixtures)} upcoming fixtures")
+        all_fixtures += fixtures
         for fx in fixtures:
             ph, pd, pa = model.probabilities(fx["home"], fx["away"])
             sdate = (fx["date"] or "")[:10] or today_iso
@@ -178,6 +181,18 @@ def soccer_pass(recorded_days: set):
                              "r_away": round(model.rating(fx["away"]), 1),
                              "kickoff": fx["date"], "run_date": today_iso},
                 })
+    # attach live PM 1X2 market odds per outcome (home/draw/away) -> model-vs-market edge
+    odds = pmodds.attach_soccer_odds(client, all_fixtures, log)
+    for row in payload:
+        o = odds.get(str(row["meta"].get("espn_id", "")))
+        if not o:
+            continue
+        implied = o.get(f"{row['outcome']}_price")
+        row["market_ask"] = implied
+        row["liquid"] = implied is not None
+        if implied is not None and row.get("model_prob") is not None:
+            row["edge"] = round(row["model_prob"] - implied, 4)
+        row["meta"].update(pm_slug=o["slug"], pm_alts=o["alts"])
     if payload and today_iso not in recorded_days:
         st, note = track.record_predictions(payload)
         log(f"tracker: recorded {len(payload)} soccer predictions -> http={st} {note}")
@@ -725,7 +740,7 @@ def main():
         log("START mode=SOCCER (Elo predict, read-only, records to tracker)")
         while True:
             try:
-                soccer_pass(recorded)
+                soccer_pass(client, recorded)
             except Exception as e:
                 log(f"soccer error: {e}")
             time.sleep(3600)
@@ -814,7 +829,7 @@ def main():
                 last_wx = now
             if now - last_soc >= SOC_EVERY:
                 try:
-                    soccer_pass(soc_rec)
+                    soccer_pass(client, soc_rec)
                 except Exception as e:
                     log(f"track/soccer error: {e}")
                 last_soc = now

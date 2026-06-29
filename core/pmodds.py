@@ -164,6 +164,76 @@ def _outcome_prices(market: dict, home: str, away: str):
     return hp, ap
 
 
+def _soccer_side(name: str, home: str, away: str) -> str:
+    """Map a soccer 1X2 outcome to 'home'/'draw'/'away'/''. Draw labels ('Draw'/'Tie'/'X')
+    name no team; otherwise fall back to team-name overlap."""
+    n = (name or "").strip().lower()
+    if "draw" in n or "tie" in n or n == "x":
+        return "draw"
+    return _side_of(name, home, away)
+
+
+def soccer_outcome_prices(market: dict, home: str, away: str) -> dict:
+    """{'home'/'draw'/'away': price} from a soccer market's parallel outcomes/outcomePrices
+    arrays (1X2 three-way, or a 2-way 'to advance'). {} if unparseable."""
+    try:
+        outs = json.loads(market.get("outcomes") or "[]")
+        prs = [float(x) for x in json.loads(market.get("outcomePrices") or "[]")]
+    except Exception:
+        return {}
+    res = {}
+    for nm, pr in zip(outs, prs):
+        s = _soccer_side(str(nm), home, away)
+        if s:
+            res[s] = pr
+    return res
+
+
+def attach_soccer_odds(client, fixtures: list[dict], log, max_pages: int = 150) -> dict:
+    """Like attach_market_odds but 3-way: returns {espn_id: {slug, home_price, draw_price,
+    away_price, alts}}. Reads the catalog once, matches each fixture by team+date, pulls the
+    market's outcomes/outcomePrices. Read-only; logs match-rate + a structure PROBE."""
+    try:
+        mks = client.get_markets(max_pages=max_pages)
+    except Exception as e:
+        log(f"soccer odds: catalog fetch error: {e}")
+        return {}
+    idx = build_index(mks)
+    by_slug = {m.get("slug", ""): m for m in mks}
+    log(f"soccer odds: catalog {len(idx)} markets")
+    out, matched, samples, misses, probed = {}, 0, [], [], False
+    for fx in fixtures:
+        date = (fx.get("date") or "")[:10]
+        hits = find_market_slugs(idx, fx.get("home_raw", ""), fx.get("away_raw", ""),
+                                 date, fx.get("home_abbr", ""), fx.get("away_abbr", ""))
+        if not hits:
+            if len(misses) < 4:
+                ht = team_tokens(fx.get("home_raw", ""), fx.get("home_abbr", ""))
+                at = team_tokens(fx.get("away_raw", ""), fx.get("away_abbr", ""))
+                near = [s for s, toks, d, _ in idx
+                        if d and _date_near(d, date) and (toks & ht or toks & at)][:6]
+                misses.append(f'MISS {fx.get("home_raw")} v {fx.get("away_raw")} {date}: {near}')
+            continue
+        slug = hits[0][0]
+        m = by_slug.get(slug, {})
+        if not probed:
+            log(f"  soccer odds PROBE {slug}: outcomes={m.get('outcomes')} "
+                f"prices={m.get('outcomePrices')}")
+            probed = True
+        pr = soccer_outcome_prices(m, fx.get("home_raw", ""), fx.get("away_raw", ""))
+        out[str(fx["id"])] = {"slug": slug, "alts": len(hits),
+                              "home_price": pr.get("home"), "draw_price": pr.get("draw"),
+                              "away_price": pr.get("away")}
+        matched += 1
+        if len(samples) < 8:
+            samples.append(f'{fx.get("home_raw")} v {fx.get("away_raw")} {date} -> {slug} '
+                           f'H{pr.get("home")}/D{pr.get("draw")}/A{pr.get("away")}')
+    log(f"soccer odds: matched {matched}/{len(fixtures)} fixtures")
+    for s in samples + misses:
+        log(f"  soccer odds: {s}")
+    return out
+
+
 def attach_market_odds(client, fixtures: list[dict], log, max_pages: int = 150) -> dict:
     """For each upcoming fixture, find its PM market by team+date and read top-of-book.
     Returns {espn_id: {slug, bid, ask, yes_side, alts}}. yes_side maps the price to
