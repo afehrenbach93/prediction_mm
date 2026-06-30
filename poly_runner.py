@@ -86,7 +86,7 @@ def wx_pass(client, recorded_days: set):
         if p:
             temps.append((m.get("slug", ""), p))
     log(f"tc-temp markets live: {len(temps)}")
-    fc, rows = {}, []
+    fc, rows, taker_buckets = {}, [], []
     for slug, p in temps:
         key = (p["station"], p["date"])
         if key not in fc:
@@ -105,6 +105,7 @@ def wx_pass(client, recorded_days: set):
         prob = wx.bucket_probability(high, sigma, p["lo"], p["hi"])
         bids, offers = client.get_book(slug)
         bid = bids[0][0] if bids else None
+        bid_qty = bids[0][1] if bids else 0
         ask = offers[0][0] if offers else None
         spread = (ask - bid) if (bid is not None and ask is not None) else None
         fee = wx.taker_fee(ask) if ask else 0.0
@@ -112,6 +113,9 @@ def wx_pass(client, recorded_days: set):
         liquid = spread is not None and spread <= LIQ_SPREAD
         rows.append((edge if edge is not None else -9.0, slug, p,
                      high, sigma, prob, bid, ask, spread, liquid, d_out))
+        # share the (slug, prob, bid, bid_qty) with the live taker so it doesn't re-read
+        # all ~60 books in the same cycle (that duplicate read was tripping the rate limit).
+        taker_buckets.append({"slug": slug, "prob": prob, "bid": bid, "bid_qty": bid_qty})
     rows.sort(reverse=True)
     liq = [r for r in rows if r[9] and r[0] >= 0.05]
     log(f"=== WEATHER EDGES — {len(rows)} buckets; "
@@ -143,6 +147,7 @@ def wx_pass(client, recorded_days: set):
         log(f"tracker: recorded {len(payload)} weather predictions -> http={st} {note}")
         if st in (200, 201):
             recorded_days.add(today_iso)
+    return taker_buckets
 
 
 def _wx_buckets(client):
@@ -178,7 +183,7 @@ def _wx_buckets(client):
     return out
 
 
-def wx_taker_cycle(live_client, budget, state, log):
+def wx_taker_cycle(live_client, budget, state, log, buckets=None):
     """LIVE bounded weather sell-taker. Sells (SELL_SHORT @ YES bid, taker) the overpriced
     buckets, held to settlement, capped by `budget` collateral. Probe-first: until a
     confirmed short exists, place only ONE tiny order and verify direction via position
@@ -237,7 +242,10 @@ def wx_taker_cycle(live_client, budget, state, log):
             return "halt: never rested"
     else:
         state["probe_fails"] = 0
-    buckets = _wx_buckets(live_client)
+    # reuse the books wx_pass just read this cycle (avoid the duplicate ~60-book read that
+    # tripped the rate limit); fall back to a fresh read only if not provided.
+    if not buckets:
+        buckets = _wx_buckets(live_client)
     # skip buckets we already hold so we diversify onto fresh overpriced buckets
     cands = [c for c in wxtaker.sell_candidates(buckets, margin=0.10) if c["slug"] not in tc]
     orders = wxtaker.allocate(cands, budget=budget, used=used,
@@ -1001,14 +1009,17 @@ def main():
                     last_pnl = now
             # tracker passes ALWAYS run (record models + settle) — live or not
             if now - last_wx >= WX_EVERY:
+                wx_buckets = []
                 try:
-                    wx_pass(client, wx_rec)
+                    wx_buckets = wx_pass(client, wx_rec) or []
                 except Exception as e:
                     log(f"track/wx error: {e}")
                 # LIVE weather sell-taker: real orders only when WX_TAKER=live AND armed.
+                # reuse wx_pass's freshly-read books (no duplicate ~60-book read).
                 if WX_TAKER == "live" and LIVE_ARMED and not wx_state.get("tripped"):
                     try:
-                        wx_status = wx_taker_cycle(live_client, WX_BUDGET, wx_state, log)
+                        wx_status = wx_taker_cycle(live_client, WX_BUDGET, wx_state, log,
+                                                   buckets=wx_buckets)
                     except Exception as e:
                         log(f"wx-taker error: {e}")
                 last_wx = now
