@@ -220,38 +220,43 @@ def wx_taker_cycle(live_client, budget, state, log):
         state["tripped"] = True
         log(f"WX-TAKER HALT: collateral ${used:.0f} > 1.25x budget ${budget} — standing aside")
         return f"halt: over-exposed ${used:.0f}"
-    # already working (a short OR a resting offer)? hold — don't pile up more orders.
-    if have_short or open_tc:
+    # while resting offers are still pending, wait (don't double-place / pile up).
+    if open_tc:
         state["probe_fails"] = 0
-        log(f"wx-taker: holding — {len(tc)} positions, {len(open_tc)} resting offers, "
-            f"${used:.0f}/{budget} collat")
-        return f"holding {len(tc)}pos/{len(open_tc)}resting"
-    # nothing working: count this as a probe attempt; halt if the order never rests.
-    state["probe_fails"] = state.get("probe_fails", 0) + 1
-    if state["probe_fails"] > 3:
-        state["tripped"] = True
-        log("WX-TAKER HALT: order never rested after 3 tries — order path not working, "
-            "standing aside (investigate intent/price semantics)")
-        return "halt: never rested"
+        log(f"wx-taker: {len(open_tc)} resting offers pending, {len(tc)} positions, "
+            f"${used:.0f}/{budget} — waiting for fills")
+        return f"resting {len(open_tc)}, {len(tc)}pos"
+    # PROBE until the first short confirms direction; then SCALE across fresh overpriced
+    # buckets up to the budget (diversified live test at the authorized size).
+    probe = not have_short
+    if probe:
+        state["probe_fails"] = state.get("probe_fails", 0) + 1
+        if state["probe_fails"] > 3:
+            state["tripped"] = True
+            log("WX-TAKER HALT: order never rested after 3 tries — standing aside")
+            return "halt: never rested"
+    else:
+        state["probe_fails"] = 0
     buckets = _wx_buckets(live_client)
-    # skip buckets we already hold (e.g. the pre-existing Miami long) so the test runs clean
+    # skip buckets we already hold so we diversify onto fresh overpriced buckets
     cands = [c for c in wxtaker.sell_candidates(buckets, margin=0.10) if c["slug"] not in tc]
-    orders = wxtaker.allocate(cands, budget=budget, used=used, probe=True)  # 1 small offer
+    orders = wxtaker.allocate(cands, budget=budget, used=used,
+                              per_bucket=int(os.getenv("WX_PER_BUCKET", "10")), probe=probe)
     if not orders:
-        log(f"wx-taker: {len(cands)} overpriced buckets but none fit budget — idle")
-        return "idle: no fit"
-    o = orders[0]
-    # SELL_SHORT@0.46 empirically BOUGHT (lifted the offer -> went LONG). So on this venue
-    # the short-opening intent is BUY_SHORT. Same fill mechanics (price near the touch);
-    # the wrong-direction guard verifies the resulting position is actually SHORT.
-    price = round(o["sell_price"] + 0.01, 2)
-    st, resp = live_client.place_order(o["slug"], "ORDER_INTENT_BUY_SHORT",
-                                       price, o["qty"], post_only=True)
-    ours.add(o["slug"])                            # track for the scoped direction guard
-    log(f"  wx-taker BUY_SHORT(open short) {o['slug'][:34]} {o['qty']}@{price} "
-        f"(bid {o['sell_price']}, edge~{o['edge']:+.2f}) -> http={st} resp={str(resp)[:160]} "
-        f"[probe {state['probe_fails']}/3; direction verified on fill]")
-    return f"placed 1 BUY_SHORT @ {price}"
+        log(f"wx-taker: {len(cands)} overpriced buckets but none fit budget — idle "
+            f"(${used:.0f}/{budget} used)")
+        return f"idle: full (${used:.0f}/{budget})"
+    placed = 0
+    for o in orders:
+        # SELL_SHORT empirically opened a LONG on this venue, so BUY_SHORT opens the short.
+        price = round(o["sell_price"] + 0.01, 2)
+        st, resp = live_client.place_order(o["slug"], "ORDER_INTENT_BUY_SHORT",
+                                           price, o["qty"], post_only=True)
+        ours.add(o["slug"])                        # track for the scoped direction guard
+        placed += 1 if st == 200 else 0
+        log(f"  wx-taker BUY_SHORT {o['slug'][:34]} {o['qty']}@{price} "
+            f"(bid {o['sell_price']}, edge~{o['edge']:+.2f}) -> http={st} resp={str(resp)[:140]}")
+    return f"{'PROBE' if probe else 'scale'} placed {placed}/{len(orders)}, ${used:.0f}/{budget}"
 
 
 def wx_settle_check(client, log):
