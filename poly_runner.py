@@ -192,8 +192,17 @@ def wx_taker_cycle(live_client, budget, state, log):
                                   set(tc))
     if bad:
         state["tripped"] = True
-        log(f"WX-TAKER HALT: wrong-direction (LONG) positions {bad} — standing aside")
-        return f"halt: wrong-direction {bad}"
+        # surface raw qtyBought/qtySold so we can tell a GENUINE long (bought>sold) from a
+        # sign-convention false halt (sold>bought but net reported positive).
+        try:
+            _, dd = live_client.get_positions()
+            rawp = (dd or {}).get("positions", {}) if isinstance(dd, dict) else {}
+            detail = {s: {k: rawp.get(s, {}).get(k) for k in
+                          ("netPosition", "qtyBought", "qtySold", "avgPrice")} for s in bad}
+        except Exception:
+            detail = {}
+        log(f"WX-TAKER HALT: wrong-direction (LONG) {bad} raw={detail} — standing aside")
+        return f"halt: wrong-direction raw={detail}"
     have_short = any(v["net"] < 0 for v in tc.values())
     # read resting tc-temp offers up front (avoid piling up; count toward budget). if
     # rate-limited we're blind to existing orders -> place nothing (never risk a pile-up).
