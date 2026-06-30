@@ -186,10 +186,12 @@ def wx_taker_cycle(live_client, budget, state, log):
     from core import wxtaker
     pos = positions_net(live_client)
     tc = {s: v for s, v in pos.items() if s.startswith("tc-temp")}
-    # direction safety: every weather position must be SHORT (net<=0). a LONG = the sell
-    # path did the opposite of intent -> stop trading immediately.
+    ours = state.setdefault("our_slugs", set())   # only slugs WE traded this process
+    # direction safety: every short WE OPEN must be net<=0. a LONG = the order did the
+    # opposite of intent -> halt. (scope to OUR slugs so a pre-existing wrong-way position
+    # from a prior run doesn't block a fresh test on a different bucket.)
     bad = wxtaker.wrong_direction({s: {"netPosition": v["net"]} for s, v in tc.items()},
-                                  set(tc))
+                                  ours & set(tc))
     if bad:
         state["tripped"] = True
         # surface raw qtyBought/qtySold so we can tell a GENUINE long (bought>sold) from a
@@ -232,21 +234,24 @@ def wx_taker_cycle(live_client, budget, state, log):
             "standing aside (investigate intent/price semantics)")
         return "halt: never rested"
     buckets = _wx_buckets(live_client)
-    cands = wxtaker.sell_candidates(buckets, margin=0.10)
+    # skip buckets we already hold (e.g. the pre-existing Miami long) so the test runs clean
+    cands = [c for c in wxtaker.sell_candidates(buckets, margin=0.10) if c["slug"] not in tc]
     orders = wxtaker.allocate(cands, budget=budget, used=used, probe=True)  # 1 small offer
     if not orders:
         log(f"wx-taker: {len(cands)} overpriced buckets but none fit budget — idle")
         return "idle: no fit"
     o = orders[0]
-    # PROVEN path = resting MAKER offer (post_only) like the cricket farm's short side;
-    # rest 1 tick ABOVE the bid so it never locks/crosses (a crossing taker got killed).
+    # SELL_SHORT@0.46 empirically BOUGHT (lifted the offer -> went LONG). So on this venue
+    # the short-opening intent is BUY_SHORT. Same fill mechanics (price near the touch);
+    # the wrong-direction guard verifies the resulting position is actually SHORT.
     price = round(o["sell_price"] + 0.01, 2)
-    st, resp = live_client.place_order(o["slug"], "ORDER_INTENT_SELL_SHORT",
+    st, resp = live_client.place_order(o["slug"], "ORDER_INTENT_BUY_SHORT",
                                        price, o["qty"], post_only=True)
-    log(f"  wx-taker REST SELL_SHORT {o['slug'][:34]} {o['qty']}@{price} "
+    ours.add(o["slug"])                            # track for the scoped direction guard
+    log(f"  wx-taker BUY_SHORT(open short) {o['slug'][:34]} {o['qty']}@{price} "
         f"(bid {o['sell_price']}, edge~{o['edge']:+.2f}) -> http={st} resp={str(resp)[:160]} "
-        f"[probe {state['probe_fails']}/3; rest confirmed next cycle]")
-    return f"placed 1 resting @ {price}"
+        f"[probe {state['probe_fails']}/3; direction verified on fill]")
+    return f"placed 1 BUY_SHORT @ {price}"
 
 
 def wx_settle_check(client, log):
