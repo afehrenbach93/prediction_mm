@@ -52,6 +52,9 @@ ALLOW_TOKENS = {s.strip().lower() for s in
 LIVE_ARMED = os.getenv("POLY_LIVE_ARMED", "").strip().lower() in ("1", "true", "yes")
 META_REFRESH = 600          # refresh reward-market metadata every 10 min
 PARAMS = MakerParams(size=SIZE, max_inventory=MAX_INV)
+# LIVE weather sell-taker (the settlement-validated edge). off|live; needs LIVE_ARMED too.
+WX_TAKER = os.getenv("WX_TAKER", "off").strip().lower()
+WX_BUDGET = float(os.getenv("WX_BUDGET", "75"))
 
 
 LIQ_SPREAD = 0.06        # a weather bucket is "tradeable" only if its book is this tight
@@ -140,6 +143,86 @@ def wx_pass(client, recorded_days: set):
         log(f"tracker: recorded {len(payload)} weather predictions -> http={st} {note}")
         if st in (200, 201):
             recorded_days.add(today_iso)
+
+
+def _wx_buckets(client):
+    """Scan tc-temp markets -> [{slug, prob, bid, bid_qty}] (forecast prob + YES best bid).
+    Shared by the read-only edge scan and the live taker."""
+    from core import wxfeed
+    from lib import weather as wx
+    from datetime import date as _date
+    today = datetime.now(timezone.utc).date()
+    fc, out = {}, []
+    for m in client.get_markets(max_pages=300):
+        slug = m.get("slug", "")
+        p = wx.parse_temp_slug(slug)
+        if not p:
+            continue
+        key = (p["station"], p["date"])
+        if key not in fc:
+            ff = wxfeed.daily_high_forecast(p["station"], p["date"])
+            fc[key] = ff[0] if ff else None
+        high = fc[key]
+        if high is None:
+            continue
+        try:
+            d_out = max(0, (_date.fromisoformat(p["date"]) - today).days)
+        except Exception:
+            d_out = 0
+        sigma = min(8.0, 2.0 + 1.5 * d_out)
+        prob = wx.bucket_probability(high, sigma, p["lo"], p["hi"])
+        bids, _ = client.get_book(slug)
+        out.append({"slug": slug, "prob": prob,
+                    "bid": bids[0][0] if bids else None,
+                    "bid_qty": bids[0][1] if bids else 0})
+    return out
+
+
+def wx_taker_cycle(live_client, budget, state, log):
+    """LIVE bounded weather sell-taker. Sells (SELL_SHORT @ YES bid, taker) the overpriced
+    buckets, held to settlement, capped by `budget` collateral. Probe-first: until a
+    confirmed short exists, place only ONE tiny order and verify direction via position
+    readback. Halts on wrong-direction or over-exposure. Returns a short status string."""
+    from core import wxtaker
+    pos = positions_net(live_client)
+    tc = {s: v for s, v in pos.items() if s.startswith("tc-temp")}
+    # direction safety: every weather position must be SHORT (net<=0). a LONG = the sell
+    # path did the opposite of intent -> stop trading immediately.
+    bad = wxtaker.wrong_direction({s: {"netPosition": v["net"]} for s, v in tc.items()},
+                                  set(tc))
+    if bad:
+        state["tripped"] = True
+        log(f"WX-TAKER HALT: wrong-direction (LONG) positions {bad} — standing aside")
+        return f"halt: wrong-direction {bad}"
+    # conservative collateral used by existing shorts (~0.6/contract when entry unknown)
+    used = sum(abs(v["net"]) * (1.0 - (v["entry"] or 0.4)) for v in tc.values())
+    if used > budget * 1.25:
+        state["tripped"] = True
+        log(f"WX-TAKER HALT: collateral ${used:.0f} > 1.25x budget ${budget} — standing aside")
+        return f"halt: over-exposed ${used:.0f}"
+    have_short = any(v["net"] < 0 for v in tc.values())
+    buckets = _wx_buckets(live_client)
+    cands = wxtaker.sell_candidates(buckets, margin=0.10)
+    orders = wxtaker.allocate(cands, budget=budget, used=used,
+                              per_bucket=int(os.getenv("WX_PER_BUCKET", "10")),
+                              probe=not have_short)
+    log(f"wx-taker: {len(tc)} positions, ${used:.0f}/{budget} collat used, "
+        f"{len(cands)} overpriced buckets, placing {len(orders)} "
+        f"{'(PROBE)' if not have_short else ''}")
+    placed = 0
+    for o in orders:
+        st, resp = live_client.place_order(o["slug"], "ORDER_INTENT_SELL_SHORT",
+                                           o["sell_price"], o["qty"], post_only=False)
+        ok = st == 200 and not (isinstance(resp, dict) and resp.get("code"))
+        placed += 1 if ok else 0
+        log(f"  wx-taker SELL {o['slug'][:34]} {o['qty']}@{o['sell_price']} "
+            f"edge={o['edge']:+.2f} -> http={st} {'OK' if ok else str(resp)[:120]}")
+    # read back so the first real fills are visible immediately (probe verification)
+    if placed:
+        after = positions_net(live_client)
+        tca = {s: v["net"] for s, v in after.items() if s.startswith("tc-temp")}
+        log(f"  wx-taker positions after: {tca}")
+    return f"placed {placed}/{len(orders)}, collat ${used:.0f}"
 
 
 def wx_settle_check(client, log):
@@ -829,6 +912,8 @@ def main():
             live_client = PolyClient(api_key_id=api_key, secret_b64=secret, live=True)
         live_cache = RewardMarketCache(live_client)
         live_state = {"tripped": False}
+        wx_state = {"tripped": False}
+        wx_status = ""
         was_live = False
         log(f"START mode=TRACK (control-driven; live-arm="
             f"{'ON (real orders)' if LIVE_ARMED else 'off (shadow)'}, allow={sorted(ALLOW_TOKENS)})")
@@ -880,6 +965,12 @@ def main():
                     wx_pass(client, wx_rec)
                 except Exception as e:
                     log(f"track/wx error: {e}")
+                # LIVE weather sell-taker: real orders only when WX_TAKER=live AND armed.
+                if WX_TAKER == "live" and LIVE_ARMED and not wx_state.get("tripped"):
+                    try:
+                        wx_status = wx_taker_cycle(live_client, WX_BUDGET, wx_state, log)
+                    except Exception as e:
+                        log(f"wx-taker error: {e}")
                 last_wx = now
             if now - last_soc >= SOC_EVERY:
                 try:
