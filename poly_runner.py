@@ -201,6 +201,13 @@ def wx_taker_cycle(live_client, budget, state, log):
         log(f"WX-TAKER HALT: collateral ${used:.0f} > 1.25x budget ${budget} — standing aside")
         return f"halt: over-exposed ${used:.0f}"
     have_short = any(v["net"] < 0 for v in tc.values())
+    # probe-failure halt: if we've probed repeatedly and NO short ever formed, the order
+    # path isn't producing the position we expect — stop, don't loop placing dead orders.
+    if not have_short and state.get("probe_fails", 0) >= 3:
+        state["tripped"] = True
+        log("WX-TAKER HALT: 3 probes placed, no short formed — order path not working, "
+            "standing aside (investigate intent/price semantics)")
+        return "halt: probe failed (no fill)"
     buckets = _wx_buckets(live_client)
     cands = wxtaker.sell_candidates(buckets, margin=0.10)
     orders = wxtaker.allocate(cands, budget=budget, used=used,
@@ -216,13 +223,28 @@ def wx_taker_cycle(live_client, budget, state, log):
         ok = st == 200 and not (isinstance(resp, dict) and resp.get("code"))
         placed += 1 if ok else 0
         log(f"  wx-taker SELL {o['slug'][:34]} {o['qty']}@{o['sell_price']} "
-            f"edge={o['edge']:+.2f} -> http={st} {'OK' if ok else str(resp)[:120]}")
+            f"edge={o['edge']:+.2f} -> http={st} resp={str(resp)[:160]}")
+        # DIAGNOSTIC (probe): read the order back + list open orders to learn why the
+        # SELL_SHORT isn't producing a short (resting? rejected? wrong side/price?).
+        if not have_short:
+            oid = ""
+            if isinstance(resp, dict):
+                oid = resp.get("orderId") or (resp.get("order") or {}).get("id") or resp.get("id") or ""
+            if oid:
+                gs, gd = live_client.get_order(oid)
+                log(f"  wx-taker get_order({oid})-> http={gs} {str(gd)[:220]}")
+            oo_s, oo_d = live_client.get_open_orders()
+            tc_oo = [o2 for o2 in (oo_d if isinstance(oo_d, list)
+                     else (oo_d.get("orders", []) if isinstance(oo_d, dict) else []))
+                     if "tc-temp" in str(o2)]
+            log(f"  wx-taker open_orders(tc-temp): http={oo_s} count={len(tc_oo)} {str(tc_oo)[:240]}")
     # read back so the first real fills are visible immediately (probe verification)
-    if placed:
-        after = positions_net(live_client)
-        tca = {s: v["net"] for s, v in after.items() if s.startswith("tc-temp")}
-        log(f"  wx-taker positions after: {tca}")
-    return f"placed {placed}/{len(orders)}, collat ${used:.0f}"
+    after = positions_net(live_client)
+    tca = {s: v["net"] for s, v in after.items() if s.startswith("tc-temp")}
+    log(f"  wx-taker positions after: {tca}")
+    if not have_short and not tca:        # probe placed but still no short -> count failure
+        state["probe_fails"] = state.get("probe_fails", 0) + 1
+    return f"placed {placed}/{len(orders)}, positions={tca}"
 
 
 def wx_settle_check(client, log):
