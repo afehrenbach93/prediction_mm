@@ -1022,15 +1022,17 @@ def main():
                     log(f"track/wx-settle error: {e}")
                 last_wxchk = now
             if now - last_hb >= HB_EVERY:
+                wx_hb = {"wx_taker": wx_status, "wx_tripped": wx_state.get("tripped", False)} \
+                    if WX_TAKER == "live" else {}
                 if live_now:
                     _track.heartbeat("live" if LIVE_ARMED else "live-shadow",
                                      res.get("status", "?"),
                                      {"budget": budget, "armed": LIVE_ARMED, "tracking": True,
-                                      **res, **pnl_summ})
+                                      **res, **pnl_summ, **wx_hb})
                 else:
                     _track.heartbeat("track", "recording",
                                      {"weather": len(wx_rec), "soccer": len(soc_rec),
-                                      "sports": len(sports_rec), "armed": LIVE_ARMED})
+                                      "sports": len(sports_rec), "armed": LIVE_ARMED, **wx_hb})
                 last_hb = now
             time.sleep(POLL if live_now else 30)
     if MODE == "research":
