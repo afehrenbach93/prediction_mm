@@ -688,7 +688,10 @@ def breaker_check(client: PolyClient, positions: dict) -> tuple[bool, str]:
     needing exact P&L fields), or (c) best-effort unrealized loss past DAILY_LOSS."""
     total_exposure, unreal = 0.0, 0.0
     for slug, info in positions.items():
-        if slug in DENY_SLUGS:    # held legacy position the bot isn't managing — ignore
+        # ignore held-legacy (deny) positions AND the weather sell-taker's tc-temp shorts,
+        # which have their OWN budget/breaker — otherwise weather exposure trips the cricket
+        # farm (the two strategies must be accounted independently).
+        if slug in DENY_SLUGS or slug.startswith("tc-temp"):
             continue
         net, entry = info["net"], info["entry"]
         if abs(net) > MAX_INV:
