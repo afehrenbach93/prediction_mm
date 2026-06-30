@@ -80,6 +80,15 @@ def buy_edge(model_prob: float, market_ask: float | None, fee: float = 0.0) -> f
     return model_prob - market_ask - fee
 
 
+def sell_edge(model_prob: float, market_bid: float | None, fee: float = 0.0) -> float | None:
+    """Edge from SELLING YES at the bid (a short-YES / bet-NO): bid - model_prob - fee.
+    None if no bid. Positive => the market's bid is above the forecast's true prob, so
+    selling into it is +EV (the favorite-longshot bias on thin temp buckets)."""
+    if market_bid is None:
+        return None
+    return market_bid - model_prob - fee
+
+
 def taker_fee(price: float, contracts: float = 1.0, rate: float = 0.05) -> float:
     """Polymarket US taker fee ~ rate * C * p * (1-p) (per contract, as a $/contract
     fraction when contracts=1)."""
