@@ -627,8 +627,11 @@ def positions_net(client: PolyClient) -> dict:
     return out
 
 
-def cancel_all_orders(client: PolyClient) -> int:
-    """Cancel all our resting orders (best-effort) — used on a breaker trip."""
+def cancel_all_orders(client: PolyClient, exclude_prefixes=("tc-temp",)) -> int:
+    """Cancel our resting orders (best-effort) — used by the cricket reconcile + breaker.
+    EXCLUDES tc-temp (weather sell-taker) orders by default so the cricket farm's
+    cancel-all reconcile doesn't nuke the separately-managed weather offers every cycle.
+    Pass exclude_prefixes=() to cancel literally everything."""
     s, d = client.get_open_orders()
     orders = []
     if isinstance(d, dict):
@@ -639,10 +642,13 @@ def cancel_all_orders(client: PolyClient) -> int:
     for o in orders:
         if not isinstance(o, dict):
             continue
+        slug = o.get("marketSlug", "")
+        if any(slug.startswith(p) for p in exclude_prefixes):
+            continue
         oid = o.get("id") or o.get("orderId")
         if oid:
             # the cancel body REQUIRES the order's marketSlug (else 400)
-            cs, _ = client.cancel_order(oid, o.get("marketSlug", ""))
+            cs, _ = client.cancel_order(oid, slug)
             if cs == 200:
                 n += 1
     return n
