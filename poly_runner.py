@@ -855,6 +855,80 @@ def pnl_snapshot(client: PolyClient) -> dict:
     return summ
 
 
+def wx_settlement_pnl(client: PolyClient, log, state) -> dict:
+    """Account-level WEATHER-ONLY realized P&L: sum the settled P&L of tc-temp positions
+    from portfolio activities (the shared balance mixes cricket + open marks, so isolate
+    weather here). Prefers the resolution's authoritative settled `realized`; falls back to
+    computing from net/cost/outcome (short: settles NO -> +(Q-cost), YES -> -cost). Logs the
+    resolution structure ONCE so the realized field can be verified. Read-only; never raises."""
+    import json as _json
+    import re as _re
+    try:
+        _, act = client.signed_get("/v1/portfolio/activities")
+    except Exception as e:
+        log(f"wx-pnl activities err={str(e)[:70]}")
+        return {}
+    items = act.get("activities") if isinstance(act, dict) else act
+    items = items if isinstance(items, list) else []
+    seen, rows, total = set(), [], 0.0
+    struct_logged = state.get("wx_pnl_logged", False)
+    outcome_cache = {}
+    for a in items:
+        if not isinstance(a, dict) or (a.get("type") or "") != "ACTIVITY_TYPE_POSITION_RESOLUTION":
+            continue
+        pr = a.get("positionResolution") or {}
+        slug = pr.get("marketSlug", "")
+        if not slug.startswith("tc-temp"):
+            continue
+        bp = pr.get("beforePosition") or {}
+        ap = pr.get("afterPosition") or {}
+        key = (slug, bp.get("updateTime", ""))
+        if key in seen:
+            continue
+        seen.add(key)
+        if not struct_logged:
+            log(f"wx-pnl STRUCT: {_re.sub(chr(39)+'icon'+chr(39)+': '+chr(39)+'[^'+chr(39)+']*'+chr(39), 'icon:-', str(pr))[:420]}")
+            struct_logged = True
+        # authoritative settled realized, if the resolution carries it
+        realized = None
+        for cand in (ap.get("realized"), pr.get("realized")):
+            if isinstance(cand, dict):
+                try:
+                    realized = float(cand.get("value"))
+                    break
+                except Exception:
+                    pass
+        if realized is None:
+            # fallback: compute from net + cost + PM outcome (assume cost = collateral)
+            try:
+                net = float(bp.get("qtyBought", 0)) - float(bp.get("qtySold", 0))
+                cost = float((bp.get("cost") or {}).get("value", 0))
+            except Exception:
+                continue
+            if net == 0:
+                continue
+            if slug not in outcome_cache:
+                m = client.get_market(slug)
+                try:
+                    prs = [float(x) for x in _json.loads((m or {}).get("outcomePrices") or "[]")]
+                    outcome_cache[slug] = (prs[0] > 0.9) if prs else None
+                except Exception:
+                    outcome_cache[slug] = None
+            yes = outcome_cache[slug]
+            if yes is None:
+                continue
+            won = (net < 0 and not yes) or (net > 0 and yes)     # short wins on NO
+            realized = (abs(net) - cost) if won else -cost
+        total += realized
+        rows.append((round(realized, 2), slug[-30:]))
+    state["wx_pnl_logged"] = struct_logged
+    rows.sort()
+    log(f"wx-pnl: {len(rows)} settled weather positions, total realized ${total:+.2f}")
+    for r in rows[:12]:
+        log(f"  wx-pnl {r}")
+    return {"wx_settled_pnl": round(total, 2), "wx_settled_n": len(rows)}
+
+
 def scan_markets(client: PolyClient, budget: float):
     """READ-ONLY: rank every active reward market by the retail reward share a
     `budget`-sized resting order would capture. Pure public reads (no orders).
@@ -1009,6 +1083,11 @@ def main():
                     res = {"status": f"error: {e}"}
                 if now - last_pnl >= PNL_EVERY:        # periodic account P&L snapshot
                     pnl_summ = pnl_snapshot(live_client)
+                    if WX_TAKER == "live":             # clean weather-only settled P&L
+                        try:
+                            wx_state.update(wx_settlement_pnl(live_client, log, wx_state))
+                        except Exception as e:
+                            log(f"wx-pnl error: {e}")
                     last_pnl = now
             # tracker passes ALWAYS run (record models + settle) — live or not
             if now - last_wx >= WX_EVERY:
@@ -1055,7 +1134,9 @@ def main():
                     log(f"track/wx-settle error: {e}")
                 last_wxchk = now
             if now - last_hb >= HB_EVERY:
-                wx_hb = {"wx_taker": wx_status, "wx_tripped": wx_state.get("tripped", False)} \
+                wx_hb = {"wx_taker": wx_status, "wx_tripped": wx_state.get("tripped", False),
+                         "wx_settled_pnl": wx_state.get("wx_settled_pnl"),
+                         "wx_settled_n": wx_state.get("wx_settled_n")} \
                     if WX_TAKER == "live" else {}
                 if live_now:
                     _track.heartbeat("live" if LIVE_ARMED else "live-shadow",
