@@ -319,6 +319,120 @@ def wx_settle_check(client, log):
         log(f"  wx-settle mismatch: {s}")
 
 
+def sport_settle_check(client, log, max_reads: int = 60):
+    """VALIDATION (read-only): re-settle sports rows against PM's AUTHORITATIVE resolution
+    — the generalized wx_settle_check. Our ESPN-based settlement can diverge from what the
+    venue actually pays (the weather settlement-source flaw); every Brier/P&L number carries
+    that asterisk until rows settle against PM. For settled rows that matched a PM market
+    (meta.pm_slug), read the resolved market's outcomePrices, map the winning side via the
+    outcomes/team names, compare to our realized_yes, and correct mismatches."""
+    from core import track, pmodds
+    import json as _json
+    for sport in ("mlb", "nba", "nfl", "ncaaf"):
+        rows = [r for r in track.fetch_settled(sport, 150)
+                if (r.get("meta") or {}).get("pm_slug")]
+        if not rows:
+            continue
+        agree = mismatch = unresolved = corrected = 0
+        cache, reads, samples = {}, 0, []
+        for r in rows:
+            meta = r.get("meta") or {}
+            slug = meta["pm_slug"]
+            if slug not in cache:
+                if reads >= max_reads:
+                    continue
+                cache[slug] = client.get_market(slug)
+                reads += 1
+            m = cache[slug]
+            if not m:
+                continue
+            hp, ap = pmodds._outcome_prices(m, meta.get("home", ""), meta.get("away", ""))
+            if hp is None or ap is None:
+                unresolved += 1
+                continue
+            home_won = True if (hp > 0.9 and ap < 0.1) else \
+                       False if (ap > 0.9 and hp < 0.1) else None
+            if home_won is None:                    # market not resolved to ~1/0 yet
+                unresolved += 1
+                continue
+            pm_yes = (r.get("outcome") == "home") == home_won
+            if bool(r.get("realized_yes")) == pm_yes:
+                agree += 1
+            else:
+                mismatch += 1
+                if r.get("id") and track.set_realized(int(r["id"]), pm_yes) in (200, 204):
+                    corrected += 1
+                if len(samples) < 6:
+                    samples.append(f'{slug} outcome={r.get("outcome")} '
+                                   f'ours={bool(r.get("realized_yes"))} pm={pm_yes}')
+        tot = agree + mismatch
+        rate = f"{agree}/{tot} ({100*agree/tot:.0f}%)" if tot else "n/a"
+        log(f"{sport}-settle check: AGREE {rate}, unresolved={unresolved}, "
+            f"re-settled {corrected} rows to PM's outcome")
+        for s in samples:
+            log(f"  {sport}-settle mismatch: {s}")
+
+
+def odds_refresh_pass(client, log, state, ahead_secs: int = 9000):
+    """Near-game EXECUTABLE odds capture. The daily snapshot records outcomePrices at
+    ~listing time — often a stale pre-liquidity print (market Brier came out WORSE than a
+    coin flip, an anti-informative artifact), so sims against it aren't executable evidence.
+    For today's matched games starting within `ahead_secs`, read the market's actual BOOK,
+    map it to per-side bid/ask (pmodds.executable_sides), and overwrite the row's market
+    fields. One refresh per row (meta.odds_at marks done). Read-only on the exchange."""
+    from core import track, pmodds
+    today_iso = datetime.now(timezone.utc).date().isoformat()
+    now = datetime.now(timezone.utc).timestamp()
+    updated = skipped = 0
+    for sport in ("mlb", "nba", "nfl", "ncaaf"):
+        rows = track.fetch_rows_for_odds(sport, today_iso)
+        if not rows:
+            continue
+        by_slug: dict[str, list] = {}
+        for r in rows:
+            meta = r.get("meta") or {}
+            if meta.get("odds_at"):                 # already refreshed near game time
+                continue
+            ko = iso_ts(meta.get("kickoff", ""))
+            if not ko or not (0 <= ko - now <= ahead_secs):
+                continue                            # not near kickoff yet (or started)
+            by_slug.setdefault(meta["pm_slug"], []).append(r)
+        for slug, srows in by_slug.items():
+            m = client.get_market(slug)
+            if not m:
+                continue
+            try:
+                bids, offers = client.get_book(slug)
+            except Exception:
+                continue
+            meta0 = srows[0].get("meta") or {}
+            quotes, side0, drift = pmodds.executable_sides(
+                m, bids, offers, meta0.get("home", ""), meta0.get("away", ""))
+            if not quotes:
+                skipped += 1
+                continue
+            if not state.get("odds_probed"):
+                log(f"  odds-refresh PROBE {slug}: book_side0={side0} drift={drift} "
+                    f"quotes={quotes} vs outcomePrices={m.get('outcomePrices')}")
+                state["odds_probed"] = True
+            for r in srows:
+                q = quotes.get(r.get("outcome") or "")
+                if not q:
+                    continue
+                edge = (round(float(r["model_prob"]) - q["ask"], 4)
+                        if r.get("model_prob") is not None else None)
+                meta = r.get("meta") or {}
+                meta.update(odds_at=datetime.now(timezone.utc).isoformat()[:19] + "Z",
+                            book_side0=side0, book_drift=drift,
+                            snap_ask=r.get("market_ask"))   # keep the morning print
+                if track.update_market_odds(int(r["id"]), q["bid"], q["ask"],
+                                            edge, meta) in (200, 204):
+                    updated += 1
+    if updated or skipped:
+        log(f"odds-refresh: {updated} rows updated to executable book quotes, "
+            f"{skipped} markets unmappable")
+
+
 def soccer_pass(client, recorded_days: set):
     """One soccer pass: seed Elo from recent results, predict upcoming fixtures,
     record 1X2 probabilities once per UTC day. Read-only. wxedge analogue for soccer."""
@@ -425,6 +539,11 @@ def sports_pass(client, recorded_days: set):
             recent = espnfeed.recent_results(path, window)
         fixtures = espnfeed.upcoming_fixtures(path, fut)
         log(f"  {key}: seeded {len(recent)} results, {len(fixtures)} upcoming fixtures")
+        # tennis went dark when Wimbledon started — when a slam is on but 0 fixtures
+        # parse, log the raw structure once/day so the nesting can be fixed from logs.
+        if key in ("atp", "wta") and not fixtures and f"tdiag-{today_iso}" not in recorded_days:
+            log(f"  {key} SHAPE: {espnfeed.raw_shape(path, fut)}")
+            recorded_days.add(f"tdiag-{today_iso}")
         all_fixtures += fixtures
         payload += sportstrack.build_sport_rows(key, path, neutral, recent, fixtures, today_iso)
     # attach live PM market odds to each game so we can measure model-vs-MARKET edge
@@ -1074,7 +1193,8 @@ def main():
         sports_rec: set[str] = set()
         golf_rec: set[str] = set()
         last_wx = last_soc = last_sports = last_settle = last_hb = last_pnl = 0.0
-        last_wxchk = 0.0
+        last_wxchk = last_odds = 0.0
+        odds_state: dict = {}
         PNL_EVERY = 300          # log an account P&L snapshot every 5 min while live
         pnl_summ: dict = {}
         # live trading client (REAL only when POLY_LIVE_ARMED; else shadow) + cache +
@@ -1174,12 +1294,22 @@ def main():
                 except Exception as e:
                     log(f"track/settle error: {e}")
                 last_settle = now
-            if now - last_wxchk >= 21600:          # settlement-source check ~every 6h
+            if now - last_wxchk >= 21600:          # settlement-source checks ~every 6h
                 try:
                     wx_settle_check(client, log)
                 except Exception as e:
                     log(f"track/wx-settle error: {e}")
+                try:
+                    sport_settle_check(client, log)
+                except Exception as e:
+                    log(f"track/sport-settle error: {e}")
                 last_wxchk = now
+            if now - last_odds >= 2400:            # near-game executable-odds refresh ~40min
+                try:
+                    odds_refresh_pass(client, log, odds_state)
+                except Exception as e:
+                    log(f"track/odds-refresh error: {e}")
+                last_odds = now
             if now - last_hb >= HB_EVERY:
                 wx_hb = {"wx_taker": wx_status, "wx_tripped": wx_state.get("tripped", False),
                          "wx_settled_pnl": wx_state.get("wx_settled_pnl"),

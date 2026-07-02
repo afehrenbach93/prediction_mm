@@ -82,6 +82,17 @@ def settle_sport(rows: list[dict], fetch_finals) -> dict[int, tuple[bool, float 
     return out
 
 
+def _golf_window(iso: str) -> str:
+    """ESPN files a tournament under its START date, but golf rows settle on the END
+    date — a ±1-day window around the end misses the event entirely (why golf settled
+    0 rows for a week). Span start-side wide: end−6d .. end+1d covers any Thu–Sun event."""
+    try:
+        d = _date.fromisoformat(iso[:10])
+        return f"{(d - timedelta(days=6)):%Y%m%d}-{(d + timedelta(days=1)):%Y%m%d}"
+    except Exception:
+        return iso.replace("-", "")
+
+
 def settle_golf(rows: list[dict], fetch_winners) -> dict[int, tuple[bool, float | None]]:
     """Resolve golf 'win' rows. `fetch_winners(dateYYYYMMDD) -> {tourney_id: winner}`.
     realized_yes = (this row's player == the tournament winner). Resolves only once the
@@ -94,7 +105,7 @@ def settle_golf(rows: list[dict], fetch_winners) -> dict[int, tuple[bool, float 
         if not tid or not player or not date:
             continue
         if date not in cache:
-            cache[date] = fetch_winners(_window(date))
+            cache[date] = fetch_winners(_golf_window(date))
         winner = (cache[date] or {}).get(str(tid))
         if not winner:
             continue   # not final yet

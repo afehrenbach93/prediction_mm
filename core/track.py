@@ -179,6 +179,50 @@ def fetch_unsettled(before_date: str, limit: int = 2000) -> list[dict]:
         return []
 
 
+def fetch_rows_for_odds(sport: str, run_date: str, limit: int = 300) -> list[dict]:
+    """Today's unsettled rows for one sport that matched a PM market (meta.pm_slug set)
+    — the near-game executable-odds refresh queue. Returns [] without creds/on error."""
+    url, key = _creds()
+    if not url or not key:
+        return []
+    q = urllib.parse.urlencode({
+        "select": "id,outcome,model_prob,market_ask,meta",
+        "sport": f"eq.{sport}", "settled": "is.null",
+        "run_date": f"eq.{run_date}", "meta->>pm_slug": "not.is.null",
+        "limit": str(limit),
+    })
+    req = urllib.request.Request(f"{url}/rest/v1/{TABLE}?{q}",
+                                 headers={"apikey": key, "Authorization": f"Bearer {key}"})
+    try:
+        with urllib.request.urlopen(req, timeout=25) as r:
+            return json.loads(r.read())
+    except Exception:
+        return []
+
+
+def update_market_odds(pred_id: int, bid, ask, edge, meta: dict) -> int:
+    """Overwrite one row's market prices with EXECUTABLE near-game book quotes (the
+    morning outcomePrices snapshot is often a stale pre-liquidity print — see the
+    anti-informative market-Brier artifact). Caller passes the full merged meta (PATCH
+    replaces the jsonb wholesale). Returns http status."""
+    url, key = _creds()
+    if not url or not key:
+        return 0
+    body = json.dumps({"market_bid": bid, "market_ask": ask, "edge": edge,
+                       "liquid": ask is not None, "meta": meta}).encode()
+    req = urllib.request.Request(
+        f"{url}/rest/v1/{TABLE}?id=eq.{pred_id}", data=body, method="PATCH",
+        headers={"apikey": key, "Authorization": f"Bearer {key}",
+                 "Content-Type": "application/json", "Prefer": "return=minimal"})
+    try:
+        with urllib.request.urlopen(req, timeout=25) as r:
+            return r.status
+    except urllib.error.HTTPError as e:
+        return e.code
+    except Exception:
+        return -1
+
+
 def mark_settled(pred_id: int, realized_yes: bool, pnl: float | None) -> int:
     """Write the resolved outcome back to one prediction row. Returns http status."""
     url, key = _creds()

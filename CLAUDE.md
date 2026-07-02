@@ -104,6 +104,25 @@ read-only before funding; reconcile any tape-derived P&L against account balance
   94KB→~1KB (retired project's ~1,700-line worklog was loading into EVERY session's context;
   full text in that repo's git history). Added the **Usage discipline** block above. Condensed
   the 06-20→06-22 migration/pilot incident entries.
+- **Shadow-model deep dive → Option 1 shipped (promotion pipeline).** Status: MLB looks
+  promising (Brier 0.241 vs market 0.301 on 66 rows; both buy AND fade sims positive — but
+  market Brier > 0.25 means the morning `outcomePrices` prints are anti-informative/stale, so
+  NOT executable evidence); soccer retired from consideration (market 0.119 beats model 0.168);
+  tennis recorder went dark 06-27 (Wimbledon shape); golf settled 0 rows ever. Fixes shipped:
+  (1) **`sport_settle_check`** — generalized `wx_settle_check`: re-settles sports rows against
+  PM's authoritative resolution via `meta.pm_slug` (6h timer, capped reads); (2)
+  **`odds_refresh_pass`** — near-kickoff EXECUTABLE odds: reads the matched game market's
+  actual book, maps the single book to per-side bid/ask (`pmodds.executable_sides`: book
+  prices outcome[0], other side = complement; self-verifying PROBE log vs outcomePrices),
+  PATCHes rows once (`meta.odds_at`), keeps the morning print in `meta.snap_ask`; (3) **golf
+  settlement root cause**: ESPN files tournaments under their START date but golf settles on
+  END date — the ±1-day window missed every event; now `_golf_window` = end−6d..end+1d; (4)
+  **tennis diag** `espnfeed.raw_shape` logs the slam's raw nesting once/day when 0 fixtures
+  parse (fix follows from worker logs); (5) **`scripts/promotion_gate.py`** — the standing
+  go-live rule: ≥100 PM-settled rows with executable odds AND model Brier < market AND
+  threshold-sim positive at executable prices → eligible for a $50 armed-gated probe. MLB is
+  first through the gate if it survives honest prices (~a week at ~15 games/day). 139 tests
+  green (+8; golf-window test updated — it was asserting the bug).
 - **Breaker wedge (fixed live):** after merging Option C, the worker tripped every cycle on
   a **400-lot golf position** (`tec-pga-travcham-2026-06-28-w-wyncla`, Andrew's OWN manual
   bet, not the bot) — 8× the 50 inventory cap → stood the whole bot aside. Added it to
