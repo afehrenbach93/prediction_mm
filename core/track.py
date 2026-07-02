@@ -129,7 +129,8 @@ def fetch_users() -> list[dict]:
     if not url or not key:
         return []
     req = urllib.request.Request(
-        f"{url}/rest/v1/poly_users?select=email,name,key_env,secret_env,armed",
+        f"{url}/rest/v1/poly_users?select=email,name,key_env,secret_env,armed,"
+        f"pm_key_enc,pm_secret_enc",
         headers={"apikey": key, "Authorization": f"Bearer {key}"})
     try:
         with urllib.request.urlopen(req, timeout=15) as r:

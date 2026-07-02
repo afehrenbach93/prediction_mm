@@ -127,6 +127,8 @@ export interface PolyUser {
   name: string | null;
   key_env: string;
   secret_env: string;
+  pm_key_enc: string;
+  pm_secret_enc: string;
   armed: boolean;
   updated: string | null;
 }
@@ -136,11 +138,24 @@ export async function fetchMyUser(email: string): Promise<PolyUser | null> {
   return (data as PolyUser) ?? null;
 }
 
-/** Self-register (disarmed, no keys linked). The operator then adds your Polymarket
- * keys to the worker env and links the env-var names to your row. */
+/** Self-register (disarmed, no keys). Connect your Polymarket keys next — fully
+ * self-serve, no operator involvement. */
 export async function registerMe(email: string, name: string): Promise<void> {
   const { error } = await supabase.from('poly_users')
-    .insert({ email, name, armed: false, key_env: '', secret_env: '' });
+    .insert({ email, name, armed: false });
+  if (error) throw error;
+}
+
+/** Seal your Polymarket API keys CLIENT-SIDE to the worker's public key and store
+ * the ciphertext on your row. Only the worker can decrypt — not the database, not
+ * other users, not anyone holding the app's anon key. */
+export async function connectMyKeys(email: string, keyId: string, secret: string): Promise<void> {
+  const { sealForWorker } = await import('./seal');
+  const [pm_key_enc, pm_secret_enc] = await Promise.all([
+    sealForWorker(keyId.trim()), sealForWorker(secret.trim())]);
+  const { error } = await supabase.from('poly_users')
+    .update({ pm_key_enc, pm_secret_enc, updated: new Date().toISOString() })
+    .eq('email', email);
   if (error) throw error;
 }
 

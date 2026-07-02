@@ -468,21 +468,39 @@ class TradeAccount:
 def refresh_accounts(accounts: dict, log) -> dict:
     """Sync TradeAccounts with the poly_users table. key_env/secret_env in each row
     name worker env vars holding that user's keys (secrets never touch the DB).
+    SELF-SERVE key source (preferred; zero operator steps): pm_key_enc/pm_secret_enc —
+    the app sealed the user's Polymarket keys CLIENT-SIDE to the deployment public key
+    (ECDH P-256 sealed box); only this worker (POLY_KEYRING_PRIV) can unseal them.
+    key_env/secret_env (worker env-var names) remain as the operator-managed fallback.
     Rebuilds a client when keys or armed-state change; on DISARM, cancels that
     account's resting BOT orders (risk-reducing, via a one-shot live client) so
     nothing keeps working their book. Falls back to the base env account only when
     the table has never been readable (single-user back-compat)."""
-    from core import track
+    from core import track, keyring
     rows = track.fetch_users()
     if not rows and not accounts:
         rows = [{"email": "operator", "name": "operator", "armed": True,
                  "key_env": "POLYMARKET_API_KEY", "secret_env": "POLYMARKET_SECRET"}]
+    kr_priv = os.getenv("POLY_KEYRING_PRIV", "")
+    unseal_cache = getattr(refresh_accounts, "_unseal_cache", {})
+    refresh_accounts._unseal_cache = unseal_cache
     for r in rows:
         email = r.get("email") or "?"
         key = os.getenv(r.get("key_env") or "", "")
         secret = os.getenv(r.get("secret_env") or "", "")
+        if (not key or not secret) and kr_priv \
+                and r.get("pm_key_enc") and r.get("pm_secret_enc"):
+            ck = (email, r["pm_key_enc"][:24], r["pm_secret_enc"][:24])
+            if ck not in unseal_cache:
+                unseal_cache[ck] = (keyring.unseal(kr_priv, r["pm_key_enc"]),
+                                    keyring.unseal(kr_priv, r["pm_secret_enc"]))
+                if unseal_cache[ck] == (None, None):
+                    log(f"account {email}: sealed keys present but unseal FAILED "
+                        f"(wrong deployment keyring?)")
+            key = unseal_cache[ck][0] or ""
+            secret = unseal_cache[ck][1] or ""
         if not key or not secret:
-            continue                    # registered in the app; keys not on the worker yet
+            continue                    # registered in the app; no usable keys yet
         live = bool(LIVE_ARMED and r.get("armed"))
         acct = accounts.get(email)
         if acct is None:

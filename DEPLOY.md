@@ -4,17 +4,21 @@ One worker runs the models and strategies for **everyone**; each user connects t
 own Polymarket US account. Your kill switch disconnects **your** account from order
 flow — the shared bot never stops.
 
+Fully self-serve — nobody (including the operator) ever sees your keys:
+
 1. Open the control app and sign up / sign in with your email.
-2. Settings → **My trading** → Register (you start OFF, no keys linked).
-3. Create API credentials in your Polymarket US account (api.polymarket.us) and send
-   the key id + base64 secret to the operator **privately** (never commit them, never
-   paste them in the app).
-4. The operator adds them to the worker env (e.g. `POLYMARKET_API_KEY__YOURNAME` /
-   `POLYMARKET_SECRET__YOURNAME` + a fresh deploy) and links those env-var *names* to
-   your `poly_users` row (`key_env` / `secret_env` columns).
-5. Settings → My trading → **Arm** when you want the bot trading your account;
-   **Turn off** anytime. Off = no orders reach your account and your resting bot
-   orders are cancelled; models/tracking are unaffected.
+2. Settings → **My trading** → Register (you start OFF).
+3. Create API credentials in your Polymarket US account (api.polymarket.us) and
+   paste the key id + secret into the **My trading** card. They are encrypted **in
+   your browser** to the trading worker's public key (ECDH sealed box) — the
+   database stores ciphertext only; only the worker can decrypt.
+4. **Arm** when you want the bot trading your account; **Turn off** anytime.
+   Off = no orders reach your account and your resting bot orders are cancelled;
+   the shared models/tracking are unaffected. Scale to any number of users — no
+   operator step, no redeploys.
+
+Deployment prerequisite (operator, once): `python scripts/keyring_gen.py` →
+`POLY_KEYRING_PRIV` on the worker env, `EXPO_PUBLIC_KEYRING_PUB` on the app env.
 
 ---
 

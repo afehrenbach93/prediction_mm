@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { Alert, Linking, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Alert, Linking, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 import { useLiveQuery, ageSeconds } from '../../lib/hooks';
-import { fetchControl, fetchBotStatus, setDesiredMode, setLive, fetchMyUser, registerMe, setMyArmed, type Control, type BotStatus, type PolyUser } from '../../lib/tracker';
+import { fetchControl, fetchBotStatus, setDesiredMode, setLive, fetchMyUser, registerMe, setMyArmed, connectMyKeys, type Control, type BotStatus, type PolyUser } from '../../lib/tracker';
+import { sealAvailable } from '../../lib/seal';
 import { supabase } from '../../lib/supabase';
 import { Btn, Card, Dot, SectionTitle } from '../../components/ui';
 import { C, statusColor, statusLabel } from '../../theme';
@@ -159,14 +160,21 @@ export default function Settings() {
 function MyTradingCard({ me, email, busy, setBusy, refresh }:
   { me: PolyUser | null; email: string; busy: boolean;
     setBusy: (b: boolean) => void; refresh: () => void }) {
+  const [keyId, setKeyId] = useState('');
+  const [secret, setSecret] = useState('');
+  const [editing, setEditing] = useState(false);
   if (!email) return null;
-  const linked = !!(me && me.key_env && me.secret_env);
+  const linked = !!(me && ((me.key_env && me.secret_env) || (me.pm_key_enc && me.pm_secret_enc)));
   const run = async (fn: () => Promise<void>) => {
     setBusy(true);
     try { await fn(); refresh(); }
     catch (e: any) { Alert.alert('Failed', String(e?.message ?? e)); }
     finally { setBusy(false); }
   };
+  const saveKeys = () => run(async () => {
+    await connectMyKeys(email, keyId, secret);
+    setKeyId(''); setSecret(''); setEditing(false);
+  });
   const toggle = () => {
     if (!me) return;
     if (me.armed) { run(() => setMyArmed(email, false)); return; }
@@ -186,28 +194,62 @@ function MyTradingCard({ me, email, busy, setBusy, refresh }:
             <View style={{ flex: 1 }}>
               <Text style={s.modeLabel}>Not registered</Text>
               <Text style={s.modeDesc}>
-                Register, then send the operator your Polymarket API keys to add to the
-                worker. You stay OFF until you arm yourself.
+                Register, connect your own Polymarket API keys, then arm whenever you
+                want the bot trading your account. Fully self-serve.
               </Text>
             </View>
             <Btn title="Register" kind="primary" busy={busy} disabled={busy}
                  onPress={() => run(() => registerMe(email, email.split('@')[0]))} />
           </View>
         ) : (
-          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-            <View style={{ flex: 1 }}>
-              <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
-                <Dot color={me.armed ? C.red : C.dim} size={12} />
-                <Text style={s.modeLabel}>{me.armed ? 'ARMED — bot trades my account' : 'Off — my account is disconnected'}</Text>
+          <View>
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+              <View style={{ flex: 1 }}>
+                <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
+                  <Dot color={me.armed ? C.red : C.dim} size={12} />
+                  <Text style={s.modeLabel}>{me.armed ? 'ARMED — bot trades my account' : 'Off — my account is disconnected'}</Text>
+                </View>
+                <Text style={s.modeDesc}>
+                  {linked
+                    ? 'Keys connected. This switch gates only YOUR order flow — the shared models never stop.'
+                    : 'Connect your Polymarket API keys below. Arming has no effect until then.'}
+                </Text>
               </View>
-              <Text style={s.modeDesc}>
-                {linked
-                  ? 'Your keys are linked on the worker. This switch gates only YOUR order flow — the shared models never stop.'
-                  : 'Waiting for the operator to add your Polymarket keys to the worker. Arming has no effect until then.'}
-              </Text>
+              <Btn title={me.armed ? 'Turn off' : 'Arm'} kind={me.armed ? 'danger' : 'primary'}
+                   busy={busy} disabled={busy || !linked} onPress={toggle} />
             </View>
-            <Btn title={me.armed ? 'Turn off' : 'Arm'} kind={me.armed ? 'danger' : 'primary'}
-                 busy={busy} disabled={busy} onPress={toggle} />
+            {(!linked || editing) ? (
+              sealAvailable() ? (
+                <View style={{ marginTop: 12 }}>
+                  <Text style={s.modeDesc}>
+                    Create API credentials in your Polymarket account, paste them here.
+                    They are encrypted in your browser to the trading worker’s key —
+                    nobody else (including this app’s database) can read them.
+                  </Text>
+                  <TextInput style={s.keyInput} placeholder="API key id" placeholderTextColor={C.dim}
+                             value={keyId} onChangeText={setKeyId} autoCapitalize="none" autoCorrect={false} />
+                  <TextInput style={s.keyInput} placeholder="API secret (base64)" placeholderTextColor={C.dim}
+                             value={secret} onChangeText={setSecret} autoCapitalize="none" autoCorrect={false}
+                             secureTextEntry />
+                  <View style={{ flexDirection: 'row', gap: 8, marginTop: 10 }}>
+                    <Btn title="Save keys (encrypted)" kind="primary" busy={busy}
+                         disabled={busy || keyId.trim().length < 6 || secret.trim().length < 16}
+                         onPress={saveKeys} />
+                    {editing ? <Btn title="Cancel" kind="ghost" disabled={busy}
+                                    onPress={() => setEditing(false)} /> : null}
+                  </View>
+                </View>
+              ) : (
+                <Text style={[s.modeDesc, { marginTop: 10 }]}>
+                  Key encryption isn’t available in this browser/build (missing WebCrypto
+                  or deployment public key).
+                </Text>
+              )
+            ) : (
+              <Pressable onPress={() => setEditing(true)}>
+                <Text style={s.replaceKeys}>Replace my keys…</Text>
+              </Pressable>
+            )}
           </View>
         )}
       </Card>
@@ -221,6 +263,10 @@ const s = StyleSheet.create({
   statusText: { color: C.text, fontSize: 15, fontWeight: '700' },
   mode: { color: C.sub, fontSize: 13, fontWeight: '700', letterSpacing: 0.6 },
   pending: { color: C.amber, fontSize: 12, marginTop: 8 },
+  keyInput: { backgroundColor: '#0E1420', borderWidth: 1, borderColor: C.border,
+              borderRadius: 8, color: C.text, paddingHorizontal: 12, paddingVertical: 10,
+              marginTop: 8, fontSize: 14 },
+  replaceKeys: { color: C.blue, fontSize: 13, marginTop: 12 },
   modeRow: { flexDirection: 'row', alignItems: 'center', gap: 12 },
   modeLabel: { color: C.text, fontSize: 15, fontWeight: '700' },
   modeDesc: { color: C.sub, fontSize: 12, marginTop: 3, lineHeight: 16 },

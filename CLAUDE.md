@@ -73,6 +73,26 @@ read-only before funding; reconcile any tape-derived P&L against account balance
 
 ## Incident Log
 
+### 2026-07-02 (night) — Self-serve onboarding (sealed-box keys); first MLB probe order
+- **Hands-off onboarding (Andrew: no credential hand-offs, countless users):** users
+  paste their PM keys into the app's My-trading card; `app/src/lib/seal.ts` encrypts them
+  IN THE BROWSER to the deployment public key (ephemeral ECDH P-256 → HKDF-SHA256(salt=∅,
+  info="poly-keyring") → AES-256-GCM; wire = eph_pub(65)‖iv(12)‖ct, byte-compatible with
+  `core/keyring.py`). Ciphertext lands in `poly_users.pm_key_enc/pm_secret_enc` (migration
+  0003, applied); only the worker (`POLY_KEYRING_PRIV`) unseals in `refresh_accounts`
+  (cached; env-linked keys remain the operator fallback). Keypair via
+  `scripts/keyring_gen.py`; this deployment's pair installed on Render (worker priv, app
+  pub) — private key never printed/committed. **Also closed a hijack hole:** column-level
+  `revoke update/insert (key_env, secret_env)` from anon+authenticated — a self-updating
+  user could otherwise point their row at the OPERATOR's env keys.
+- **First MLB probe order (live-verified):** 20:34Z `BUY_SHORT aec-mlb-cws-cle-2026-07-02
+  2@0.50 edge=+0.21` → 200, RESTING (heartbeat `resting 1, 0pos`). Why so quiet earlier:
+  (a) pre-game books empty until ~2h before first pitch (one-sided fix works — CWS@CLE
+  stamped once the book formed); (b) 3 games recorded 16:37Z still carry YESTERDAY'S
+  resolved market slug (rows predate the exact-date matcher fix; idempotent writer won't
+  overwrite → those games unbettable today, self-heals tomorrow); (c) by design: probe =
+  ONE 2-lot until a fill confirms direction, and in-play games are never touched.
+
 ### 2026-07-02 (later) — Multi-user execution (one brain, N accounts) + 4 model improvements
 - **Multi-user execution shipped (Andrew's direction: single shared bot, per-user
   accounts).** `poly_users` table (migration 0002, applied): email-keyed rows carrying
