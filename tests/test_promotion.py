@@ -30,13 +30,24 @@ class TestExecutableSides(unittest.TestCase):
         self.assertEqual(side0, "away")
         self.assertEqual(quotes["home"], {"bid": 0.56, "ask": 0.58})
 
-    def test_unmappable_or_empty_book(self):
+    def test_unmappable_outcomes_or_no_book(self):
         m = _mkt(["Yes", "No"], ["0.5", "0.5"])   # no team names to map
         self.assertEqual(pmodds.executable_sides(m, [(0.5, 1)], [(0.51, 1)], "A", "B")[0],
                          None)
         m2 = _mkt(["New York Yankees", "Detroit Tigers"], ["0.5", "0.5"])
-        self.assertEqual(pmodds.executable_sides(m2, [], [(0.5, 1)], "New York Yankees",
+        self.assertEqual(pmodds.executable_sides(m2, [], [], "New York Yankees",
                                                  "Detroit Tigers")[0], None)
+
+    def test_one_sided_book_gives_partial_quotes(self):
+        # pre-game books are often one-sided — the present side maps, the missing side
+        # is None and callers skip rows they can't price (was: whole market unmappable,
+        # which starved the MLB taker of candidates all day).
+        m = _mkt(["New York Yankees", "Detroit Tigers"], ["0.5", "0.5"])
+        quotes, side0, _ = pmodds.executable_sides(m, [], [(0.5, 1)],
+                                                   "New York Yankees", "Detroit Tigers")
+        self.assertEqual(side0, "home")
+        self.assertEqual(quotes["home"], {"bid": None, "ask": 0.5})
+        self.assertEqual(quotes["away"], {"bid": 0.5, "ask": None})
 
 
 class TestGolfWindow(unittest.TestCase):

@@ -167,22 +167,25 @@ def _outcome_prices(market: dict, home: str, away: str):
 def executable_sides(market: dict, bids, offers, home: str, away: str):
     """Map a game market's single order book to EXECUTABLE per-side quotes.
     PM game markets carry two single-team outcomes but one book, priced in the FIRST
-    outcome's terms; the other side is the complement (bid=1-ask, ask=1-bid). Returns
-    ({'home': {'bid','ask'}, 'away': {...}}, side0, drift) or (None, '', None) when the
-    book/outcomes can't be mapped. side0 = which side outcomes[0] is; drift = |book mid −
-    outcomePrices[0]| as a sanity signal (large drift = wrong-book suspicion)."""
+    outcome's terms; the other side is the complement (bid=1-ask, ask=1-bid). Tolerates a
+    ONE-SIDED book (pre-game books are often thin): the missing side's prices are None and
+    the caller skips rows it can't price. Returns ({'home': {'bid','ask'}, 'away': {...}},
+    side0, drift) or (None, '', None) when the outcomes can't be mapped / no book at all.
+    drift = |book mid − outcomePrices[0]| as a wrong-book sanity signal."""
     try:
         outs = json.loads(market.get("outcomes") or "[]")
         prs = [float(x) for x in json.loads(market.get("outcomePrices") or "[]")]
     except Exception:
         return None, "", None
-    if len(outs) < 2 or not bids or not offers:
+    bb = float(bids[0][0]) if bids else None
+    ba = float(offers[0][0]) if offers else None
+    if len(outs) < 2 or (bb is None and ba is None):
         return None, "", None
-    bb, ba = float(bids[0][0]), float(offers[0][0])
-    if not (0 < bb < 1 and 0 < ba <= 1 and bb <= ba):
+    if (bb is not None and not 0 < bb < 1) or (ba is not None and not 0 < ba <= 1) \
+            or (bb is not None and ba is not None and bb > ba):
         return None, "", None
     side0 = _side_of(str(outs[0]), home, away)
-    mid = (bb + ba) / 2
+    mid = (bb + ba) / 2 if (bb is not None and ba is not None) else (bb if ba is None else ba)
     if not side0 and len(prs) >= 2:
         # fallback: the book belongs to whichever outcome's last price is nearer its mid
         side0 = _side_of(str(outs[0 if abs(prs[0] - mid) <= abs(prs[1] - mid) else 1]),
@@ -191,7 +194,8 @@ def executable_sides(market: dict, bids, offers, home: str, away: str):
         return None, "", None
     other = "away" if side0 == "home" else "home"
     quotes = {side0: {"bid": bb, "ask": ba},
-              other: {"bid": round(1 - ba, 4), "ask": round(1 - bb, 4)}}
+              other: {"bid": round(1 - ba, 4) if ba is not None else None,
+                      "ask": round(1 - bb, 4) if bb is not None else None}}
     drift = round(abs(mid - prs[0]), 4) if prs else None
     return quotes, side0, drift
 

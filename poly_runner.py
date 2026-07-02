@@ -508,6 +508,14 @@ def odds_refresh_pass(client, log, state, ahead_secs: int = 9000):
                 m, bids, offers, meta0.get("home", ""), meta0.get("away", ""))
             if not quotes:
                 skipped += 1
+                # DIAG (first few per process): WHY is this market unmappable — empty/
+                # one-sided book vs outcomes that don't name the teams.
+                if state.get("unmap_diags", 0) < 3:
+                    state["unmap_diags"] = state.get("unmap_diags", 0) + 1
+                    log(f"  odds-refresh UNMAPPABLE {slug}: outcomes={str(m.get('outcomes'))[:80]} "
+                        f"prices={str(m.get('outcomePrices'))[:40]} "
+                        f"book_top=bid:{bids[0] if bids else None} ask:{offers[0] if offers else None} "
+                        f"home={meta0.get('home','')[:20]} away={meta0.get('away','')[:20]}")
                 continue
             if not state.get("odds_probed"):
                 log(f"  odds-refresh PROBE {slug}: book_side0={side0} drift={drift} "
@@ -515,7 +523,7 @@ def odds_refresh_pass(client, log, state, ahead_secs: int = 9000):
                 state["odds_probed"] = True
             for r in srows:
                 q = quotes.get(r.get("outcome") or "")
-                if not q:
+                if not q or q.get("ask") is None:   # one-sided book: can't price this row yet
                     continue
                 edge = (round(float(r["model_prob"]) - q["ask"], 4)
                         if r.get("model_prob") is not None else None)
