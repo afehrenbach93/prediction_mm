@@ -1102,19 +1102,24 @@ def _wx_money(cand):
 
 
 def _wx_find_realized(pr, ap, bp):
-    """Extract the authoritative settled realized dollars from a positionResolution, checking
-    every location PM has been observed to carry it. Returns (value, source) or (None, '')."""
+    """Extract the authoritative settled realized dollars from a positionResolution.
+    VENUE SEMANTICS (from the live STRUCT log): `realized` is CUMULATIVE per position —
+    beforePosition.realized prints 0.0000 pre-resolution, so the settled figure is the
+    after−before DELTA, and a flat-zero candidate means 'nothing realized yet', NOT the
+    settled amount (latching bp's zero flattened all 8 rows to $0.00). Returns
+    (value, source) or (None, '')."""
+    a, b = _wx_money(ap.get("realized")), _wx_money(bp.get("realized"))
+    if a is not None and b is not None and abs(a - b) > 1e-9:
+        return round(a - b, 4), "ap-bp.realized"
     candidates = [
         ("pr.realized", pr.get("realized")),
         ("pr.realizedPnl", pr.get("realizedPnl")),
         ("pr.pnl", pr.get("pnl")),
         ("ap.realized", ap.get("realized")),
-        ("ap.realizedPnl", ap.get("realizedPnl")),
-        ("bp.realized", bp.get("realized")),
     ]
     for src, cand in candidates:
         v = _wx_money(cand)
-        if v is not None:
+        if v is not None and abs(v) > 1e-9:    # zero = not-yet-realized, keep looking
             return v, src
     return None, ""
 
@@ -1152,21 +1157,28 @@ def wx_settlement_pnl(client: PolyClient, log, state) -> dict:
             continue
         seen.add(key)
         if not struct_logged:
-            log(f"wx-pnl STRUCT: {_json.dumps(_wx_clean_struct(pr))[:900]}")
+            # Render truncates log messages ~930 chars — split before/after onto their
+            # own lines so afterPosition (where the realized delta lives) is visible.
+            log(f"wx-pnl STRUCT.pr: {_json.dumps(_wx_clean_struct({k: v for k, v in pr.items() if k not in ('beforePosition', 'afterPosition')}))[:800]}")
+            log(f"wx-pnl STRUCT.before: {_json.dumps(_wx_clean_struct(bp))[:800]}")
+            log(f"wx-pnl STRUCT.after: {_json.dumps(_wx_clean_struct(ap))[:800]}")
             struct_logged = True
-        # authoritative settled realized, if the resolution carries it
+        # authoritative settled realized, if the resolution carries it (after−before delta)
         realized, src = _wx_find_realized(pr, ap, bp)
         est = False
         if realized is None:
-            # fallback: compute from net + cost + PM outcome (assume cost = collateral)
-            est = True
+            # compute from the venue's own numbers: bp.cost is CONFIRMED collateral (live
+            # STRUCT: qtySold=5, avgPx=0.63, cost=3.15=5×0.63 — the dollars we paid), and
+            # the resolved market's outcomePrices are the authoritative outcome. Both
+            # inputs are the venue's — this path is authoritative-computed, not estimated.
             try:
                 net = float(bp.get("qtyBought", 0)) - float(bp.get("qtySold", 0))
                 cost = float((bp.get("cost") or {}).get("value", 0))
             except Exception:
                 continue
-            if net == 0:
-                continue
+            if net == 0 or cost <= 0:
+                est = True                        # cost unknown -> anything we compute is a guess
+                cost = abs(net) * 0.5
             if slug not in outcome_cache:
                 m = client.get_market(slug)
                 try:
@@ -1175,14 +1187,15 @@ def wx_settlement_pnl(client: PolyClient, log, state) -> dict:
                 except Exception:
                     outcome_cache[slug] = None
             yes = outcome_cache[slug]
-            if yes is None:
+            if yes is None or net == 0:
                 continue
             won = (net < 0 and not yes) or (net > 0 and yes)     # short wins on NO
             realized = (abs(net) - cost) if won else -cost
+            src = "calc(cost+outcome)"
         total += realized
         n_est += int(est)
         n_auth += int(not est)
-        rows.append((round(realized, 2), ("~" if est else " ") + slug[-30:]))
+        rows.append((round(realized, 2), ("~" if est else " ") + slug[-30:], src))
     state["wx_pnl_logged"] = struct_logged
     rows.sort()
     tag = f"{n_auth} authoritative + {n_est} estimated" if n_est else f"{n_auth} authoritative"

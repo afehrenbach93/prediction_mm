@@ -26,6 +26,21 @@ class TestWxSettlePnl(unittest.TestCase):
         self.assertEqual(_wx_find_realized({}, {"realized": {"value": "1.08"}}, {})[0], 1.08)
         self.assertEqual(_wx_find_realized({}, {}, {})[0], None)  # nothing -> fallback
 
+    def test_cumulative_realized_uses_after_minus_before_delta(self):
+        # venue semantics: realized is cumulative per position; settled = after - before
+        val, src = _wx_find_realized({}, {"realized": {"value": "1.85"}},
+                                     {"realized": {"value": "0.0000"}})
+        self.assertEqual(val, 1.85)
+        self.assertEqual(src, "ap-bp.realized")
+
+    def test_flat_zero_is_not_the_settled_figure(self):
+        # bp.realized prints 0.0000 pre-resolution — latching it flattened all rows to $0.
+        # all-zero candidates must return None so the venue-computed path runs instead.
+        val, _ = _wx_find_realized({"realized": {"value": "0.0000"}},
+                                   {"realized": {"value": "0.0000"}},
+                                   {"realized": {"value": "0.0000"}})
+        self.assertIsNone(val)
+
     def test_clean_struct_strips_icon_blob(self):
         pr = {
             "marketSlug": "tc-temp-nychigh-2026-07-01-gte87lt88",

@@ -135,6 +135,12 @@ read-only before funding; reconcile any tape-derived P&L against account balance
   post-only `BUY_SHORT` at bid+0.01 to fade it (no SELL_* intents — the inverted-intent
   trap). Independent accounting: `aec-mlb` excluded from the cricket breaker + cancel-all,
   like `tc-temp`. Heartbeat: `mlb_taker`/`mlb_tripped`. 145 tests green (+6).
+- **wx-pnl zero-latch fix (post-deploy, from the live STRUCT):** venue `realized` is
+  CUMULATIVE per position (bp.realized prints 0.0000 pre-resolution) — the extractor latched
+  that zero and flattened all 8 rows to $0.00. Now: settled = ap−bp delta; flat-zero
+  candidates rejected; and the computed path is AUTHORITATIVE (STRUCT confirmed bp.cost =
+  collateral: qty 5 × avgPx 0.63 = 3.15) using venue cost + resolved outcome. STRUCT now
+  logs pr/before/after on separate lines (Render truncates ~930 chars). 147 tests green.
 - **Breaker wedge (fixed live):** after merging Option C, the worker tripped every cycle on
   a **400-lot golf position** (`tec-pga-travcham-2026-06-28-w-wyncla`, Andrew's OWN manual
   bet, not the bot) — 8× the 50 inventory cap → stood the whole bot aside. Added it to
