@@ -55,6 +55,9 @@ PARAMS = MakerParams(size=SIZE, max_inventory=MAX_INV)
 # LIVE weather sell-taker (the settlement-validated edge). off|live; needs LIVE_ARMED too.
 WX_TAKER = os.getenv("WX_TAKER", "off").strip().lower()
 WX_BUDGET = float(os.getenv("WX_BUDGET", "75"))
+MLB_TAKER = os.getenv("MLB_TAKER", "off")          # off | live — MLB game-market probe
+MLB_BUDGET = float(os.getenv("MLB_BUDGET", "50"))
+MLB_EDGE = float(os.getenv("MLB_EDGE", "0.05"))    # min model-vs-ask edge to bet
 
 
 LIQ_SPREAD = 0.06        # a weather bucket is "tradeable" only if its book is this tight
@@ -265,6 +268,101 @@ def wx_taker_cycle(live_client, budget, state, log, buckets=None):
         log(f"  wx-taker BUY_SHORT {o['slug'][:34]} {o['qty']}@{price} "
             f"(bid {o['sell_price']}, edge~{o['edge']:+.2f}) -> http={st} resp={str(resp)[:140]}")
     return f"{'PROBE' if probe else 'scale'} placed {placed}/{len(orders)}, ${used:.0f}/{budget}"
+
+
+def mlb_taker_cycle(live_client, budget, state, log):
+    """LIVE bounded MLB probe: buy the model-cheap side of matched game markets near
+    kickoff, at executable book prices (only rows odds_refresh_pass has stamped). Mirrors
+    the weather taker's rails: probe-first (one 2-lot until a position confirms direction),
+    then scale to `budget` with a per-game cap; halts on wrong-direction / over-exposure /
+    never-rests. ALWAYS cancels our resting game orders once kickoff passes (an unfilled
+    maker order left in-play is pure adverse selection). Independent risk accounting from
+    the cricket farm and the weather taker. Returns a short status string."""
+    from core import mlbtaker, track
+    today_iso = datetime.now(timezone.utc).date().isoformat()
+    now = time.time()
+    rows = track.fetch_rows_for_odds("mlb", today_iso)
+    ko_by_slug: dict[str, float] = {}
+    for r in rows:
+        meta = r.get("meta") or {}
+        if meta.get("pm_slug"):
+            ko_by_slug[meta["pm_slug"]] = mlbtaker._ts(meta.get("kickoff", "")) or None
+    # stale-order sweep FIRST (risk-reducing) — runs even when tripped/idle
+    oo_s, oo_d = live_client.get_open_orders()
+    if oo_s == 429:
+        return "skip: rate-limited"
+    olist = oo_d if isinstance(oo_d, list) else (oo_d.get("orders", []) if isinstance(oo_d, dict) else [])
+    stale = mlbtaker.stale_order_ids(olist, ko_by_slug, now)
+    for oid, slug in stale:
+        cs, _ = live_client.cancel_order(oid, slug)
+        log(f"  mlb-taker cancel stale (in-play) {slug[:32]} id={oid} -> http={cs}")
+    if state.get("tripped"):
+        return state.get("status", "halt")
+    pos = positions_net(live_client)
+    mlb_pos = {s: v for s, v in pos.items() if s.startswith("aec-mlb")}
+    expected = state.setdefault("expected", {})    # slug -> +1 long / -1 short WE opened
+    bad = mlbtaker.wrong_direction(
+        {s: {"netPosition": v["net"]} for s, v in mlb_pos.items()},
+        {s: sg for s, sg in expected.items() if s in mlb_pos})
+    if bad:
+        state["tripped"] = True
+        state["status"] = f"halt: wrong-direction {bad}"
+        log(f"MLB-TAKER HALT: wrong-direction {bad} — standing aside")
+        return state["status"]
+    # collateral committed: long = qty*entry, short = qty*(1-entry) (~0.5 when unknown)
+    used = 0.0
+    for v in mlb_pos.values():
+        e = v["entry"] or 0.5
+        used += abs(v["net"]) * (e if v["net"] > 0 else (1 - e))
+    if used > budget * 1.25:
+        state["tripped"] = True
+        state["status"] = f"halt: over-exposed ${used:.0f}"
+        log(f"MLB-TAKER HALT: collateral ${used:.0f} > 1.25x budget ${budget}")
+        return state["status"]
+    open_mlb = [o for o in olist if str(o.get("marketSlug", "")).startswith("aec-mlb")
+                and str(o.get("id") or o.get("orderId")) not in {i for i, _ in stale}]
+    if open_mlb:
+        state["probe_fails"] = 0
+        return f"resting {len(open_mlb)}, {len(mlb_pos)}pos, ${used:.0f}/{budget}"
+    cands = [c for c in mlbtaker.candidates(rows, now, edge_min=MLB_EDGE)
+             if c["slug"] not in mlb_pos]
+    if not cands:
+        return f"idle: no edge near kickoff ({len(mlb_pos)}pos ${used:.0f}/{budget})"
+    probe = not any(v["net"] for v in mlb_pos.values())
+    if probe:
+        state["probe_fails"] = state.get("probe_fails", 0) + 1
+        if state["probe_fails"] > 3:
+            state["tripped"] = True
+            state["status"] = "halt: never rested"
+            log("MLB-TAKER HALT: probe order never rested/filled after 3 tries")
+            return state["status"]
+    else:
+        state["probe_fails"] = 0
+    per_game = float(os.getenv("MLB_PER_GAME", "10"))
+    room = budget - used
+    placed = 0
+    for c in (cands[:1] if probe else cands[:4]):
+        try:
+            bids, offers = live_client.get_book(c["slug"])
+        except Exception:
+            continue
+        od = mlbtaker.order_for(c["outcome"], c["side0"],
+                                bids[0][0] if bids else None,
+                                offers[0][0] if offers else None)
+        if not od:
+            continue
+        intent, px, cpc = od
+        qty = 2 if probe else int(min(per_game, room) // max(cpc, 0.01))
+        if qty < 1 or qty * cpc > room:
+            continue
+        st, resp = live_client.place_order(c["slug"], intent, px, qty, post_only=True)
+        expected[c["slug"]] = 1 if intent.endswith("BUY_LONG") else -1
+        room -= qty * cpc
+        placed += 1 if st == 200 else 0
+        log(f"  mlb-taker {intent.replace('ORDER_INTENT_', '')} {c['slug'][:36]} "
+            f"{qty}@{px} (edge {c['edge']:+.2f} side0={c['side0']}) "
+            f"-> http={st} resp={str(resp)[:120]}")
+    return f"{'PROBE' if probe else 'scale'} placed {placed}, ${used:.0f}/{budget}"
 
 
 def wx_settle_check(client, log):
@@ -773,11 +871,11 @@ def positions_net(client: PolyClient) -> dict:
     return out
 
 
-def cancel_all_orders(client: PolyClient, exclude_prefixes=("tc-temp",)) -> int:
+def cancel_all_orders(client: PolyClient, exclude_prefixes=("tc-temp", "aec-mlb")) -> int:
     """Cancel our resting orders (best-effort) — used by the cricket reconcile + breaker.
-    EXCLUDES tc-temp (weather sell-taker) orders by default so the cricket farm's
-    cancel-all reconcile doesn't nuke the separately-managed weather offers every cycle.
-    Pass exclude_prefixes=() to cancel literally everything."""
+    EXCLUDES tc-temp (weather sell-taker) and aec-mlb (MLB probe) orders by default so the
+    cricket farm's cancel-all reconcile doesn't nuke the separately-managed strategy orders
+    every cycle. Pass exclude_prefixes=() to cancel literally everything."""
     s, d = client.get_open_orders()
     orders = []
     if isinstance(d, dict):
@@ -807,10 +905,10 @@ def breaker_check(client: PolyClient, positions: dict) -> tuple[bool, str]:
     needing exact P&L fields), or (c) best-effort unrealized loss past DAILY_LOSS."""
     total_exposure, unreal = 0.0, 0.0
     for slug, info in positions.items():
-        # ignore held-legacy (deny) positions AND the weather sell-taker's tc-temp shorts,
-        # which have their OWN budget/breaker — otherwise weather exposure trips the cricket
-        # farm (the two strategies must be accounted independently).
-        if slug in DENY_SLUGS or slug.startswith("tc-temp"):
+        # ignore held-legacy (deny) positions AND the weather/MLB takers' positions,
+        # which have their OWN budgets/breakers — otherwise their exposure trips the
+        # cricket farm (each strategy must be accounted independently).
+        if slug in DENY_SLUGS or slug.startswith(("tc-temp", "aec-mlb")):
             continue
         net, entry = info["net"], info["entry"]
         if abs(net) > MAX_INV:
@@ -1193,8 +1291,10 @@ def main():
         sports_rec: set[str] = set()
         golf_rec: set[str] = set()
         last_wx = last_soc = last_sports = last_settle = last_hb = last_pnl = 0.0
-        last_wxchk = last_odds = 0.0
+        last_wxchk = last_odds = last_mlb = 0.0
         odds_state: dict = {}
+        mlb_state: dict = {"tripped": False}
+        mlb_status = ""
         PNL_EVERY = 300          # log an account P&L snapshot every 5 min while live
         pnl_summ: dict = {}
         # live trading client (REAL only when POLY_LIVE_ARMED; else shadow) + cache +
@@ -1310,6 +1410,14 @@ def main():
                 except Exception as e:
                     log(f"track/odds-refresh error: {e}")
                 last_odds = now
+            # LIVE MLB probe: real orders only when MLB_TAKER=live AND armed. Fast timer —
+            # its kickoff-passed stale-order sweep must run promptly (never rest in-play).
+            if MLB_TAKER == "live" and LIVE_ARMED and now - last_mlb >= 600:
+                try:
+                    mlb_status = mlb_taker_cycle(live_client, MLB_BUDGET, mlb_state, log)
+                except Exception as e:
+                    log(f"mlb-taker error: {e}")
+                last_mlb = now
             if now - last_hb >= HB_EVERY:
                 wx_hb = {"wx_taker": wx_status, "wx_tripped": wx_state.get("tripped", False),
                          "wx_settled_pnl": wx_state.get("wx_settled_pnl"),
@@ -1317,6 +1425,9 @@ def main():
                          "wx_settled_auth": wx_state.get("wx_settled_auth"),
                          "wx_settled_est": wx_state.get("wx_settled_est")} \
                     if WX_TAKER == "live" else {}
+                if MLB_TAKER == "live":
+                    wx_hb.update(mlb_taker=mlb_status,
+                                 mlb_tripped=mlb_state.get("tripped", False))
                 if live_now:
                     _track.heartbeat("live" if LIVE_ARMED else "live-shadow",
                                      res.get("status", "?"),

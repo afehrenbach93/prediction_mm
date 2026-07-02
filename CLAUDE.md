@@ -123,6 +123,18 @@ read-only before funding; reconcile any tape-derived P&L against account balance
   threshold-sim positive at executable prices → eligible for a $50 armed-gated probe. MLB is
   first through the gate if it survives honest prices (~a week at ~15 games/day). 139 tests
   green (+8; golf-window test updated — it was asserting the bug).
+- **MLB probe went live (Andrew: "merge and turn on mlb now" — Option 2 sizing, ahead of the
+  gate).** `core/mlbtaker.py` + `mlb_taker_cycle`: buys the model-cheap side of matched game
+  markets near kickoff at executable book prices (only rows stamped by `odds_refresh_pass`),
+  `MLB_TAKER=live`/`MLB_BUDGET=50`/`MLB_EDGE=0.05`, probe-first (one 2-lot until a position
+  confirms direction) then scale with $10/game cap. Rails mirror the weather taker: halt on
+  wrong-direction (expected-sign per slug) / over-exposure / 3x never-rested; **stale-order
+  sweep cancels our resting game orders the moment kickoff passes** (never rest in-play),
+  runs even when tripped, on a fast 10-min timer. Order semantics reuse the two LIVE-PROVEN
+  paths only: rest post-only `BUY_LONG` inside the spread to long the book side; rest
+  post-only `BUY_SHORT` at bid+0.01 to fade it (no SELL_* intents — the inverted-intent
+  trap). Independent accounting: `aec-mlb` excluded from the cricket breaker + cancel-all,
+  like `tc-temp`. Heartbeat: `mlb_taker`/`mlb_tripped`. 145 tests green (+6).
 - **Breaker wedge (fixed live):** after merging Option C, the worker tripped every cycle on
   a **400-lot golf position** (`tec-pga-travcham-2026-06-28-w-wyncla`, Andrew's OWN manual
   bet, not the bot) — 8× the 50 inventory cap → stood the whole bot aside. Added it to
