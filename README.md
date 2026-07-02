@@ -8,6 +8,10 @@ maker rebate + liquidity-reward pools.
 > theses stay in that repo's history. See `CLAUDE.md` for the thesis,
 > invariants, and worklog.
 
+**Want to run your own?** See [`DEPLOY.md`](DEPLOY.md) — your own Polymarket US
+keys, your own Supabase + control app, your own kill switch. Fresh deployments
+place zero orders until you deliberately arm them.
+
 ## Layout
 ```
 poly_runner.py          worker: market selection + reconcile quote loop + breaker
