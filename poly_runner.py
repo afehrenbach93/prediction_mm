@@ -55,6 +55,9 @@ PARAMS = MakerParams(size=SIZE, max_inventory=MAX_INV)
 # LIVE weather sell-taker (the settlement-validated edge). off|live; needs LIVE_ARMED too.
 WX_TAKER = os.getenv("WX_TAKER", "off").strip().lower()
 WX_BUDGET = float(os.getenv("WX_BUDGET", "75"))
+MLB_TAKER = os.getenv("MLB_TAKER", "off")          # off | live — MLB game-market probe
+MLB_BUDGET = float(os.getenv("MLB_BUDGET", "50"))
+MLB_EDGE = float(os.getenv("MLB_EDGE", "0.05"))    # min model-vs-ask edge to bet
 
 
 LIQ_SPREAD = 0.06        # a weather bucket is "tradeable" only if its book is this tight
@@ -267,6 +270,101 @@ def wx_taker_cycle(live_client, budget, state, log, buckets=None):
     return f"{'PROBE' if probe else 'scale'} placed {placed}/{len(orders)}, ${used:.0f}/{budget}"
 
 
+def mlb_taker_cycle(live_client, budget, state, log):
+    """LIVE bounded MLB probe: buy the model-cheap side of matched game markets near
+    kickoff, at executable book prices (only rows odds_refresh_pass has stamped). Mirrors
+    the weather taker's rails: probe-first (one 2-lot until a position confirms direction),
+    then scale to `budget` with a per-game cap; halts on wrong-direction / over-exposure /
+    never-rests. ALWAYS cancels our resting game orders once kickoff passes (an unfilled
+    maker order left in-play is pure adverse selection). Independent risk accounting from
+    the cricket farm and the weather taker. Returns a short status string."""
+    from core import mlbtaker, track
+    today_iso = datetime.now(timezone.utc).date().isoformat()
+    now = time.time()
+    rows = track.fetch_rows_for_odds("mlb", today_iso)
+    ko_by_slug: dict[str, float] = {}
+    for r in rows:
+        meta = r.get("meta") or {}
+        if meta.get("pm_slug"):
+            ko_by_slug[meta["pm_slug"]] = mlbtaker._ts(meta.get("kickoff", "")) or None
+    # stale-order sweep FIRST (risk-reducing) — runs even when tripped/idle
+    oo_s, oo_d = live_client.get_open_orders()
+    if oo_s == 429:
+        return "skip: rate-limited"
+    olist = oo_d if isinstance(oo_d, list) else (oo_d.get("orders", []) if isinstance(oo_d, dict) else [])
+    stale = mlbtaker.stale_order_ids(olist, ko_by_slug, now)
+    for oid, slug in stale:
+        cs, _ = live_client.cancel_order(oid, slug)
+        log(f"  mlb-taker cancel stale (in-play) {slug[:32]} id={oid} -> http={cs}")
+    if state.get("tripped"):
+        return state.get("status", "halt")
+    pos = positions_net(live_client)
+    mlb_pos = {s: v for s, v in pos.items() if s.startswith("aec-mlb")}
+    expected = state.setdefault("expected", {})    # slug -> +1 long / -1 short WE opened
+    bad = mlbtaker.wrong_direction(
+        {s: {"netPosition": v["net"]} for s, v in mlb_pos.items()},
+        {s: sg for s, sg in expected.items() if s in mlb_pos})
+    if bad:
+        state["tripped"] = True
+        state["status"] = f"halt: wrong-direction {bad}"
+        log(f"MLB-TAKER HALT: wrong-direction {bad} — standing aside")
+        return state["status"]
+    # collateral committed: long = qty*entry, short = qty*(1-entry) (~0.5 when unknown)
+    used = 0.0
+    for v in mlb_pos.values():
+        e = v["entry"] or 0.5
+        used += abs(v["net"]) * (e if v["net"] > 0 else (1 - e))
+    if used > budget * 1.25:
+        state["tripped"] = True
+        state["status"] = f"halt: over-exposed ${used:.0f}"
+        log(f"MLB-TAKER HALT: collateral ${used:.0f} > 1.25x budget ${budget}")
+        return state["status"]
+    open_mlb = [o for o in olist if str(o.get("marketSlug", "")).startswith("aec-mlb")
+                and str(o.get("id") or o.get("orderId")) not in {i for i, _ in stale}]
+    if open_mlb:
+        state["probe_fails"] = 0
+        return f"resting {len(open_mlb)}, {len(mlb_pos)}pos, ${used:.0f}/{budget}"
+    cands = [c for c in mlbtaker.candidates(rows, now, edge_min=MLB_EDGE)
+             if c["slug"] not in mlb_pos]
+    if not cands:
+        return f"idle: no edge near kickoff ({len(mlb_pos)}pos ${used:.0f}/{budget})"
+    probe = not any(v["net"] for v in mlb_pos.values())
+    if probe:
+        state["probe_fails"] = state.get("probe_fails", 0) + 1
+        if state["probe_fails"] > 3:
+            state["tripped"] = True
+            state["status"] = "halt: never rested"
+            log("MLB-TAKER HALT: probe order never rested/filled after 3 tries")
+            return state["status"]
+    else:
+        state["probe_fails"] = 0
+    per_game = float(os.getenv("MLB_PER_GAME", "10"))
+    room = budget - used
+    placed = 0
+    for c in (cands[:1] if probe else cands[:4]):
+        try:
+            bids, offers = live_client.get_book(c["slug"])
+        except Exception:
+            continue
+        od = mlbtaker.order_for(c["outcome"], c["side0"],
+                                bids[0][0] if bids else None,
+                                offers[0][0] if offers else None)
+        if not od:
+            continue
+        intent, px, cpc = od
+        qty = 2 if probe else int(min(per_game, room) // max(cpc, 0.01))
+        if qty < 1 or qty * cpc > room:
+            continue
+        st, resp = live_client.place_order(c["slug"], intent, px, qty, post_only=True)
+        expected[c["slug"]] = 1 if intent.endswith("BUY_LONG") else -1
+        room -= qty * cpc
+        placed += 1 if st == 200 else 0
+        log(f"  mlb-taker {intent.replace('ORDER_INTENT_', '')} {c['slug'][:36]} "
+            f"{qty}@{px} (edge {c['edge']:+.2f} side0={c['side0']}) "
+            f"-> http={st} resp={str(resp)[:120]}")
+    return f"{'PROBE' if probe else 'scale'} placed {placed}, ${used:.0f}/{budget}"
+
+
 def wx_settle_check(client, log):
     """VALIDATION (read-only): the weather edge is only real if OUR settlement (observed
     daily high) matches how Polymarket actually resolves these buckets. For recently-settled
@@ -317,6 +415,120 @@ def wx_settle_check(client, log):
         f"re-settled {corrected} rows to PM's outcome")
     for s in samples:
         log(f"  wx-settle mismatch: {s}")
+
+
+def sport_settle_check(client, log, max_reads: int = 60):
+    """VALIDATION (read-only): re-settle sports rows against PM's AUTHORITATIVE resolution
+    — the generalized wx_settle_check. Our ESPN-based settlement can diverge from what the
+    venue actually pays (the weather settlement-source flaw); every Brier/P&L number carries
+    that asterisk until rows settle against PM. For settled rows that matched a PM market
+    (meta.pm_slug), read the resolved market's outcomePrices, map the winning side via the
+    outcomes/team names, compare to our realized_yes, and correct mismatches."""
+    from core import track, pmodds
+    import json as _json
+    for sport in ("mlb", "nba", "nfl", "ncaaf"):
+        rows = [r for r in track.fetch_settled(sport, 150)
+                if (r.get("meta") or {}).get("pm_slug")]
+        if not rows:
+            continue
+        agree = mismatch = unresolved = corrected = 0
+        cache, reads, samples = {}, 0, []
+        for r in rows:
+            meta = r.get("meta") or {}
+            slug = meta["pm_slug"]
+            if slug not in cache:
+                if reads >= max_reads:
+                    continue
+                cache[slug] = client.get_market(slug)
+                reads += 1
+            m = cache[slug]
+            if not m:
+                continue
+            hp, ap = pmodds._outcome_prices(m, meta.get("home", ""), meta.get("away", ""))
+            if hp is None or ap is None:
+                unresolved += 1
+                continue
+            home_won = True if (hp > 0.9 and ap < 0.1) else \
+                       False if (ap > 0.9 and hp < 0.1) else None
+            if home_won is None:                    # market not resolved to ~1/0 yet
+                unresolved += 1
+                continue
+            pm_yes = (r.get("outcome") == "home") == home_won
+            if bool(r.get("realized_yes")) == pm_yes:
+                agree += 1
+            else:
+                mismatch += 1
+                if r.get("id") and track.set_realized(int(r["id"]), pm_yes) in (200, 204):
+                    corrected += 1
+                if len(samples) < 6:
+                    samples.append(f'{slug} outcome={r.get("outcome")} '
+                                   f'ours={bool(r.get("realized_yes"))} pm={pm_yes}')
+        tot = agree + mismatch
+        rate = f"{agree}/{tot} ({100*agree/tot:.0f}%)" if tot else "n/a"
+        log(f"{sport}-settle check: AGREE {rate}, unresolved={unresolved}, "
+            f"re-settled {corrected} rows to PM's outcome")
+        for s in samples:
+            log(f"  {sport}-settle mismatch: {s}")
+
+
+def odds_refresh_pass(client, log, state, ahead_secs: int = 9000):
+    """Near-game EXECUTABLE odds capture. The daily snapshot records outcomePrices at
+    ~listing time — often a stale pre-liquidity print (market Brier came out WORSE than a
+    coin flip, an anti-informative artifact), so sims against it aren't executable evidence.
+    For today's matched games starting within `ahead_secs`, read the market's actual BOOK,
+    map it to per-side bid/ask (pmodds.executable_sides), and overwrite the row's market
+    fields. One refresh per row (meta.odds_at marks done). Read-only on the exchange."""
+    from core import track, pmodds
+    today_iso = datetime.now(timezone.utc).date().isoformat()
+    now = datetime.now(timezone.utc).timestamp()
+    updated = skipped = 0
+    for sport in ("mlb", "nba", "nfl", "ncaaf"):
+        rows = track.fetch_rows_for_odds(sport, today_iso)
+        if not rows:
+            continue
+        by_slug: dict[str, list] = {}
+        for r in rows:
+            meta = r.get("meta") or {}
+            if meta.get("odds_at"):                 # already refreshed near game time
+                continue
+            ko = iso_ts(meta.get("kickoff", ""))
+            if not ko or not (0 <= ko - now <= ahead_secs):
+                continue                            # not near kickoff yet (or started)
+            by_slug.setdefault(meta["pm_slug"], []).append(r)
+        for slug, srows in by_slug.items():
+            m = client.get_market(slug)
+            if not m:
+                continue
+            try:
+                bids, offers = client.get_book(slug)
+            except Exception:
+                continue
+            meta0 = srows[0].get("meta") or {}
+            quotes, side0, drift = pmodds.executable_sides(
+                m, bids, offers, meta0.get("home", ""), meta0.get("away", ""))
+            if not quotes:
+                skipped += 1
+                continue
+            if not state.get("odds_probed"):
+                log(f"  odds-refresh PROBE {slug}: book_side0={side0} drift={drift} "
+                    f"quotes={quotes} vs outcomePrices={m.get('outcomePrices')}")
+                state["odds_probed"] = True
+            for r in srows:
+                q = quotes.get(r.get("outcome") or "")
+                if not q:
+                    continue
+                edge = (round(float(r["model_prob"]) - q["ask"], 4)
+                        if r.get("model_prob") is not None else None)
+                meta = r.get("meta") or {}
+                meta.update(odds_at=datetime.now(timezone.utc).isoformat()[:19] + "Z",
+                            book_side0=side0, book_drift=drift,
+                            snap_ask=r.get("market_ask"))   # keep the morning print
+                if track.update_market_odds(int(r["id"]), q["bid"], q["ask"],
+                                            edge, meta) in (200, 204):
+                    updated += 1
+    if updated or skipped:
+        log(f"odds-refresh: {updated} rows updated to executable book quotes, "
+            f"{skipped} markets unmappable")
 
 
 def soccer_pass(client, recorded_days: set):
@@ -425,6 +637,11 @@ def sports_pass(client, recorded_days: set):
             recent = espnfeed.recent_results(path, window)
         fixtures = espnfeed.upcoming_fixtures(path, fut)
         log(f"  {key}: seeded {len(recent)} results, {len(fixtures)} upcoming fixtures")
+        # tennis went dark when Wimbledon started — when a slam is on but 0 fixtures
+        # parse, log the raw structure once/day so the nesting can be fixed from logs.
+        if key in ("atp", "wta") and not fixtures and f"tdiag-{today_iso}" not in recorded_days:
+            log(f"  {key} SHAPE: {espnfeed.raw_shape(path, fut)}")
+            recorded_days.add(f"tdiag-{today_iso}")
         all_fixtures += fixtures
         payload += sportstrack.build_sport_rows(key, path, neutral, recent, fixtures, today_iso)
     # attach live PM market odds to each game so we can measure model-vs-MARKET edge
@@ -654,11 +871,11 @@ def positions_net(client: PolyClient) -> dict:
     return out
 
 
-def cancel_all_orders(client: PolyClient, exclude_prefixes=("tc-temp",)) -> int:
+def cancel_all_orders(client: PolyClient, exclude_prefixes=("tc-temp", "aec-mlb")) -> int:
     """Cancel our resting orders (best-effort) — used by the cricket reconcile + breaker.
-    EXCLUDES tc-temp (weather sell-taker) orders by default so the cricket farm's
-    cancel-all reconcile doesn't nuke the separately-managed weather offers every cycle.
-    Pass exclude_prefixes=() to cancel literally everything."""
+    EXCLUDES tc-temp (weather sell-taker) and aec-mlb (MLB probe) orders by default so the
+    cricket farm's cancel-all reconcile doesn't nuke the separately-managed strategy orders
+    every cycle. Pass exclude_prefixes=() to cancel literally everything."""
     s, d = client.get_open_orders()
     orders = []
     if isinstance(d, dict):
@@ -688,10 +905,10 @@ def breaker_check(client: PolyClient, positions: dict) -> tuple[bool, str]:
     needing exact P&L fields), or (c) best-effort unrealized loss past DAILY_LOSS."""
     total_exposure, unreal = 0.0, 0.0
     for slug, info in positions.items():
-        # ignore held-legacy (deny) positions AND the weather sell-taker's tc-temp shorts,
-        # which have their OWN budget/breaker — otherwise weather exposure trips the cricket
-        # farm (the two strategies must be accounted independently).
-        if slug in DENY_SLUGS or slug.startswith("tc-temp"):
+        # ignore held-legacy (deny) positions AND the weather/MLB takers' positions,
+        # which have their OWN budgets/breakers — otherwise their exposure trips the
+        # cricket farm (each strategy must be accounted independently).
+        if slug in DENY_SLUGS or slug.startswith(("tc-temp", "aec-mlb")):
             continue
         net, entry = info["net"], info["entry"]
         if abs(net) > MAX_INV:
@@ -855,14 +1072,61 @@ def pnl_snapshot(client: PolyClient) -> dict:
     return summ
 
 
+def _wx_clean_struct(obj, _depth=0):
+    """Recursively strip large/base64 blobs (icon/image/logo) and truncate long strings so a
+    resolution struct can be logged in full without the marketMetadata icon swallowing it."""
+    if isinstance(obj, dict):
+        out = {}
+        for k, v in obj.items():
+            if k in ("icon", "image", "logo", "imageUrl", "iconUrl", "resolvedIcon"):
+                out[k] = "-"
+            else:
+                out[k] = _wx_clean_struct(v, _depth + 1)
+        return out
+    if isinstance(obj, list):
+        return [_wx_clean_struct(v, _depth + 1) for v in obj[:8]]
+    if isinstance(obj, str) and len(obj) > 60:
+        return obj[:57] + "..."
+    return obj
+
+
+def _wx_money(cand):
+    """Coerce a money-ish field to float dollars. Accepts {'value': '1.23'} / {'value': 123}
+    or a bare number/string. Returns None if it can't."""
+    if isinstance(cand, dict):
+        cand = cand.get("value")
+    try:
+        return float(cand)
+    except (TypeError, ValueError):
+        return None
+
+
+def _wx_find_realized(pr, ap, bp):
+    """Extract the authoritative settled realized dollars from a positionResolution, checking
+    every location PM has been observed to carry it. Returns (value, source) or (None, '')."""
+    candidates = [
+        ("pr.realized", pr.get("realized")),
+        ("pr.realizedPnl", pr.get("realizedPnl")),
+        ("pr.pnl", pr.get("pnl")),
+        ("ap.realized", ap.get("realized")),
+        ("ap.realizedPnl", ap.get("realizedPnl")),
+        ("bp.realized", bp.get("realized")),
+    ]
+    for src, cand in candidates:
+        v = _wx_money(cand)
+        if v is not None:
+            return v, src
+    return None, ""
+
+
 def wx_settlement_pnl(client: PolyClient, log, state) -> dict:
     """Account-level WEATHER-ONLY realized P&L: sum the settled P&L of tc-temp positions
     from portfolio activities (the shared balance mixes cricket + open marks, so isolate
-    weather here). Prefers the resolution's authoritative settled `realized`; falls back to
-    computing from net/cost/outcome (short: settles NO -> +(Q-cost), YES -> -cost). Logs the
-    resolution structure ONCE so the realized field can be verified. Read-only; never raises."""
+    weather here). Prefers the resolution's AUTHORITATIVE settled `realized`; falls back to
+    computing from net/cost/outcome (short: settles NO -> +(Q-cost), YES -> -cost) and marks
+    the row estimated. Logs the cleaned resolution structure ONCE so the realized field can be
+    verified. Read-only; never raises."""
     import json as _json
-    import re as _re
     try:
         _, act = client.signed_get("/v1/portfolio/activities")
     except Exception as e:
@@ -872,6 +1136,7 @@ def wx_settlement_pnl(client: PolyClient, log, state) -> dict:
     items = items if isinstance(items, list) else []
     seen, rows, total = set(), [], 0.0
     struct_logged = state.get("wx_pnl_logged", False)
+    n_auth = n_est = 0
     outcome_cache = {}
     for a in items:
         if not isinstance(a, dict) or (a.get("type") or "") != "ACTIVITY_TYPE_POSITION_RESOLUTION":
@@ -887,19 +1152,14 @@ def wx_settlement_pnl(client: PolyClient, log, state) -> dict:
             continue
         seen.add(key)
         if not struct_logged:
-            log(f"wx-pnl STRUCT: {_re.sub(chr(39)+'icon'+chr(39)+': '+chr(39)+'[^'+chr(39)+']*'+chr(39), 'icon:-', str(pr))[:420]}")
+            log(f"wx-pnl STRUCT: {_json.dumps(_wx_clean_struct(pr))[:900]}")
             struct_logged = True
         # authoritative settled realized, if the resolution carries it
-        realized = None
-        for cand in (ap.get("realized"), pr.get("realized")):
-            if isinstance(cand, dict):
-                try:
-                    realized = float(cand.get("value"))
-                    break
-                except Exception:
-                    pass
+        realized, src = _wx_find_realized(pr, ap, bp)
+        est = False
         if realized is None:
             # fallback: compute from net + cost + PM outcome (assume cost = collateral)
+            est = True
             try:
                 net = float(bp.get("qtyBought", 0)) - float(bp.get("qtySold", 0))
                 cost = float((bp.get("cost") or {}).get("value", 0))
@@ -920,13 +1180,17 @@ def wx_settlement_pnl(client: PolyClient, log, state) -> dict:
             won = (net < 0 and not yes) or (net > 0 and yes)     # short wins on NO
             realized = (abs(net) - cost) if won else -cost
         total += realized
-        rows.append((round(realized, 2), slug[-30:]))
+        n_est += int(est)
+        n_auth += int(not est)
+        rows.append((round(realized, 2), ("~" if est else " ") + slug[-30:]))
     state["wx_pnl_logged"] = struct_logged
     rows.sort()
-    log(f"wx-pnl: {len(rows)} settled weather positions, total realized ${total:+.2f}")
+    tag = f"{n_auth} authoritative + {n_est} estimated" if n_est else f"{n_auth} authoritative"
+    log(f"wx-pnl: {len(rows)} settled weather positions ({tag}), total realized ${total:+.2f}")
     for r in rows[:12]:
         log(f"  wx-pnl {r}")
-    return {"wx_settled_pnl": round(total, 2), "wx_settled_n": len(rows)}
+    return {"wx_settled_pnl": round(total, 2), "wx_settled_n": len(rows),
+            "wx_settled_auth": n_auth, "wx_settled_est": n_est}
 
 
 def scan_markets(client: PolyClient, budget: float):
@@ -1027,7 +1291,10 @@ def main():
         sports_rec: set[str] = set()
         golf_rec: set[str] = set()
         last_wx = last_soc = last_sports = last_settle = last_hb = last_pnl = 0.0
-        last_wxchk = 0.0
+        last_wxchk = last_odds = last_mlb = 0.0
+        odds_state: dict = {}
+        mlb_state: dict = {"tripped": False}
+        mlb_status = ""
         PNL_EVERY = 300          # log an account P&L snapshot every 5 min while live
         pnl_summ: dict = {}
         # live trading client (REAL only when POLY_LIVE_ARMED; else shadow) + cache +
@@ -1127,17 +1394,40 @@ def main():
                 except Exception as e:
                     log(f"track/settle error: {e}")
                 last_settle = now
-            if now - last_wxchk >= 21600:          # settlement-source check ~every 6h
+            if now - last_wxchk >= 21600:          # settlement-source checks ~every 6h
                 try:
                     wx_settle_check(client, log)
                 except Exception as e:
                     log(f"track/wx-settle error: {e}")
+                try:
+                    sport_settle_check(client, log)
+                except Exception as e:
+                    log(f"track/sport-settle error: {e}")
                 last_wxchk = now
+            if now - last_odds >= 2400:            # near-game executable-odds refresh ~40min
+                try:
+                    odds_refresh_pass(client, log, odds_state)
+                except Exception as e:
+                    log(f"track/odds-refresh error: {e}")
+                last_odds = now
+            # LIVE MLB probe: real orders only when MLB_TAKER=live AND armed. Fast timer —
+            # its kickoff-passed stale-order sweep must run promptly (never rest in-play).
+            if MLB_TAKER == "live" and LIVE_ARMED and now - last_mlb >= 600:
+                try:
+                    mlb_status = mlb_taker_cycle(live_client, MLB_BUDGET, mlb_state, log)
+                except Exception as e:
+                    log(f"mlb-taker error: {e}")
+                last_mlb = now
             if now - last_hb >= HB_EVERY:
                 wx_hb = {"wx_taker": wx_status, "wx_tripped": wx_state.get("tripped", False),
                          "wx_settled_pnl": wx_state.get("wx_settled_pnl"),
-                         "wx_settled_n": wx_state.get("wx_settled_n")} \
+                         "wx_settled_n": wx_state.get("wx_settled_n"),
+                         "wx_settled_auth": wx_state.get("wx_settled_auth"),
+                         "wx_settled_est": wx_state.get("wx_settled_est")} \
                     if WX_TAKER == "live" else {}
+                if MLB_TAKER == "live":
+                    wx_hb.update(mlb_taker=mlb_status,
+                                 mlb_tripped=mlb_state.get("tripped", False))
                 if live_now:
                     _track.heartbeat("live" if LIVE_ARMED else "live-shadow",
                                      res.get("status", "?"),

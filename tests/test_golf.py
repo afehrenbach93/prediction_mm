@@ -86,9 +86,12 @@ class TestSettle(unittest.TestCase):
         self.assertEqual(settle.settle_golf(self._rows(), lambda d: {}), {})
 
     def test_date_passed_yyyymmdd(self):
+        # window must reach back to the tournament START — ESPN files events under their
+        # start date, and golf settles on the END date (the old ±1-day window missed
+        # every event and settled 0 rows).
         seen = []
         settle.settle_golf(self._rows(), lambda d: seen.append(d) or {})
-        self.assertEqual(seen, ["20260620-20260622"])   # ±1-day window
+        self.assertEqual(seen, ["20260615-20260622"])   # end−6d .. end+1d
 
 
 if __name__ == "__main__":

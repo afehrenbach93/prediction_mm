@@ -122,6 +122,38 @@ def fetch(sport_path: str, dates: str | None = None) -> list[dict]:
         return []
 
 
+def raw_shape(sport_path: str, dates: str | None = None) -> str:
+    """DIAGNOSTIC: compact summary of the raw scoreboard structure — event count, each
+    event's keys/status/competition/grouping counts, and per-competition status states.
+    Tennis went silent when Wimbledon started (0 fixtures parsed); this log line is how
+    the slam's actual nesting gets pinned down from the worker (dev sandbox can't reach
+    ESPN). Returns a one-line string; safe on any shape."""
+    url = SCOREBOARD.format(path=sport_path)
+    if dates:
+        url += f"?dates={dates}&limit=400"
+    req = urllib.request.Request(url, headers={"User-Agent": "prediction-mm/espn"})
+    try:
+        with urllib.request.urlopen(req, timeout=20) as r:
+            raw = json.loads(r.read())
+    except Exception as e:
+        return f"fetch-error: {str(e)[:60]}"
+    evs = (raw or {}).get("events", []) or []
+    parts = [f"events={len(evs)}"]
+    for ev in evs[:3]:
+        comps = ev.get("competitions") or []
+        grps = ev.get("groupings") or []
+        gcomps = [c for g in grps for c in (g.get("competitions") or [])]
+        states = {}
+        for c in (comps + gcomps)[:80]:
+            st = ((c.get("status") or {}).get("type") or {}).get("state", "?")
+            states[st] = states.get(st, 0) + 1
+        ev_state = ((ev.get("status") or {}).get("type") or {}).get("state", "?")
+        parts.append(f"[{str(ev.get('name',''))[:24]} ev_state={ev_state} "
+                     f"comps={len(comps)} groupings={len(grps)} g_comps={len(gcomps)} "
+                     f"comp_states={states} keys={sorted(ev.keys())[:10]}]")
+    return " ".join(parts)
+
+
 def recent_results(sport_path: str, dates: str | None = None) -> list[dict]:
     """Finished matches with a determinable winner — chronological, for Elo. Uses the
     winner flag (tennis) or numeric scores (team sports)."""
