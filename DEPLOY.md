@@ -1,4 +1,24 @@
-# Deploy your own instance
+# Joining the SHARED bot (most people want this)
+
+One worker runs the models and strategies for **everyone**; each user connects their
+own Polymarket US account. Your kill switch disconnects **your** account from order
+flow — the shared bot never stops.
+
+1. Open the control app and sign up / sign in with your email.
+2. Settings → **My trading** → Register (you start OFF, no keys linked).
+3. Create API credentials in your Polymarket US account (api.polymarket.us) and send
+   the key id + base64 secret to the operator **privately** (never commit them, never
+   paste them in the app).
+4. The operator adds them to the worker env (e.g. `POLYMARKET_API_KEY__YOURNAME` /
+   `POLYMARKET_SECRET__YOURNAME` + a fresh deploy) and links those env-var *names* to
+   your `poly_users` row (`key_env` / `secret_env` columns).
+5. Settings → My trading → **Arm** when you want the bot trading your account;
+   **Turn off** anytime. Off = no orders reach your account and your resting bot
+   orders are cancelled; models/tracking are unaffected.
+
+---
+
+# Deploy your own separate instance (optional)
 
 Run this bot against **your own** Polymarket US account, with your own control app.
 Everything is per-deployment: your keys, your database, your kill switch. Nothing is

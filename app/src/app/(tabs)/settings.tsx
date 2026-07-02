@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Alert, Linking, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useLiveQuery, ageSeconds } from '../../lib/hooks';
-import { fetchControl, fetchBotStatus, setDesiredMode, setLive, type Control, type BotStatus } from '../../lib/tracker';
+import { fetchControl, fetchBotStatus, setDesiredMode, setLive, fetchMyUser, registerMe, setMyArmed, type Control, type BotStatus, type PolyUser } from '../../lib/tracker';
 import { supabase } from '../../lib/supabase';
 import { Btn, Card, Dot, SectionTitle } from '../../components/ui';
 import { C, statusColor, statusLabel } from '../../theme';
@@ -16,12 +16,15 @@ const BUDGETS = [25, 50, 100];
 export default function Settings() {
   const [busy, setBusy] = useState(false);
   const [budget, setBudget] = useState(50);
-  const { data, refresh } = useLiveQuery<{ control: Control | null; status: BotStatus | null }>(
+  const { data, refresh } = useLiveQuery<{ control: Control | null; status: BotStatus | null; me: PolyUser | null; email: string }>(
     async () => {
-      const [control, status] = await Promise.all([fetchControl(), fetchBotStatus()]);
-      return { control, status };
+      const { data: u } = await supabase.auth.getUser();
+      const email = u?.user?.email ?? '';
+      const [control, status, me] = await Promise.all([
+        fetchControl(), fetchBotStatus(), email ? fetchMyUser(email) : Promise.resolve(null)]);
+      return { control, status, me, email };
     },
-    ['poly_control', 'poly_status'],
+    ['poly_control', 'poly_status', 'poly_users'],
     10000,
   );
 
@@ -78,6 +81,9 @@ export default function Settings() {
           <Text style={s.pending}>Requested “{desired}” — applies on the worker’s next cycle.</Text>
         ) : null}
       </Card>
+
+      <MyTradingCard me={data?.me ?? null} email={data?.email ?? ''} busy={busy}
+                     setBusy={setBusy} refresh={refresh} />
 
       <SectionTitle>Worker mode</SectionTitle>
       {MODES.map((m) => {
@@ -147,6 +153,65 @@ export default function Settings() {
       <View style={{ height: 8 }} />
       <Btn title="Sign out" kind="ghost" onPress={() => supabase.auth.signOut()} />
     </ScrollView>
+  );
+}
+
+function MyTradingCard({ me, email, busy, setBusy, refresh }:
+  { me: PolyUser | null; email: string; busy: boolean;
+    setBusy: (b: boolean) => void; refresh: () => void }) {
+  if (!email) return null;
+  const linked = !!(me && me.key_env && me.secret_env);
+  const run = async (fn: () => Promise<void>) => {
+    setBusy(true);
+    try { await fn(); refresh(); }
+    catch (e: any) { Alert.alert('Failed', String(e?.message ?? e)); }
+    finally { setBusy(false); }
+  };
+  const toggle = () => {
+    if (!me) return;
+    if (me.armed) { run(() => setMyArmed(email, false)); return; }
+    Alert.alert('Arm my trading',
+      'The shared bot will place REAL orders on YOUR Polymarket account (within its ' +
+      'budgets and breakers). Turn off anytime — that stops orders to your account ' +
+      'only; the shared models keep running.',
+      [{ text: 'Cancel', style: 'cancel' },
+       { text: 'Arm (real $)', style: 'destructive', onPress: () => run(() => setMyArmed(email, true)) }]);
+  };
+  return (
+    <>
+      <SectionTitle>My trading</SectionTitle>
+      <Card>
+        {!me ? (
+          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+            <View style={{ flex: 1 }}>
+              <Text style={s.modeLabel}>Not registered</Text>
+              <Text style={s.modeDesc}>
+                Register, then send the operator your Polymarket API keys to add to the
+                worker. You stay OFF until you arm yourself.
+              </Text>
+            </View>
+            <Btn title="Register" kind="primary" busy={busy} disabled={busy}
+                 onPress={() => run(() => registerMe(email, email.split('@')[0]))} />
+          </View>
+        ) : (
+          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+            <View style={{ flex: 1 }}>
+              <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
+                <Dot color={me.armed ? C.red : C.dim} size={12} />
+                <Text style={s.modeLabel}>{me.armed ? 'ARMED — bot trades my account' : 'Off — my account is disconnected'}</Text>
+              </View>
+              <Text style={s.modeDesc}>
+                {linked
+                  ? 'Your keys are linked on the worker. This switch gates only YOUR order flow — the shared models never stop.'
+                  : 'Waiting for the operator to add your Polymarket keys to the worker. Arming has no effect until then.'}
+              </Text>
+            </View>
+            <Btn title={me.armed ? 'Turn off' : 'Arm'} kind={me.armed ? 'danger' : 'primary'}
+                 busy={busy} disabled={busy} onPress={toggle} />
+          </View>
+        )}
+      </Card>
+    </>
   );
 }
 

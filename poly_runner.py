@@ -300,6 +300,33 @@ def mlb_taker_cycle(live_client, budget, state, log):
         return state.get("status", "halt")
     pos = positions_net(live_client)
     mlb_pos = {s: v for s, v in pos.items() if s.startswith("aec-mlb")}
+    # EXECUTION LEARNING: once a held game reaches kickoff, stamp the row with the
+    # post-fill price move (fill_drift = mid - entry, signed by our direction) — the
+    # adverse-selection measure the promotion gate needs to score edge AFTER execution.
+    row_by_id = {r.get("id"): r for r in rows}
+    for slug, v in mlb_pos.items():
+        rid = state.setdefault("row_by_slug", {}).get(slug)
+        ko = ko_by_slug.get(slug)
+        r = row_by_id.get(rid)
+        if not rid or not r or not v.get("net") or (ko and now < ko):
+            continue
+        meta = r.get("meta") or {}
+        if "fill_drift" in meta:
+            continue
+        try:
+            bids, offers = live_client.get_book(slug)
+            mid = (float(bids[0][0]) + float(offers[0][0])) / 2 if bids and offers else None
+        except Exception:
+            mid = None
+        if mid is None or not v.get("entry"):
+            continue
+        sign = 1 if v["net"] > 0 else -1
+        drift = round((mid - float(v["entry"])) * sign, 4)   # negative = adverse selection
+        meta.update(fill_px=v["entry"], fill_drift=drift)
+        from core import track as _t
+        if _t.patch_meta(int(rid), meta) in (200, 204):
+            log(f"  mlb-taker fill-drift {slug[:32]}: {drift:+.3f} "
+                f"(entry {v['entry']}, kickoff mid {mid:.3f})")
     expected = state.setdefault("expected", {})    # slug -> +1 long / -1 short WE opened
     bad = mlbtaker.wrong_direction(
         {s: {"netPosition": v["net"]} for s, v in mlb_pos.items()},
@@ -357,6 +384,8 @@ def mlb_taker_cycle(live_client, budget, state, log):
             continue
         st, resp = live_client.place_order(c["slug"], intent, px, qty, post_only=True)
         expected[c["slug"]] = 1 if intent.endswith("BUY_LONG") else -1
+        if c.get("row_id"):
+            state.setdefault("row_by_slug", {})[c["slug"]] = c["row_id"]
         room -= qty * cpc
         placed += 1 if st == 200 else 0
         log(f"  mlb-taker {intent.replace('ORDER_INTENT_', '')} {c['slug'][:36]} "
@@ -415,6 +444,93 @@ def wx_settle_check(client, log):
         f"re-settled {corrected} rows to PM's outcome")
     for s in samples:
         log(f"  wx-settle mismatch: {s}")
+
+
+class TradeAccount:
+    """One Polymarket account the SHARED worker trades for (multi-user execution:
+    one brain, N venue accounts). The client is REAL only when the worker is armed
+    (POLY_LIVE_ARMED) AND the user's own poly_users.armed switch is on; otherwise
+    shadow — the user's kill switch disconnects THEIR account from order flow
+    without stopping the shared models. All strategy state is per-account."""
+    def __init__(self, email: str, name: str):
+        self.email, self.name = email, name
+        self.client = None
+        self.live = False
+        self.key = ""
+        self.secret = ""
+        self.wx_state: dict = {"tripped": False}
+        self.mlb_state: dict = {"tripped": False}
+        self.live_state: dict = {"tripped": False}
+        self.wx_status = ""
+        self.mlb_status = ""
+
+
+def refresh_accounts(accounts: dict, log) -> dict:
+    """Sync TradeAccounts with the poly_users table. key_env/secret_env in each row
+    name worker env vars holding that user's keys (secrets never touch the DB).
+    Rebuilds a client when keys or armed-state change; on DISARM, cancels that
+    account's resting BOT orders (risk-reducing, via a one-shot live client) so
+    nothing keeps working their book. Falls back to the base env account only when
+    the table has never been readable (single-user back-compat)."""
+    from core import track
+    rows = track.fetch_users()
+    if not rows and not accounts:
+        rows = [{"email": "operator", "name": "operator", "armed": True,
+                 "key_env": "POLYMARKET_API_KEY", "secret_env": "POLYMARKET_SECRET"}]
+    for r in rows:
+        email = r.get("email") or "?"
+        key = os.getenv(r.get("key_env") or "", "")
+        secret = os.getenv(r.get("secret_env") or "", "")
+        if not key or not secret:
+            continue                    # registered in the app; keys not on the worker yet
+        live = bool(LIVE_ARMED and r.get("armed"))
+        acct = accounts.get(email)
+        if acct is None:
+            acct = accounts[email] = TradeAccount(email, r.get("name") or email)
+        if acct.client is None or acct.key != key or acct.live != live:
+            was_live = acct.live and acct.client is not None
+            acct.key, acct.secret, acct.live = key, secret, live
+            acct.client = PolyClient(api_key_id=key, secret_b64=secret, live=live)
+            log(f"account {acct.name}: client {'LIVE' if live else 'shadow'}")
+            if was_live and not live:
+                try:
+                    canceller = PolyClient(api_key_id=key, secret_b64=secret, live=True)
+                    n = cancel_bot_orders(canceller)
+                    log(f"account {acct.name}: DISARMED -> cancelled {n} resting bot orders")
+                except Exception as e:
+                    log(f"account {acct.name}: disarm-cancel error: {e}")
+    return accounts
+
+
+def primary_account(accounts: dict, base_key: str):
+    """The operator's account (matches the base env key), else any one — used for
+    the account-level P&L snapshot and back-compat heartbeat fields."""
+    for a in accounts.values():
+        if a.key == base_key:
+            return a
+    return next(iter(accounts.values()), None)
+
+
+def cancel_bot_orders(client: PolyClient, prefixes=("tc-temp", "aec-")) -> int:
+    """Cancel resting orders ONLY on the bot's market prefixes — used when a user
+    disarms. Never touches manual orders they placed elsewhere on their account."""
+    s, d = client.get_open_orders()
+    orders = []
+    if isinstance(d, dict):
+        orders = d.get("orders") or d.get("openOrders") or []
+    elif isinstance(d, list):
+        orders = d
+    n = 0
+    for o in orders:
+        if not isinstance(o, dict):
+            continue
+        slug = o.get("marketSlug", "")
+        if not slug.startswith(prefixes):
+            continue
+        oid = o.get("id") or o.get("orderId")
+        if oid and client.cancel_order(oid, slug)[0] == 200:
+            n += 1
+    return n
 
 
 def sport_settle_check(client, log, max_reads: int = 60):
@@ -482,6 +598,7 @@ def odds_refresh_pass(client, log, state, ahead_secs: int = 9000):
     today_iso = datetime.now(timezone.utc).date().isoformat()
     now = datetime.now(timezone.utc).timestamp()
     updated = skipped = 0
+    blend_rows: list[dict] = []
     for sport in ("mlb", "nba", "nfl", "ncaaf"):
         rows = track.fetch_rows_for_odds(sport, today_iso)
         if not rows:
@@ -534,6 +651,24 @@ def odds_refresh_pass(client, log, state, ahead_secs: int = 9000):
                 if track.update_market_odds(int(r["id"]), q["bid"], q["ask"],
                                             edge, meta) in (200, 204):
                     updated += 1
+                # MARKET-BLEND tracked model: shrink the model toward the executable
+                # market price and record it as its own row — protection-against-
+                # blind-spots hypothesis, judged by the same gate (never bet directly).
+                if r.get("model") == "elo-mlb" and r.get("model_prob") is not None:
+                    w = float(os.getenv("BLEND_W", "0.30"))
+                    pb = round(w * float(r["model_prob"]) + (1 - w) * q["ask"], 4)
+                    blend_rows.append({
+                        "model": "blend-mlb", "sport": sport,
+                        "market_slug": r.get("market_slug", ""),
+                        "outcome": r.get("outcome"), "model_prob": pb,
+                        "market_bid": q["bid"], "market_ask": q["ask"],
+                        "edge": round(pb - q["ask"], 4), "liquid": True,
+                        "settle_date": r.get("settle_date"), "run_date": r.get("run_date"),
+                        "meta": dict(meta, w=w, base_model="elo-mlb"),
+                    })
+    if blend_rows:
+        st, note = track.record_predictions(blend_rows)
+        log(f"odds-refresh: recorded {len(blend_rows)} blend-mlb rows -> http={st}")
     if updated or skipped:
         log(f"odds-refresh: {updated} rows updated to executable book quotes, "
             f"{skipped} markets unmappable")
@@ -744,7 +879,7 @@ def settle_pass():
         return
     wx_rows = [r for r in rows if r["model"] == "weather"]
     sc_rows = [r for r in rows if r["model"] == "soccer-elo"]
-    sport_rows = [r for r in rows if (r["model"] or "").startswith("elo-")]
+    sport_rows = [r for r in rows if (r["model"] or "").startswith(("elo-", "blend-"))]
     golf_rows = [r for r in rows if r["model"] == "golf-skill"]
     resolved = {}
     resolved.update(settle.settle_weather(wx_rows, wxfeed.daily_high_observed))
@@ -1312,24 +1447,19 @@ def main():
         sports_rec: set[str] = set()
         golf_rec: set[str] = set()
         last_wx = last_soc = last_sports = last_settle = last_hb = last_pnl = 0.0
-        last_wxchk = last_odds = last_mlb = 0.0
+        last_wxchk = last_odds = last_mlb = last_users = 0.0
         odds_state: dict = {}
-        mlb_state: dict = {"tripped": False}
-        mlb_status = ""
         PNL_EVERY = 300          # log an account P&L snapshot every 5 min while live
         pnl_summ: dict = {}
-        # live trading client (REAL only when POLY_LIVE_ARMED; else shadow) + cache +
-        # breaker state for the app-driven "Go Live" path.
-        live_client = client
-        if LIVE_ARMED:
-            live_client = PolyClient(api_key_id=api_key, secret_b64=secret, live=True)
-        live_cache = RewardMarketCache(live_client)
-        live_state = {"tripped": False}
-        wx_state = {"tripped": False}
-        wx_status = ""
+        # multi-user execution: ONE shared brain, one client per registered venue
+        # account (poly_users). Each user's armed switch gates only THEIR order flow.
+        accounts: dict[str, TradeAccount] = {}
+        refresh_accounts(accounts, log)
+        live_cache = RewardMarketCache(client)     # market data reads are account-agnostic
         was_live = False
         log(f"START mode=TRACK (control-driven; live-arm="
-            f"{'ON (real orders)' if LIVE_ARMED else 'off (shadow)'}, allow={sorted(ALLOW_TOKENS)})")
+            f"{'ON (real orders)' if LIVE_ARMED else 'off (shadow)'}, "
+            f"accounts={[a.name for a in accounts.values()]}, allow={sorted(ALLOW_TOKENS)})")
         while True:
             now = time.time()
             ctrl = _track.get_control()
@@ -1346,10 +1476,20 @@ def main():
                         desired = "track"
                 except Exception:
                     pass
+            # keep the account set in sync with poly_users (each user's own kill switch)
+            if now - last_users >= HB_EVERY:
+                try:
+                    refresh_accounts(accounts, log)
+                except Exception as e:
+                    log(f"accounts refresh error: {e}")
+                last_users = now
+            primary = primary_account(accounts, api_key)
             # leaving live -> cancel any resting orders so none are orphaned on the book
             if was_live and desired != "live":
-                nx = cancel_all_orders(live_client)
-                log(f"left live -> cancelled {nx} resting orders")
+                for acct in accounts.values():
+                    if acct.live:
+                        nx = cancel_all_orders(acct.client)
+                        log(f"left live -> cancelled {nx} resting orders ({acct.name})")
                 was_live = False
             if desired == "off":
                 if now - last_hb >= HB_EVERY:
@@ -1362,18 +1502,23 @@ def main():
             # records + settles on its own (much slower) timers.
             live_now = (desired == "live")
             res = {}
-            if live_now:
+            if live_now and accounts:
                 was_live = True
-                try:
-                    res = live_cycle(live_client, live_cache, live_state, budget, LIVE_ARMED)
-                except Exception as e:
-                    log(f"live error: {e}")
-                    res = {"status": f"error: {e}"}
-                if now - last_pnl >= PNL_EVERY:        # periodic account P&L snapshot
-                    pnl_summ = pnl_snapshot(live_client)
+                for acct in accounts.values():
+                    try:
+                        r_i = live_cycle(acct.client, live_cache, acct.live_state,
+                                         budget, acct.live)
+                    except Exception as e:
+                        log(f"live error ({acct.name}): {e}")
+                        r_i = {"status": f"error: {e}"}
+                    if acct is primary:
+                        res = r_i
+                if now - last_pnl >= PNL_EVERY and primary:  # periodic account P&L snapshot
+                    pnl_summ = pnl_snapshot(primary.client)
                     if WX_TAKER == "live":             # clean weather-only settled P&L
                         try:
-                            wx_state.update(wx_settlement_pnl(live_client, log, wx_state))
+                            primary.wx_state.update(
+                                wx_settlement_pnl(primary.client, log, primary.wx_state))
                         except Exception as e:
                             log(f"wx-pnl error: {e}")
                     last_pnl = now
@@ -1384,14 +1529,19 @@ def main():
                     wx_buckets = wx_pass(client, wx_rec) or []
                 except Exception as e:
                     log(f"track/wx error: {e}")
-                # LIVE weather sell-taker: real orders only when WX_TAKER=live AND armed.
-                # reuse wx_pass's freshly-read books (no duplicate ~60-book read).
-                if WX_TAKER == "live" and LIVE_ARMED and not wx_state.get("tripped"):
-                    try:
-                        wx_status = wx_taker_cycle(live_client, WX_BUDGET, wx_state, log,
-                                                   buckets=wx_buckets)
-                    except Exception as e:
-                        log(f"wx-taker error: {e}")
+                # LIVE weather sell-taker: real orders only when WX_TAKER=live AND the
+                # account is armed (worker-armed AND user's own switch). One cycle per
+                # account; books from wx_pass are shared (no duplicate ~60-book read).
+                if WX_TAKER == "live":
+                    for acct in accounts.values():
+                        if not acct.live or acct.wx_state.get("tripped"):
+                            continue
+                        try:
+                            acct.wx_status = wx_taker_cycle(acct.client, WX_BUDGET,
+                                                            acct.wx_state, log,
+                                                            buckets=wx_buckets)
+                        except Exception as e:
+                            log(f"wx-taker error ({acct.name}): {e}")
                 last_wx = now
             if now - last_soc >= SOC_EVERY:
                 try:
@@ -1431,24 +1581,35 @@ def main():
                 except Exception as e:
                     log(f"track/odds-refresh error: {e}")
                 last_odds = now
-            # LIVE MLB probe: real orders only when MLB_TAKER=live AND armed. Fast timer —
-            # its kickoff-passed stale-order sweep must run promptly (never rest in-play).
-            if MLB_TAKER == "live" and LIVE_ARMED and now - last_mlb >= 600:
-                try:
-                    mlb_status = mlb_taker_cycle(live_client, MLB_BUDGET, mlb_state, log)
-                except Exception as e:
-                    log(f"mlb-taker error: {e}")
+            # LIVE MLB probe: real orders only when MLB_TAKER=live AND the account is
+            # armed. Fast timer — the kickoff-passed stale-order sweep must run promptly
+            # (never rest in-play); it runs per-account even when that account is tripped.
+            if MLB_TAKER == "live" and now - last_mlb >= 600:
+                for acct in accounts.values():
+                    if not acct.live:
+                        continue
+                    try:
+                        acct.mlb_status = mlb_taker_cycle(acct.client, MLB_BUDGET,
+                                                          acct.mlb_state, log)
+                    except Exception as e:
+                        log(f"mlb-taker error ({acct.name}): {e}")
                 last_mlb = now
             if now - last_hb >= HB_EVERY:
-                wx_hb = {"wx_taker": wx_status, "wx_tripped": wx_state.get("tripped", False),
-                         "wx_settled_pnl": wx_state.get("wx_settled_pnl"),
-                         "wx_settled_n": wx_state.get("wx_settled_n"),
-                         "wx_settled_auth": wx_state.get("wx_settled_auth"),
-                         "wx_settled_est": wx_state.get("wx_settled_est")} \
+                pw = primary.wx_state if primary else {}
+                wx_hb = {"wx_taker": primary.wx_status if primary else "",
+                         "wx_tripped": pw.get("tripped", False),
+                         "wx_settled_pnl": pw.get("wx_settled_pnl"),
+                         "wx_settled_n": pw.get("wx_settled_n"),
+                         "wx_settled_auth": pw.get("wx_settled_auth"),
+                         "wx_settled_est": pw.get("wx_settled_est")} \
                     if WX_TAKER == "live" else {}
-                if MLB_TAKER == "live":
-                    wx_hb.update(mlb_taker=mlb_status,
-                                 mlb_tripped=mlb_state.get("tripped", False))
+                if MLB_TAKER == "live" and primary:
+                    wx_hb.update(mlb_taker=primary.mlb_status,
+                                 mlb_tripped=primary.mlb_state.get("tripped", False))
+                if accounts:
+                    wx_hb["users"] = {a.name: {"armed": a.live,
+                                               "wx": a.wx_status, "mlb": a.mlb_status}
+                                      for a in accounts.values()}
                 if live_now:
                     _track.heartbeat("live" if LIVE_ARMED else "live-shadow",
                                      res.get("status", "?"),

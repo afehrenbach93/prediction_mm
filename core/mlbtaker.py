@@ -25,6 +25,10 @@ def candidates(rows: list[dict], now_ts: float, ahead_secs: int = 9000,
     >= edge_min. One candidate per market (the better-edge side). Sorted best-first."""
     best: dict[str, dict] = {}
     for r in rows:
+        # ONLY the proven base model drives bets — variant/blend rows (elo-mlb-ctx,
+        # blend-mlb) are tracked-for-comparison and must never reach the order path.
+        if (r.get("model") or "elo-mlb") != "elo-mlb":
+            continue
         meta = r.get("meta") or {}
         slug = meta.get("pm_slug")
         if not slug or not meta.get("odds_at"):
@@ -39,7 +43,8 @@ def candidates(rows: list[dict], now_ts: float, ahead_secs: int = 9000,
         if edge < edge_min:
             continue
         c = {"slug": slug, "outcome": r.get("outcome"), "side0": meta.get("book_side0", ""),
-             "edge": round(edge, 4), "ask": float(ask), "kickoff": ko}
+             "edge": round(edge, 4), "ask": float(ask), "kickoff": ko,
+             "row_id": r.get("id")}
         if slug not in best or edge > best[slug]["edge"]:
             best[slug] = c
     return sorted(best.values(), key=lambda c: -c["edge"])

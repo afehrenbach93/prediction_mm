@@ -41,6 +41,18 @@ def _competitor_abbr(c: dict) -> str:
     return (team.get("abbreviation") or "").lower()
 
 
+def _competitor_pitcher(c: dict) -> str:
+    """The probable starting pitcher's name (MLB pre-game feeds carry
+    competitors[].probables[]), '' when absent. The starter is the single biggest
+    game-level variable the team Elo can't see — captured for the ctx model."""
+    for p in (c.get("probables") or []):
+        ath = (p or {}).get("athlete") or {}
+        nm = ath.get("displayName") or ath.get("shortName") or ""
+        if nm:
+            return normalize_name(nm)
+    return ""
+
+
 def parse_scoreboard(raw: dict) -> list[dict]:
     """Pure: ESPN scoreboard JSON -> list of match dicts. Each:
     {id, date, state(pre|in|post), completed, neutral, home, away, home_score,
@@ -91,6 +103,8 @@ def parse_scoreboard(raw: dict) -> list[dict]:
                 "home_raw": hr, "away_raw": ar,
                 "home_abbr": _competitor_abbr(home), "away_abbr": _competitor_abbr(away),
                 "home_score": _score(home), "away_score": _score(away),
+                "home_pitcher": _competitor_pitcher(home),
+                "away_pitcher": _competitor_pitcher(away),
                 "winner": winner,
             })
     return out
