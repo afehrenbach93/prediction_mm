@@ -12,6 +12,16 @@ repo.
 > one-line TL;DR, then ≤4 bullets — *Live? · Money at risk · Next · Need from
 > you*. Deep detail goes in the worklog/PR, not the chat. No raw log dumps unless
 > asked.
+>
+> **Usage discipline (the operator is on a paid plan and hits a daily cap):**
+> every message re-reads the whole context, so bloat is paid for on every turn.
+> (1) Keep sessions single-purpose; prefer a fresh session per task over one long
+> multi-hour thread. (2) NO long client-side watch loops — deploy/act once, then
+> check the Supabase `poly_status` heartbeat (one small read) instead of tailing
+> Render logs for minutes. (3) Read specific line ranges of large files
+> (`poly_runner.py`) — never re-read the whole file. (4) No raw log dumps in chat.
+> (5) Keep the two `CLAUDE.md` files small; `kalshi-mm/CLAUDE.md` is a retired stub —
+> do not re-expand it.
 
 ## Thesis
 Polymarket US (CFTC/QCEX-regulated, `api.polymarket.us`) **pays market makers** —
@@ -63,7 +73,37 @@ read-only before funding; reconcile any tape-derived P&L against account balance
 
 ## Incident Log
 
-### 2026-06-29 — Tracker+farm on one worker; PM market-odds capture; golf-bet breaker wedge fixed
+### 2026-07-02 — Weather sell-taker went live; edge is NEGATIVE (settlement-source flaw); P&L tracker + usage cuts
+- **Weather sell-taker built + went live** (`WX_TAKER=live`, `WX_BUDGET`, `core/wxtaker.py`,
+  `wx_taker_cycle`/`wx_pass` in `poly_runner.py`). Sells over-priced temperature buckets
+  (market bid ≥ model_prob + 0.10). Probe (1 order) until first confirmed short, then scale
+  across fresh buckets to budget. **Independent risk accounting from the cricket farm**:
+  `breaker_check` and `cancel_all_orders` both EXCLUDE `tc-temp` so the two strategies never
+  cross-trip / cross-cancel. Observability via `poly_status.detail` heartbeat (cricket log
+  spam buries weather lines).
+- **VENUE ORDER SEMANTICS (hard-won, live-verified):** on PM US `SELL_SHORT` actually opened
+  a LONG (inverted vs its name); **`BUY_SHORT` correctly opens a short (bet NO)**. Taker
+  orders (post_only=False) get killed (executions=[], then 404) if they don't cross → shorts
+  must REST as a maker: **post_only=True + `ORDER_INTENT_BUY_SHORT` at `bid+0.01`**. Also hit
+  429 rate-limits from double-reading ~60 books/cycle → `wx_pass` and the taker now SHARE the
+  book reads. Total real cost of the whole debug saga: ~$1 (probe + safety rails held).
+- **VERDICT — weather edge is NEGATIVE; recommend halting.** Settled account-level P&L
+  (`wx_settlement_pnl`): **5 settled, net −$6.12** — 2 full-collateral LOSSES (NYC ≥87-88,
+  SF ≥72-73) vs 3 small-premium wins. This is the **settlement-source flaw** that killed
+  weather on Kalshi, now live: our model uses forecasts/raw obs, PM settles on the official
+  NWS Climatological Report; they diverge at the boundary buckets we sell. A morning "22/22
+  won" read was STALE raw-obs settlement — `wx_settle_check` re-settled to PM's official
+  outcome and flipped those buckets to losses. **Structural, not variance.** July 1 shorts
+  ride to settlement regardless; recommend `WX_TAKER=off` for new shorts.
+- **P&L tracker refined (this session):** `wx_settlement_pnl` now extracts the AUTHORITATIVE
+  settled `realized` from the resolution (checks pr/ap realized·realizedPnl·pnl locations),
+  strips the marketMetadata icon blob so the STRUCT logs in full, and marks cost-based
+  fallback rows estimated; heartbeat carries `wx_settled_auth`/`wx_settled_est`. +4 tests
+  (`tests/test_wx_settle_pnl.py`), 131 green.
+- **Usage cuts (operator hits a daily paid-plan cap):** stubbed **`kalshi-mm/CLAUDE.md`**
+  94KB→~1KB (retired project's ~1,700-line worklog was loading into EVERY session's context;
+  full text in that repo's git history). Added the **Usage discipline** block above. Condensed
+  the 06-20→06-22 migration/pilot incident entries.
 - **Breaker wedge (fixed live):** after merging Option C, the worker tripped every cycle on
   a **400-lot golf position** (`tec-pga-travcham-2026-06-28-w-wyncla`, Andrew's OWN manual
   bet, not the bot) — 8× the 50 inventory cap → stood the whole bot aside. Added it to
@@ -175,113 +215,27 @@ Andrew green-lit the prediction tracker + a soccer results feed, "keep it scalab
   isn't the binding constraint (Kalshi weather was efficient; settlement-source nuance
   was the killer) — the tracker is what tells us.
 
-### 2026-06-20 — Repo migrated from kalshi-mm (Phase 1)
-Assembled the Polymarket keeper tree as a clean baseline: `poly_runner.py`,
-`core/polyclient.py`, `core/polymaker.py`, `scripts/poly_scan.py`, the poly tests,
-and `lib/fairvalue.py` (+ its tests, salvaged from branch
-`claude/kalshi-mm-multi-bot-x5xrd5`, import re-pointed `core`→`lib`). requirements/
-.env.example/render.yaml re-cut Polymarket-only; CLAUDE.md distilled. **Dropped the
-two convergence scanners** (`poly_wx_scan`, `poly_sports_scan`) per Andrew — they
-were closed-thesis tools depending on dropped modules (weatherfeed/gamefeed/
-convergence→alpha); only `poly_scan.py` (live reward thesis) came along. See
-`FOLLOWONS.md` for the esports-orders investigation (do before any live quoting).
-
-### 2026-06-20 — Migration phases 3–5 (cutover)
-- **Render (Phase 4, done):** the live poly worker physically *is* the old
-  `kalshi-bot-hourly` service (`srv-d8kmtfrtqb8s73eg6tu0`, runs `python
-  poly_runner.py`) — **renamed to `polymarket-mm`**. Deleted the 4 dead Kalshi
-  workers (kalshi-mm core, kalshi-bot-sports, kalshi-bot-alpha, kalshi-runner).
-  Kept: polymarket-mm, kalshi-mm-app (static), kalshi-mm (dashboard web),
-  just_pick_it (unrelated).
-- **Render (Phase 4, BLOCKED):** repointing polymarket-mm's repo to
-  `prediction_mm` fails — Render's GitHub App lacks access to the new **private**
-  repo ("invalid or unfetchable"). It still builds from `kalshi-mm@main` (byte-
-  identical poly code). **Unblock:** grant Render's GitHub App access to
-  `afehrenbach93/prediction_mm`, then PATCH the service repo→prediction_mm/main.
-- **Supabase (Phase 3, done — nothing to delete):** project `pecafqwbfveovymyjako`
-  ("Andrew's Project"). The plan's cleanup targets are already absent — no `macro`
-  bot_control row, no `bot_markets`/`bot_series` tables, zero test-pollution rows
-  (shadow_orders/fills/etc. for tickers A/B/TICK or bot_id='t'). `0001_baseline.sql`
-  stays deferred until poly telemetry lands (follow-on #2). **Security:** 4 tables
-  have RLS disabled (market_snapshots, bot_config, fix_requests, app_users).
-- **Phase 5 (BLOCKED from this session):** archiving `kalshi-mm` + deleting its 8
-  dead branches need GitHub repo-settings/ref-delete access not available here (git
-  proxy blocks delete refspecs; no MCP delete-ref tool). Also hold the archive
-  until polymarket-mm is repointed off kalshi-mm. **Do manually** (or once tooling
-  allows): delete branches `claude/kalshi-mm-multi-bot-x5xrd5`,
-  `claude/kalshi-mm-premortem-93GCf`, `claude/kalshi-multi-agent-build-ctzKn`,
-  `claude/kalshi-multi-agent-session-g8ftz5`, `claude/migration-plan-continuation-grzs6d`,
-  `claude/review-share-purchase-logic-Gq3wk`, `claude/trusting-knuth-6b8fcd`,
-  `feature/mm/web-app-development-scaffold`; keep `main`.
-- **Keys:** Render key already rotated (Andrew). Polymarket key rotation is
-  operator-only (rotate in Polymarket UI + update polymarket-mm env).
-
-### 2026-06-21 — Breaker netPosition bug fixed; Phase 4 confirmed done; orphan-cancel tool
-"Global access keys added" = `RENDER_API_KEY` in env + `prediction_mm` now in the
-GitHub scope. Verified via the Render API: **Phase 4 cutover is already done** — the
-`polymarket-mm` worker (`srv-d8kmtfrtqb8s73eg6tu0`) builds from
-`prediction_mm@main`, `autoDeploy=on commit`, and **`BOT_MODE=shadow`** (the
-2026-06-20 halt is in effect; no orders reach the exchange). So a merge to `main`
-safely redeploys a SHADOW worker.
-- **Fixed the breaker `netPosition` bug** (FOLLOWONS #0.2, the must-fix-before-live
-  item): `positions_net` now reads `netPosition` first (+ `qtyBought-qtySold`
-  fallback); the 332-contract WC position now trips the inventory cap. +3 regression
-  tests; 29 green.
-- **Added `scripts/cancel_all_live.py`** — one-shot, risk-reducing-only live cancel
-  for the orphaned COD orders (no order placement; `CONFIRM_LIVE_CANCEL=yes` gate,
-  dry-run by default). This Claude env is geo-blocked from `api.polymarket.us`
-  (403), so the **operator must run it** (Render one-off shell on `polymarket-mm`
-  has creds + US egress). It does not close the 332 position — close that in the UI.
-- **OPEN for Andrew:** (a) run the cancel tool + close the 332 position; (b) decide
-  the esports scope policy — `/v1/incentives` currently lists COD `aec-cod-*` reward
-  pools and the bot quotes whatever is reward-eligible; if esports should be excluded,
-  add an allow/deny slug-prefix filter on `RewardMarketCache.refresh()`. Stay shadow
-  until the live reward economics validate regardless.
-
-### 2026-06-21 (later) — WENT LIVE on a small bounded PILOT (Andrew funded $150, "switch live")
-Validated all of the below in SHADOW via Render logs before flipping. **The worker
-is now `BOT_MODE=live`** on the $50 pilot. See `PILOT.md` for the full runbook.
-- **`POLY_DENY_SLUGS`** added (`#2`): denied slugs are excluded from selection AND
-  from the per-market inventory breaker, so we **keep** the held 332-lot WC future
-  (`tec-f-wc-2026-07-19-groupb-winner-bih`, cost $26.68) without it standing the bot
-  down. Verified live-account read: with deny set, the process goes to *idle* (not
-  *tripped*) on the 332. Andrew chose to keep the loose COD orders too, but the
-  full-reconcile loop cleared them on go-live (now 0 resting orders).
-- **Pilot env (Render):** `BOT_MODE=live`, `POLY_BUDGET=50`, `POLY_SIZE=25`,
-  `POLY_MAX_MARKETS=2`, `POLY_MAX_INVENTORY=50`, `POLY_EXPOSURE_CAP=75`,
-  `POLY_DAILY_LOSS=15`. Confirmed in the live START line.
-- **Earnings cadence (verified vs PM docs):** reward score snapshot ~1/s; PM **US
-  credits earnings ~5+2 business days after a period ends** (uncompressible). So the
-  pilot is judged in 24–48h on SELF-COMPUTED signals (resting reward-score share +
-  real-time adverse selection from `/v1/portfolio/positions` + maker rebate), with
-  the credited number as later confirmation. Macro reward pools are **$10k/day split
-  pro-rata across instruments** (pools are real, not a smear).
-- **RENDER GOTCHA (cost two cycles):** updating env-vars via the API does NOT
-  propagate to the running process, and a `restart` reuses the deploy's OLD env
-  snapshot. You must trigger a fresh **deploy** (`POST /deploys`) to pick up env
-  changes — confirm via the START line values before trusting them.
-- **State at handoff:** live but IDLE — "no reward window now" on the 2 current
-  reward markets; it arms and quotes at pilot size when a window opens. A filtered
-  log monitor watches for first-quote / order-count stability / breaker trips /
-  errors. **Watch when it first quotes:** confirm stable order count (the historical
-  120-order accumulation bug) and check the quoted slugs/periods — only ONE WC-future
-  slug is denied, so if it quotes other weeks-long futures, add them to
-  `POLY_DENY_SLUGS` (pilot wants short-period markets).
-
-### 2026-06-22 — PILOT first-quote: post-only orders DON'T REST (no risk); worker SUSPENDED
-First reward window hit (2 Dota2 esports `aec-dota2-*`, `day_of`). The bot placed
-4 orders/cycle but the account showed **0 resting orders every cycle**, repeating.
-Added `place_order` response logging (`#4`): live cycles show **`placed_ok=2 rej=0`
-but `resting(pre-cancel)=0`** — orders are 200-ACCEPTED yet never rest. **Andrew
-confirmed 0 open orders in the Polymarket UI** (ground truth — this env is geo-
-blocked from the API). So: **no accumulation, $0 at risk** (also corroborated by
-`rej=0` over 20+ cycles — real resting orders would reserve cash and eventually
-exhaust the $150 → rejects, which never happened). Worker **SUSPENDED + `BOT_MODE=
-off`** (instant hard stop). The held 332 WC position is untouched.
-- **OPEN BUG (next step):** why don't our post-only (`participateDontInitiate`)
-  quotes rest? join-the-touch at best_bid/best_ask should rest. Diagnose by logging
-  each order's status read-back (`get_order`) right after placing — one focused
-  watched live cycle — then fix `maker_quotes`/order body. Likely: post-only killed
-  (would-cross/lock), bad intent for opening a side, or tick/price issue per market.
-- **Lesson reinforced:** the order layer keeps shipping live-untested; `placed_ok`
-  (HTTP 200) ≠ a resting order. Verify resting via the UI / a read-back, not the ack.
+### 2026-06-20 → 06-22 — Migration + first pilot (condensed)
+- **Migration (Phase 1):** assembled the Polymarket keeper tree (`poly_runner.py`,
+  `core/polyclient.py`, `core/polymaker.py`, `scripts/poly_scan.py`, poly tests,
+  `lib/fairvalue.py`). Dropped the two closed-thesis convergence scanners.
+- **Render cutover (done):** the live worker `polymarket-mm` (`srv-d8kmtfrtqb8s73eg6tu0`,
+  `python poly_runner.py`) is the repurposed old `kalshi-bot-hourly`; 4 dead Kalshi
+  workers deleted; builds from `prediction_mm@main`, `autoDeploy=on commit`.
+- **Supabase** project `pecafqwbfveovymyjako` ("Andrew's Project"). 4 tables have RLS
+  disabled (market_snapshots, bot_config, fix_requests, app_users).
+- **Breaker `netPosition` fix:** `positions_net` reads `netPosition` first (qtyBought−
+  qtySold fallback) so held positions trip the inventory cap. `scripts/cancel_all_live.py`
+  = risk-reducing-only live cancel (operator runs it; this env is geo-blocked from PM).
+- **`POLY_DENY_SLUGS`:** denied slugs excluded from selection AND the inventory breaker,
+  so we keep the held 332-lot WC future without standing the bot down.
+- **First $150 pilot went live then SUSPENDED:** post-only quotes 200-ACCEPTED but
+  **never rested** (`placed_ok=2 rej=0` yet 0 resting) → $0 at risk, worker set `off`.
+  Root fix came later (see weather era: on this venue the SELL/BUY_SHORT intents are
+  inverted and takers get killed; resting requires post_only=True + BUY_SHORT to short).
+- **Gotchas that still bite:** (a) Render env changes need a fresh **deploy** (`POST
+  /deploys`) — a `restart` reuses the OLD env snapshot; (b) `placed_ok` (HTTP 200) ≠ a
+  resting order — verify resting via a read-back / the UI. PM credits reward earnings
+  ~5+2 business days after a period ends (uncompressible); macro pools ~$10k/day pro-rata.
+- **Left to do manually** (blocked here): archive `kalshi-mm` + delete its 8 dead
+  `claude/*` + `feature/*` branches (keep `main`).

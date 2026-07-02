@@ -855,14 +855,61 @@ def pnl_snapshot(client: PolyClient) -> dict:
     return summ
 
 
+def _wx_clean_struct(obj, _depth=0):
+    """Recursively strip large/base64 blobs (icon/image/logo) and truncate long strings so a
+    resolution struct can be logged in full without the marketMetadata icon swallowing it."""
+    if isinstance(obj, dict):
+        out = {}
+        for k, v in obj.items():
+            if k in ("icon", "image", "logo", "imageUrl", "iconUrl", "resolvedIcon"):
+                out[k] = "-"
+            else:
+                out[k] = _wx_clean_struct(v, _depth + 1)
+        return out
+    if isinstance(obj, list):
+        return [_wx_clean_struct(v, _depth + 1) for v in obj[:8]]
+    if isinstance(obj, str) and len(obj) > 60:
+        return obj[:57] + "..."
+    return obj
+
+
+def _wx_money(cand):
+    """Coerce a money-ish field to float dollars. Accepts {'value': '1.23'} / {'value': 123}
+    or a bare number/string. Returns None if it can't."""
+    if isinstance(cand, dict):
+        cand = cand.get("value")
+    try:
+        return float(cand)
+    except (TypeError, ValueError):
+        return None
+
+
+def _wx_find_realized(pr, ap, bp):
+    """Extract the authoritative settled realized dollars from a positionResolution, checking
+    every location PM has been observed to carry it. Returns (value, source) or (None, '')."""
+    candidates = [
+        ("pr.realized", pr.get("realized")),
+        ("pr.realizedPnl", pr.get("realizedPnl")),
+        ("pr.pnl", pr.get("pnl")),
+        ("ap.realized", ap.get("realized")),
+        ("ap.realizedPnl", ap.get("realizedPnl")),
+        ("bp.realized", bp.get("realized")),
+    ]
+    for src, cand in candidates:
+        v = _wx_money(cand)
+        if v is not None:
+            return v, src
+    return None, ""
+
+
 def wx_settlement_pnl(client: PolyClient, log, state) -> dict:
     """Account-level WEATHER-ONLY realized P&L: sum the settled P&L of tc-temp positions
     from portfolio activities (the shared balance mixes cricket + open marks, so isolate
-    weather here). Prefers the resolution's authoritative settled `realized`; falls back to
-    computing from net/cost/outcome (short: settles NO -> +(Q-cost), YES -> -cost). Logs the
-    resolution structure ONCE so the realized field can be verified. Read-only; never raises."""
+    weather here). Prefers the resolution's AUTHORITATIVE settled `realized`; falls back to
+    computing from net/cost/outcome (short: settles NO -> +(Q-cost), YES -> -cost) and marks
+    the row estimated. Logs the cleaned resolution structure ONCE so the realized field can be
+    verified. Read-only; never raises."""
     import json as _json
-    import re as _re
     try:
         _, act = client.signed_get("/v1/portfolio/activities")
     except Exception as e:
@@ -872,6 +919,7 @@ def wx_settlement_pnl(client: PolyClient, log, state) -> dict:
     items = items if isinstance(items, list) else []
     seen, rows, total = set(), [], 0.0
     struct_logged = state.get("wx_pnl_logged", False)
+    n_auth = n_est = 0
     outcome_cache = {}
     for a in items:
         if not isinstance(a, dict) or (a.get("type") or "") != "ACTIVITY_TYPE_POSITION_RESOLUTION":
@@ -887,19 +935,14 @@ def wx_settlement_pnl(client: PolyClient, log, state) -> dict:
             continue
         seen.add(key)
         if not struct_logged:
-            log(f"wx-pnl STRUCT: {_re.sub(chr(39)+'icon'+chr(39)+': '+chr(39)+'[^'+chr(39)+']*'+chr(39), 'icon:-', str(pr))[:420]}")
+            log(f"wx-pnl STRUCT: {_json.dumps(_wx_clean_struct(pr))[:900]}")
             struct_logged = True
         # authoritative settled realized, if the resolution carries it
-        realized = None
-        for cand in (ap.get("realized"), pr.get("realized")):
-            if isinstance(cand, dict):
-                try:
-                    realized = float(cand.get("value"))
-                    break
-                except Exception:
-                    pass
+        realized, src = _wx_find_realized(pr, ap, bp)
+        est = False
         if realized is None:
             # fallback: compute from net + cost + PM outcome (assume cost = collateral)
+            est = True
             try:
                 net = float(bp.get("qtyBought", 0)) - float(bp.get("qtySold", 0))
                 cost = float((bp.get("cost") or {}).get("value", 0))
@@ -920,13 +963,17 @@ def wx_settlement_pnl(client: PolyClient, log, state) -> dict:
             won = (net < 0 and not yes) or (net > 0 and yes)     # short wins on NO
             realized = (abs(net) - cost) if won else -cost
         total += realized
-        rows.append((round(realized, 2), slug[-30:]))
+        n_est += int(est)
+        n_auth += int(not est)
+        rows.append((round(realized, 2), ("~" if est else " ") + slug[-30:]))
     state["wx_pnl_logged"] = struct_logged
     rows.sort()
-    log(f"wx-pnl: {len(rows)} settled weather positions, total realized ${total:+.2f}")
+    tag = f"{n_auth} authoritative + {n_est} estimated" if n_est else f"{n_auth} authoritative"
+    log(f"wx-pnl: {len(rows)} settled weather positions ({tag}), total realized ${total:+.2f}")
     for r in rows[:12]:
         log(f"  wx-pnl {r}")
-    return {"wx_settled_pnl": round(total, 2), "wx_settled_n": len(rows)}
+    return {"wx_settled_pnl": round(total, 2), "wx_settled_n": len(rows),
+            "wx_settled_auth": n_auth, "wx_settled_est": n_est}
 
 
 def scan_markets(client: PolyClient, budget: float):
@@ -1136,7 +1183,9 @@ def main():
             if now - last_hb >= HB_EVERY:
                 wx_hb = {"wx_taker": wx_status, "wx_tripped": wx_state.get("tripped", False),
                          "wx_settled_pnl": wx_state.get("wx_settled_pnl"),
-                         "wx_settled_n": wx_state.get("wx_settled_n")} \
+                         "wx_settled_n": wx_state.get("wx_settled_n"),
+                         "wx_settled_auth": wx_state.get("wx_settled_auth"),
+                         "wx_settled_est": wx_state.get("wx_settled_est")} \
                     if WX_TAKER == "live" else {}
                 if live_now:
                     _track.heartbeat("live" if LIVE_ARMED else "live-shadow",
