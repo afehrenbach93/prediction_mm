@@ -50,6 +50,19 @@ class TestExecutableSides(unittest.TestCase):
         self.assertEqual(quotes["away"], {"bid": 0.5, "ask": None})
 
 
+class TestExactDatePreference(unittest.TestCase):
+    def test_exact_date_market_beats_yesterdays_resolved_one(self):
+        # the ±1-day tolerance (UTC vs ET) let today's game match YESTERDAY'S resolved
+        # market when both dates were in the catalog — exact date must win the sort.
+        idx = pmodds.build_index([
+            {"slug": "aec-mlb-cin-mil-2026-07-01", "outcome": ""},
+            {"slug": "aec-mlb-cin-mil-2026-07-02", "outcome": ""},
+        ])
+        hits = pmodds.find_market_slugs(idx, "Milwaukee Brewers", "Cincinnati Reds",
+                                        "2026-07-02", "mil", "cin")
+        self.assertEqual(hits[0][0], "aec-mlb-cin-mil-2026-07-02")
+
+
 class TestGolfWindow(unittest.TestCase):
     def test_window_spans_back_to_tournament_start(self):
         # settle_date = Sunday 2026-06-28; a Thu 06-25 start must be inside the window

@@ -111,19 +111,26 @@ def find_market_slugs(idx, home: str, away: str, date_iso: str,
         if date_iso and d and not _date_near(d, date_iso):
             continue
         if _team_matches(home, home_abbr, toks) and _team_matches(away, away_abbr, toks):
-            hits.append((len(toks), slug, outcome))
-    hits.sort()                               # fewer tokens = more specific game market
-    return [(slug, outcome) for _, slug, outcome in hits]
+            # exact-date first: the ±1-day tolerance (UTC vs ET) let a row match
+            # YESTERDAY'S resolved market when both dates exist in the catalog.
+            hits.append((_date_dist(d, date_iso), len(toks), slug, outcome))
+    hits.sort()                               # nearest date, then fewer tokens
+    return [(slug, outcome) for _, _, slug, outcome in hits]
 
 
 def _date_near(d1: str, d2: str, days: int = 1) -> bool:
     """True if two YYYY-MM-DD strings are within `days` of each other (TZ tolerance)."""
+    return _date_dist(d1, d2) <= days
+
+
+def _date_dist(d1: str, d2: str) -> int:
+    """Whole days between two YYYY-MM-DD strings; 0 if equal, 99 if unparseable."""
     from datetime import date
     try:
         a, b = date.fromisoformat(d1[:10]), date.fromisoformat(d2[:10])
-        return abs((a - b).days) <= days
+        return abs((a - b).days)
     except Exception:
-        return d1[:10] == d2[:10]
+        return 0 if d1[:10] == d2[:10] else 99
 
 
 def find_market_slug(idx, home: str, away: str, date_iso: str,
