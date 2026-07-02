@@ -120,6 +120,41 @@ def set_desired_mode(mode: str) -> int:
         return -1
 
 
+def fetch_users() -> list[dict]:
+    """Rows from poly_users — the Polymarket accounts the shared worker trades for.
+    Each row: email, name, key_env/secret_env (env-var NAMES holding that user's keys)
+    and `armed` (that user's kill switch: false = no orders reach THEIR account).
+    Returns [] without creds/on error (caller falls back to the base env account)."""
+    url, key = _creds()
+    if not url or not key:
+        return []
+    req = urllib.request.Request(
+        f"{url}/rest/v1/poly_users?select=email,name,key_env,secret_env,armed",
+        headers={"apikey": key, "Authorization": f"Bearer {key}"})
+    try:
+        with urllib.request.urlopen(req, timeout=15) as r:
+            return json.loads(r.read())
+    except Exception:
+        return []
+
+
+def patch_meta(pred_id: int, meta: dict) -> int:
+    """Overwrite one row's meta jsonb (caller merges first — PATCH replaces wholesale)."""
+    url, key = _creds()
+    if not url or not key:
+        return 0
+    body = json.dumps({"meta": meta}).encode()
+    req = urllib.request.Request(
+        f"{url}/rest/v1/{TABLE}?id=eq.{pred_id}", data=body, method="PATCH",
+        headers={"apikey": key, "Authorization": f"Bearer {key}",
+                 "Content-Type": "application/json", "Prefer": "return=minimal"})
+    try:
+        with urllib.request.urlopen(req, timeout=20) as r:
+            return r.status
+    except Exception:
+        return -1
+
+
 def fetch_settled(sport: str, limit: int = 100) -> list[dict]:
     """Recently-settled rows for one sport (market_slug, outcome, realized_yes,
     settle_date) — used to cross-check OUR settlement against the venue's resolution."""
@@ -186,7 +221,7 @@ def fetch_rows_for_odds(sport: str, run_date: str, limit: int = 300) -> list[dic
     if not url or not key:
         return []
     q = urllib.parse.urlencode({
-        "select": "id,outcome,model_prob,market_ask,meta",
+        "select": "id,model,outcome,model_prob,market_ask,settle_date,run_date,market_slug,meta",
         "sport": f"eq.{sport}", "settled": "is.null",
         "run_date": f"eq.{run_date}", "meta->>pm_slug": "not.is.null",
         "limit": str(limit),

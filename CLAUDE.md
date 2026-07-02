@@ -73,6 +73,30 @@ read-only before funding; reconcile any tape-derived P&L against account balance
 
 ## Incident Log
 
+### 2026-07-02 (later) — Multi-user execution (one brain, N accounts) + 4 model improvements
+- **Multi-user execution shipped (Andrew's direction: single shared bot, per-user
+  accounts).** `poly_users` table (migration 0002, applied): email-keyed rows carrying
+  `key_env`/`secret_env` (worker env-var NAMES — secrets never in the DB) + `armed`.
+  **A user's `armed=false` is THEIR kill switch: it only stops orders reaching THEIR
+  Polymarket account** (client flips to shadow + resting bot orders on tc-temp/aec-
+  prefixes cancelled); the shared models/worker never stop. Worker: `TradeAccount` +
+  `refresh_accounts` (60s sync; falls back to base env single-account when the table is
+  unreadable), wx/mlb/farm cycles fan out per account with per-account state/breakers.
+  RLS: read public; self-insert disarmed w/o env links; self-update own row only. App
+  Settings gained a **My trading** register/arm/off card; heartbeat carries `users`.
+  Operator flow for a new user: they register + send keys privately → add env vars →
+  link env names on their row.
+- **4 model improvements (validate-first — live betting stays on `elo-mlb`; the gate
+  promotes variants only if they beat it):** (1) **starting pitchers** captured from
+  ESPN probables into ctx-row meta (per-pitcher model once data accumulates);
+  (2) **`elo-mlb-ctx`** tracked variant = Elo + rest-days logit adjustment (k=0.05/day,
+  ±3d cap), pitchers+rest in meta; (3) **`blend-mlb`** tracked model = 0.30·model +
+  0.70·executable ask, recorded at odds-refresh with exec prices (BLEND_W env);
+  (4) **execution learning**: `fill_drift` (kickoff mid − entry, signed) stamped onto
+  the bet row's meta = the adverse-selection measure, so the gate can score edge AFTER
+  execution. `mlbtaker.candidates` hard-filters to model `elo-mlb` so variant/blend
+  rows can never reach the order path. `settle_pass` settles `blend-*`. 155 tests green (+6).
+
 ### 2026-07-02 — Weather sell-taker went live; edge is NEGATIVE (settlement-source flaw); P&L tracker + usage cuts
 - **Weather sell-taker built + went live** (`WX_TAKER=live`, `WX_BUDGET`, `core/wxtaker.py`,
   `wx_taker_cycle`/`wx_pass` in `poly_runner.py`). Sells over-priced temperature buckets

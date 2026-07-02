@@ -117,6 +117,41 @@ export async function fetchBotStatus(): Promise<BotStatus | null> {
   return (data as BotStatus) ?? null;
 }
 
+// ---- per-user trading switch ---------------------------------------------
+// One shared worker trades for N Polymarket accounts (poly_users). Your `armed`
+// flag is YOUR kill switch: off = no orders reach YOUR venue account; the shared
+// models/worker never stop. RLS lets you write only your own row.
+
+export interface PolyUser {
+  email: string;
+  name: string | null;
+  key_env: string;
+  secret_env: string;
+  armed: boolean;
+  updated: string | null;
+}
+
+export async function fetchMyUser(email: string): Promise<PolyUser | null> {
+  const { data } = await supabase.from('poly_users').select('*').eq('email', email).maybeSingle();
+  return (data as PolyUser) ?? null;
+}
+
+/** Self-register (disarmed, no keys linked). The operator then adds your Polymarket
+ * keys to the worker env and links the env-var names to your row. */
+export async function registerMe(email: string, name: string): Promise<void> {
+  const { error } = await supabase.from('poly_users')
+    .insert({ email, name, armed: false, key_env: '', secret_env: '' });
+  if (error) throw error;
+}
+
+/** Flip YOUR OWN trading switch. */
+export async function setMyArmed(email: string, armed: boolean): Promise<void> {
+  const { error } = await supabase.from('poly_users')
+    .update({ armed, updated: new Date().toISOString() })
+    .eq('email', email);
+  if (error) throw error;
+}
+
 // ---- control (write) ----------------------------------------------------
 
 export interface Control {
