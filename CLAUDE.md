@@ -73,6 +73,18 @@ read-only before funding; reconcile any tape-derived P&L against account balance
 
 ## Incident Log
 
+### 2026-07-02 (night, phase 2) — Full app control: strategy toggles, budgets, halt-clear
+- **poly_control** gained `wx_taker`/`mlb_taker`/`wx_budget`/`mlb_budget`/`mlb_edge`/
+  `clear_halts` (migration 0004, applied). `effective_config` (pure, tested): app value
+  wins, NULL falls back to worker env — behavior identical until the app writes.
+  Worker reads ctrl every cycle; `clear_halts` is one-shot per timestamp (boot baseline
+  skipped) and un-trips wx/mlb/farm latches + probe counters on ALL accounts. Heartbeat
+  carries effective `wx_on`/`mlb_on`/budgets/edge so the app renders REAL state.
+  App Settings gained a **Strategies** card: per-strategy on/off + budget chips +
+  HALTED badge + confirm-gated "Clear halts". Toggle-off stops NEW orders only (resting
+  orders ride; per-user disarm still cancels). Env vars remain only as defaults + the
+  master `POLY_LIVE_ARMED`.
+
 ### 2026-07-02 (night) — Self-serve onboarding (sealed-box keys); first MLB probe order
 - **Hands-off onboarding (Andrew: no credential hand-offs, countless users):** users
   paste their PM keys into the app's My-trading card; `app/src/lib/seal.ts` encrypts them

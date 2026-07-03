@@ -92,7 +92,8 @@ def get_control() -> dict:
     if not url or not key:
         return {}
     req = urllib.request.Request(
-        f"{url}/rest/v1/poly_control?id=eq.1&select=desired_mode,budget,live_until",
+        f"{url}/rest/v1/poly_control?id=eq.1&select=desired_mode,budget,live_until,"
+        f"wx_taker,mlb_taker,wx_budget,mlb_budget,mlb_edge,clear_halts",
         headers={"apikey": key, "Authorization": f"Bearer {key}"})
     try:
         with urllib.request.urlopen(req, timeout=15) as r:

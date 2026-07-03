@@ -174,6 +174,30 @@ export interface Control {
   budget: number | null;
   live_until: string | null;
   updated: string | null;
+  wx_taker: string | null;      // 'live' | 'off' | null = worker env default
+  mlb_taker: string | null;
+  wx_budget: number | null;     // null = worker env default
+  mlb_budget: number | null;
+  mlb_edge: number | null;
+  clear_halts: string | null;
+}
+
+/** Phase-2 strategy control: write per-strategy toggles/budgets the worker reads
+ * each cycle (no deploys). Pass only the fields you're changing. */
+export async function setStrategy(fields: Partial<Pick<Control,
+  'wx_taker' | 'mlb_taker' | 'wx_budget' | 'mlb_budget' | 'mlb_edge'>>): Promise<void> {
+  const { error } = await supabase.from('poly_control')
+    .update({ ...fields, updated: new Date().toISOString() }).eq('id', 1);
+  if (error) throw error;
+}
+
+/** Clear all strategy halt latches (wrong-direction / over-exposure / never-rested)
+ * on every account — the worker un-trips them on its next cycle. */
+export async function clearHalts(): Promise<void> {
+  const { error } = await supabase.from('poly_control')
+    .update({ clear_halts: new Date().toISOString(), updated: new Date().toISOString() })
+    .eq('id', 1);
+  if (error) throw error;
 }
 
 export async function fetchControl(): Promise<Control | null> {

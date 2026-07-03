@@ -270,7 +270,7 @@ def wx_taker_cycle(live_client, budget, state, log, buckets=None):
     return f"{'PROBE' if probe else 'scale'} placed {placed}/{len(orders)}, ${used:.0f}/{budget}"
 
 
-def mlb_taker_cycle(live_client, budget, state, log):
+def mlb_taker_cycle(live_client, budget, state, log, edge_min=None):
     """LIVE bounded MLB probe: buy the model-cheap side of matched game markets near
     kickoff, at executable book prices (only rows odds_refresh_pass has stamped). Mirrors
     the weather taker's rails: probe-first (one 2-lot until a position confirms direction),
@@ -351,7 +351,8 @@ def mlb_taker_cycle(live_client, budget, state, log):
     if open_mlb:
         state["probe_fails"] = 0
         return f"resting {len(open_mlb)}, {len(mlb_pos)}pos, ${used:.0f}/{budget}"
-    cands = [c for c in mlbtaker.candidates(rows, now, edge_min=MLB_EDGE)
+    cands = [c for c in mlbtaker.candidates(rows, now,
+                                            edge_min=edge_min if edge_min is not None else MLB_EDGE)
              if c["slug"] not in mlb_pos]
     if not cands:
         return f"idle: no edge near kickoff ({len(mlb_pos)}pos ${used:.0f}/{budget})"
@@ -444,6 +445,26 @@ def wx_settle_check(client, log):
         f"re-settled {corrected} rows to PM's outcome")
     for s in samples:
         log(f"  wx-settle mismatch: {s}")
+
+
+def effective_config(ctrl: dict) -> dict:
+    """Resolve the live strategy config: app-set poly_control values win, worker env
+    is the fallback default (NULL column = env). Pure — unit-tested."""
+    def pick(key, env_val, cast=float):
+        v = ctrl.get(key)
+        if v is None or v == "":
+            return env_val
+        try:
+            return cast(v)
+        except (TypeError, ValueError):
+            return env_val
+    return {
+        "wx_on": pick("wx_taker", WX_TAKER, str).lower() == "live",
+        "mlb_on": pick("mlb_taker", MLB_TAKER, str).lower() == "live",
+        "wx_budget": pick("wx_budget", WX_BUDGET),
+        "mlb_budget": pick("mlb_budget", MLB_BUDGET),
+        "mlb_edge": pick("mlb_edge", MLB_EDGE),
+    }
 
 
 class TradeAccount:
@@ -1478,11 +1499,25 @@ def main():
         log(f"START mode=TRACK (control-driven; live-arm="
             f"{'ON (real orders)' if LIVE_ARMED else 'off (shadow)'}, "
             f"accounts={[a.name for a in accounts.values()]}, allow={sorted(ALLOW_TOKENS)})")
+        halts_cleared = 0.0
         while True:
             now = time.time()
             ctrl = _track.get_control()
             desired = (ctrl.get("desired_mode") or "track").lower()
             budget = float(ctrl.get("budget") or BUDGET)
+            cfg = effective_config(ctrl)
+            # app-driven halt reset: one-shot per clear_halts value — un-trips every
+            # strategy latch on every account (probe counters included) without a deploy.
+            ch = iso_ts(str(ctrl.get("clear_halts") or ""))
+            if ch and ch > halts_cleared:
+                if halts_cleared:            # skip the boot-time backfill of an old value
+                    for acct in accounts.values():
+                        for st_ in (acct.wx_state, acct.mlb_state, acct.live_state):
+                            st_["tripped"] = False
+                            st_.pop("status", None)
+                            st_["probe_fails"] = 0
+                    log("app cleared strategy halts on all accounts")
+                halts_cleared = ch
             # auto-revert: a "Go Live" request carries live_until; once it passes, flip
             # back to the read-only tracker (enforces "one day only" even if forgotten).
             lu = ctrl.get("live_until")
@@ -1533,12 +1568,11 @@ def main():
                         res = r_i
                 if now - last_pnl >= PNL_EVERY and primary:  # periodic account P&L snapshot
                     pnl_summ = pnl_snapshot(primary.client)
-                    if WX_TAKER == "live":             # clean weather-only settled P&L
-                        try:
-                            primary.wx_state.update(
-                                wx_settlement_pnl(primary.client, log, primary.wx_state))
-                        except Exception as e:
-                            log(f"wx-pnl error: {e}")
+                    try:                               # clean weather-only settled P&L
+                        primary.wx_state.update(
+                            wx_settlement_pnl(primary.client, log, primary.wx_state))
+                    except Exception as e:
+                        log(f"wx-pnl error: {e}")
                     last_pnl = now
             # tracker passes ALWAYS run (record models + settle) — live or not
             if now - last_wx >= WX_EVERY:
@@ -1547,15 +1581,15 @@ def main():
                     wx_buckets = wx_pass(client, wx_rec) or []
                 except Exception as e:
                     log(f"track/wx error: {e}")
-                # LIVE weather sell-taker: real orders only when WX_TAKER=live AND the
-                # account is armed (worker-armed AND user's own switch). One cycle per
-                # account; books from wx_pass are shared (no duplicate ~60-book read).
-                if WX_TAKER == "live":
+                # LIVE weather sell-taker: real orders only when the app/env toggle is
+                # live AND the account is armed (worker-armed AND user's own switch).
+                # One cycle per account; books from wx_pass are shared.
+                if cfg["wx_on"]:
                     for acct in accounts.values():
                         if not acct.live or acct.wx_state.get("tripped"):
                             continue
                         try:
-                            acct.wx_status = wx_taker_cycle(acct.client, WX_BUDGET,
+                            acct.wx_status = wx_taker_cycle(acct.client, cfg["wx_budget"],
                                                             acct.wx_state, log,
                                                             buckets=wx_buckets)
                         except Exception as e:
@@ -1599,16 +1633,17 @@ def main():
                 except Exception as e:
                     log(f"track/odds-refresh error: {e}")
                 last_odds = now
-            # LIVE MLB probe: real orders only when MLB_TAKER=live AND the account is
-            # armed. Fast timer — the kickoff-passed stale-order sweep must run promptly
-            # (never rest in-play); it runs per-account even when that account is tripped.
-            if MLB_TAKER == "live" and now - last_mlb >= 600:
+            # LIVE MLB probe: real orders only when the app/env toggle is live AND the
+            # account is armed. Fast timer — the kickoff-passed stale-order sweep must
+            # run promptly (never rest in-play); it runs even when the account tripped.
+            if cfg["mlb_on"] and now - last_mlb >= 600:
                 for acct in accounts.values():
                     if not acct.live:
                         continue
                     try:
-                        acct.mlb_status = mlb_taker_cycle(acct.client, MLB_BUDGET,
-                                                          acct.mlb_state, log)
+                        acct.mlb_status = mlb_taker_cycle(acct.client, cfg["mlb_budget"],
+                                                          acct.mlb_state, log,
+                                                          edge_min=cfg["mlb_edge"])
                     except Exception as e:
                         log(f"mlb-taker error ({acct.name}): {e}")
                 last_mlb = now
@@ -1619,11 +1654,14 @@ def main():
                          "wx_settled_pnl": pw.get("wx_settled_pnl"),
                          "wx_settled_n": pw.get("wx_settled_n"),
                          "wx_settled_auth": pw.get("wx_settled_auth"),
-                         "wx_settled_est": pw.get("wx_settled_est")} \
-                    if WX_TAKER == "live" else {}
-                if MLB_TAKER == "live" and primary:
-                    wx_hb.update(mlb_taker=primary.mlb_status,
-                                 mlb_tripped=primary.mlb_state.get("tripped", False))
+                         "wx_settled_est": pw.get("wx_settled_est"),
+                         "mlb_taker": primary.mlb_status if primary else "",
+                         "mlb_tripped": primary.mlb_state.get("tripped", False) if primary else False,
+                         # effective strategy config (app override or env default) so the
+                         # app renders the real state, not what it last requested
+                         "wx_on": cfg["wx_on"], "mlb_on": cfg["mlb_on"],
+                         "wx_budget": cfg["wx_budget"], "mlb_budget": cfg["mlb_budget"],
+                         "mlb_edge": cfg["mlb_edge"]}
                 if accounts:
                     wx_hb["users"] = {a.name: {"armed": a.live,
                                                "wx": a.wx_status, "mlb": a.mlb_status}
