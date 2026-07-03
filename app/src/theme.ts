@@ -21,6 +21,8 @@ export const MODEL_META: Record<string, { label: string; color: string }> = {
   'elo-nfl': { label: 'NFL · Elo', color: C.amber },
   'elo-ncaaf': { label: 'NCAA FB · Elo', color: C.amber },
   'elo-mlb': { label: 'MLB · Elo', color: C.red },
+  'elo-mlb-ctx': { label: 'MLB · Elo + rest/pitchers', color: C.amber },
+  'blend-mlb': { label: 'MLB · Market blend', color: C.blue },
   'elo-atp': { label: 'Tennis ATP · Elo', color: C.green },
   'elo-wta': { label: 'Tennis WTA · Elo', color: C.purple },
   'golf-skill': { label: 'Golf · Field model', color: C.amber },
