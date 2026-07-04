@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Alert, Linking, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 import { useLiveQuery, ageSeconds } from '../../lib/hooks';
 import { fetchControl, fetchBotStatus, setDesiredMode, setLive, fetchMyUser, registerMe, setMyArmed, connectMyKeys, setStrategy, clearHalts, type Control, type BotStatus, type PolyUser } from '../../lib/tracker';
@@ -166,15 +166,42 @@ function StrategiesCard({ control, status, busy, setBusy, refresh }:
   { control: Control | null; status: BotStatus | null; busy: boolean;
     setBusy: (b: boolean) => void; refresh: () => void }) {
   const d = status?.detail ?? {};
-  const run = async (fn: () => Promise<void>) => {
+  // Optimistic overrides so a tap reflects INSTANTLY. The heartbeat (effective
+  // state) lags ~1 cycle; the control row updates on write. Priority for what we
+  // SHOW: optimistic tap > control row (desired) > heartbeat (effective).
+  const [opt, setOpt] = useState<Record<string, any>>({});
+  // drop an optimistic override once the worker's heartbeat confirms it landed
+  useEffect(() => {
+    setOpt((o) => {
+      const n = { ...o };
+      if (n.wx_taker != null && (d.wx_on ? 'live' : 'off') === n.wx_taker) delete n.wx_taker;
+      if (n.mlb_taker != null && (d.mlb_on ? 'live' : 'off') === n.mlb_taker) delete n.mlb_taker;
+      if (n.wx_budget != null && d.wx_budget === n.wx_budget) delete n.wx_budget;
+      if (n.mlb_budget != null && d.mlb_budget === n.mlb_budget) delete n.mlb_budget;
+      return Object.keys(n).length === Object.keys(o).length ? o : n;
+    });
+  }, [d.wx_on, d.mlb_on, d.wx_budget, d.mlb_budget]);
+
+  const run = async (patch: Record<string, any>, fn: () => Promise<void>) => {
+    setOpt((o) => ({ ...o, ...patch }));      // instant feedback
     setBusy(true);
     try { await fn(); refresh(); }
-    catch (e: any) { Alert.alert('Failed', String(e?.message ?? e)); }
+    catch (e: any) { setOpt({}); Alert.alert('Failed', String(e?.message ?? e)); }
     finally { setBusy(false); }
   };
+  const tk = (optV: any, ctrlV: any, hbOn: boolean | undefined) =>
+    (optV ?? ctrlV ?? (hbOn ? 'live' : 'off')) === 'live';
+  const wxOn = tk(opt.wx_taker, control?.wx_taker, d.wx_on);
+  const mlbOn = tk(opt.mlb_taker, control?.mlb_taker, d.mlb_on);
+  const wxBudget = opt.wx_budget ?? control?.wx_budget ?? d.wx_budget;
+  const mlbBudget = opt.mlb_budget ?? control?.mlb_budget ?? d.mlb_budget;
+  // "applying…" while the desired state hasn't reached the worker's heartbeat yet
+  const applying = (on: boolean, bud: number | undefined, hbOn: any, hbBud: any) =>
+    (hbOn !== undefined && on !== hbOn) || (bud != null && hbBud != null && bud !== hbBud);
   const anyTripped = d.wx_tripped === true || d.mlb_tripped === true;
-  const row = (label: string, on: boolean | undefined, tripped: boolean,
-               statusText: string, budget: number | undefined,
+
+  const row = (label: string, on: boolean, tripped: boolean, statusText: string,
+               budget: number | undefined, isApplying: boolean,
                toggleField: 'wx_taker' | 'mlb_taker',
                budgetField: 'wx_budget' | 'mlb_budget') => (
     <View style={{ marginBottom: 4 }}>
@@ -184,6 +211,7 @@ function StrategiesCard({ control, status, busy, setBusy, refresh }:
             <Dot color={tripped ? C.amber : on ? C.green : C.dim} size={10} />
             <Text style={s.modeLabel}>{label}</Text>
             {tripped ? <Text style={s.trippedTag}>HALTED</Text> : null}
+            {isApplying ? <Text style={s.applyingTag}>applying…</Text> : null}
           </View>
           <Text style={s.modeDesc} numberOfLines={1}>
             {statusText || (on ? 'live' : 'off')} · budget ${budget ?? '—'}
@@ -191,12 +219,13 @@ function StrategiesCard({ control, status, busy, setBusy, refresh }:
         </View>
         <Btn title={on ? 'Turn off' : 'Turn on'} kind={on ? 'danger' : 'primary'}
              busy={busy} disabled={busy}
-             onPress={() => run(() => setStrategy({ [toggleField]: on ? 'off' : 'live' } as any))} />
+             onPress={() => run({ [toggleField]: on ? 'off' : 'live' },
+                                () => setStrategy({ [toggleField]: on ? 'off' : 'live' } as any))} />
       </View>
       <View style={s.budgetRow}>
         {STRAT_BUDGETS.map((b) => (
           <Pressable key={b} disabled={busy}
-            onPress={() => run(() => setStrategy({ [budgetField]: b } as any))}
+            onPress={() => run({ [budgetField]: b }, () => setStrategy({ [budgetField]: b } as any))}
             style={[s.budgetChip, budget === b ? { borderColor: C.blue, backgroundColor: '#10161E' } : null]}>
             <Text style={[s.budgetText, budget === b ? { color: C.blue } : null]}>${b}</Text>
           </Pressable>
@@ -208,15 +237,17 @@ function StrategiesCard({ control, status, busy, setBusy, refresh }:
     <>
       <SectionTitle>Strategies</SectionTitle>
       <Card>
-        {row('Weather taker', d.wx_on, d.wx_tripped === true, d.wx_taker ?? '',
-             d.wx_budget, 'wx_taker', 'wx_budget')}
+        {row('Weather taker', wxOn, d.wx_tripped === true, d.wx_taker ?? '',
+             wxBudget, applying(wxOn, wxBudget, d.wx_on, d.wx_budget),
+             'wx_taker', 'wx_budget')}
         <View style={s.stratDivider} />
-        {row('MLB probe', d.mlb_on, d.mlb_tripped === true, d.mlb_taker ?? '',
-             d.mlb_budget, 'mlb_taker', 'mlb_budget')}
+        {row('MLB probe', mlbOn, d.mlb_tripped === true, d.mlb_taker ?? '',
+             mlbBudget, applying(mlbOn, mlbBudget, d.mlb_on, d.mlb_budget),
+             'mlb_taker', 'mlb_budget')}
         <Text style={s.modeDesc}>
           Turning a strategy off stops NEW orders only — resting orders and positions
           ride (use My trading → Turn off to also cancel your resting bot orders).
-          Changes apply on the worker’s next cycle (~1 min).
+          “applying…” clears once the worker picks up the change (~1 min).
         </Text>
         {anyTripped ? (
           <View style={{ marginTop: 10 }}>
@@ -226,7 +257,7 @@ function StrategiesCard({ control, status, busy, setBusy, refresh }:
                    'or orders never resting). Clear only if you understand why it fired.',
                    [{ text: 'Cancel', style: 'cancel' },
                     { text: 'Clear halts', style: 'destructive',
-                      onPress: () => run(() => clearHalts()) }])} />
+                      onPress: () => run({}, () => clearHalts()) }])} />
           </View>
         ) : null}
       </Card>
@@ -345,6 +376,7 @@ const s = StyleSheet.create({
               marginTop: 8, fontSize: 14 },
   replaceKeys: { color: C.blue, fontSize: 13, marginTop: 12 },
   trippedTag: { color: C.amber, fontSize: 11, fontWeight: '800', letterSpacing: 0.5 },
+  applyingTag: { color: C.blue, fontSize: 11, fontStyle: 'italic' },
   stratDivider: { height: 1, backgroundColor: C.border, marginVertical: 12 },
   modeRow: { flexDirection: 'row', alignItems: 'center', gap: 12 },
   modeLabel: { color: C.text, fontSize: 15, fontWeight: '700' },
