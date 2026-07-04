@@ -955,6 +955,8 @@ def settle_pass():
             log(f"golf-settle DIAG: window={d} want tourney_id={ (r.get('meta') or {}).get('tourney_id')} "
                 f"| ESPN completed winners={dict(list(wm.items())[:6])} "
                 f"| events={[(t['id'], t['name'][:18], t['state'], t['completed']) for t in raw[:6]]}")
+            if not wm:                       # winner not surfacing — dump the raw shape
+                log(f"golf-settle SHAPE: {golffeed.debug_shape(dates=d)}")
         except Exception as e:
             log(f"golf-settle DIAG err={str(e)[:80]}")
     tennis_due = [r for r in sport_rows if r["id"] not in resolved
