@@ -19,9 +19,14 @@ def collateral(sell_price: float, qty: float) -> float:
 
 
 def sell_candidates(buckets: list[dict], margin: float = 0.10,
-                    min_price: float = 0.08, max_price: float = 0.85) -> list[dict]:
+                    min_price: float = 0.08, max_price: float = 0.85,
+                    max_prob: float = 0.15) -> list[dict]:
     """Buckets whose YES bid is at least `margin` above the model prob (overpriced),
-    restricted to a sane price band (avoid 0/1 tails where fills+settlement are degenerate).
+    restricted to a sane price band (avoid 0/1 tails where fills+settlement are degenerate)
+    AND to NON-BOUNDARY buckets (model prob <= `max_prob`). The boundary buckets — where the
+    threshold sits near the forecast so our prob is ~0.3-0.5 — are exactly where the
+    forecast-vs-official-settlement gap flipped shorts into full-collateral losses; selling
+    only DEEP buckets (very unlikely to be the official high) is the settlement-flaw guard.
     `buckets`: dicts with slug, prob, bid (YES best bid), bid_qty. Best edge first."""
     out = []
     for b in buckets:
@@ -29,6 +34,8 @@ def sell_candidates(buckets: list[dict], margin: float = 0.10,
         if bid is None or prob is None:
             continue
         if not (min_price <= bid <= max_price):
+            continue
+        if prob > max_prob:                  # boundary bucket — too close to the line, skip
             continue
         edge = bid - prob
         if edge >= margin:

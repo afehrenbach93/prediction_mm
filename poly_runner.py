@@ -89,7 +89,7 @@ def wx_pass(client, recorded_days: set):
         if p:
             temps.append((m.get("slug", ""), p))
     log(f"tc-temp markets live: {len(temps)}")
-    fc, rows, taker_buckets = {}, [], []
+    fc, intraday, rows, taker_buckets = {}, {}, [], []
     for slug, p in temps:
         key = (p["station"], p["date"])
         if key not in fc:
@@ -105,7 +105,17 @@ def wx_pass(client, recorded_days: set):
         except Exception:
             d_out = 0
         sigma = min(8.0, 2.0 + 1.5 * d_out)
-        prob = wx.bucket_probability(high, sigma, p["lo"], p["hi"])
+        # INTRADAY conditioning (today only): the daily high can't be below the observed
+        # max-so-far, and less daytime remaining -> tighter sigma. Collapses the boundary
+        # uncertainty that the forecast-vs-official settlement gap turned into losses.
+        floor = None
+        if d_out == 0:
+            if key not in intraday:
+                intraday[key] = wxfeed.intraday_max_so_far(p["station"], p["date"])
+            if intraday[key]:
+                floor, frac_left = intraday[key]
+                sigma = max(1.0, sigma * (frac_left ** 0.5))
+        prob = wx.bucket_probability(high, sigma, p["lo"], p["hi"], floor=floor)
         bids, offers = client.get_book(slug)
         bid = bids[0][0] if bids else None
         bid_qty = bids[0][1] if bids else 0
@@ -931,6 +941,33 @@ def settle_pass():
             ok += 1
     log(f"settle: due={len(rows)} (wx={len(wx_rows)} soc={len(sc_rows)} "
         f"sport={len(sport_rows)} golf={len(golf_rows)}) resolved={len(resolved)} written={ok}")
+    # DIAG: golf/tennis have settled 0 for a week. When rows are due but none resolve,
+    # log the ID mismatch — what ESPN returns as completed in the settle window vs the
+    # tourney_id/espn_id we're trying to match (this sandbox is geo-blocked from ESPN, so
+    # the fix comes from the worker's own logs). Bounded, once per pass.
+    golf_due = [r for r in golf_rows if r["id"] not in resolved]
+    if golf_due:
+        r = golf_due[0]
+        d = settle._golf_window(r.get("settle_date") or today_iso)
+        try:
+            wm = golffeed.winners_map(dates=d)
+            raw = golffeed.fetch(dates=d)
+            log(f"golf-settle DIAG: window={d} want tourney_id={ (r.get('meta') or {}).get('tourney_id')} "
+                f"| ESPN completed winners={dict(list(wm.items())[:6])} "
+                f"| events={[(t['id'], t['name'][:18], t['state'], t['completed']) for t in raw[:6]]}")
+        except Exception as e:
+            log(f"golf-settle DIAG err={str(e)[:80]}")
+    tennis_due = [r for r in sport_rows if r["id"] not in resolved
+                  and (r.get("meta") or {}).get("espn_path", "").startswith("tennis")]
+    if tennis_due:
+        r = tennis_due[0]
+        meta = r.get("meta") or {}
+        try:
+            fm = espnfeed.finals_map(meta["espn_path"], settle._window(r.get("settle_date") or today_iso))
+            log(f"tennis-settle DIAG: want espn_id={meta.get('espn_id')} home={meta.get('home')} "
+                f"| ESPN completed ids (window)={list(fm.keys())[:10]}")
+        except Exception as e:
+            log(f"tennis-settle DIAG err={str(e)[:80]}")
 
 
 def iso_ts(s: str) -> float:
@@ -1306,23 +1343,22 @@ def _wx_find_realized(pr, ap, bp):
     return None, ""
 
 
-def wx_settlement_pnl(client: PolyClient, log, state) -> dict:
-    """Account-level WEATHER-ONLY realized P&L: sum the settled P&L of tc-temp positions
-    from portfolio activities (the shared balance mixes cricket + open marks, so isolate
-    weather here). Prefers the resolution's AUTHORITATIVE settled `realized`; falls back to
-    computing from net/cost/outcome (short: settles NO -> +(Q-cost), YES -> -cost) and marks
-    the row estimated. Logs the cleaned resolution structure ONCE so the realized field can be
-    verified. Read-only; never raises."""
+def _settlement_pnl(client: PolyClient, log, state, prefix, label: str) -> dict:
+    """Account-level realized P&L for one strategy, isolated by market-slug `prefix`
+    (the shared balance mixes strategies + open marks). Prefers the resolution's
+    AUTHORITATIVE settled `realized` (after−before delta); falls back to computing from
+    the venue's own cost + the resolved outcome. Logs the cleaned resolution structure
+    ONCE. Returns {settled_pnl, settled_n, settled_auth, settled_est}. Never raises."""
     import json as _json
     try:
         _, act = client.signed_get("/v1/portfolio/activities")
     except Exception as e:
-        log(f"wx-pnl activities err={str(e)[:70]}")
+        log(f"{label}-pnl activities err={str(e)[:70]}")
         return {}
     items = act.get("activities") if isinstance(act, dict) else act
     items = items if isinstance(items, list) else []
     seen, rows, total = set(), [], 0.0
-    struct_logged = state.get("wx_pnl_logged", False)
+    struct_logged = state.get(f"{label}_pnl_logged", False)
     n_auth = n_est = 0
     outcome_cache = {}
     for a in items:
@@ -1330,7 +1366,7 @@ def wx_settlement_pnl(client: PolyClient, log, state) -> dict:
             continue
         pr = a.get("positionResolution") or {}
         slug = pr.get("marketSlug", "")
-        if not slug.startswith("tc-temp"):
+        if not slug.startswith(prefix):
             continue
         bp = pr.get("beforePosition") or {}
         ap = pr.get("afterPosition") or {}
@@ -1341,18 +1377,17 @@ def wx_settlement_pnl(client: PolyClient, log, state) -> dict:
         if not struct_logged:
             # Render truncates log messages ~930 chars — split before/after onto their
             # own lines so afterPosition (where the realized delta lives) is visible.
-            log(f"wx-pnl STRUCT.pr: {_json.dumps(_wx_clean_struct({k: v for k, v in pr.items() if k not in ('beforePosition', 'afterPosition')}))[:800]}")
-            log(f"wx-pnl STRUCT.before: {_json.dumps(_wx_clean_struct(bp))[:800]}")
-            log(f"wx-pnl STRUCT.after: {_json.dumps(_wx_clean_struct(ap))[:800]}")
+            log(f"{label}-pnl STRUCT.pr: {_json.dumps(_wx_clean_struct({k: v for k, v in pr.items() if k not in ('beforePosition', 'afterPosition')}))[:800]}")
+            log(f"{label}-pnl STRUCT.before: {_json.dumps(_wx_clean_struct(bp))[:800]}")
+            log(f"{label}-pnl STRUCT.after: {_json.dumps(_wx_clean_struct(ap))[:800]}")
             struct_logged = True
         # authoritative settled realized, if the resolution carries it (after−before delta)
         realized, src = _wx_find_realized(pr, ap, bp)
         est = False
         if realized is None:
-            # compute from the venue's own numbers: bp.cost is CONFIRMED collateral (live
-            # STRUCT: qtySold=5, avgPx=0.63, cost=3.15=5×0.63 — the dollars we paid), and
-            # the resolved market's outcomePrices are the authoritative outcome. Both
-            # inputs are the venue's — this path is authoritative-computed, not estimated.
+            # compute from the venue's own numbers: bp.cost is CONFIRMED collateral, and
+            # the resolved market's outcomePrices are the authoritative outcome — both
+            # venue-sourced, so this path is authoritative-computed, not estimated.
             try:
                 net = float(bp.get("qtyBought", 0)) - float(bp.get("qtySold", 0))
                 cost = float((bp.get("cost") or {}).get("value", 0))
@@ -1378,14 +1413,27 @@ def wx_settlement_pnl(client: PolyClient, log, state) -> dict:
         n_est += int(est)
         n_auth += int(not est)
         rows.append((round(realized, 2), ("~" if est else " ") + slug[-30:], src))
-    state["wx_pnl_logged"] = struct_logged
+    state[f"{label}_pnl_logged"] = struct_logged
     rows.sort()
     tag = f"{n_auth} authoritative + {n_est} estimated" if n_est else f"{n_auth} authoritative"
-    log(f"wx-pnl: {len(rows)} settled weather positions ({tag}), total realized ${total:+.2f}")
+    log(f"{label}-pnl: {len(rows)} settled {label} positions ({tag}), total realized ${total:+.2f}")
     for r in rows[:12]:
-        log(f"  wx-pnl {r}")
-    return {"wx_settled_pnl": round(total, 2), "wx_settled_n": len(rows),
-            "wx_settled_auth": n_auth, "wx_settled_est": n_est}
+        log(f"  {label}-pnl {r}")
+    return {"settled_pnl": round(total, 2), "settled_n": len(rows),
+            "settled_auth": n_auth, "settled_est": n_est}
+
+
+def wx_settlement_pnl(client: PolyClient, log, state) -> dict:
+    """Weather-only settled P&L (tc-temp positions)."""
+    r = _settlement_pnl(client, log, state, "tc-temp", "wx")
+    return {"wx_settled_pnl": r.get("settled_pnl"), "wx_settled_n": r.get("settled_n"),
+            "wx_settled_auth": r.get("settled_auth"), "wx_settled_est": r.get("settled_est")} if r else {}
+
+
+def mlb_settlement_pnl(client: PolyClient, log, state) -> dict:
+    """MLB-probe-only settled P&L (aec-mlb positions)."""
+    r = _settlement_pnl(client, log, state, "aec-mlb", "mlb")
+    return {"mlb_settled_pnl": r.get("settled_pnl"), "mlb_settled_n": r.get("settled_n")} if r else {}
 
 
 def scan_markets(client: PolyClient, budget: float):
@@ -1568,11 +1616,16 @@ def main():
                         res = r_i
                 if now - last_pnl >= PNL_EVERY and primary:  # periodic account P&L snapshot
                     pnl_summ = pnl_snapshot(primary.client)
-                    try:                               # clean weather-only settled P&L
+                    try:                               # clean per-strategy settled P&L
                         primary.wx_state.update(
                             wx_settlement_pnl(primary.client, log, primary.wx_state))
                     except Exception as e:
                         log(f"wx-pnl error: {e}")
+                    try:
+                        primary.mlb_state.update(
+                            mlb_settlement_pnl(primary.client, log, primary.mlb_state))
+                    except Exception as e:
+                        log(f"mlb-pnl error: {e}")
                     last_pnl = now
             # tracker passes ALWAYS run (record models + settle) — live or not
             if now - last_wx >= WX_EVERY:
@@ -1657,6 +1710,8 @@ def main():
                          "wx_settled_est": pw.get("wx_settled_est"),
                          "mlb_taker": primary.mlb_status if primary else "",
                          "mlb_tripped": primary.mlb_state.get("tripped", False) if primary else False,
+                         "mlb_settled_pnl": primary.mlb_state.get("mlb_settled_pnl") if primary else None,
+                         "mlb_settled_n": primary.mlb_state.get("mlb_settled_n") if primary else None,
                          # effective strategy config (app override or env default) so the
                          # app renders the real state, not what it last requested
                          "wx_on": cfg["wx_on"], "mlb_on": cfg["mlb_on"],
