@@ -43,12 +43,30 @@ class TestParse(unittest.TestCase):
                 wm[t["id"]] = next((p["player"] for p in t["field"] if p["position"] == 1), None)
         self.assertEqual(wm, {"G1": "scottie scheffler"})
 
-    def test_position_prefers_displayName_over_internal_id(self):
-        # PROD BUG: ESPN carries status.position.id (an internal identifier, NOT the
-        # rank) alongside displayName. Reading id first mis-ranked the winner so golf
-        # settled 0 rows for a week. displayName must win.
-        comp = {"status": {"position": {"id": "913", "displayName": "1"}}}
-        self.assertEqual(golffeed._position(comp), 1)
+    def test_position_reads_order_field(self):
+        # PROD SHAPE (from worker DIAG): golf competitors have NO status; the finish rank
+        # is in `order` (1 = winner). This is the actual fix.
+        self.assertEqual(golffeed._position({"order": 1, "score": -4, "status": None}), 1)
+        self.assertEqual(golffeed._position({"order": 12}), 12)
+
+    def test_position_falls_back_to_status_position(self):
+        # other sports/shapes may still use status.position.displayName
+        self.assertEqual(golffeed._position({"status": {"position": {"displayName": "T5"}}}), 5)
+
+    def test_winners_map_from_order(self):
+        raw = {"events": [{
+            "id": "GO", "name": "Order Open", "date": "2026-07-05T12:00Z",
+            "status": {"type": {"state": "post", "completed": True}},
+            "competitions": [{"competitors": [
+                {"athlete": {"displayName": "J.J. Spaun"}, "order": 1, "score": -4, "status": None},
+                {"athlete": {"displayName": "Robert MacIntyre"}, "order": 2, "score": -3, "status": None},
+            ]}]}]}
+        orig = golffeed.fetch
+        golffeed.fetch = lambda path=golffeed.DEFAULT_TOUR, dates=None: golffeed.parse_golf(raw)
+        try:
+            self.assertEqual(golffeed.winners_map(), {"GO": "j.j. spaun"})
+        finally:
+            golffeed.fetch = orig
 
     def test_winners_map_via_winner_flag(self):
         # winner identified by ESPN's `won` flag even if the position field is unusable
