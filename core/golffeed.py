@@ -21,18 +21,29 @@ DEFAULT_TOUR = "golf/pga"
 
 
 def _position(comp: dict):
-    """Finishing position as int, or None. ESPN gives '1', 'T5' (tie), 'CUT', etc."""
+    """Finishing position as int, or None. ESPN gives displayName '1' / 'T5' (tie) /
+    'CUT'. Prefer displayName (the human RANK) — `status.position.id` is an internal
+    identifier, NOT the finish place, so reading it first mis-ranked everyone and the
+    winner (place 1) was never found (golf settled 0 rows for a week)."""
     st = comp.get("status") or {}
     pos = st.get("position") or {}
-    raw = pos.get("id") or pos.get("displayName") or ""
+    raw = pos.get("displayName") or pos.get("id") or ""
     m = re.search(r"\d+", str(raw))
     return int(m.group()) if m else None
+
+
+def _is_winner(comp: dict) -> bool:
+    """ESPN's authoritative winner marker on the tournament champion — a competitor-level
+    `winner: true` flag (present on completed events). Used ahead of position==1 so a
+    quirk in the position field can't hide the winner."""
+    return bool(comp.get("winner"))
 
 
 def parse_golf(raw: dict) -> list[dict]:
     """Pure: ESPN golf scoreboard -> list of tournaments. Each:
     {id, name, date, state(pre|in|post), completed, field: [{player, player_raw,
-     position}]}. position is None pre-event / for cut players."""
+     position, won}]}. position is None pre-event / for cut players; won = ESPN's
+    winner flag."""
     out = []
     for ev in (raw or {}).get("events", []) or []:
         comps = ev.get("competitions") or []
@@ -46,7 +57,7 @@ def parse_golf(raw: dict) -> list[dict]:
             if not name:
                 continue
             field.append({"player": normalize_name(name), "player_raw": name,
-                          "position": _position(c)})
+                          "position": _position(c), "won": _is_winner(c)})
         if not field:
             continue
         out.append({
@@ -86,12 +97,14 @@ def current_event(sport_path: str = DEFAULT_TOUR, dates: str | None = None):
 
 
 def winners_map(sport_path: str = DEFAULT_TOUR, dates: str | None = None) -> dict:
-    """{tournament_id: winning_player} for completed tournaments — settlement."""
+    """{tournament_id: winning_player} for completed tournaments — settlement. Winner by
+    ESPN's `won` flag first, then finishing position 1 (either identifies the champion)."""
     out = {}
     for t in fetch(sport_path, dates):
         if not t["completed"]:
             continue
-        winner = next((p["player"] for p in t["field"] if p["position"] == 1), None)
+        winner = (next((p["player"] for p in t["field"] if p.get("won")), None)
+                  or next((p["player"] for p in t["field"] if p["position"] == 1), None))
         if winner:
             out[t["id"]] = winner
     return out
