@@ -21,10 +21,14 @@ DEFAULT_TOUR = "golf/pga"
 
 
 def _position(comp: dict):
-    """Finishing position as int, or None. ESPN gives displayName '1' / 'T5' (tie) /
-    'CUT'. Prefer displayName (the human RANK) — `status.position.id` is an internal
-    identifier, NOT the finish place, so reading it first mis-ranked everyone and the
-    winner (place 1) was never found (golf settled 0 rows for a week)."""
+    """Finishing position as int, or None. ESPN golf competitors carry the finish rank in
+    `order` (1 = winner) and have NO `status` field on the scoreboard — the worker SHAPE
+    diag confirmed `status=None`, `order=1` for the leader, which is why the old
+    status.position read found nobody and golf settled 0 rows for a week. Prefer `order`;
+    fall back to status.position for any sport/shape that uses it."""
+    o = comp.get("order")
+    if isinstance(o, (int, float)):
+        return int(o)
     st = comp.get("status") or {}
     pos = st.get("position") or {}
     raw = pos.get("displayName") or pos.get("id") or ""
