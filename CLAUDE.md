@@ -73,6 +73,25 @@ read-only before funding; reconcile any tape-derived P&L against account balance
 
 ## Incident Log
 
+### 2026-07-04 — Weather Tier-1 (settlement-flaw guards) + MLB settled-P&L + tennis/golf settle fixes
+- **Weather Tier-1 (attacks the settlement-source flaw, not raw skill):** (1) **intraday
+  conditioning** — `wxfeed.intraday_max_so_far` reads today's hourly obs; `bucket_probability(...,
+  floor=)` truncates+renormalizes the daily-high distribution at the observed max-so-far (a
+  bucket below it is impossible) and `wx_pass` shrinks sigma by √(day-fraction-left) → collapses
+  boundary uncertainty by mid-afternoon; (2) **non-boundary guard** — `wxtaker.sell_candidates`
+  now skips buckets with model prob > `max_prob` (0.15), i.e. only sells DEEP buckets far from the
+  line (boundary buckets = where forecast-vs-official divergence caused the full-collateral losses).
+  All pure + tested; strictly MORE conservative, so safe to run live.
+- **MLB settled-P&L reader:** generalized `wx_settlement_pnl` → `_settlement_pnl(prefix,label)`;
+  `mlb_settlement_pnl` sums `aec-mlb` resolutions (same authoritative after−before-delta logic).
+  Heartbeat carries `mlb_settled_pnl`/`mlb_settled_n`; the app P&L card already reads them.
+- **Tennis fix (root cause found in the data):** recorder was logging Wimbledon **TBD-vs-TBD**
+  future-round placeholders (both default-1500, junk 0.5 preds that never settle). `espnfeed.
+  upcoming_fixtures` now skips fixtures with a TBD competitor (`_is_tbd`).
+- **Golf/tennis settle diagnostic:** when rows are due but 0 resolve, `settle_pass` logs the ESPN
+  window's completed ids/winners vs the tourney_id/espn_id we want — surfaces the id mismatch from
+  the worker's logs (sandbox is ESPN-blocked). 169 tests green (+8).
+
 ### 2026-07-02 (night, phase 2) — Full app control: strategy toggles, budgets, halt-clear
 - **poly_control** gained `wx_taker`/`mlb_taker`/`wx_budget`/`mlb_budget`/`mlb_edge`/
   `clear_halts` (migration 0004, applied). `effective_config` (pure, tested): app value

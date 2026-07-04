@@ -59,17 +59,33 @@ def _norm_cdf(x: float, mu: float, sigma: float) -> float:
 
 
 def bucket_probability(forecast_high: float, sigma: float,
-                       lo: float | None, hi: float | None) -> float:
+                       lo: float | None, hi: float | None,
+                       floor: float | None = None) -> float:
     """P(lo <= high < hi) under Normal(forecast_high, sigma). The official high is
     an integer °F, but treating it continuous over 1°F-wide buckets is a fine
-    approximation for edge-finding. Open ends (lo/hi None) -> tail probability."""
+    approximation for edge-finding. Open ends (lo/hi None) -> tail probability.
+
+    `floor` = today's observed max-so-far: the daily high CANNOT be below it, so the
+    distribution is truncated at `floor` and renormalized over the surviving mass. A
+    bucket entirely below the floor is already impossible (prob 0); a bucket containing
+    it keeps only its above-floor share. This is the intraday-conditioning lever — by
+    mid-afternoon it collapses most of the boundary uncertainty that lost money."""
     if sigma <= 0:   # degenerate point mass at the forecast (half-open: lo<=mu<hi)
-        ge_lo = lo is None or forecast_high >= lo
-        lt_hi = hi is None or forecast_high < hi
+        mu = forecast_high if floor is None else max(forecast_high, floor)
+        ge_lo = lo is None or mu >= lo
+        lt_hi = hi is None or mu < hi
         return 1.0 if (ge_lo and lt_hi) else 0.0
+    if floor is not None:
+        if hi is not None and hi <= floor:
+            return 0.0                       # bucket already surpassed — cannot be the high
+        lo = floor if lo is None else max(lo, floor)
     p_hi = _norm_cdf(hi, forecast_high, sigma) if hi is not None else 1.0
     p_lo = _norm_cdf(lo, forecast_high, sigma) if lo is not None else 0.0
-    return max(0.0, min(1.0, p_hi - p_lo))
+    p = p_hi - p_lo
+    if floor is not None:                    # renormalize over the surviving mass (H>=floor)
+        denom = 1.0 - _norm_cdf(floor, forecast_high, sigma)
+        p = p / denom if denom > 1e-6 else (1.0 if lo == floor else 0.0)
+    return max(0.0, min(1.0, p))
 
 
 def buy_edge(model_prob: float, market_ask: float | None, fee: float = 0.0) -> float | None:

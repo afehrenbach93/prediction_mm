@@ -177,9 +177,19 @@ def recent_results(sport_path: str, dates: str | None = None) -> list[dict]:
     return ms
 
 
+def _is_tbd(name: str) -> bool:
+    """A placeholder competitor — a future bracket slot whose player/team isn't set
+    yet (ESPN lists Wimbledon later-round matches as 'TBD' vs 'TBD'). Recording these
+    makes junk 0.5/0.5 predictions on default-rated phantoms that can never settle."""
+    n = (name or "").strip().lower()
+    return n in ("", "tbd", "to be determined", "bye", "tba")
+
+
 def upcoming_fixtures(sport_path: str, dates: str | None = None) -> list[dict]:
-    """Not-yet-started matches (state 'pre') to predict."""
-    ms = [m for m in fetch(sport_path, dates) if m["state"] == "pre"]
+    """Not-yet-started matches (state 'pre') to predict. Skips placeholder fixtures
+    where either competitor is TBD (undecided bracket slots)."""
+    ms = [m for m in fetch(sport_path, dates)
+          if m["state"] == "pre" and not _is_tbd(m["home_raw"]) and not _is_tbd(m["away_raw"])]
     ms.sort(key=lambda m: m["date"])
     return ms
 
