@@ -43,6 +43,31 @@ class TestParse(unittest.TestCase):
                 wm[t["id"]] = next((p["player"] for p in t["field"] if p["position"] == 1), None)
         self.assertEqual(wm, {"G1": "scottie scheffler"})
 
+    def test_position_prefers_displayName_over_internal_id(self):
+        # PROD BUG: ESPN carries status.position.id (an internal identifier, NOT the
+        # rank) alongside displayName. Reading id first mis-ranked the winner so golf
+        # settled 0 rows for a week. displayName must win.
+        comp = {"status": {"position": {"id": "913", "displayName": "1"}}}
+        self.assertEqual(golffeed._position(comp), 1)
+
+    def test_winners_map_via_winner_flag(self):
+        # winner identified by ESPN's `won` flag even if the position field is unusable
+        raw = {"events": [{
+            "id": "GW", "name": "Flag Open", "date": "2026-07-05T12:00Z",
+            "status": {"type": {"state": "post", "completed": True}},
+            "competitions": [{"competitors": [
+                {"athlete": {"displayName": "Hayden Springer"},
+                 "winner": True, "status": {"position": {"id": "42"}}},
+                {"athlete": {"displayName": "Lucas Glover"},
+                 "status": {"position": {"id": "43", "displayName": "2"}}},
+            ]}]}]}
+        orig = golffeed.fetch
+        golffeed.fetch = lambda path=golffeed.DEFAULT_TOUR, dates=None: golffeed.parse_golf(raw)
+        try:
+            self.assertEqual(golffeed.winners_map(), {"GW": "hayden springer"})
+        finally:
+            golffeed.fetch = orig
+
 
 class TestModel(unittest.TestCase):
     def test_performance_bounds(self):
