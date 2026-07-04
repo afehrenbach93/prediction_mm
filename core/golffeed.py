@@ -71,6 +71,36 @@ def parse_golf(raw: dict) -> list[dict]:
     return out
 
 
+def debug_shape(sport_path: str = DEFAULT_TOUR, dates: str | None = None) -> str:
+    """DIAGNOSTIC (worker-only): fetch the RAW ESPN golf scoreboard and dump, for the
+    first COMPLETED event, its competition-level keys plus a sample competitor's keys +
+    status structure. The winner isn't surfacing via status.position/`winner` for post
+    events; this reveals where the finishing rank actually lives so the parser can be
+    fixed precisely. Returns a one-line string; safe on any shape."""
+    url = SCOREBOARD.format(path=sport_path)
+    if dates:
+        url += f"?dates={dates}"
+    req = urllib.request.Request(url, headers={"User-Agent": "prediction-mm/golf"})
+    try:
+        with urllib.request.urlopen(req, timeout=20) as r:
+            raw = json.loads(r.read())
+    except Exception as e:
+        return f"fetch-error: {str(e)[:60]}"
+    for ev in (raw or {}).get("events", []) or []:
+        st = (ev.get("status") or {}).get("type") or {}
+        if not st.get("completed"):
+            continue
+        comp = (ev.get("competitions") or [{}])[0]
+        cs = comp.get("competitors") or []
+        c0 = cs[0] if cs else {}
+        winflags = [i for i, c in enumerate(cs[:100]) if c.get("winner")]
+        return (f"event={ev.get('id')} '{str(ev.get('name',''))[:18]}' comp_keys={sorted(comp.keys())[:14]} "
+                f"n_competitors={len(cs)} winner_idx={winflags[:3]} "
+                f"c0_keys={sorted(c0.keys())[:14]} c0.status={str(c0.get('status'))[:180]} "
+                f"c0.score={c0.get('score')} c0.order={c0.get('order')}")
+    return "no completed event in window"
+
+
 def fetch(sport_path: str = DEFAULT_TOUR, dates: str | None = None) -> list[dict]:
     url = SCOREBOARD.format(path=sport_path)
     if dates:
