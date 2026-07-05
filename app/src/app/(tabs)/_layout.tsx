@@ -24,6 +24,13 @@ export default function TabsLayout() {
         }}
       />
       <Tabs.Screen
+        name="recap"
+        options={{
+          title: 'Recap',
+          tabBarIcon: ({ color, size }) => <Ionicons name="today-outline" color={color} size={size} />,
+        }}
+      />
+      <Tabs.Screen
         name="predictions"
         options={{
           title: 'Predictions',

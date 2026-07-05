@@ -121,6 +121,26 @@ def set_desired_mode(mode: str) -> int:
         return -1
 
 
+def record_daily(snap: dict) -> int:
+    """Upsert today's account snapshot into poly_daily (day PK) for the app's recap —
+    balance/buying_power/open_contracts + per-strategy settled P&L. Idempotent per day
+    (repeated cycles overwrite today's row). Returns http status; best-effort."""
+    url, key = _creds()
+    if not url or not key or not snap.get("day"):
+        return 0
+    body = json.dumps({**snap, "updated": _now()}).encode()
+    req = urllib.request.Request(
+        f"{url}/rest/v1/poly_daily?on_conflict=day", data=body, method="POST",
+        headers={"apikey": key, "Authorization": f"Bearer {key}",
+                 "Content-Type": "application/json",
+                 "Prefer": "return=minimal,resolution=merge-duplicates"})
+    try:
+        with urllib.request.urlopen(req, timeout=15) as r:
+            return r.status
+    except Exception:
+        return -1
+
+
 def fetch_users() -> list[dict]:
     """Rows from poly_users — the Polymarket accounts the shared worker trades for.
     Each row: email, name, key_env/secret_env (env-var NAMES holding that user's keys)

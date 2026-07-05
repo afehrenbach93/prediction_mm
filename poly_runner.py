@@ -1261,9 +1261,13 @@ def pnl_snapshot(client: PolyClient) -> dict:
         # correct endpoints (from the official SDK): balance + activity history. The
         # positions snapshot drops settled markets, so the realized $ gain lives in the
         # balance + shows up in activities (TRADE / SETTLEMENT / REWARD / REBATE).
+        balance = buying_power = None
         try:
             sb, bal = client.signed_get("/v1/account/balances")
             log(f"PNL balance http={sb} {str(bal)[:300]}")
+            b0 = ((bal or {}).get("balances") or [{}])[0] if isinstance(bal, dict) else {}
+            balance = float(b0.get("currentBalance")) if b0.get("currentBalance") is not None else None
+            buying_power = float(b0.get("buyingPower")) if b0.get("buyingPower") is not None else None
         except Exception as e:
             log(f"PNL balance err={str(e)[:80]}")
         try:
@@ -1288,6 +1292,10 @@ def pnl_snapshot(client: PolyClient) -> dict:
             log(f"PNL activities err={str(e)[:80]}")
         summ = {"markets": len(positions), "realized_pnl": round(total_real, 2),
                 "open_contracts": round(net_contracts)}
+        if balance is not None:
+            summ["balance"] = round(balance, 2)
+        if buying_power is not None:
+            summ["buying_power"] = round(buying_power, 2)
     except Exception as e:
         log(f"pnl snapshot error: {e}")
     return summ
@@ -1628,6 +1636,16 @@ def main():
                             mlb_settlement_pnl(primary.client, log, primary.mlb_state))
                     except Exception as e:
                         log(f"mlb-pnl error: {e}")
+                    try:                               # daily snapshot for the app recap
+                        _track.record_daily({
+                            "day": datetime.now(timezone.utc).date().isoformat(),
+                            "balance": pnl_summ.get("balance"),
+                            "buying_power": pnl_summ.get("buying_power"),
+                            "open_contracts": pnl_summ.get("open_contracts"),
+                            "wx_settled_pnl": primary.wx_state.get("wx_settled_pnl"),
+                            "mlb_settled_pnl": primary.mlb_state.get("mlb_settled_pnl")})
+                    except Exception as e:
+                        log(f"daily snapshot error: {e}")
                     last_pnl = now
             # tracker passes ALWAYS run (record models + settle) — live or not
             if now - last_wx >= WX_EVERY:
