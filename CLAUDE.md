@@ -73,6 +73,18 @@ read-only before funding; reconcile any tape-derived P&L against account balance
 
 ## Incident Log
 
+### 2026-07-04 (later) — Self-serve Daily Recap tab + golf settle fixed (order field) + daily snapshots
+- **Golf settlement FIXED (real fix):** worker SHAPE diag proved ESPN golf competitors carry
+  NO `status` object — the finish rank is in `order` (order=1=winner). `golffeed._position`
+  now reads `order`; the 155-row backlog settled on the first pass (`resolved=155`).
+- **Daily Recap (app, self-serve so Andrew stops asking):** new **Recap** tab — yesterday's
+  account P&L (day-over-day `poly_daily.balance` delta), balance/buying-power/open-lots,
+  cumulative per-strategy settled P&L, a per-model scorecard for yesterday (settled/hit-rate/
+  Brier/paper-P&L from `model_predictions`), and a last-8-days trend. Worker: `pnl_snapshot`
+  now returns venue `balance`/`buying_power`; the pnl cycle upserts `poly_daily` (migration,
+  applied) via `track.record_daily`. Balance = ground truth; day-over-day fills in as snapshots
+  accumulate. App typechecks + builds.
+
 ### 2026-07-04 — Weather Tier-1 (settlement-flaw guards) + MLB settled-P&L + tennis/golf settle fixes
 - **Weather Tier-1 (attacks the settlement-source flaw, not raw skill):** (1) **intraday
   conditioning** — `wxfeed.intraday_max_so_far` reads today's hourly obs; `bucket_probability(...,

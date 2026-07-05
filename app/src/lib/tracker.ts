@@ -117,6 +117,54 @@ export async function fetchBotStatus(): Promise<BotStatus | null> {
   return (data as BotStatus) ?? null;
 }
 
+// ---- daily recap ---------------------------------------------------------
+
+export interface DailyRow {
+  day: string;
+  balance: number | null;
+  buying_power: number | null;
+  open_contracts: number | null;
+  wx_settled_pnl: number | null;
+  mlb_settled_pnl: number | null;
+}
+
+/** Last `n` daily account snapshots (poly_daily), newest first. */
+export async function fetchDaily(n = 8): Promise<DailyRow[]> {
+  const { data } = await supabase.from('poly_daily')
+    .select('*').order('day', { ascending: false }).limit(n);
+  return (data as DailyRow[]) ?? [];
+}
+
+export interface DayModelStat {
+  model: string; settled: number; hitRate: number | null;
+  brier: number | null; paperPnl: number | null;
+}
+
+/** Per-model scorecard for one settle_date (YYYY-MM-DD), computed client-side from
+ * the settled prediction rows (model_predictions is the reliable, persistent record). */
+export async function fetchDayScorecard(day: string): Promise<DayModelStat[]> {
+  const { data } = await supabase.from('model_predictions')
+    .select('model,model_prob,realized_yes,pnl,settled')
+    .eq('settle_date', day).eq('settled', true).limit(5000);
+  const rows = (data as any[]) ?? [];
+  const by: Record<string, { n: number; hits: number; se: number; nb: number; pnl: number; np: number }> = {};
+  for (const r of rows) {
+    const m = (by[r.model] ??= { n: 0, hits: 0, se: 0, nb: 0, pnl: 0, np: 0 });
+    m.n++;
+    if (r.realized_yes != null) m.hits += r.realized_yes ? 1 : 0;
+    if (r.model_prob != null && r.realized_yes != null) {
+      m.se += (r.model_prob - (r.realized_yes ? 1 : 0)) ** 2; m.nb++;
+    }
+    if (typeof r.pnl === 'number') { m.pnl += r.pnl; m.np++; }
+  }
+  return Object.entries(by).map(([model, v]) => ({
+    model, settled: v.n,
+    hitRate: v.n ? v.hits / v.n : null,
+    brier: v.nb ? v.se / v.nb : null,
+    paperPnl: v.np ? v.pnl : null,
+  })).sort((a, b) => b.settled - a.settled);
+}
+
 // ---- per-user trading switch ---------------------------------------------
 // One shared worker trades for N Polymarket accounts (poly_users). Your `armed`
 // flag is YOUR kill switch: off = no orders reach YOUR venue account; the shared
