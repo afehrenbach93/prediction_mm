@@ -73,6 +73,27 @@ read-only before funding; reconcile any tape-derived P&L against account balance
 
 ## Incident Log
 
+### 2026-07-07 — DECISION DAY (moved up from Jul 11 by Andrew): all betting theses closed; farm is the business
+- **MLB gate: FAILED with an adequate sample.** On 181–187 PM-settled rows with EXECUTABLE
+  book odds (gate minimum 100 met): `elo-mlb` Brier 0.2704 vs market 0.2493; `elo-mlb-ctx`
+  0.2701 vs 0.2457; **`blend-mlb` 0.2567 vs 0.2531 — even the blend loses to the market**.
+  Threshold sims: elo/ctx clearly negative; blend +$0.37/+$0.31 on ~25 bets = noise. Verdict:
+  NO promotion, NO probe, MLB betting closed on all three models. Same lesson as Kalshi:
+  these markets are efficient at our modeling level at executable prices.
+- **Weather Tier-1 re-validation: NO EDGE.** 310 deep-bucket rows since the Jul-4 guards:
+  sell-sim at ≥10¢ margin = −$0.65 over 76 sells (≈0 before fees); 13% of "deep" buckets
+  still landed YES. Weather stays OFF — thesis closed a second time, now with guards on.
+- **Reward credits: not landed yet** (pendingCredit 0, no REWARD activity types) — the venue's
+  ~5+2-business-day lag can't be accelerated. The widened farm (aec+arankc+apdc+cranc, $100,
+  auto-off Jul 11 23:59Z) keeps earning periods on tennis-ranking/politics futures pools;
+  quotes confirmed RESTING; historical adverse-selection bleed ≈ $0. **Scale/kill decision on
+  the farm happens when the first credit posts** — visible in balance/Recap.
+- **Ledger:** balance $127.93 fully liquid (open lots settled back). Whole validation campaign
+  cost ≈ $72 of the $200 start: MLB ≈ −$60, weather ≈ −$13, farm ≈ −$0.2. State while Andrew
+  is away: farm quoting (auto-terminates Jul 11), all takers OFF, models still recording,
+  Recap self-serve. Standing next actions: read first reward credit → farm verdict; keep
+  betting closed unless a model beats the market on executable prices with n≥100.
+
 ### 2026-07-04 (later) — Self-serve Daily Recap tab + golf settle fixed (order field) + daily snapshots
 - **Golf settlement FIXED (real fix):** worker SHAPE diag proved ESPN golf competitors carry
   NO `status` object — the finish rank is in `order` (order=1=winner). `golffeed._position`
