@@ -1446,6 +1446,70 @@ def mlb_settlement_pnl(client: PolyClient, log, state) -> dict:
     return {"mlb_settled_pnl": r.get("settled_pnl"), "mlb_settled_n": r.get("settled_n")} if r else {}
 
 
+def catalog_census(client: PolyClient, log):
+    """READ-ONLY one-shot census of the FULL market catalog — answers 'is there an angle
+    we never looked at' with data instead of priors. Logs: (1) market-class inventory
+    (slug-prefix histogram over every active market); (2) a structural-consistency sweep:
+    per-outcome groups (same base slug, ≥3 legs) whose YES prints sum far from $1.00 —
+    sum >> 1 across exclusive outcomes = sell-all richness candidate; sum << 1 is usually
+    a NON-EXHAUSTIVE listing (not an arb) but worth eyes. Prints can be stale, so the most
+    extreme groups are verified against live books (capped reads). ~1 catalog fetch +
+    ≤12 book reads; no orders."""
+    import json as _json
+    from collections import Counter, defaultdict
+    mks = client.get_markets(max_pages=150)
+    pref = Counter()
+    groups = defaultdict(list)
+    n_binary = 0
+    for m in mks:
+        slug = m.get("slug", "")
+        if not slug:
+            continue
+        pref["-".join(slug.split("-")[:2])] += 1
+        try:
+            outs = [str(x).strip().lower() for x in _json.loads(m.get("outcomes") or "[]")]
+            prs = [float(x) for x in _json.loads(m.get("outcomePrices") or "[]")]
+        except Exception:
+            continue
+        if len(outs) == 2 and "yes" in outs and len(prs) == len(outs):
+            n_binary += 1
+            yes = prs[outs.index("yes")]
+            if 0.0 < yes < 1.0:
+                groups["-".join(slug.split("-")[:-1])].append((slug, yes))
+    log(f"census: {len(mks)} active markets, {n_binary} binary-YES | "
+        f"classes: {pref.most_common(18)}")
+    flags = []
+    for base, legs in groups.items():
+        if len(legs) < 3:
+            continue
+        ssum = sum(p for _, p in legs)
+        if ssum < 0.94 or ssum > 1.08:
+            flags.append((round(ssum, 3), len(legs), base))
+    flags.sort()
+    n3 = sum(1 for g in groups.values() if len(g) >= 3)
+    log(f"census: outcome-groups(≥3 legs)={n3}; sum<0.94: "
+        f"{sum(1 for f in flags if f[0] < 0.94)} (usually non-exhaustive), sum>1.08: "
+        f"{sum(1 for f in flags if f[0] > 1.08)} (sell-all candidates)")
+    for f in (flags[:5] + flags[-5:]):
+        log(f"  census group sum={f[0]} legs={f[1]} {f[2][:64]}")
+    # verify the extreme tails against LIVE books — prints lie, books don't
+    seen = set()
+    for ssum, nlegs, base in (flags[:2] + flags[-2:]):
+        if base in seen:
+            continue
+        seen.add(base)
+        tops = []
+        for slug, pr in sorted(groups[base], key=lambda x: -x[1])[:3]:
+            try:
+                bids, offers = client.get_book(slug)
+                tops.append((slug.split("-")[-1][:14], pr,
+                             bids[0][0] if bids else None,
+                             offers[0][0] if offers else None))
+            except Exception:
+                tops.append((slug.split("-")[-1][:14], pr, "err", "err"))
+        log(f"  census verify sum={ssum} {base[:52]}: (leg, print, bid, ask)={tops}")
+
+
 def scan_markets(client: PolyClient, budget: float):
     """READ-ONLY: rank every active reward market by the retail reward share a
     `budget`-sized resting order would capture. Pure public reads (no orders).
@@ -1557,6 +1621,10 @@ def main():
         log(f"START mode=TRACK (control-driven; live-arm="
             f"{'ON (real orders)' if LIVE_ARMED else 'off (shadow)'}, "
             f"accounts={[a.name for a in accounts.values()]}, allow={sorted(ALLOW_TOKENS)})")
+        try:
+            catalog_census(client, log)        # one-shot, read-only, per process
+        except Exception as e:
+            log(f"census error: {e}")
         halts_cleared = 0.0
         while True:
             now = time.time()
