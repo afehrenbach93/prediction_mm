@@ -1497,7 +1497,10 @@ def crypto_shadow(log, state):
     if not spot:
         log("crypto-shadow: spot feed unavailable this cycle")
         return
-    evs = _get("https://gamma-api.polymarket.com/events?closed=false&limit=300") or []
+    # order by soonest-resolving — the 5-minute updown markets resolve within minutes, so
+    # they only surface at the top of an endDate-ascending sort (default order buries them).
+    evs = _get("https://gamma-api.polymarket.com/events?closed=false"
+               "&order=endDate&ascending=true&limit=100") or []
     evs = evs if isinstance(evs, list) else evs.get("data", [])
     ud = [e for e in evs if "updown-5m" in str(e.get("slug", ""))]
     if not state.get("diag"):                                 # one-time visibility: what shape?
