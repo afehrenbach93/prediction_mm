@@ -1487,6 +1487,42 @@ def crypto_probe(log):
                       ("kraken", "https://api.kraken.com/0/public/Ticker?pair=XBTUSD")):
         st, body = _get(url)
         log(f"crypto-probe {name}: http={st} body={body[:90]}")
+    # (c) LOCATE the short-duration hourly Up/Down series: newest active markets, keep
+    # BTC/ETH ones whose lifetime is < ~3h (the discriminator for hourly markets), and
+    # dump ONE full structure so the shadow harness is built on the real shape.
+    st, body = _get("https://gamma-api.polymarket.com/markets?active=true&closed=false"
+                    "&order=startDate&ascending=false&limit=500")
+    try:
+        ms = _json.loads(body)
+        ms = ms if isinstance(ms, list) else (ms.get("data") or [])
+    except Exception:
+        ms = []
+    from datetime import datetime as _dt
+    def _hrs(a, b):
+        try:
+            f = lambda s: _dt.fromisoformat(str(s).replace("Z", "+00:00"))
+            return (f(b) - f(a)).total_seconds() / 3600
+        except Exception:
+            return None
+    short = []
+    for m in ms:
+        q = (str(m.get("question", "")) + " " + str(m.get("slug", ""))).lower()
+        if not any(k in q for k in ("btc", "bitcoin", "eth", "ethereum", "solana", "sol ")):
+            continue
+        life = _hrs(m.get("startDate"), m.get("endDate"))
+        if life is not None and life <= 3.5:
+            short.append((round(life, 2), m))
+    log(f"crypto-probe hourly-hunt: scanned {len(ms)} newest active, "
+        f"short-crypto(<=3.5h)={len(short)}")
+    for life, m in short[:6]:
+        log(f"  hourly: life={life}h slug={m.get('slug')} q={str(m.get('question',''))[:56]}")
+    if short:
+        m = short[0][1]
+        keys = sorted(m.keys())
+        log(f"  hourly STRUCT keys={keys}")
+        for k in ("slug", "outcomes", "outcomePrices", "clobTokenIds", "startDate",
+                  "endDate", "umaResolutionStatus", "description"):
+            log(f"    {k}={str(m.get(k))[:120]}")
 
 
 def catalog_census(client: PolyClient, log):
