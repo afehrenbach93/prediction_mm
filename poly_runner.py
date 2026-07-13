@@ -1517,20 +1517,28 @@ def crypto_shadow(log, state):
     if not spot:
         log("crypto-shadow: spot feed unavailable this cycle")
         return
-    # order by soonest-resolving — the 5-minute updown markets resolve within minutes, so
-    # they only surface at the top of an endDate-ascending sort (default order buries them).
+    # The 5-minute updown markets resolve minutes from now, so their endDate is just ABOVE
+    # `now`. An unfiltered ascending-by-endDate sort returns ancient never-closed zombie
+    # markets first (endDate months in the past) and buries the live ones past limit=100 —
+    # so filter to endDate >= now and take the soonest-resolving future markets.
+    now = datetime.now(timezone.utc).timestamp()
+    now_iso = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
     evs = _get("https://gamma-api.polymarket.com/events?closed=false"
-               "&order=endDate&ascending=true&limit=100") or []
+               f"&end_date_min={now_iso}&order=endDate&ascending=true&limit=100") or []
     evs = evs if isinstance(evs, list) else evs.get("data", [])
     ud = [e for e in evs if "updown-5m" in str(e.get("slug", ""))]
-    if not state.get("diag"):                                 # one-time visibility: what shape?
+    if not state.get("diag"):                                 # one-time: is the data LIVE?
         state["diag"] = True
-        s0 = ud[0] if ud else (evs[0] if evs else {})
-        mk = (s0.get("markets") or [{}])
+        tls = []
+        for e in ud[:5]:
+            try:
+                rts = int(str(e.get("slug", "")).rsplit("-", 1)[-1])
+                tls.append((round((rts - now) / 60, 1), str(e.get("slug"))[:26],
+                            str(e.get("endDate"))[:19]))
+            except Exception:
+                pass
         log(f"crypto-shadow SCAN: events={len(evs)} updown={len(ud)} spot={spot} "
-            f"ev_keys={sorted(s0.keys())[:14]} has_markets={bool(s0.get('markets'))} "
-            f"mkt0_keys={sorted(mk[0].keys())[:16] if mk else []}")
-    now = datetime.now(timezone.utc).timestamp()
+            f"now_utc={now_iso} nearest_updown_[t_left_min,slug,endDate]={tls}")
     today = _date.today().isoformat()
     existing = {r["market_slug"]: r for r in track.fetch_open_crypto(today)}
     new_rows, sniped, settled, skipped = [], 0, 0, 0
