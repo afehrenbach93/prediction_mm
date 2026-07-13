@@ -1499,6 +1499,14 @@ def crypto_shadow(log, state):
         return
     evs = _get("https://gamma-api.polymarket.com/events?closed=false&limit=300") or []
     evs = evs if isinstance(evs, list) else evs.get("data", [])
+    ud = [e for e in evs if "updown-5m" in str(e.get("slug", ""))]
+    if not state.get("diag"):                                 # one-time visibility: what shape?
+        state["diag"] = True
+        s0 = ud[0] if ud else (evs[0] if evs else {})
+        mk = (s0.get("markets") or [{}])
+        log(f"crypto-shadow SCAN: events={len(evs)} updown={len(ud)} spot={spot} "
+            f"ev_keys={sorted(s0.keys())[:14]} has_markets={bool(s0.get('markets'))} "
+            f"mkt0_keys={sorted(mk[0].keys())[:16] if mk else []}")
     now = datetime.now(timezone.utc).timestamp()
     today = _date.today().isoformat()
     existing = {r["market_slug"]: r for r in track.fetch_open_crypto(today)}
