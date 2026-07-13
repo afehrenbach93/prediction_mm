@@ -1446,6 +1446,127 @@ def mlb_settlement_pnl(client: PolyClient, log, state) -> dict:
     return {"mlb_settled_pnl": r.get("settled_pnl"), "mlb_settled_n": r.get("settled_n")} if r else {}
 
 
+def _updown_prices(m):
+    """(up_ask, up_bid) for a Polymarket Up/Down (or Yes/No) market object, else (None,None).
+    Uses bestAsk/bestBid when present, else the outcomePrices mid for the Up/Yes side."""
+    import json as _json
+    try:
+        outs = [str(x).strip().lower() for x in _json.loads(m.get("outcomes") or "[]")]
+        prs = [float(x) for x in _json.loads(m.get("outcomePrices") or "[]")]
+    except Exception:
+        outs, prs = [], []
+    idx = next((i for i, o in enumerate(outs) if o in ("up", "yes")), None)
+    mid = prs[idx] if (idx is not None and idx < len(prs)) else None
+    try:
+        ba = float(m.get("bestAsk")) if m.get("bestAsk") is not None else None
+        bb = float(m.get("bestBid")) if m.get("bestBid") is not None else None
+    except Exception:
+        ba = bb = None
+    # bestAsk/bestBid on the market are for outcome[0]; align to Up/Yes if it's outcome[0]
+    if idx == 0 and (ba is not None or bb is not None):
+        return ba if ba is not None else mid, bb if bb is not None else mid
+    return mid, mid
+
+
+def crypto_shadow(log, state):
+    """LIVE-DATA PAPER measurement of the crypto Up/Down 'late-snipe' edge on Polymarket's
+    5-minute markets. READ-ONLY, NO orders, NO venue account — pulls the public event book
+    + Coinbase spot, snapshots each market's reference spot at open, and in the final 60s
+    'buys' (on paper) the side that spot currently favors if its ask still leaves margin
+    (<=0.92), then settles vs spot at resolution. Answers the only question that matters
+    before anything else: does this edge survive our polling latency? Paper rows live in
+    model_predictions as model='crypto-updown-shadow' so the app shows them automatically."""
+    import json as _json
+    import urllib.request as _u
+    from datetime import date as _date
+    from core import track
+    def _get(url):
+        try:
+            with _u.urlopen(_u.Request(url, headers={"User-Agent": "prediction-mm/shadow"}),
+                            timeout=10) as r:
+                return _json.loads(r.read())
+        except Exception:
+            return None
+    spot = {}
+    for sym, pid in (("btc", "BTC-USD"), ("eth", "ETH-USD")):
+        d = _get(f"https://api.coinbase.com/v2/prices/{pid}/spot")
+        try:
+            spot[sym] = float(d["data"]["amount"])
+        except Exception:
+            pass
+    if not spot:
+        log("crypto-shadow: spot feed unavailable this cycle")
+        return
+    evs = _get("https://gamma-api.polymarket.com/events?closed=false&limit=300") or []
+    evs = evs if isinstance(evs, list) else evs.get("data", [])
+    now = datetime.now(timezone.utc).timestamp()
+    today = _date.today().isoformat()
+    existing = {r["market_slug"]: r for r in track.fetch_open_crypto(today)}
+    new_rows, sniped, settled, skipped = [], 0, 0, 0
+    for e in evs:
+        eslug = str(e.get("slug", ""))
+        if "updown-5m" not in eslug:
+            continue
+        sym = "btc" if eslug.startswith("btc") else "eth" if eslug.startswith("eth") else None
+        if sym not in spot:
+            continue
+        try:
+            resolve_ts = int(eslug.rsplit("-", 1)[-1])
+        except Exception:
+            continue
+        t_left = resolve_ts - now
+        mkts = e.get("markets") or []
+        if not mkts:
+            continue
+        m = mkts[0]
+        if not state.get("logged"):
+            log(f"crypto-shadow STRUCT {eslug}: keys={sorted(m.keys())[:16]} "
+                f"outcomes={m.get('outcomes')} prices={m.get('outcomePrices')} "
+                f"bestAsk={m.get('bestAsk')} bestBid={m.get('bestBid')}")
+            state["logged"] = True
+        up_ask, up_bid = _updown_prices(m)
+        cur = spot[sym]
+        row = existing.get(eslug)
+        if row is None and 60 < t_left < 400:                 # first sight — record reference
+            new_rows.append({
+                "model": "crypto-updown-shadow", "sport": "crypto", "market_slug": eslug,
+                "outcome": "pending", "model_prob": None, "market_bid": None,
+                "market_ask": None, "edge": None, "liquid": None,
+                "settle_date": today, "run_date": today,
+                "meta": {"sym": sym, "ref_spot": cur, "resolve_ts": resolve_ts,
+                         "open_up_ask": up_ask}})
+        elif row and row.get("outcome") == "pending" and 0 < t_left <= 60:   # THE SNIPE
+            ref = (row.get("meta") or {}).get("ref_spot")
+            if ref is None:
+                continue
+            side = "up" if cur >= ref else "down"
+            ask = up_ask if side == "up" else (round(1 - up_bid, 3) if up_bid is not None else None)
+            meta = dict(row.get("meta") or {}, snipe_spot=cur, side=side, snipe_ask=ask)
+            if ask is not None and 0.02 <= ask <= 0.92:       # margin left to be worth it
+                if track.set_snipe(int(row["id"]), side, ask, meta) in (200, 204):
+                    sniped += 1
+            else:
+                track.set_snipe(int(row["id"]), "skip", ask, meta)
+                skipped += 1
+        elif row and row.get("outcome") in ("up", "down") and not row.get("settled") \
+                and now > resolve_ts:                          # settle vs resolution spot
+            ref = (row.get("meta") or {}).get("ref_spot")
+            if ref is None:
+                continue
+            final_side = "up" if cur >= ref else "down"
+            realized = (row["outcome"] == final_side)
+            ask = row.get("market_ask") or 0.5
+            pnl = round((1 - ask) if realized else -ask, 3)
+            if track.mark_settled(int(row["id"]), realized, pnl) in (200, 204):
+                settled += 1
+    if new_rows:
+        track.record_predictions(new_rows)
+    if new_rows or sniped or settled or skipped:
+        log(f"crypto-shadow: +{len(new_rows)} tracked, {sniped} sniped, {skipped} no-edge, "
+            f"{settled} settled | active_updown_events="
+            f"{sum(1 for e in evs if 'updown-5m' in str(e.get('slug','')))}")
+
+
 def crypto_probe(log):
     """READ-ONLY reachability probe (env-gated, one-shot) for the short-term crypto
     Up/Down strategy: can this worker (US Render egress) reach (a) Polymarket's PUBLIC
@@ -1699,8 +1820,9 @@ def main():
         sports_rec: set[str] = set()
         golf_rec: set[str] = set()
         last_wx = last_soc = last_sports = last_settle = last_hb = last_pnl = 0.0
-        last_wxchk = last_odds = last_mlb = last_users = 0.0
+        last_wxchk = last_odds = last_mlb = last_users = last_crypto = 0.0
         odds_state: dict = {}
+        crypto_state: dict = {}
         PNL_EVERY = 300          # log an account P&L snapshot every 5 min while live
         pnl_summ: dict = {}
         # multi-user execution: ONE shared brain, one client per registered venue
@@ -1854,6 +1976,14 @@ def main():
                 except Exception as e:
                     log(f"track/settle error: {e}")
                 last_settle = now
+            # LIVE-DATA PAPER measurement of the crypto Up/Down snipe edge (read-only, no
+            # orders). Fast timer — the snipe window is the market's final ~60s.
+            if os.getenv("CRYPTO_SHADOW") and now - last_crypto >= 30:
+                try:
+                    crypto_shadow(log, crypto_state)
+                except Exception as e:
+                    log(f"crypto-shadow error: {e}")
+                last_crypto = now
             if now - last_wxchk >= 21600:          # settlement-source checks ~every 6h
                 try:
                     wx_settle_check(client, log)
