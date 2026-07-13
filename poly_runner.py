@@ -1446,6 +1446,26 @@ def mlb_settlement_pnl(client: PolyClient, log, state) -> dict:
     return {"mlb_settled_pnl": r.get("settled_pnl"), "mlb_settled_n": r.get("settled_n")} if r else {}
 
 
+def _clob_book(token_id):
+    """(best_ask, best_bid) for a Polymarket CLOB token, else (None, None). The gamma
+    /events payload has no live prices — the real book lives on the CLOB keyed by
+    clobTokenIds. best_ask = lowest ask (what we'd pay to BUY), best_bid = highest bid."""
+    import json as _json
+    import urllib.request as _u
+    try:
+        with _u.urlopen(_u.Request(f"https://clob.polymarket.com/book?token_id={token_id}",
+                                   headers={"User-Agent": "prediction-mm/shadow"}),
+                        timeout=8) as r:
+            d = _json.loads(r.read())
+        asks = d.get("asks") or []
+        bids = d.get("bids") or []
+        a = min((float(x["price"]) for x in asks), default=None)
+        b = max((float(x["price"]) for x in bids), default=None)
+        return a, b
+    except Exception:
+        return None, None
+
+
 def _updown_prices(m):
     """(up_ask, up_bid) for a Polymarket Up/Down (or Yes/No) market object, else (None,None).
     Uses bestAsk/bestBid when present, else the outcomePrices mid for the Up/Yes side."""
@@ -1551,8 +1571,16 @@ def crypto_shadow(log, state):
             if ref is None:
                 continue
             side = "up" if cur >= ref else "down"
-            ask = up_ask if side == "up" else (round(1 - up_bid, 3) if up_bid is not None else None)
-            meta = dict(row.get("meta") or {}, snipe_spot=cur, side=side, snipe_ask=ask)
+            # live price from the CLOB for the side we'd BUY (outcomes=[Up,Down] aligns to
+            # clobTokenIds=[up_token, down_token]); gamma /events carries no live prices.
+            try:
+                ids = _json.loads(m.get("clobTokenIds") or "[]")
+            except Exception:
+                ids = []
+            tok = ids[0] if (side == "up" and ids) else (ids[1] if len(ids) >= 2 else None)
+            ask, _bid = _clob_book(tok) if tok else (None, None)
+            meta = dict(row.get("meta") or {}, snipe_spot=cur, side=side, snipe_ask=ask,
+                        spot_move=round(cur - ref, 4))
             if ask is not None and 0.02 <= ask <= 0.92:       # margin left to be worth it
                 if track.set_snipe(int(row["id"]), side, ask, meta) in (200, 204):
                     sniped += 1
