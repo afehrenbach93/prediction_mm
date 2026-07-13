@@ -1446,6 +1446,49 @@ def mlb_settlement_pnl(client: PolyClient, log, state) -> dict:
     return {"mlb_settled_pnl": r.get("settled_pnl"), "mlb_settled_n": r.get("settled_n")} if r else {}
 
 
+def crypto_probe(log):
+    """READ-ONLY reachability probe (env-gated, one-shot) for the short-term crypto
+    Up/Down strategy: can this worker (US Render egress) reach (a) Polymarket's PUBLIC
+    market-data API — where the hourly crypto markets live, on the offshore .com surface
+    that's Cloudflare-geofenced — and (b) a US-accessible spot feed (Coinbase)? Logs HTTP
+    codes + whether any crypto up/down markets are discoverable. No trading, no venue
+    account touched. This just answers 'is a shadow test of his method even feasible from
+    our infrastructure' before we build the harness."""
+    import json as _json
+    import urllib.request as _u
+    def _get(url, timeout=12):
+        try:
+            req = _u.Request(url, headers={"User-Agent": "prediction-mm/probe"})
+            with _u.urlopen(req, timeout=timeout) as r:
+                return r.status, r.read()
+        except Exception as e:
+            return getattr(e, "code", -1), str(e)[:80].encode()
+    # (a) Polymarket public data — Gamma + CLOB
+    for name, url in (("gamma", "https://gamma-api.polymarket.com/markets?closed=false&limit=200"),
+                      ("clob", "https://clob.polymarket.com/markets?next_cursor=")):
+        st, body = _get(url)
+        found = 0
+        sample = []
+        try:
+            d = _json.loads(body)
+            ms = d if isinstance(d, list) else (d.get("data") or d.get("markets") or [])
+            for m in ms:
+                q = (str(m.get("question", "")) + " " + str(m.get("slug", ""))).lower()
+                if any(k in q for k in ("bitcoin", "btc", "ethereum", " eth", "up or down",
+                                        "hourly", "higher", "et today")):
+                    found += 1
+                    if len(sample) < 4:
+                        sample.append(str(m.get("question", m.get("slug", "")))[:60])
+        except Exception:
+            pass
+        log(f"crypto-probe {name}: http={st} crypto_updown_markets={found} sample={sample}")
+    # (b) US-accessible spot feeds
+    for name, url in (("coinbase", "https://api.coinbase.com/v2/prices/BTC-USD/spot"),
+                      ("kraken", "https://api.kraken.com/0/public/Ticker?pair=XBTUSD")):
+        st, body = _get(url)
+        log(f"crypto-probe {name}: http={st} body={body[:90]}")
+
+
 def catalog_census(client: PolyClient, log):
     """READ-ONLY one-shot census of the FULL market catalog — answers 'is there an angle
     we never looked at' with data instead of priors. Logs: (1) market-class inventory
@@ -1625,6 +1668,11 @@ def main():
             catalog_census(client, log)        # one-shot, read-only, per process
         except Exception as e:
             log(f"census error: {e}")
+        if os.getenv("CRYPTO_PROBE"):          # env-gated one-shot reachability probe
+            try:
+                crypto_probe(log)
+            except Exception as e:
+                log(f"crypto-probe error: {e}")
         halts_cleared = 0.0
         while True:
             now = time.time()
