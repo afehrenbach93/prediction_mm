@@ -1487,42 +1487,54 @@ def crypto_probe(log):
                       ("kraken", "https://api.kraken.com/0/public/Ticker?pair=XBTUSD")):
         st, body = _get(url)
         log(f"crypto-probe {name}: http={st} body={body[:90]}")
-    # (c) LOCATE the short-duration hourly Up/Down series: newest active markets, keep
-    # BTC/ETH ones whose lifetime is < ~3h (the discriminator for hourly markets), and
-    # dump ONE full structure so the shadow harness is built on the real shape.
-    st, body = _get("https://gamma-api.polymarket.com/markets?active=true&closed=false"
-                    "&order=startDate&ascending=false&limit=500")
+    # (c) LOCATE the hourly Up/Down series. Hourly markets RESOLVE within the hour, so
+    # order by endDate ASCENDING (soonest-resolving first) — that surfaces them at the top
+    # where a newest-first query missed them. Also probe the /events endpoint (Polymarket
+    # groups the recurring hourly markets under events) and the crypto tag list.
+    from datetime import datetime as _dt, timezone as _tz
+    now = _dt.now(_tz.utc)
+    def _ends_in_h(m):
+        try:
+            e = _dt.fromisoformat(str(m.get("endDate")).replace("Z", "+00:00"))
+            return (e - now).total_seconds() / 3600
+        except Exception:
+            return None
+    st, body = _get("https://gamma-api.polymarket.com/markets?closed=false&active=true"
+                    "&order=endDate&ascending=true&limit=100")
     try:
         ms = _json.loads(body)
         ms = ms if isinstance(ms, list) else (ms.get("data") or [])
     except Exception:
         ms = []
-    from datetime import datetime as _dt
-    def _hrs(a, b):
-        try:
-            f = lambda s: _dt.fromisoformat(str(s).replace("Z", "+00:00"))
-            return (f(b) - f(a)).total_seconds() / 3600
-        except Exception:
-            return None
-    short = []
+    cry = []
     for m in ms:
         q = (str(m.get("question", "")) + " " + str(m.get("slug", ""))).lower()
-        if not any(k in q for k in ("btc", "bitcoin", "eth", "ethereum", "solana", "sol ")):
-            continue
-        life = _hrs(m.get("startDate"), m.get("endDate"))
-        if life is not None and life <= 3.5:
-            short.append((round(life, 2), m))
-    log(f"crypto-probe hourly-hunt: scanned {len(ms)} newest active, "
-        f"short-crypto(<=3.5h)={len(short)}")
-    for life, m in short[:6]:
-        log(f"  hourly: life={life}h slug={m.get('slug')} q={str(m.get('question',''))[:56]}")
-    if short:
-        m = short[0][1]
-        keys = sorted(m.keys())
-        log(f"  hourly STRUCT keys={keys}")
+        eh = _ends_in_h(m)
+        if any(k in q for k in ("btc", "bitcoin", "eth", "ethereum", "solana", "up or down")) \
+                and eh is not None and 0 <= eh <= 6:
+            cry.append((round(eh, 2), m))
+    log(f"crypto-probe soonest-resolving: {len(ms)} markets; crypto ending<=6h={len(cry)}; "
+        f"nearest_ends={[round(_ends_in_h(m) or 9, 2) for m in ms[:3]]}h")
+    for eh, m in cry[:6]:
+        log(f"  hourly: ends_in={eh}h slug={m.get('slug')} q={str(m.get('question',''))[:52]}")
+    if cry:
+        m = cry[0][1]
+        log(f"  hourly STRUCT keys={sorted(m.keys())}")
         for k in ("slug", "outcomes", "outcomePrices", "clobTokenIds", "startDate",
-                  "endDate", "umaResolutionStatus", "description"):
+                  "endDate", "description"):
             log(f"    {k}={str(m.get(k))[:120]}")
+    # events endpoint — recurring hourly markets are grouped here
+    st, body = _get("https://gamma-api.polymarket.com/events?closed=false&order=endDate"
+                    "&ascending=true&limit=60")
+    try:
+        evs = _json.loads(body)
+        evs = evs if isinstance(evs, list) else (evs.get("data") or [])
+    except Exception:
+        evs = []
+    ce = [e for e in evs if any(k in (str(e.get("title", "")) + str(e.get("slug", ""))).lower()
+                                for k in ("bitcoin", "btc", "ethereum", "up or down", "up-or-down"))]
+    log(f"crypto-probe events: {len(evs)} soonest events; crypto/updown={len(ce)} "
+        f"samples={[str(e.get('slug'))[:40] for e in ce[:5]]}")
 
 
 def catalog_census(client: PolyClient, log):
