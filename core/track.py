@@ -141,6 +141,43 @@ def record_daily(snap: dict) -> int:
         return -1
 
 
+def fetch_open_crypto(run_date: str, model: str = "crypto-updown-shadow") -> list[dict]:
+    """Today's crypto-shadow paper rows (for the streaming harness's cross-cycle state):
+    id, market_slug, outcome, market_ask, settled, meta. Returns [] without creds/on error."""
+    url, key = _creds()
+    if not url or not key:
+        return []
+    q = urllib.parse.urlencode({
+        "select": "id,market_slug,outcome,market_ask,settled,meta",
+        "model": f"eq.{model}", "run_date": f"eq.{run_date}", "limit": "3000",
+    })
+    req = urllib.request.Request(f"{url}/rest/v1/{TABLE}?{q}",
+                                 headers={"apikey": key, "Authorization": f"Bearer {key}"})
+    try:
+        with urllib.request.urlopen(req, timeout=25) as r:
+            return json.loads(r.read())
+    except Exception:
+        return []
+
+
+def set_snipe(pred_id: int, outcome: str, ask, meta: dict) -> int:
+    """Stamp a crypto-shadow row's paper entry: the sniped side (outcome), the price we'd
+    pay (market_ask), and updated meta. Returns http status; best-effort."""
+    url, key = _creds()
+    if not url or not key:
+        return 0
+    body = json.dumps({"outcome": outcome, "market_ask": ask, "meta": meta}).encode()
+    req = urllib.request.Request(
+        f"{url}/rest/v1/{TABLE}?id=eq.{pred_id}", data=body, method="PATCH",
+        headers={"apikey": key, "Authorization": f"Bearer {key}",
+                 "Content-Type": "application/json", "Prefer": "return=minimal"})
+    try:
+        with urllib.request.urlopen(req, timeout=20) as r:
+            return r.status
+    except Exception:
+        return -1
+
+
 def fetch_users() -> list[dict]:
     """Rows from poly_users — the Polymarket accounts the shared worker trades for.
     Each row: email, name, key_env/secret_env (env-var NAMES holding that user's keys)
