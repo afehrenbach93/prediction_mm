@@ -37,6 +37,10 @@ DAILY_LOSS = float(os.getenv("POLY_DAILY_LOSS", "15"))
 EXPOSURE_CAP = float(os.getenv("POLY_EXPOSURE_CAP", str(round(BUDGET * 1.5))))
 MAX_MARKETS = int(os.getenv("POLY_MAX_MARKETS", "5"))   # cap breadth -> bound budget
 POLL = int(os.getenv("POLY_POLL_SECS", "20"))
+# Stage 2 selection-first quoting: hard-exclude reward markets whose rolling volatility
+# (adverse-selection proxy, $ mid-move/min) exceeds this cap. 0 = no hard exclusion (still
+# ranks by reward-rate/vol when vol data is available). Vol comes from the REWARD_YIELD sampler.
+VOL_CAP = float(os.getenv("POLY_VOL_CAP", "0"))
 # Slugs the bot must NOT quote AND must NOT let trip the inventory breaker. Used to
 # carve out held legacy/manual positions the bot isn't managing (e.g. a pre-existing
 # WC-futures bet) so they neither get quoted nor stand the bot down. Comma-separated.
@@ -1188,7 +1192,7 @@ def refresh_quotes(client: PolyClient, slug: str, positions: dict, size: float):
 
 
 def live_cycle(client: PolyClient, cache: "RewardMarketCache", state: dict,
-               budget: float, live: bool) -> dict:
+               budget: float, live: bool, vol_by_slug: dict | None = None) -> dict:
     """One reward-maker iteration: breaker check, full reconcile (cancel-all then
     re-post), quote the in-window reward markets (WC-only via ALLOW_TOKENS), bounded by
     `budget`. `state['tripped']` persists across cycles. Returns a status dict for the
@@ -1209,7 +1213,15 @@ def live_cycle(client: PolyClient, cache: "RewardMarketCache", state: dict,
     if not windows:
         log(f"no reward window now — idle (cleared {ncx} stale orders).")
         return {"status": "idle", "markets": 0}
-    sel = sorted(windows, key=lambda w: -w[2])[:MAX_MARKETS]
+    # Stage 2: prefer fat, low-volatility pools (low adverse selection); falls back to
+    # top-by-pool exactly when no vol data is available, so this never regresses.
+    from core import rewardyield as _ry
+    sel = _ry.select_reward_markets(windows, vol_by_slug, max_markets=MAX_MARKETS,
+                                    vol_cap=VOL_CAP)
+    if not sel:
+        log(f"no market cleared selection (vol_cap={VOL_CAP}) — idle "
+            f"(cleared {ncx} stale orders).")
+        return {"status": "idle", "markets": 0}
     size = max(1.0, min(SIZE, budget / len(sel)))
     placed_ok = placed_rej = 0
     for slug, period, pool in sel:
@@ -2295,10 +2307,17 @@ def main():
             res = {}
             if live_now and accounts:
                 was_live = True
+                # Stage 2: feed rolling volatility (from the REWARD_YIELD sampler) into
+                # market selection so live quoting prefers low-adverse-selection pools.
+                vol_by_slug = None
+                if ryield_state.get("hist"):
+                    from core import rewardyield as _ry
+                    vol_by_slug = {s: _ry.realized_vol(h)["vol_per_min"]
+                                   for s, h in ryield_state["hist"].items()}
                 for acct in accounts.values():
                     try:
                         r_i = live_cycle(acct.client, live_cache, acct.live_state,
-                                         budget, acct.live)
+                                         budget, acct.live, vol_by_slug)
                     except Exception as e:
                         log(f"live error ({acct.name}): {e}")
                         r_i = {"status": f"error: {e}"}

@@ -121,5 +121,53 @@ class TestRankKey(unittest.TestCase):
         self.assertTrue(ry.rank_key(250, 0.0) < float("inf"))
 
 
+class TestSelectRewardMarkets(unittest.TestCase):
+    def test_empty(self):
+        self.assertEqual(ry.select_reward_markets([], {}, max_markets=5), [])
+
+    def test_fallback_top_by_pool_without_vol(self):
+        # No vol data -> IDENTICAL to legacy behavior: top max_markets by pool.
+        wins = [("a", "live", 100), ("b", "live", 300), ("c", "live", 200)]
+        out = ry.select_reward_markets(wins, None, max_markets=2)
+        self.assertEqual([s for s, _, _ in out], ["b", "c"])
+
+    def test_prefers_low_vol_among_equal_pools(self):
+        wins = [("hi", "live", 100), ("lo", "live", 100)]
+        out = ry.select_reward_markets(wins, {"hi": 0.05, "lo": 0.001},
+                                       max_markets=2)
+        self.assertEqual([s for s, _, _ in out], ["lo", "hi"])   # calm first
+
+    def test_vol_cap_hard_excludes(self):
+        wins = [("choppy", "live", 500), ("calm", "live", 100)]
+        out = ry.select_reward_markets(wins, {"choppy": 0.10, "calm": 0.0},
+                                       max_markets=5, vol_cap=0.05)
+        self.assertEqual([s for s, _, _ in out], ["calm"])       # choppy excluded
+
+    def test_unmeasured_vol_is_neutral_not_excluded(self):
+        # a market with no vol entry must NOT be dropped by vol_cap
+        wins = [("known", "live", 100), ("unknown", "live", 100)]
+        out = ry.select_reward_markets(wins, {"known": 0.0}, max_markets=5,
+                                       vol_cap=0.01)
+        self.assertEqual({s for s, _, _ in out}, {"known", "unknown"})
+
+    def test_faster_period_outranks_slower_at_equal_pool_and_vol(self):
+        # pool/period_hours: live (2h) pays faster than daily_event (24h)
+        wins = [("fast", "live", 100), ("slow", "daily_event", 100)]
+        out = ry.select_reward_markets(wins, {"fast": 0.0, "slow": 0.0},
+                                       max_markets=2)
+        self.assertEqual([s for s, _, _ in out], ["fast", "slow"])
+
+    def test_max_markets_cap(self):
+        wins = [(f"m{i}", "live", 100 + i) for i in range(6)]
+        out = ry.select_reward_markets(wins, {f"m{i}": 0.0 for i in range(6)},
+                                       max_markets=3)
+        self.assertEqual(len(out), 3)
+
+    def test_returns_slug_period_pool_shape(self):
+        out = ry.select_reward_markets([("a", "day_of", 100)], {"a": 0.0},
+                                       max_markets=1)
+        self.assertEqual(out[0], ("a", "day_of", 100))
+
+
 if __name__ == "__main__":
     unittest.main()

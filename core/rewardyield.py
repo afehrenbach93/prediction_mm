@@ -127,3 +127,37 @@ def rank_key(reward_per_hour, vol_per_min, eps=1e-4):
     with low movement (low adverse selection) ranks first. `eps` keeps a zero-vol
     market finite rather than infinite."""
     return reward_per_hour / (vol_per_min + eps)
+
+
+def select_reward_markets(windows, vol_by_slug=None, max_markets=5, vol_cap=0.0,
+                          eps=1e-4):
+    """Stage 2 — selection-first quoting. Choose which in-window reward markets to
+    rest quotes on.
+
+    `windows`: [(slug, period, pool), ...] (the venue's active reward windows).
+    `vol_by_slug`: {slug: vol_per_min} rolling volatility (the adverse-selection
+    proxy), or None/empty when unavailable.
+
+    WITHOUT vol data this is IDENTICAL to the legacy behavior — the top `max_markets`
+    by pool — so the live path can never regress. WITH vol data it ranks by
+    reward-rate-per-unit-volatility (`pool / period_hours ÷ vol`): prefer fat, fast-
+    paying pools whose price barely moves (low adverse selection). When `vol_cap` > 0
+    it also HARD-EXCLUDES markets whose measured vol exceeds the cap (too choppy to
+    farm). Markets with no measured vol are treated as neutral (ranked on reward rate
+    alone), never excluded. Returns the selected [(slug, period, pool), ...]."""
+    if not windows:
+        return []
+    if not vol_by_slug:
+        return sorted(windows, key=lambda w: -w[2])[:max_markets]
+    scored = []
+    for slug, period, pool in windows:
+        vol = vol_by_slug.get(slug)
+        if vol is None:
+            vol = 0.0                                  # unmeasured -> neutral
+        elif vol_cap > 0 and vol > vol_cap:
+            continue                                   # too choppy: skip
+        rate = pool / period_hours(period)             # $/hr the pool pays out
+        # sort by rank desc, then pool desc as a stable tiebreak
+        scored.append((rank_key(rate, vol, eps), pool, slug, period))
+    scored.sort(key=lambda s: (-s[0], -s[1]))
+    return [(s[2], s[3], s[1]) for s in scored[:max_markets]]

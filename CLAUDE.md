@@ -73,6 +73,17 @@ read-only before funding; reconcile any tape-derived P&L against account balance
 
 ## Incident Log
 
+### 2026-07-14 (later) — Stage 2: selection-first quoting (prefer low-adverse-selection pools)
+`core.rewardyield.select_reward_markets` now drives which in-window reward markets `live_cycle`
+quotes: rank by reward-rate-per-unit-volatility (`pool/period_hours ÷ rolling vol`), optional
+hard-exclude above `POLY_VOL_CAP` (default 0 = off). Vol comes from the REWARD_YIELD sampler's
+rolling history (`ryield_state.hist`), passed into `live_cycle(vol_by_slug=...)`. **Fallback is
+byte-identical to the legacy top-by-pool when no vol data is present, so the live path can't
+regress** (legacy `BOT_MODE=live` loop passes no vol → unchanged). Unmeasured markets are
+neutral (never excluded). 208 tests green (+8). Economics test still ON HOLD (no fat pool;
+`max_pool=$100`). Deferred Stage 2b: defensive quote skew (thin the side the book is thinning
+toward). Tune `POLY_VOL_CAP` from the instrument once a representative pool appears.
+
 ### 2026-07-14 (later) — LIVE-RAILS TEST PASSED: reward-maker orders REST
 Ran the bounded live-rails smoke test (PILOT.md) from the cloud agent. Flipped `poly_control`
 `desired_mode=live` (budget $10, 15-min `live_until`) — worker placed post-only quotes on
