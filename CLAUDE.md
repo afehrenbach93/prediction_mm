@@ -110,15 +110,22 @@ latency before anything else.**
   (`track.patch_meta`); settlement grades it against the SAME venue outcome (`fast_realized`/
   `fast_pnl`). So each market yields a clean **T−60s vs T−4s** venue-graded pair, no dup rows.
   Blocks the worker ≤~41s once per 5-min window (fine in track mode; farm is off).
-- **STATUS: verdict pending on n (accumulating; autonomous cron `e40cea5f` driving it).**
-  Venue-graded n=1 at T−60s so far (0.91-ask favorite won, +$0.09 ≈ fairly priced). Gate:
-  once BOTH slow (T−60s) and fast (T−4s) have n≥40 venue-graded settles, write the verdict
-  (win% & P&L vs avg ask at each timing; does the favored side beat its ask?) and decide
-  implement-or-close. **Leading read: efficient at the resolutions we can sample** (T−60s ask
-  ≈0.50), consistent with every prior thesis — but the T−4s read is the honest test of his
-  method and isn't in yet. Caveat: spot feed is btc/eth only (sol/xrp/doge need feeds).
-- **Next:** fix the resolution anchor → paper snipes start recording → report hit-rate / paper
-  P&L (does the edge survive our latency?) before any implement decision.
+- **DIRECTIONAL SNIPE — no edge (n past gate).** Venue-graded: T−60s n=98 win 56.1% @ ask
+  0.558 (+$0.27≈0); T−4s n=56 win 39.3% @ ask 0.383 (+$0.54≈0). Decisive = **calibration**
+  across all 154 snipes: realized win-rate tracks the ask paid at every level (0.07→0.07,
+  0.29→0.27, 0.50→0.47, 0.69→0.64, 0.91→0.98; edge within ±0.05, no sign). Favored side's ask ≈
+  its true win prob → nothing to skim; ≈+1¢/bet = noise. His final-seconds timing doesn't rescue
+  it (the ask reprices with the outcome). Efficient at executable prices, like every prior thesis.
+- **Testing the REST of his theory (Andrew: test the ENTIRE method, or mirror his account).**
+  Two read-only $0 additions shipping now: (1) **complete-set arb (leg #4)** —
+  `crypto-updown-arb`: scan the near-expiry window each cycle; when `up_ask+down_ask<$1`, buying
+  both locks a risk-free `1−sum` at resolution. Records crossings + logs the tightest sum.
+  (2) **mirror pspspsps5** — `mirror_pspspsps5`/`pspspsps5-mirror`: resolve his proxy wallet from
+  the handle (discovery across candidate endpoints, wired from worker logs), then record his
+  public TRADE activity + a value/PnL snapshot from `data-api.polymarket.com` — the most direct
+  test (his ACTUAL results). Observe-only; a US person still can't place these offshore orders.
+- **Next:** read worker logs → confirm arb-scan sums + which mirror endpoint resolves his wallet
+  → wire the mirror feed → report arb frequency/size + his real P&L, then decide implement/close.
 
 ### 2026-07-07 — DECISION DAY (moved up from Jul 11 by Andrew): all betting theses closed; farm is the business
 - **MLB gate: FAILED with an adequate sample.** On 181–187 PM-settled rows with EXECUTABLE

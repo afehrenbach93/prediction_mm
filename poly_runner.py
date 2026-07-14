@@ -1697,10 +1697,132 @@ def crypto_shadow(log, state):
                 f"final_up={final_up} realized={realized}")
     if new_rows:
         track.record_predictions(new_rows)
+    # COMPLETE-SET ARB (his leg #4): if up_ask + down_ask < $1, buying BOTH sides locks a
+    # risk-free 1-(sum) at resolution (one settles $1). Scan the near-expiry window (books are
+    # thinnest there, so arb is likeliest) and record any real crossing. Answers whether the
+    # arb leg of his method actually exists on these books.
+    arb_scan = arb_hits = 0
+    arb_best = None
+    for e in evs:
+        if arb_scan >= 6:
+            break
+        eslug = str(e.get("slug", ""))
+        if "updown-5m" not in eslug:
+            continue
+        try:
+            rts = _iso_epoch(e.get("endDate")) or (int(eslug.rsplit("-", 1)[-1]) + 300)
+        except Exception:
+            continue
+        tl = rts - now
+        if not (4 < tl < 120):
+            continue
+        mk = (e.get("markets") or [{}])[0]
+        try:
+            aids = _json.loads(mk.get("clobTokenIds") or "[]")
+        except Exception:
+            aids = []
+        if len(aids) < 2:
+            continue
+        ua, _ua = _clob_book(aids[0])
+        da, _da = _clob_book(aids[1])
+        arb_scan += 1
+        if ua is None or da is None:
+            continue
+        s = round(ua + da, 4)
+        if arb_best is None or s < arb_best:
+            arb_best = s
+        if s < 1.0:                                           # genuine complete-set arb
+            arb_hits += 1
+            track.record_predictions([{
+                "model": "crypto-updown-arb", "sport": "crypto", "market_slug": eslug,
+                "outcome": "arb", "model_prob": None, "market_bid": None,
+                "market_ask": s, "edge": round(1.0 - s, 4), "liquid": None,
+                "settle_date": today, "run_date": today,
+                "meta": {"up_ask": ua, "down_ask": da, "sum": s,
+                         "profit": round(1.0 - s, 4), "t_left": round(tl, 1)}}])
+    if arb_scan:
+        log(f"crypto-arb scan: markets={arb_scan} arb_hits={arb_hits} best_sum={arb_best}")
     if new_rows or sniped or settled or skipped or fast_sniped:
         log(f"crypto-shadow: +{len(new_rows)} tracked, {sniped} sniped, {fast_sniped} fast, "
             f"{skipped} no-edge, {settled} settled | active_updown_events="
             f"{sum(1 for e in evs if 'updown-5m' in str(e.get('slug','')))}")
+
+
+def mirror_pspspsps5(log, state):
+    """READ-ONLY mirror of pspspsps5's PUBLIC Polymarket account — his positions + trade
+    history from the public data API — the most DIRECT test of his method: measure his ACTUAL
+    realized results, not our reconstruction. No account, no orders, $0. Resolves his proxy
+    wallet from the handle once (discovery-logged; wire the working endpoint from worker logs),
+    then records new TRADE activity to model_predictions (model='pspspsps5-mirror') and logs a
+    positions/P&L snapshot. His trades on the offshore .com surface are public on-chain; we only
+    OBSERVE them — a US person still can't place these orders."""
+    import json as _json
+    import re as _re
+    import urllib.request as _u
+    from core import track
+    def _get(url):
+        try:
+            with _u.urlopen(_u.Request(url, headers={"User-Agent": "prediction-mm/mirror"}),
+                            timeout=12) as r:
+                return r.status, r.read()
+        except Exception as e:
+            return getattr(e, "code", -1), str(e)[:140].encode()
+    addr = state.get("mirror_addr") or os.getenv("PSPS_ADDR")
+    if not addr:                                              # DISCOVERY — resolve handle->wallet
+        for name, url in (
+            ("site-profile", "https://polymarket.com/api/profile/pspspsps5"),
+            ("gamma-profiles", "https://gamma-api.polymarket.com/profiles?username=pspspsps5"),
+            ("data-profile", "https://data-api.polymarket.com/profile?username=pspspsps5"),
+            ("lb-search", "https://lb-api.polymarket.com/search?q=pspspsps5"),
+            ("users-search", "https://gamma-api.polymarket.com/users?username=pspspsps5"),
+        ):
+            st, body = _get(url)
+            snip = body[:220].decode("utf-8", "replace").replace("\n", " ")
+            log(f"mirror-probe {name}: http={st} body={snip}")
+            mo = _re.search(r"0x[a-fA-F0-9]{40}", snip)
+            if st == 200 and mo:
+                addr = mo.group(0)
+                state["mirror_addr"] = addr
+                log(f"mirror: resolved pspspsps5 -> {addr}")
+                break
+        if not addr:
+            return
+    # ACTIVITY — record any new TRADE rows (idempotent on the tx/asset key)
+    st_a, body_a = _get(f"https://data-api.polymarket.com/activity?user={addr}&limit=100")
+    if st_a != 200:
+        log(f"mirror activity: http={st_a} {body_a[:120].decode('utf-8','replace')}")
+        return
+    try:
+        acts = _json.loads(body_a)
+        acts = acts if isinstance(acts, list) else acts.get("data", [])
+    except Exception:
+        acts = []
+    seen = state.setdefault("mirror_seen", set())
+    from datetime import date as _date
+    today = _date.today().isoformat()
+    rows = []
+    for a in acts:
+        if str(a.get("type", "")).upper() != "TRADE":
+            continue
+        key = f"{a.get('transactionHash','')}-{a.get('asset','')}-{a.get('side','')}"
+        if key in seen:
+            continue
+        seen.add(key)
+        rows.append({
+            "model": "pspspsps5-mirror", "sport": "crypto",
+            "market_slug": str(a.get("slug") or a.get("conditionId") or "")[:120],
+            "outcome": str(a.get("side", "")).lower(), "model_prob": None,
+            "market_bid": None, "market_ask": a.get("price"), "edge": None, "liquid": None,
+            "settle_date": today, "run_date": today,
+            "meta": {"title": str(a.get("title", ""))[:160], "outcome_name": a.get("outcome"),
+                     "size": a.get("size"), "usdc": a.get("usdcSize"),
+                     "ts": a.get("timestamp"), "tx": a.get("transactionHash")}})
+    if rows:
+        track.record_predictions(rows)
+    # POSITIONS / P&L snapshot (logged; small)
+    st_p, body_p = _get(f"https://data-api.polymarket.com/value?user={addr}")
+    pnl_snip = body_p[:160].decode("utf-8", "replace").replace("\n", " ") if st_p == 200 else ""
+    log(f"mirror: +{len(rows)} new trades, activity_n={len(acts)}, value_http={st_p} {pnl_snip}")
 
 
 def crypto_probe(log):
@@ -1957,8 +2079,10 @@ def main():
         golf_rec: set[str] = set()
         last_wx = last_soc = last_sports = last_settle = last_hb = last_pnl = 0.0
         last_wxchk = last_odds = last_mlb = last_users = last_crypto = 0.0
+        last_mirror = 0.0
         odds_state: dict = {}
         crypto_state: dict = {}
+        mirror_state: dict = {}
         PNL_EVERY = 300          # log an account P&L snapshot every 5 min while live
         pnl_summ: dict = {}
         # multi-user execution: ONE shared brain, one client per registered venue
@@ -2120,6 +2244,13 @@ def main():
                 except Exception as e:
                     log(f"crypto-shadow error: {e}")
                 last_crypto = now
+            # Mirror pspspsps5's PUBLIC account (his actual trades/positions) — read-only.
+            if os.getenv("CRYPTO_SHADOW") and now - last_mirror >= 120:
+                try:
+                    mirror_pspspsps5(log, mirror_state)
+                except Exception as e:
+                    log(f"mirror error: {e}")
+                last_mirror = now
             if now - last_wxchk >= 21600:          # settlement-source checks ~every 6h
                 try:
                     wx_settle_check(client, log)
