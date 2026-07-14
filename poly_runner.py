@@ -2047,6 +2047,76 @@ def scan_markets(client: PolyClient, budget: float):
             f"bid={bb}x{bbq:.0f} ask={ba}x{baq:.0f} game={gs} | {str(name)[:54]} | {slug}")
 
 
+def reward_yield_scan(client, log, state, budget):
+    """READ-ONLY reward-YIELD diagnostic (Stage 1) surfaced in the worker heartbeat.
+
+    Ranks reward-eligible markets by modeled reward/hour (pool + competing book score)
+    PER UNIT of realized volatility (the adverse-selection proxy), so the app can show
+    which pools are worth farming WITHOUT a manual `scripts/reward_yield.py` run. Pure
+    math lives in `core.rewardyield`; this only wires the network reads + heartbeat
+    summary. NO orders, NO writes. Env: REWARD_YIELD_TOPN (6), REWARD_YIELD_WINDOW (20s
+    volatility burst), REWARD_YIELD_EVERY (4s). Stores a compact summary in `state`."""
+    from core import rewardyield as ry
+    topn = int(os.getenv("REWARD_YIELD_TOPN", "6"))
+    window = float(os.getenv("REWARD_YIELD_WINDOW", "20"))
+    every = float(os.getenv("REWARD_YIELD_EVERY", "4"))
+    by_market: dict[str, list] = {}
+    for tp in client.get_incentives():
+        by_market.setdefault(tp["marketSlug"], []).append(tp)
+    rows = []
+    for slug, tps in by_market.items():
+        mk = client.get_market(slug)
+        if not mk or mk.get("closed"):
+            continue
+        prog = max(tps, key=lambda t: float(t.get("rewardPool") or 0), default={})
+        bids, offers = client.get_book(slug)
+        if not bids or not offers:
+            continue
+        mid = (bids[0][0] + offers[0][0]) / 2.0
+        disc = float(prog.get("discountFactor") or ry._DEFAULT_DISCOUNT)
+        comp = ry.competing_score(bids, offers, disc)
+        pool = float(prog.get("rewardPool") or 0)
+        hrs = ry.period_hours(prog.get("period"), iso_ts(prog.get("start")),
+                              iso_ts(prog.get("end")), iso_ts(mk.get("gameStartTime")),
+                              iso_ts(mk.get("endDate")))
+        r = ry.modeled_reward(budget, mid, comp, pool, hrs)
+        rows.append({"slug": slug, "period": prog.get("period"), "pool": pool,
+                     "mid": mid, **r})
+    if not rows:
+        state["summary"] = {"n": 0, "note": "no two-sided reward books",
+                            "ts": datetime.now(timezone.utc).strftime("%H:%MZ")}
+        log("reward-yield: no two-sided reward books this scan")
+        return
+    rows.sort(key=lambda r: -r["reward_per_hour"])
+    shortlist = rows[:topn]
+    # bounded volatility burst on the shortlist (mirrors the crypto fast-pass pattern):
+    # one short blocking window per scan, and the scan itself runs on a slow timer.
+    series = {r["slug"]: [(time.time(), r["mid"])] for r in shortlist}
+    t_end = time.time() + window
+    while time.time() < t_end:
+        time.sleep(every)
+        tnow = time.time()
+        for r in shortlist:
+            b, o = client.get_book(r["slug"])
+            if b and o:
+                series[r["slug"]].append((tnow, (b[0][0] + o[0][0]) / 2.0))
+    for r in shortlist:
+        v = ry.realized_vol(series[r["slug"]])
+        r["vol_min"] = v["vol_per_min"]
+        r["rank"] = ry.rank_key(r["reward_per_hour"], v["vol_per_min"])
+    shortlist.sort(key=lambda r: -r["rank"])
+    top = [{"slug": r["slug"][:44], "period": r["period"], "pool": round(r["pool"]),
+            "share": round(r["share"], 4), "rwd_hr": round(r["reward_per_hour"], 3),
+            "yld_hr": round(r["yield_per_hr"], 4), "vol_min": round(r["vol_min"], 5),
+            "rank": round(r["rank"], 1)} for r in shortlist[:3]]
+    state["summary"] = {"n": len(rows), "budget": budget, "top": top,
+                        "ts": datetime.now(timezone.utc).strftime("%H:%MZ")}
+    b0 = shortlist[0]
+    log(f"reward-yield: {len(rows)} mkts | best {b0['slug'][:34]} "
+        f"rwd=${b0['reward_per_hour']:.3f}/hr yld={b0['yield_per_hr'] * 100:.2f}%/hr "
+        f"vol={b0['vol_min'] * 100:.2f}c/min rank={b0['rank']:.1f}")
+
+
 def main():
     if MODE == "off":
         log("BOT_MODE=off — exiting without quoting.")
@@ -2109,10 +2179,11 @@ def main():
         golf_rec: set[str] = set()
         last_wx = last_soc = last_sports = last_settle = last_hb = last_pnl = 0.0
         last_wxchk = last_odds = last_mlb = last_users = last_crypto = 0.0
-        last_mirror = 0.0
+        last_mirror = last_ryield = 0.0
         odds_state: dict = {}
         crypto_state: dict = {}
         mirror_state: dict = {}
+        ryield_state: dict = {}
         PNL_EVERY = 300          # log an account P&L snapshot every 5 min while live
         pnl_summ: dict = {}
         # multi-user execution: ONE shared brain, one client per registered venue
@@ -2281,6 +2352,14 @@ def main():
                 except Exception as e:
                     log(f"mirror error: {e}")
                 last_mirror = now
+            # Reward-YIELD diagnostic (Stage 1) — read-only pool-yield vs adverse-selection
+            # ranking, surfaced in the heartbeat. Slow timer (blocks briefly to sample vol).
+            if os.getenv("REWARD_YIELD") and now - last_ryield >= 900:
+                try:
+                    reward_yield_scan(client, log, ryield_state, budget)
+                except Exception as e:
+                    log(f"reward-yield error: {e}")
+                last_ryield = now
             if now - last_wxchk >= 21600:          # settlement-source checks ~every 6h
                 try:
                     wx_settle_check(client, log)
@@ -2332,6 +2411,8 @@ def main():
                     wx_hb["users"] = {a.name: {"armed": a.live,
                                                "wx": a.wx_status, "mlb": a.mlb_status}
                                       for a in accounts.values()}
+                if ryield_state.get("summary"):
+                    wx_hb["reward_yield"] = ryield_state["summary"]
                 if live_now:
                     _track.heartbeat("live" if LIVE_ARMED else "live-shadow",
                                      res.get("status", "?"),
