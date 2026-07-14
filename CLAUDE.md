@@ -90,11 +90,27 @@ latency before anything else.**
 - **LIVE DATA CONFIRMED (23:41Z):** `updown=48/cycle`, real 5-min markets across
   **btc/eth/sol/xrp/doge**, `endDate` = today +minutes. So the paper test IS feasible from our
   infra — this is NOT a wall.
-- **OPEN BUG (not yet fixed — worklog first, per Andrew):** the snipe/settle windows anchor on
-  the slug's embedded ts (`...-1783986000` = 23:40), which is the market **OPEN**; resolution is
-  `endDate` = open+5min (23:45). So `resolve_ts` is 5 min early → first-sight/snipe/settle
-  windows are all shifted and 0 paper rows record. **Fix = anchor on `endDate` (or slug ts+300).**
-  Also: spot feed only pulls btc/eth (sol/xrp/doge need feeds before they can be papered).
+- **Timing bug (fixed, #84):** slug ts (`...-1783986000` = 23:40) is the market **OPEN**;
+  resolution is `endDate` = open+5min. Anchoring `resolve_ts` on the slug ts fired the windows
+  5 min early → 0 rows. Now `resolve_ts = endDate` (fallback slug+300); rows record.
+- **FALSE POSITIVE caught + killed (#85) — the important part.** First rows showed ~86% win /
+  +$20 paper, avg ask 0.50. It was an **artifact**: settle graded `outcome == (spot vs the same
+  ref the snipe used)`, ~60-90s apart → it measured Coinbase autocorrelation, not the PM
+  resolution; losses clustered where `spot_move≈0`. The tell was the venue's own ask — **0.50 on
+  the "favorite" every time**, i.e. the market prices these a coin flip near expiry (if the
+  spot-favored side really won 86%, its ask would be ~0.85). Same "reconcile tape P&L vs ground
+  truth" lesson as Kalshi/weather. Fix: settlement pass **decoupled from the end_date_min feed**
+  (resolved markets drop out of it), grading each snipe against the **venue** outcome (winning
+  CLOB token settles ~1; up-tok best-ask→0.001 = down won, confirmed), spot-vs-open only as a
+  logged fallback. The 56 self-graded rows relabeled `model='crypto-updown-shadow-selfgraded'`
+  so the app's honest view = venue-graded only.
+- **STATUS: verdict pending on n.** Venue-graded n=1 so far (a 0.91-ask favorite that won,
+  +$0.09 ≈ fairly priced). Need a few hours (~2 venue settles/5-min window) for a real
+  win-rate-vs-ask read. **Leading read: efficient at the T−60s resolution we can sample** (0.50
+  ask), consistent with every prior thesis. Two honest caveats before any implement: (1) our 30s
+  poll snipes at T−60s — pspspsps5's actual edge is the **final seconds**, which needs sub-10s
+  sampling (websocket/tight loop, a bigger build); (2) spot feed is btc/eth only (sol/xrp/doge
+  need feeds). No implement until venue-graded n shows the favored side beats its ask.
 - **Next:** fix the resolution anchor → paper snipes start recording → report hit-rate / paper
   P&L (does the edge survive our latency?) before any implement decision.
 
