@@ -124,8 +124,20 @@ latency before anything else.**
   the handle (discovery across candidate endpoints, wired from worker logs), then record his
   public TRADE activity + a value/PnL snapshot from `data-api.polymarket.com` — the most direct
   test (his ACTUAL results). Observe-only; a US person still can't place these offshore orders.
-- **Next:** read worker logs → confirm arb-scan sums + which mirror endpoint resolves his wallet
-  → wire the mirror feed → report arb frequency/size + his real P&L, then decide implement/close.
+- **FULL-THEORY VERDICT (2026-07-14) — CLOSED. His entire method loses money; his own account is down.**
+  (a) **Directional snipe:** efficiently priced (above). (b) **Complete-set arb (#4):** does NOT
+  exist — `crypto-arb scan` shows `up_ask+down_ask` never < $1 (best_sum floors at 1.00). (c)
+  **Mirror of his ACTUAL account** (`pspspsps5` = wallet `0xb244…edcf`, display "capitalismd3";
+  resolved by scraping the profile page's `proxyWallet`): his real trades show buy-cheap
+  (0.05–0.19) / sell-into-strength (0.86–0.98) or hold-to-settlement — NOT the buy-the-favorite
+  snipe. **Polymarket's own leaderboard API is the ground truth: all-time profit `lb-api/profit`
+  = −$175.91 on `lb-api/volume` = $5,626 across 64 markets; `user-pnl` series negative
+  throughout; currently flat (value $0) + inactive since Jun 6.** The inventor is a net LOSER.
+  So every leg of his theory fails: no directional edge, no arb, and the author's own realized
+  results are negative. **Do not implement.** Same lesson, nth time: efficient at executable
+  prices; reconcile tape vs ground truth (his official P&L, not our trade-cashflow guess of −$139
+  which omitted settlement redemptions). Mirror feed (`pspspsps5-mirror`, 91 trades) + arb scan
+  left recording read-only; flip `CRYPTO_SHADOW` off on the worker to stop the harness.
 
 ### 2026-07-07 — DECISION DAY (moved up from Jul 11 by Andrew): all betting theses closed; farm is the business
 - **MLB gate: FAILED with an adequate sample.** On 181–187 PM-settled rows with EXECUTABLE
