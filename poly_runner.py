@@ -1769,19 +1769,23 @@ def mirror_pspspsps5(log, state):
             return getattr(e, "code", -1), str(e)[:140].encode()
     addr = state.get("mirror_addr") or os.getenv("PSPS_ADDR")
     if not addr:                                              # DISCOVERY — resolve handle->wallet
+        # Primary: scrape the PUBLIC profile page — Next.js embeds proxyWallet in the HTML
+        # (__NEXT_DATA__). Fallback: candidate public APIs. Log hit + status to wire the winner.
         for name, url in (
-            ("site-profile", "https://polymarket.com/api/profile/pspspsps5"),
-            ("gamma-profiles", "https://gamma-api.polymarket.com/profiles?username=pspspsps5"),
-            ("data-profile", "https://data-api.polymarket.com/profile?username=pspspsps5"),
-            ("lb-search", "https://lb-api.polymarket.com/search?q=pspspsps5"),
-            ("users-search", "https://gamma-api.polymarket.com/users?username=pspspsps5"),
+            ("page-at", "https://polymarket.com/@pspspsps5"),
+            ("page-profile", "https://polymarket.com/profile/pspspsps5"),
+            ("gamma-pubprofile", "https://gamma-api.polymarket.com/public-profile?username=pspspsps5"),
+            ("data-username", "https://data-api.polymarket.com/username?username=pspspsps5"),
         ):
             st, body = _get(url)
-            snip = body[:220].decode("utf-8", "replace").replace("\n", " ")
-            log(f"mirror-probe {name}: http={st} body={snip}")
-            mo = _re.search(r"0x[a-fA-F0-9]{40}", snip)
+            txt = body.decode("utf-8", "replace")
+            mo = (_re.search(r'"proxyWallet"\s*:\s*"(0x[a-fA-F0-9]{40})"', txt)
+                  or _re.search(r'"proxyAddress"\s*:\s*"(0x[a-fA-F0-9]{40})"', txt)
+                  or _re.search(r'0x[a-fA-F0-9]{40}', txt))
+            log(f"mirror-probe {name}: http={st} len={len(txt)} hit={bool(mo)} "
+                f"head={txt[:80].replace(chr(10),' ')}")
             if st == 200 and mo:
-                addr = mo.group(0)
+                addr = mo.group(1) if (mo.lastindex or 0) >= 1 else mo.group(0)
                 state["mirror_addr"] = addr
                 log(f"mirror: resolved pspspsps5 -> {addr}")
                 break
