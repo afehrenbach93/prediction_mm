@@ -73,6 +73,31 @@ read-only before funding; reconcile any tape-derived P&L against account balance
 
 ## Incident Log
 
+### 2026-07-13 — Crypto Up/Down late-snipe PAPER harness (pspspsps5 method); LIVE data confirmed; open timing bug
+Andrew asked to test then implement pspspsps5's crypto Up/Down method (record open-spot →
+buy the spot-favored side → snipe the favorite in the final seconds). Built a **read-only,
+$0, no-venue-account** paper harness (`crypto_shadow` in `poly_runner.py`, `CRYPTO_SHADOW=1`;
+paper rows in `model_predictions` as `model='crypto-updown-shadow'` via `track.fetch_open_crypto`/
+`set_snipe`/`mark_settled`). It pulls Coinbase spot + gamma `/events` + CLOB `/book` — all
+reachable from the US Render worker (sandbox itself is egress-blocked, so all diagnosis is
+worker-log driven). **The trading surface stays offshore/read-only — we never place a
+polymarket.com order as a US person; this only measures whether the edge survives our polling
+latency before anything else.**
+- **Fetch fix (shipped):** `/events?closed=false&order=endDate&ascending=true` surfaced
+  ancient never-closed **zombie** updown-5m markets (e.g. `eth-updown-5m-1766161800` → Dec 19
+  2025, ~205d past; `prices=None`, `bestAsk=1/bestBid=0` placeholders) and buried the live ones
+  past `limit=100`. Added `end_date_min={now}` → live markets surface.
+- **LIVE DATA CONFIRMED (23:41Z):** `updown=48/cycle`, real 5-min markets across
+  **btc/eth/sol/xrp/doge**, `endDate` = today +minutes. So the paper test IS feasible from our
+  infra — this is NOT a wall.
+- **OPEN BUG (not yet fixed — worklog first, per Andrew):** the snipe/settle windows anchor on
+  the slug's embedded ts (`...-1783986000` = 23:40), which is the market **OPEN**; resolution is
+  `endDate` = open+5min (23:45). So `resolve_ts` is 5 min early → first-sight/snipe/settle
+  windows are all shifted and 0 paper rows record. **Fix = anchor on `endDate` (or slug ts+300).**
+  Also: spot feed only pulls btc/eth (sol/xrp/doge need feeds before they can be papered).
+- **Next:** fix the resolution anchor → paper snipes start recording → report hit-rate / paper
+  P&L (does the edge survive our latency?) before any implement decision.
+
 ### 2026-07-07 — DECISION DAY (moved up from Jul 11 by Andrew): all betting theses closed; farm is the business
 - **MLB gate: FAILED with an adequate sample.** On 181–187 PM-settled rows with EXECUTABLE
   book odds (gate minimum 100 met): `elo-mlb` Brier 0.2704 vs market 0.2493; `elo-mlb-ctx`
