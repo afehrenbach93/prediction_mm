@@ -1507,6 +1507,12 @@ def crypto_shadow(log, state):
                 return _json.loads(r.read())
         except Exception:
             return None
+    def _iso_epoch(s):                    # ISO endDate -> epoch seconds (authoritative close)
+        try:
+            dt = datetime.fromisoformat(str(s).replace("Z", "+00:00"))
+            return (dt if dt.tzinfo else dt.replace(tzinfo=timezone.utc)).timestamp()
+        except Exception:
+            return None
     spot = {}
     for sym, pid in (("btc", "BTC-USD"), ("eth", "ETH-USD")):
         d = _get(f"https://api.coinbase.com/v2/prices/{pid}/spot")
@@ -1550,9 +1556,12 @@ def crypto_shadow(log, state):
         if sym not in spot:
             continue
         try:
-            resolve_ts = int(eslug.rsplit("-", 1)[-1])
+            open_ts = int(eslug.rsplit("-", 1)[-1])         # slug ts = the 5-min window OPEN
         except Exception:
             continue
+        # resolution is the window CLOSE (endDate), 5 min after open — anchoring the snipe/
+        # settle windows on open_ts fired them ~5 min early and recorded nothing.
+        resolve_ts = _iso_epoch(e.get("endDate")) or (open_ts + 300)
         t_left = resolve_ts - now
         mkts = e.get("markets") or []
         if not mkts:
@@ -1573,6 +1582,7 @@ def crypto_shadow(log, state):
                 "market_ask": None, "edge": None, "liquid": None,
                 "settle_date": today, "run_date": today,
                 "meta": {"sym": sym, "ref_spot": cur, "resolve_ts": resolve_ts,
+                         "open_ts": open_ts, "first_seen_left": round(t_left, 1),
                          "open_up_ask": up_ask}})
         elif row and row.get("outcome") == "pending" and 0 < t_left <= 60:   # THE SNIPE
             ref = (row.get("meta") or {}).get("ref_spot")
