@@ -73,6 +73,20 @@ read-only before funding; reconcile any tape-derived P&L against account balance
 
 ## Incident Log
 
+### 2026-07-14 — Reward-yield instrument (Stage 1): reframe farm as subsidy-carry, not edge
+Every edge thesis has closed "efficient at executable prices" (incl. crypto Up/Down). The
+only structurally +EV mechanism left is the exchange **subsidy** (reward pool + maker
+rebate); its funding cost is **adverse selection**, and both are dominated by *market
+selection*, not quoting. Built the cheapest read on that (read-only, $0, PR #96):
+`core/rewardyield.py` (pure, tested) ranks reward-eligible markets by modeled reward/hour
+(pool + discount-weighted competing book score) **÷ realized volatility** (adverse-selection
+proxy). `scripts/reward_yield.py` = manual sweep; `poly_runner.reward_yield_scan` wires the
+same ranking into the track-mode heartbeat (`REWARD_YIELD=1`, slow 900s timer, brief vol
+burst). 197 tests green (+24). **Live sweep must run on the Render worker** (sandbox is
+geo-blocked from the venue). Next: Stage 2 selection-first quoting; Stage 3 same-day
+modeled-net readout with a pre-registered GO/KILL threshold. Can KILL the whole venue thesis
+for $0 if even the top market's yield can't cover adverse selection.
+
 ### 2026-07-13 — Crypto Up/Down late-snipe PAPER harness (pspspsps5 method); LIVE data confirmed; open timing bug
 Andrew asked to test then implement pspspsps5's crypto Up/Down method (record open-spot →
 buy the spot-favored side → snipe the favorite in the final seconds). Built a **read-only,
