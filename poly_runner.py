@@ -1838,16 +1838,21 @@ def mirror_pspspsps5(log, state):
         realized = round(sum(float(p.get("realizedPnl") or p.get("cashPnl") or 0) for p in ps), 2)
     except Exception:
         pass
-    stats = ""
-    if not state.get("mirror_stats"):
-        state["mirror_stats"] = True
-        st_pg, body_pg = _get("https://polymarket.com/@pspspsps5")
-        if st_pg == 200:
-            hits = _re.findall(r'"(pnl|profit|volume|amount|profitLoss|realizedPnl|cashPnl)"'
-                               r'\s*:\s*(-?\d[\d.eE+-]*)', body_pg.decode("utf-8", "replace"))
-            stats = str(hits[:14])
-    log(f"mirror: +{len(rows)} trades | positions n={npos} realizedPnl_sum={realized} | "
-        f"pagestats={stats}")
+    # OFFICIAL lifetime P&L — his settlement redemptions aren't TRADE events, so trade cashflow
+    # understates it. Probe Polymarket's actual P&L/volume endpoints once and log the winner.
+    if not state.get("mirror_pnl"):
+        state["mirror_pnl"] = True
+        for name, url in (
+            ("lb-profit", f"https://lb-api.polymarket.com/profit?window=all&limit=1&address={addr}"),
+            ("lb-volume", f"https://lb-api.polymarket.com/volume?window=all&limit=1&address={addr}"),
+            ("user-pnl", f"https://user-pnl-api.polymarket.com/user-pnl?user_address={addr}&interval=all&fidelity=1d"),
+            ("data-pnl", f"https://data-api.polymarket.com/pnl?user_address={addr}&interval=all"),
+            ("data-traded", f"https://data-api.polymarket.com/traded?user={addr}"),
+        ):
+            st_x, body_x = _get(url)
+            log(f"mirror-pnl {name}: http={st_x} "
+                f"body={body_x[:200].decode('utf-8','replace').replace(chr(10),' ')}")
+    log(f"mirror: +{len(rows)} trades | positions n={npos} realizedPnl_sum={realized}")
 
 
 def crypto_probe(log):
