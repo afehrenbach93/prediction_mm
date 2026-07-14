@@ -2047,19 +2047,44 @@ def scan_markets(client: PolyClient, budget: float):
             f"bid={bb}x{bbq:.0f} ask={ba}x{baq:.0f} game={gs} | {str(name)[:54]} | {slug}")
 
 
+_RY_HIST_CAP = 80        # rolling mid samples kept per watched market (~40 min @ 30s)
+
+
+def reward_yield_sample(client, state):
+    """READ-ONLY per-cycle vol sampler: append the current book mid for each WATCHED
+    market (set by the last scan) to a bounded rolling history in `state`. Cheap (one
+    book read per watched slug) and runs at the loop cadence, so `reward_yield_scan`
+    can compute a real multi-minute volatility instead of a too-short blocking burst."""
+    watch = state.get("watch") or []
+    if not watch:
+        return
+    hist = state.setdefault("hist", {})
+    now = time.time()
+    for slug in watch:
+        b, o = client.get_book(slug)
+        if b and o:
+            h = hist.setdefault(slug, [])
+            h.append((now, (b[0][0] + o[0][0]) / 2.0))
+            if len(h) > _RY_HIST_CAP:
+                del h[:-_RY_HIST_CAP]
+
+
 def reward_yield_scan(client, log, state, budget):
     """READ-ONLY reward-YIELD diagnostic (Stage 1) surfaced in the worker heartbeat.
 
     Ranks reward-eligible markets by modeled reward/hour (pool + competing book score)
     PER UNIT of realized volatility (the adverse-selection proxy), so the app can show
     which pools are worth farming WITHOUT a manual `scripts/reward_yield.py` run. Pure
-    math lives in `core.rewardyield`; this only wires the network reads + heartbeat
-    summary. NO orders, NO writes. Env: REWARD_YIELD_TOPN (6), REWARD_YIELD_WINDOW (20s
-    volatility burst), REWARD_YIELD_EVERY (4s). Stores a compact summary in `state`."""
+    math lives in `core.rewardyield`; this wires the network reads + heartbeat summary.
+    NO orders, NO writes. Env: REWARD_YIELD_TOPN (markets tracked for vol, default 12).
+
+    Volatility comes from the ROLLING history that `reward_yield_sample` accumulates
+    between scans (the watched set), so it reflects real multi-minute movement. The
+    first scan after boot has no history yet -> `warming` true, vol shown as 0 with a
+    small vol_n; it fills in over subsequent cycles. Stores a summary in `state`:
+    `top` (by rank), `fattest` (by pool, so big pools aren't hidden), n, max_pool."""
     from core import rewardyield as ry
-    topn = int(os.getenv("REWARD_YIELD_TOPN", "6"))
-    window = float(os.getenv("REWARD_YIELD_WINDOW", "20"))
-    every = float(os.getenv("REWARD_YIELD_EVERY", "4"))
+    topn = int(os.getenv("REWARD_YIELD_TOPN", "12"))
     by_market: dict[str, list] = {}
     for tp in client.get_incentives():
         by_market.setdefault(tp["marketSlug"], []).append(tp)
@@ -2085,36 +2110,44 @@ def reward_yield_scan(client, log, state, budget):
     if not rows:
         state["summary"] = {"n": 0, "note": "no two-sided reward books",
                             "ts": datetime.now(timezone.utc).strftime("%H:%MZ")}
+        state["watch"] = []
         log("reward-yield: no two-sided reward books this scan")
         return
+    # watch the highest reward/hr markets for rolling vol sampling between scans; drop
+    # history for markets that rotated out of the watch set.
     rows.sort(key=lambda r: -r["reward_per_hour"])
-    shortlist = rows[:topn]
-    # bounded volatility burst on the shortlist (mirrors the crypto fast-pass pattern):
-    # one short blocking window per scan, and the scan itself runs on a slow timer.
-    series = {r["slug"]: [(time.time(), r["mid"])] for r in shortlist}
-    t_end = time.time() + window
-    while time.time() < t_end:
-        time.sleep(every)
-        tnow = time.time()
-        for r in shortlist:
-            b, o = client.get_book(r["slug"])
-            if b and o:
-                series[r["slug"]].append((tnow, (b[0][0] + o[0][0]) / 2.0))
-    for r in shortlist:
-        v = ry.realized_vol(series[r["slug"]])
-        r["vol_min"] = v["vol_per_min"]
-        r["rank"] = ry.rank_key(r["reward_per_hour"], v["vol_per_min"])
-    shortlist.sort(key=lambda r: -r["rank"])
-    top = [{"slug": r["slug"][:44], "period": r["period"], "pool": round(r["pool"]),
-            "share": round(r["share"], 4), "rwd_hr": round(r["reward_per_hour"], 3),
-            "yld_hr": round(r["yield_per_hr"], 4), "vol_min": round(r["vol_min"], 5),
-            "rank": round(r["rank"], 1)} for r in shortlist[:3]]
-    state["summary"] = {"n": len(rows), "budget": budget, "top": top,
-                        "ts": datetime.now(timezone.utc).strftime("%H:%MZ")}
-    b0 = shortlist[0]
-    log(f"reward-yield: {len(rows)} mkts | best {b0['slug'][:34]} "
-        f"rwd=${b0['reward_per_hour']:.3f}/hr yld={b0['yield_per_hr'] * 100:.2f}%/hr "
-        f"vol={b0['vol_min'] * 100:.2f}c/min rank={b0['rank']:.1f}")
+    watch = [r["slug"] for r in rows[:topn]]
+    state["watch"] = watch
+    hist = state.setdefault("hist", {})
+    for slug in [s for s in hist if s not in watch]:
+        hist.pop(slug, None)
+    # rank the watched set by reward/hr PER UNIT of rolling volatility
+    ranked = []
+    for r in rows[:topn]:
+        v = ry.realized_vol(hist.get(r["slug"]) or [(0.0, r["mid"])])
+        ranked.append(dict(r, vol_min=v["vol_per_min"], vol_n=v["n"],
+                           rank=ry.rank_key(r["reward_per_hour"], v["vol_per_min"])))
+    ranked.sort(key=lambda r: -r["rank"])
+
+    def _fmt(r):
+        return {"slug": r["slug"][:46], "period": r["period"], "pool": round(r["pool"]),
+                "share": round(r["share"], 4), "rwd_hr": round(r["reward_per_hour"], 3),
+                "yld_hr": round(r["yield_per_hr"], 4), "vol_min": round(r["vol_min"], 5),
+                "vol_n": r["vol_n"], "rank": round(r["rank"], 1)}
+    max_pool = max(r["pool"] for r in rows)
+    warming = all(r["vol_n"] < 3 for r in ranked)
+    state["summary"] = {
+        "n": len(rows), "budget": budget, "max_pool": round(max_pool),
+        "warming": warming, "ts": datetime.now(timezone.utc).strftime("%H:%MZ"),
+        "top": [_fmt(r) for r in ranked[:10]],
+        "fattest": [{"slug": r["slug"][:46], "period": r["period"],
+                     "pool": round(r["pool"]), "rwd_hr": round(r["reward_per_hour"], 3)}
+                    for r in sorted(rows, key=lambda r: -r["pool"])[:5]]}
+    b0 = ranked[0]
+    log(f"reward-yield: {len(rows)} mkts max_pool=${max_pool:.0f}"
+        f"{' [vol warming]' if warming else ''} | best {b0['slug'][:30]} "
+        f"rwd=${b0['reward_per_hour']:.3f}/hr vol={b0['vol_min'] * 100:.2f}c/min "
+        f"(n={b0['vol_n']}) rank={b0['rank']:.1f}")
 
 
 def main():
@@ -2353,13 +2386,20 @@ def main():
                     log(f"mirror error: {e}")
                 last_mirror = now
             # Reward-YIELD diagnostic (Stage 1) — read-only pool-yield vs adverse-selection
-            # ranking, surfaced in the heartbeat. Slow timer (blocks briefly to sample vol).
-            if os.getenv("REWARD_YIELD") and now - last_ryield >= 900:
+            # ranking, surfaced in the heartbeat. The per-cycle sampler accumulates a
+            # rolling mid history for the watched markets; the scan re-ranks every 10 min
+            # using that history (real multi-minute volatility). No orders, no writes.
+            if os.getenv("REWARD_YIELD"):
                 try:
-                    reward_yield_scan(client, log, ryield_state, budget)
+                    reward_yield_sample(client, ryield_state)
                 except Exception as e:
-                    log(f"reward-yield error: {e}")
-                last_ryield = now
+                    log(f"reward-yield sample error: {e}")
+                if now - last_ryield >= 600:
+                    try:
+                        reward_yield_scan(client, log, ryield_state, budget)
+                    except Exception as e:
+                        log(f"reward-yield error: {e}")
+                    last_ryield = now
             if now - last_wxchk >= 21600:          # settlement-source checks ~every 6h
                 try:
                     wx_settle_check(client, log)

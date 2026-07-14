@@ -82,10 +82,18 @@ selection*, not quoting. Built the cheapest read on that (read-only, $0, PR #96)
 (pool + discount-weighted competing book score) **÷ realized volatility** (adverse-selection
 proxy). `scripts/reward_yield.py` = manual sweep; `poly_runner.reward_yield_scan` wires the
 same ranking into the track-mode heartbeat (`REWARD_YIELD=1`, slow 900s timer, brief vol
-burst). 197 tests green (+24). **Live sweep must run on the Render worker** (sandbox is
-geo-blocked from the venue). Next: Stage 2 selection-first quoting; Stage 3 same-day
-modeled-net readout with a pre-registered GO/KILL threshold. Can KILL the whole venue thesis
-for $0 if even the top market's yield can't cover adverse selection.
+burst). **Live read (13:29Z, REWARD_YIELD=1 on the worker):** n=98 reward markets, but the
+only fat-ranked pools were tiny ($100) Czech-Liga-Pro table-tennis `live` markets and the
+20s vol burst read 0.0 across the top — too short to measure adverse selection, so rank
+collapsed to reward/hr ordering (steers toward in-play, the WORST case). **Fix (Stage 1.5,
+shipped same day):** replaced the burst with a per-cycle rolling mid sampler
+(`reward_yield_sample`, ~30s cadence, ~40-min window) so vol reflects real multi-minute
+movement; heartbeat now carries top-10-by-rank + fattest-5-by-pool + max_pool + a `warming`
+flag until enough samples accrue. 200 tests green (+27). **Live sweep runs on the Render
+worker only** (sandbox geo-blocked). Next: Stage 2 selection-first quoting; Stage 3 same-day
+modeled-net readout w/ pre-registered GO/KILL. Can KILL the venue thesis for $0 if no market
+clears yield-vs-adverse-selection. Small bounded live test (PILOT.md) is the read-only-can't-
+answer backstop, gated on the fixed instrument surfacing a representative (not $100 in-play) pool.
 
 ### 2026-07-13 — Crypto Up/Down late-snipe PAPER harness (pspspsps5 method); LIVE data confirmed; open timing bug
 Andrew asked to test then implement pspspsps5's crypto Up/Down method (record open-spot →
