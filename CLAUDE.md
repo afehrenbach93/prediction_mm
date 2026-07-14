@@ -104,13 +104,19 @@ latency before anything else.**
   CLOB token settles ~1; up-tok best-ask→0.001 = down won, confirmed), spot-vs-open only as a
   logged fallback. The 56 self-graded rows relabeled `model='crypto-updown-shadow-selfgraded'`
   so the app's honest view = venue-graded only.
-- **STATUS: verdict pending on n.** Venue-graded n=1 so far (a 0.91-ask favorite that won,
-  +$0.09 ≈ fairly priced). Need a few hours (~2 venue settles/5-min window) for a real
-  win-rate-vs-ask read. **Leading read: efficient at the T−60s resolution we can sample** (0.50
-  ask), consistent with every prior thesis. Two honest caveats before any implement: (1) our 30s
-  poll snipes at T−60s — pspspsps5's actual edge is the **final seconds**, which needs sub-10s
-  sampling (websocket/tight loop, a bigger build); (2) spot feed is btc/eth only (sol/xrp/doge
-  need feeds). No implement until venue-graded n shows the favored side beats its ask.
+- **Final-seconds sampler (built, #87):** to test his ACTUAL edge (last seconds, not T−60s),
+  the harness now also snipes at **~T−4s** — after the main pass it sleeps to ~4s before the
+  soonest close, re-reads spot + CLOB ask, and stamps `fast_side`/`fast_ask` onto the same row
+  (`track.patch_meta`); settlement grades it against the SAME venue outcome (`fast_realized`/
+  `fast_pnl`). So each market yields a clean **T−60s vs T−4s** venue-graded pair, no dup rows.
+  Blocks the worker ≤~41s once per 5-min window (fine in track mode; farm is off).
+- **STATUS: verdict pending on n (accumulating; autonomous cron `e40cea5f` driving it).**
+  Venue-graded n=1 at T−60s so far (0.91-ask favorite won, +$0.09 ≈ fairly priced). Gate:
+  once BOTH slow (T−60s) and fast (T−4s) have n≥40 venue-graded settles, write the verdict
+  (win% & P&L vs avg ask at each timing; does the favored side beat its ask?) and decide
+  implement-or-close. **Leading read: efficient at the resolutions we can sample** (T−60s ask
+  ≈0.50), consistent with every prior thesis — but the T−4s read is the honest test of his
+  method and isn't in yet. Caveat: spot feed is btc/eth only (sol/xrp/doge need feeds).
 - **Next:** fix the resolution anchor → paper snipes start recording → report hit-rate / paper
   P&L (does the edge survive our latency?) before any implement decision.
 
