@@ -1598,24 +1598,50 @@ def crypto_shadow(log, state):
             tok = ids[0] if (side == "up" and ids) else (ids[1] if len(ids) >= 2 else None)
             ask, _bid = _clob_book(tok) if tok else (None, None)
             meta = dict(row.get("meta") or {}, snipe_spot=cur, side=side, snipe_ask=ask,
-                        spot_move=round(cur - ref, 4))
+                        spot_move=round(cur - ref, 4),
+                        up_tok=(ids[0] if ids else None),
+                        down_tok=(ids[1] if len(ids) >= 2 else None))
             if ask is not None and 0.02 <= ask <= 0.92:       # margin left to be worth it
                 if track.set_snipe(int(row["id"]), side, ask, meta) in (200, 204):
                     sniped += 1
             else:
                 track.set_snipe(int(row["id"]), "skip", ask, meta)
                 skipped += 1
-        elif row and row.get("outcome") in ("up", "down") and not row.get("settled") \
-                and now > resolve_ts:                          # settle vs resolution spot
-            ref = (row.get("meta") or {}).get("ref_spot")
-            if ref is None:
-                continue
-            final_side = "up" if cur >= ref else "down"
-            realized = (row["outcome"] == final_side)
-            ask = row.get("market_ask") or 0.5
-            pnl = round((1 - ask) if realized else -ask, 3)
-            if track.mark_settled(int(row["id"]), realized, pnl) in (200, 204):
-                settled += 1
+    # SETTLEMENT — decoupled from the live-window feed (resolved markets drop out of the
+    # end_date_min fetch) and graded against the VENUE'S outcome, not our own spot signal.
+    # The winning token settles to ~1 on the CLOB; a spot-vs-open proxy is a logged fallback
+    # only when the venue book is uninformative. Self-grading against the same near-expiry
+    # spot the snipe used produced a bogus ~86% win-rate — this replaces it.
+    settle_diag = 0
+    for eslug, row in existing.items():
+        if row.get("outcome") not in ("up", "down") or row.get("settled"):
+            continue
+        meta = row.get("meta") or {}
+        r_ts = meta.get("resolve_ts")
+        if not r_ts or now <= float(r_ts) + 15:               # give the oracle a few seconds
+            continue
+        v_a, v_b = _clob_book(meta.get("up_tok")) if meta.get("up_tok") else (None, None)
+        venue_up = next((p >= 0.5 for p in (v_b, v_a)
+                         if p is not None and (p >= 0.85 or p <= 0.15)), None)
+        cur2, ref = spot.get(meta.get("sym")), meta.get("ref_spot")
+        spot_up = (cur2 >= ref) if (cur2 is not None and ref is not None) else None
+        if venue_up is not None:
+            src, final_up = "venue", venue_up
+        elif spot_up is not None:
+            src, final_up = "spot", spot_up
+        else:
+            continue
+        realized = (row["outcome"] == ("up" if final_up else "down"))
+        ask = row.get("market_ask") or 0.5
+        pnl = round((1 - ask) if realized else -ask, 3)
+        m2 = dict(meta, settle_src=src, venue_up_px=(v_b if v_b is not None else v_a))
+        if track.mark_settled(int(row["id"]), realized, pnl, m2) in (200, 204):
+            settled += 1
+        if settle_diag < 3:
+            settle_diag += 1
+            log(f"crypto-shadow SETTLE {eslug}: side={row['outcome']} "
+                f"up_tok_book=(a={v_a},b={v_b}) spot_up={spot_up} src={src} "
+                f"final_up={final_up} realized={realized}")
     if new_rows:
         track.record_predictions(new_rows)
     if new_rows or sniped or settled or skipped:

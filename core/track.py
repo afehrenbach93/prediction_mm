@@ -317,12 +317,16 @@ def update_market_odds(pred_id: int, bid, ask, edge, meta: dict) -> int:
         return -1
 
 
-def mark_settled(pred_id: int, realized_yes: bool, pnl: float | None) -> int:
+def mark_settled(pred_id: int, realized_yes: bool, pnl: float | None,
+                 meta: dict | None = None) -> int:
     """Write the resolved outcome back to one prediction row. Returns http status."""
     url, key = _creds()
     if not url or not key:
         return 0
-    body = json.dumps({"settled": True, "realized_yes": realized_yes, "pnl": pnl}).encode()
+    payload = {"settled": True, "realized_yes": realized_yes, "pnl": pnl}
+    if meta is not None:
+        payload["meta"] = meta
+    body = json.dumps(payload).encode()
     req = urllib.request.Request(
         f"{url}/rest/v1/{TABLE}?id=eq.{pred_id}", data=body, method="PATCH",
         headers={"apikey": key, "Authorization": f"Bearer {key}",
