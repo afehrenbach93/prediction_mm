@@ -73,6 +73,21 @@ read-only before funding; reconcile any tape-derived P&L against account balance
 
 ## Incident Log
 
+### 2026-07-14 (later) — LIVE-RAILS TEST PASSED: reward-maker orders REST
+Ran the bounded live-rails smoke test (PILOT.md) from the cloud agent. Flipped `poly_control`
+`desired_mode=live` (budget $10, 15-min `live_until`) — worker placed post-only quotes on
+`aec-czechligapro` reward markets: `executions:[]` + a **read-back `st=200` confirming the
+order RESTS**, next cycle `resting(pre-cancel)=3` (rest across cycles). The pre-migration
+"orders 200-ACK but never rest" failure is GONE. `netPosition` read verified live
+(`open_contracts=5` on a pre-existing `arankc-atp` position). Reverted to track;
+`left live -> cancelled 3 resting orders`. **Balance unchanged $127.93** (no fills/loss).
+Remaining rail (breaker trips on a real fill) unexercised — no fill; unit-tested. Also cleaned
+a stale control row (was `desired_mode=live` + expired `live_until` 07-11 → per-cycle "window
+expired" spam; set to `track`). Tooling note: drove this via the **direct Render API +
+Supabase** using the VM's valid `RENDER_API_KEY`; the Render MCP plugin connected but its
+`${RENDER_API_KEY}` header didn't resolve (cloud HTTP MCP stores the header on Cursor's
+backend, not VM-env-interpolated) → paste the literal key to fix the MCP.
+
 ### 2026-07-14 — Reward-yield instrument (Stage 1): reframe farm as subsidy-carry, not edge
 Every edge thesis has closed "efficient at executable prices" (incl. crypto Up/Down). The
 only structurally +EV mechanism left is the exchange **subsidy** (reward pool + maker

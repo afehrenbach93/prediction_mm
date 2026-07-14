@@ -117,7 +117,15 @@ Verify (worker log / heartbeat, or Render MCP logs once connected):
 - STOP: `desired_mode=track` (auto-cancels resting orders on leaving live) or
   `POLY_LIVE_ARMED=false`. Worst case ≈ $5–10 gross, breaker-bounded.
 
-**Blocked on:** operator arming + (for agent-driven log verification) the Render MCP wired
-into a fresh cloud-agent run. Cloud-agent MCP is configured at cursor.com/agents (MCP
-dropdown) / Dashboard→Integrations&MCP — NOT the repo `.mcp.json` — and only loads in a
-NEW run. Render's MCP is Bearer-API-key (no OAuth), HTTP transport.
+**RESULT — 2026-07-14 16:09Z: order-resting rail PASSED.** Flipped `poly_control`
+`desired_mode=live` (budget $10, 15-min `live_until`) from the cloud agent — worker placed
+post-only quotes on `aec-czechligapro` reward markets: `place OK … executions:[]` plus a
+**read-back `st=200`** showing the order resting, and the next cycle logged
+`resting(pre-cancel)=3` → orders REST across cycles (the pre-migration "200-ACK but never
+rested" failure is gone). `netPosition` read confirmed live (`pnl_snapshot open_contracts=5`
+on a pre-existing `arankc-atp` position). Reverted to `track`; worker logged
+`left live -> cancelled 3 resting orders`. **Balance unchanged at $127.93** (no fills, no
+loss). Not yet exercised: breaker tripping on a real fill (no fill occurred; it's unit-tested
+and the `netPosition` read is confirmed). Driven via the direct Render API + Supabase (the
+Render MCP plugin is connected but its `${RENDER_API_KEY}` header didn't resolve — used the
+valid VM `RENDER_API_KEY` directly).
