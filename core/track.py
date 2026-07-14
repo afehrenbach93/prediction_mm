@@ -178,6 +178,25 @@ def set_snipe(pred_id: int, outcome: str, ask, meta: dict) -> int:
         return -1
 
 
+def patch_meta(pred_id: int, meta: dict) -> int:
+    """Update ONLY the meta jsonb of one row (leaves outcome/market_ask/settled intact).
+    Used by the final-seconds fast snipe, which stamps fast_side/fast_ask onto a row the
+    T-60s snipe already claimed. Returns http status; best-effort."""
+    url, key = _creds()
+    if not url or not key:
+        return 0
+    body = json.dumps({"meta": meta}).encode()
+    req = urllib.request.Request(
+        f"{url}/rest/v1/{TABLE}?id=eq.{pred_id}", data=body, method="PATCH",
+        headers={"apikey": key, "Authorization": f"Bearer {key}",
+                 "Content-Type": "application/json", "Prefer": "return=minimal"})
+    try:
+        with urllib.request.urlopen(req, timeout=20) as r:
+            return r.status
+    except Exception:
+        return -1
+
+
 def fetch_users() -> list[dict]:
     """Rows from poly_users — the Polymarket accounts the shared worker trades for.
     Each row: email, name, key_env/secret_env (env-var NAMES holding that user's keys)

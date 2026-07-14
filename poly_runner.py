@@ -1547,7 +1547,7 @@ def crypto_shadow(log, state):
             f"now_utc={now_iso} nearest_updown_[t_left_min,slug,endDate]={tls}")
     today = _date.today().isoformat()
     existing = {r["market_slug"]: r for r in track.fetch_open_crypto(today)}
-    new_rows, sniped, settled, skipped = [], 0, 0, 0
+    new_rows, sniped, settled, skipped, fast_sniped = [], 0, 0, 0, 0
     for e in evs:
         eslug = str(e.get("slug", ""))
         if "updown-5m" not in eslug:
@@ -1575,6 +1575,10 @@ def crypto_shadow(log, state):
         up_ask, up_bid = _updown_prices(m)
         cur = spot[sym]
         row = existing.get(eslug)
+        try:
+            fids = _json.loads(m.get("clobTokenIds") or "[]")
+        except Exception:
+            fids = []
         if row is None and 60 < t_left < 400:                 # first sight — record reference
             new_rows.append({
                 "model": "crypto-updown-shadow", "sport": "crypto", "market_slug": eslug,
@@ -1583,7 +1587,9 @@ def crypto_shadow(log, state):
                 "settle_date": today, "run_date": today,
                 "meta": {"sym": sym, "ref_spot": cur, "resolve_ts": resolve_ts,
                          "open_ts": open_ts, "first_seen_left": round(t_left, 1),
-                         "open_up_ask": up_ask}})
+                         "open_up_ask": up_ask,
+                         "up_tok": (fids[0] if fids else None),
+                         "down_tok": (fids[1] if len(fids) >= 2 else None)}})
         elif row and row.get("outcome") == "pending" and 0 < t_left <= 60:   # THE SNIPE
             ref = (row.get("meta") or {}).get("ref_spot")
             if ref is None:
@@ -1607,11 +1613,48 @@ def crypto_shadow(log, state):
             else:
                 track.set_snipe(int(row["id"]), "skip", ask, meta)
                 skipped += 1
+    # FINAL-SECONDS snipe — pspspsps5's real edge is the last few seconds, not T-60s. Sleep
+    # to ~T-4s of the soonest closing window, then stamp fast_side/fast_ask onto the same rows
+    # (graded later against the same venue outcome) so we can compare T-4s vs the T-60s snipe.
+    import time as _time
+    fast_due = [(s, r) for s, r in existing.items()
+                if r.get("outcome") in ("up", "down", "pending")
+                and not (r.get("meta") or {}).get("fast_side")
+                and (r.get("meta") or {}).get("resolve_ts")]
+    if fast_due:
+        soonest = min(float((r.get("meta") or {})["resolve_ts"]) for _, r in fast_due)
+        lead = soonest - datetime.now(timezone.utc).timestamp()
+        if 3 < lead <= 45:                                    # in reach of a final-seconds read
+            _time.sleep(max(0.0, lead - 4.0))                 # wake ~4s before the close
+            fspot = {}
+            for _sym, _pid in (("btc", "BTC-USD"), ("eth", "ETH-USD")):
+                _d = _get(f"https://api.coinbase.com/v2/prices/{_pid}/spot")
+                try:
+                    fspot[_sym] = float(_d["data"]["amount"])
+                except Exception:
+                    pass
+            fnow = datetime.now(timezone.utc).timestamp()
+            for eslug2, row2 in fast_due:
+                meta2 = row2.get("meta") or {}
+                if abs(float(meta2["resolve_ts"]) - soonest) > 2:   # only the soonest window
+                    continue
+                sym2, ref2 = meta2.get("sym"), meta2.get("ref_spot")
+                curf = fspot.get(sym2)
+                if curf is None or ref2 is None:
+                    continue
+                fside = "up" if curf >= ref2 else "down"
+                ftok = meta2.get("up_tok") if fside == "up" else meta2.get("down_tok")
+                fask, _fb = _clob_book(ftok) if ftok else (None, None)
+                m3 = dict(meta2, fast_side=fside, fast_ask=fask, fast_spot=curf,
+                          fast_left=round(float(meta2["resolve_ts"]) - fnow, 1))
+                if track.patch_meta(int(row2["id"]), m3) in (200, 204):
+                    fast_sniped += 1
     # SETTLEMENT — decoupled from the live-window feed (resolved markets drop out of the
     # end_date_min fetch) and graded against the VENUE'S outcome, not our own spot signal.
     # The winning token settles to ~1 on the CLOB; a spot-vs-open proxy is a logged fallback
     # only when the venue book is uninformative. Self-grading against the same near-expiry
     # spot the snipe used produced a bogus ~86% win-rate — this replaces it.
+    now = datetime.now(timezone.utc).timestamp()               # refresh (the fast pass slept)
     settle_diag = 0
     for eslug, row in existing.items():
         if row.get("outcome") not in ("up", "down") or row.get("settled"):
@@ -1631,10 +1674,17 @@ def crypto_shadow(log, state):
             src, final_up = "spot", spot_up
         else:
             continue
-        realized = (row["outcome"] == ("up" if final_up else "down"))
+        win_side = "up" if final_up else "down"
+        realized = (row["outcome"] == win_side)
         ask = row.get("market_ask") or 0.5
         pnl = round((1 - ask) if realized else -ask, 3)
         m2 = dict(meta, settle_src=src, venue_up_px=(v_b if v_b is not None else v_a))
+        # grade the final-seconds snipe against the SAME venue outcome (T-4s vs T-60s)
+        fside, fask = meta.get("fast_side"), meta.get("fast_ask")
+        if fside and fask is not None:
+            f_realized = (fside == win_side)
+            m2["fast_realized"] = f_realized
+            m2["fast_pnl"] = round((1 - fask) if f_realized else -fask, 3)
         if track.mark_settled(int(row["id"]), realized, pnl, m2) in (200, 204):
             settled += 1
         if settle_diag < 3:
@@ -1644,9 +1694,9 @@ def crypto_shadow(log, state):
                 f"final_up={final_up} realized={realized}")
     if new_rows:
         track.record_predictions(new_rows)
-    if new_rows or sniped or settled or skipped:
-        log(f"crypto-shadow: +{len(new_rows)} tracked, {sniped} sniped, {skipped} no-edge, "
-            f"{settled} settled | active_updown_events="
+    if new_rows or sniped or settled or skipped or fast_sniped:
+        log(f"crypto-shadow: +{len(new_rows)} tracked, {sniped} sniped, {fast_sniped} fast, "
+            f"{skipped} no-edge, {settled} settled | active_updown_events="
             f"{sum(1 for e in evs if 'updown-5m' in str(e.get('slug','')))}")
 
 
