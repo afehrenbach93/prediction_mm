@@ -1808,25 +1808,46 @@ def mirror_pspspsps5(log, state):
     for a in acts:
         if str(a.get("type", "")).upper() != "TRADE":
             continue
-        key = f"{a.get('transactionHash','')}-{a.get('asset','')}-{a.get('side','')}"
+        tx = str(a.get("transactionHash", ""))
+        key = f"{tx}-{a.get('asset','')}-{a.get('side','')}-{a.get('size','')}"
         if key in seen:
             continue
         seen.add(key)
+        base = str(a.get("slug") or a.get("conditionId") or "")[:88]
+        uniq = (tx[-10:] or str(a.get("timestamp", "")))       # keep EVERY trade (index dedups)
         rows.append({
             "model": "pspspsps5-mirror", "sport": "crypto",
-            "market_slug": str(a.get("slug") or a.get("conditionId") or "")[:120],
+            "market_slug": f"{base}|{uniq}"[:120],
             "outcome": str(a.get("side", "")).lower(), "model_prob": None,
             "market_bid": None, "market_ask": a.get("price"), "edge": None, "liquid": None,
             "settle_date": today, "run_date": today,
-            "meta": {"title": str(a.get("title", ""))[:160], "outcome_name": a.get("outcome"),
-                     "size": a.get("size"), "usdc": a.get("usdcSize"),
-                     "ts": a.get("timestamp"), "tx": a.get("transactionHash")}})
+            "meta": {"slug": base, "title": str(a.get("title", ""))[:160],
+                     "outcome_name": a.get("outcome"), "size": a.get("size"),
+                     "usdc": a.get("usdcSize"), "ts": a.get("timestamp"), "tx": tx}})
     if rows:
         track.record_predictions(rows)
-    # POSITIONS / P&L snapshot (logged; small)
-    st_p, body_p = _get(f"https://data-api.polymarket.com/value?user={addr}")
-    pnl_snip = body_p[:160].decode("utf-8", "replace").replace("\n", " ") if st_p == 200 else ""
-    log(f"mirror: +{len(rows)} new trades, activity_n={len(acts)}, value_http={st_p} {pnl_snip}")
+    # P&L — realized from open positions + lifetime stats discovered off the profile page
+    st_pos, body_pos = _get(f"https://data-api.polymarket.com/positions?user={addr}"
+                            "&sizeThreshold=0.01&limit=500")
+    npos = 0
+    realized = None
+    try:
+        ps = _json.loads(body_pos)
+        ps = ps if isinstance(ps, list) else ps.get("data", [])
+        npos = len(ps)
+        realized = round(sum(float(p.get("realizedPnl") or p.get("cashPnl") or 0) for p in ps), 2)
+    except Exception:
+        pass
+    stats = ""
+    if not state.get("mirror_stats"):
+        state["mirror_stats"] = True
+        st_pg, body_pg = _get("https://polymarket.com/@pspspsps5")
+        if st_pg == 200:
+            hits = _re.findall(r'"(pnl|profit|volume|amount|profitLoss|realizedPnl|cashPnl)"'
+                               r'\s*:\s*(-?\d[\d.eE+-]*)', body_pg.decode("utf-8", "replace"))
+            stats = str(hits[:14])
+    log(f"mirror: +{len(rows)} trades | positions n={npos} realizedPnl_sum={realized} | "
+        f"pagestats={stats}")
 
 
 def crypto_probe(log):
