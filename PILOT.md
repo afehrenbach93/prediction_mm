@@ -85,3 +85,39 @@ anything orphaned.
   extend the scan tooling, read account state once it's logged by the worker.
 - CAN'T: hit `api.polymarket.us` directly from this sandbox (geo-blocked, 403), so
   the legacy-clear steps that need a live API call run on Render/UI (operator).
+
+---
+
+## Live-rails smoke test (precursor — validate the ORDER PATH, not economics)
+Runs BEFORE the economics pilot above. Goal: prove the two rails that have silently
+failed before — (1) a post-only order actually **RESTS** at the touch (the first pilot's
+orders were 200-ACKed but never rested, $0 traded), and (2) the breaker correctly reads a
+real position via **`netPosition`** (was blind pre-fix). This is a plumbing check, NOT a
+reward-economics read.
+
+Resting is verifiable even on a static book (no fill needed). The `netPosition` breaker
+read is a bonus that only exercises IF a fill happens. As of 2026-07-14 the whole reward
+surface is $100 in-play table-tennis pools (`aec-czechligapro-*`, `max_pool=$100`), so the
+test would run there — keep size tiny because in-play fills are adverse-selection-prone.
+
+Switches (operator, on the `polymarket-mm` Render worker unless noted):
+- `POLY_LIVE_ARMED=true`   — real orders; unarmed runs the live path in **shadow ($0)**.
+- `POLY_ALLOW=czechligapro` — MUST permit the target market or nothing quotes (default is
+  `worldcup,fwc,-wc-`, which excludes table tennis). Match token vs slug+programId.
+- `POLY_SIZE=2 POLY_BUDGET=10 POLY_MAX_MARKETS=1 POLY_MAX_INVENTORY=5 POLY_EXPOSURE_CAP=8`.
+- `desired_mode=live` (+ small budget, `live_until=now+1h`) via `poly_control` — the app
+  "Go Live" button OR a direct Supabase write (the agent CAN flip this); arming stays
+  dashboard-only. Env changes need a fresh **deploy**, not a restart.
+
+Verify (worker log / heartbeat, or Render MCP logs once connected):
+- a `cycle: … placed_ok=N` with N>0 AND a read-back showing **open orders > 0** (RESTING,
+  not merely 200-ACKed).
+- if a fill occurs: heartbeat positions carry `netPosition`; breaker inventory reads
+  non-zero and trips past `MAX_INVENTORY`, then cancels-all + stands aside (bounded).
+- STOP: `desired_mode=track` (auto-cancels resting orders on leaving live) or
+  `POLY_LIVE_ARMED=false`. Worst case ≈ $5–10 gross, breaker-bounded.
+
+**Blocked on:** operator arming + (for agent-driven log verification) the Render MCP wired
+into a fresh cloud-agent run. Cloud-agent MCP is configured at cursor.com/agents (MCP
+dropdown) / Dashboard→Integrations&MCP — NOT the repo `.mcp.json` — and only loads in a
+NEW run. Render's MCP is Bearer-API-key (no OAuth), HTTP transport.

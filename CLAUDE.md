@@ -94,6 +94,12 @@ worker only** (sandbox geo-blocked). Next: Stage 2 selection-first quoting; Stag
 modeled-net readout w/ pre-registered GO/KILL. Can KILL the venue thesis for $0 if no market
 clears yield-vs-adverse-selection. Small bounded live test (PILOT.md) is the read-only-can't-
 answer backstop, gated on the fixed instrument surfacing a representative (not $100 in-play) pool.
+**Live surface as of 14:14Z: all $100 in-play table-tennis pools (`max_pool=$100`), top vol≈0
+(static/inactive books) — no fat pool to farm yet; instrument watches `max_pool`.** Decided
+(operator+agent): while waiting for a fat pool, run a **live-rails smoke test** (order rests?
+breaker reads `netPosition`?) — protocol in PILOT.md. Needs operator arming + **Render MCP wired
+into a FRESH cloud-agent run** (cloud MCP is dashboard-configured at cursor.com/agents, not repo
+`.mcp.json`; Render MCP = Bearer API key, HTTP; a running agent won't hot-load it).
 
 ### 2026-07-13 — Crypto Up/Down late-snipe PAPER harness (pspspsps5 method); LIVE data confirmed; open timing bug
 Andrew asked to test then implement pspspsps5's crypto Up/Down method (record open-spot →
