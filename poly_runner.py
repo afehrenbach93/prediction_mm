@@ -1617,10 +1617,13 @@ def crypto_shadow(log, state):
     # to ~T-4s of the soonest closing window, then stamp fast_side/fast_ask onto the same rows
     # (graded later against the same venue outcome) so we can compare T-4s vs the T-60s snipe.
     import time as _time
+    fnow0 = datetime.now(timezone.utc).timestamp()
     fast_due = [(s, r) for s, r in existing.items()
                 if r.get("outcome") in ("up", "down", "pending")
+                and not r.get("settled")                      # settled rows have a PAST close
                 and not (r.get("meta") or {}).get("fast_side")
-                and (r.get("meta") or {}).get("resolve_ts")]
+                and (r.get("meta") or {}).get("resolve_ts")
+                and float((r.get("meta") or {})["resolve_ts"]) - fnow0 > 3]  # future closes only
     if fast_due:
         soonest = min(float((r.get("meta") or {})["resolve_ts"]) for _, r in fast_due)
         lead = soonest - datetime.now(timezone.utc).timestamp()
