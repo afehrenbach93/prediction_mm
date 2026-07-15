@@ -73,6 +73,14 @@ read-only before funding; reconcile any tape-derived P&L against account balance
 
 ## Incident Log
 
+### 2026-07-15 (later) — Whale scout (read-only): rank by official PROFIT, paper-copy trades
+Parallel research thesis to the reward farm: can lagged copy of top wallets survive
+latency? Built `core/whalescout.py` + `poly_runner.whale_scout` (env `WHALE_SCOUT=1`):
+pulls `lb-api/profit` (never volume-rank), filters `min_profit`, round-robins activity
+for top N, records `model='whale-scout'` rows with their fill + lagged CLOB `copy_ask` /
+`lag_bps`. $0 / no orders / offshore .com observe-only (US person still can't place).
+Heartbeat: `detail.whale_scout`. Does NOT interrupt the Liga MX economics pilot.
+
 ### 2026-07-15 — Economics pilot ARMED on Liga MX $2400 pools (24h window)
 `max_pool` rose from $100 → **$2400** (`atc-lmx-*`). Bounded economics pilot started 19:56Z:
 `POLY_ALLOW=lmx`, budget/size `$50`/`25`, `MAX_MARKETS=2`, `POLY_VOL_CAP=0.05`,

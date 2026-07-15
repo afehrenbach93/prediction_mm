@@ -1867,6 +1867,101 @@ def mirror_pspspsps5(log, state):
     log(f"mirror: +{len(rows)} trades | positions n={npos} realizedPnl_sum={realized}")
 
 
+def whale_scout(log, state):
+    """READ-ONLY whale scout — find top wallets by OFFICIAL leaderboard PROFIT
+    (lb-api/profit, not volume), mirror their recent public TRADE activity, and stamp
+    a lagged copy_ask (CLOB best ask at observation time) so we can paper-score whether
+    copy-trading survives latency. $0 / no orders / offshore .com observe-only — a US
+    person still can't place these. Env: WHALE_SCOUT_N (10), WHALE_SCOUT_MIN_PROFIT (1e4),
+    WHALE_SCOUT_WINDOW (30d), WHALE_SCOUT_TRADE_LIMIT (40)."""
+    import json as _json
+    import urllib.request as _u
+    from datetime import date as _date
+    from core import track, whalescout as ws
+    def _get(url):
+        try:
+            with _u.urlopen(_u.Request(url, headers={"User-Agent": "prediction-mm/whale-scout",
+                                                     "Accept": "application/json"}),
+                            timeout=15) as r:
+                return r.status, _json.loads(r.read())
+        except Exception as e:
+            return getattr(e, "code", None), {"_err": str(e)[:160]}
+    def _clob_ask(token_id):
+        if not token_id:
+            return None
+        st, d = _get(f"https://clob.polymarket.com/book?token_id={token_id}")
+        if st != 200 or not isinstance(d, dict):
+            return None
+        try:
+            asks = d.get("asks") or []
+            if not asks:
+                return None
+            # CLOB book levels are {price, size}; best ask = lowest price
+            return min(float(a["price"]) for a in asks if a.get("price") is not None)
+        except Exception:
+            return None
+    n = int(os.getenv("WHALE_SCOUT_N", "10"))
+    min_profit = float(os.getenv("WHALE_SCOUT_MIN_PROFIT", "10000"))
+    window = os.getenv("WHALE_SCOUT_WINDOW", "30d").strip() or "30d"
+    trade_lim = int(os.getenv("WHALE_SCOUT_TRADE_LIMIT", "40"))
+    st, raw = _get(f"https://lb-api.polymarket.com/profit?window={window}&limit={max(n * 3, 30)}")
+    if st != 200:
+        log(f"whale-scout: profit lb http={st} {str(raw)[:120]}")
+        return
+    profit_rows = ws.parse_lb_rows(raw)
+    # optional volume enrich (best-effort; never the rank key)
+    vol_by = {}
+    for r in profit_rows[: max(n * 2, 10)]:
+        vst, vraw = _get(f"https://lb-api.polymarket.com/volume?window={window}"
+                         f"&limit=1&address={r['addr']}")
+        if vst == 200:
+            vrows = ws.parse_lb_rows(vraw)
+            if vrows:
+                vol_by[r["addr"]] = vrows[0]["amount"]
+    whales = ws.select_whales(profit_rows, vol_by, min_profit=min_profit, max_n=n)
+    if not whales:
+        state["summary"] = {"n": 0, "window": window, "note": "no whales cleared min_profit",
+                            "ts": datetime.now(timezone.utc).strftime("%H:%MZ")}
+        log(f"whale-scout: 0 whales cleared min_profit=${min_profit:.0f} ({window})")
+        return
+    today = _date.today().isoformat()
+    seen = state.setdefault("seen", set())
+    new_rows, n_trades = [], 0
+    # rotate which whale we deep-fetch so a slow timer covers the set without bursting
+    idx = int(state.get("rr", 0)) % len(whales)
+    state["rr"] = idx + 1
+    focus = whales[idx]
+    st_a, acts = _get(f"https://data-api.polymarket.com/activity?user={focus['addr']}"
+                      f"&limit={trade_lim}")
+    if st_a == 200 and isinstance(acts, list):
+        for a in acts:
+            if not ws.is_trade(a):
+                continue
+            key = ws.trade_dedupe_key(a)
+            if key in seen:
+                continue
+            seen.add(key)
+            # lagged executable price — what WE would pay to copy when we first saw it
+            copy_ask = _clob_ask(a.get("asset"))
+            new_rows.append(ws.paper_copy_record(a, focus, copy_ask=copy_ask,
+                                                 today=today, window=window))
+            n_trades += 1
+    if new_rows:
+        track.record_predictions(new_rows)
+    # keep seen-set bounded
+    if len(seen) > 5000:
+        state["seen"] = set(list(seen)[-2000:])
+    state["summary"] = {
+        "n": len(whales), "window": window, "min_profit": min_profit,
+        "focus": focus["name"], "new_trades": n_trades,
+        "top": [{"name": w["name"], "profit": round(w["amount"]),
+                 "vol": round(w.get("volume") or 0), "addr": w["addr"][:10]}
+                for w in whales[:5]],
+        "ts": datetime.now(timezone.utc).strftime("%H:%MZ")}
+    log(f"whale-scout: {len(whales)} whales ({window}) focus={focus['name']} "
+        f"+{n_trades} trades | top_pnl={[ (w['name'], round(w['amount'])) for w in whales[:3] ]}")
+
+
 def crypto_probe(log):
     """READ-ONLY reachability probe (env-gated, one-shot) for the short-term crypto
     Up/Down strategy: can this worker (US Render egress) reach (a) Polymarket's PUBLIC
@@ -2224,11 +2319,12 @@ def main():
         golf_rec: set[str] = set()
         last_wx = last_soc = last_sports = last_settle = last_hb = last_pnl = 0.0
         last_wxchk = last_odds = last_mlb = last_users = last_crypto = 0.0
-        last_mirror = last_ryield = 0.0
+        last_mirror = last_ryield = last_whale = 0.0
         odds_state: dict = {}
         crypto_state: dict = {}
         mirror_state: dict = {}
         ryield_state: dict = {}
+        whale_state: dict = {}
         PNL_EVERY = 300          # log an account P&L snapshot every 5 min while live
         pnl_summ: dict = {}
         # multi-user execution: ONE shared brain, one client per registered venue
@@ -2404,6 +2500,13 @@ def main():
                 except Exception as e:
                     log(f"mirror error: {e}")
                 last_mirror = now
+            # Whale scout — top wallets by OFFICIAL profit; paper-copy their trades (read-only).
+            if os.getenv("WHALE_SCOUT") and now - last_whale >= 300:
+                try:
+                    whale_scout(log, whale_state)
+                except Exception as e:
+                    log(f"whale-scout error: {e}")
+                last_whale = now
             # Reward-YIELD diagnostic (Stage 1) — read-only pool-yield vs adverse-selection
             # ranking, surfaced in the heartbeat. The per-cycle sampler accumulates a
             # rolling mid history for the watched markets; the scan re-ranks every 10 min
@@ -2472,6 +2575,8 @@ def main():
                                       for a in accounts.values()}
                 if ryield_state.get("summary"):
                     wx_hb["reward_yield"] = ryield_state["summary"]
+                if whale_state.get("summary"):
+                    wx_hb["whale_scout"] = whale_state["summary"]
                 if live_now:
                     _track.heartbeat("live" if LIVE_ARMED else "live-shadow",
                                      res.get("status", "?"),
