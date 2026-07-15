@@ -129,3 +129,26 @@ loss). Not yet exercised: breaker tripping on a real fill (no fill occurred; it'
 and the `netPosition` read is confirmed). Driven via the direct Render API + Supabase (the
 Render MCP plugin is connected but its `${RENDER_API_KEY}` header didn't resolve — used the
 valid VM `RENDER_API_KEY` directly).
+
+## Economics pilot — RUNNING (started 2026-07-15 19:56Z)
+Fat pool arrived (`max_pool=$2400` Liga MX `atc-lmx-*`). Bounded live economics pilot armed:
+
+| knob | value |
+|------|-------|
+| `POLY_ALLOW` | `lmx` (fat-pool only; briefly included aec then tightened) |
+| `POLY_BUDGET` / control budget | `$50` |
+| `POLY_SIZE` / `POLY_MAX_MARKETS` | `25` / `2` |
+| `POLY_VOL_CAP` | `0.05` (Stage 2 hard-exclude choppy legs) |
+| `POLY_MAX_INVENTORY` / `EXPOSURE_CAP` / `DAILY_LOSS` | `50` / `75` / `15` |
+| `POLY_LIVE_ARMED` | `true` |
+| `desired_mode` / `live_until` | `live` / **2026-07-16T19:56:18Z** (~24h) |
+| takers | `wx_taker=off`, `mlb_taker=off` |
+
+**Live confirmed:** quoting `atc-lmx-asl-caz-2026-07-17-{asl,caz}` @size=25, `placed_ok=4 rej=0`,
+readbacks `st=200`, `resting(pre-cancel)=2` across cycles. Heartbeat `mode=live status=quoting`.
+
+**Watch for 24–48h (GO/KILL):** modeled reward share vs inventory drift / unrealized loss;
+breaker trips; credited earnings later (~5+2bd). **KILL:** set `desired_mode=track` (auto-
+cancels resting) or restore `POLY_ALLOW` + `POLY_VOL_CAP=0`. Snapshot of pre-pilot allow was
+`aec,arankc,apdc,cranc`. Note: account balance read `$52.93` at arm (was `$127.93` on 07-14;
+`open_contracts=5` unchanged — not from this pilot's fills).

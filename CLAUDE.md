@@ -73,6 +73,14 @@ read-only before funding; reconcile any tape-derived P&L against account balance
 
 ## Incident Log
 
+### 2026-07-15 — Economics pilot ARMED on Liga MX $2400 pools (24h window)
+`max_pool` rose from $100 → **$2400** (`atc-lmx-*`). Bounded economics pilot started 19:56Z:
+`POLY_ALLOW=lmx`, budget/size `$50`/`25`, `MAX_MARKETS=2`, `POLY_VOL_CAP=0.05`,
+`desired_mode=live` until **2026-07-16T19:56Z**, takers off. Live-confirmed resting quotes on
+`atc-lmx-asl-caz-2026-07-17-{asl,caz}` @25 (`placed_ok=4 rej=0`, readback 200,
+`resting(pre-cancel)=2`). GO/KILL after 24–48h modeled-net vs adverse selection (see PILOT.md).
+Balance heartbeat `$52.93` (was `$127.93` 07-14; open lots still 5 — not from this pilot).
+
 ### 2026-07-14 (later) — Stage 2: selection-first quoting (prefer low-adverse-selection pools)
 `core.rewardyield.select_reward_markets` now drives which in-window reward markets `live_cycle`
 quotes: rank by reward-rate-per-unit-volatility (`pool/period_hours ÷ rolling vol`), optional
