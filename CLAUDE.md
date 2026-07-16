@@ -54,6 +54,9 @@ reward-earnings read confirms positive net economics.**
 | `core/polymaker.py` | Pure quoting: `maker_quotes` (join touch, inventory skew/cap), `program_active` (period-driven reward window). |
 | `lib/fairvalue.py` | **Dormant** salvage — spot-anchored fair value (Bachelier). Not used by the reward maker. |
 | `scripts/poly_scan.py` | Read-only reward-market book scan + pro-rata share estimate. |
+| `scripts/pilot_readout.py` | Same-day GO/KILL fact sheet from `poly_status` / `poly_control`. |
+| `scripts/whale_paper_score.py` | Whale-scout lag cost + optional settlement PnL at `copy_ask`. |
+| `scripts/reward_earnings.py` | Auth’d `/v1/incentives/earnings` credit reader (US egress). |
 | `tests/` | `test_polyclient_shadow` (no-leak gate), `test_polymaker`, `test_poly_breaker`, `test_fairvalue`. |
 
 Runtime is stdlib-only except `cryptography` (ED25519). Keys in repo-root `.env`
@@ -72,6 +75,14 @@ volatility to even fire (0 trades). Lesson that paid off repeatedly: **validate
 read-only before funding; reconcile any tape-derived P&L against account balance.**
 
 ## Incident Log
+
+### 2026-07-16 — Pilot EOD tooling + window tightened to original 19:56Z
+Confirmed +462 on `atc-fwc-eng-arg-2026-07-15-arg` is Andrew's manual bet (deny-listed).
+Reset `live_until` to original **2026-07-16T19:56:18Z** (rest-of-day, not overnight).
+Shipped same-day instruments while waiting: `scripts/pilot_readout.py` (GO/KILL from
+heartbeat), `scripts/whale_paper_score.py` (lag + optional gamma settle), 
+`scripts/reward_earnings.py` (`/v1/incentives/earnings`). Pure helpers in
+`core/pilotreadout.py` / `core/rewardearnings.py` + whale paper-score helpers.
 
 ### 2026-07-15 (later) — Whale scout (read-only): rank by official PROFIT, paper-copy trades
 Parallel research thesis to the reward farm: can lagged copy of top wallets survive
