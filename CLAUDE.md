@@ -73,6 +73,13 @@ read-only before funding; reconcile any tape-derived P&L against account balance
 
 ## Incident Log
 
+### 2026-07-16 — Economics pilot RESUMED (manual WC bet deny-listed)
+Breaker had stood the farm aside since 15th 20:19Z: `inventory +462 on
+atc-fwc-eng-arg-2026-07-15-arg` (Andrew's manual soccer bet, not the bot). Added that
+slug to `POLY_DENY_SLUGS`, redeployed, extended `live_until` to **2026-07-17T13:30Z**.
+Live-confirmed again: `mode=live status=quoting`, Liga MX `asl-caz` @25 resting
+(`placed_ok=4 rej=0`). Whale scout unaffected (~1.1k rows).
+
 ### 2026-07-15 (later) — Whale scout (read-only): rank by official PROFIT, paper-copy trades
 Parallel research thesis to the reward farm: can lagged copy of top wallets survive
 latency? Built `core/whalescout.py` + `poly_runner.whale_scout` (env `WHALE_SCOUT=1`):
