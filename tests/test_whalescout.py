@@ -66,5 +66,40 @@ class TestPaperCopy(unittest.TestCase):
         self.assertTrue(rec["market_slug"].startswith("foo-bar|"))
 
 
+class TestPaperScore(unittest.TestCase):
+    def test_lag_cost_summary(self):
+        rows = [
+            {"outcome": "buy", "market_ask": 0.50,
+             "meta": {"copy_ask": 0.55, "lag_bps": 1000.0}},
+            {"outcome": "buy", "market_ask": 0.40,
+             "meta": {"copy_ask": 0.40, "lag_bps": 0.0}},
+            {"outcome": "buy", "market_ask": 0.50, "meta": {}},  # no copy
+        ]
+        s = ws.lag_cost_summary(rows)
+        self.assertEqual(s["n"], 3)
+        self.assertEqual(s["n_with_copy_ask"], 2)
+        self.assertEqual(s["lag_mean_bps"], 500.0)
+        self.assertEqual(s["lag_median_bps"], 500.0)
+
+    def test_paper_pnl_buy(self):
+        self.assertEqual(ws.paper_pnl_at_copy("buy", 10, 0.40, True), 6.0)
+        self.assertEqual(ws.paper_pnl_at_copy("buy", 10, 0.40, False), -4.0)
+
+    def test_resolution_won(self):
+        self.assertTrue(ws.resolution_won(["Yes", "No"], ["1", "0"], "Yes"))
+        self.assertFalse(ws.resolution_won(["Yes", "No"], [1, 0], "No"))
+        self.assertIsNone(ws.resolution_won(["Yes", "No"], [0.55, 0.45], "Yes"))
+
+    def test_score_settled_rows(self):
+        rows = [{
+            "outcome": "buy", "market_ask": 0.5,
+            "meta": {"slug": "m1", "outcome_name": "Yes", "size": 10, "copy_ask": 0.4},
+        }]
+        res = {"m1": {"outcomes": ["Yes", "No"], "outcomePrices": ["1", "0"]}}
+        s = ws.score_settled_rows(rows, res)
+        self.assertEqual(s["n_scored"], 1)
+        self.assertEqual(s["paper_pnl"], 6.0)
+
+
 if __name__ == "__main__":
     unittest.main()

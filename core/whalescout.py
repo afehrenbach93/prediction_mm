@@ -129,3 +129,162 @@ def _lag_bps(their_px, copy_ask, side: str):
     if side == "sell":
         return round((their_px - copy_ask) / their_px * 10000, 1)
     return None
+
+
+def lag_cost_summary(rows: list[dict]) -> dict:
+    """Paper-score the LAG (no settlement needed): how much worse would our
+    lagged copy_ask have been vs their fill, in bps.
+
+    Each row is a model_predictions-shaped dict (market_ask=their fill,
+    meta.copy_ask / meta.lag_bps). Returns counts + lag distribution.
+    """
+    n = len(rows or [])
+    with_copy = []
+    lags = []
+    for r in rows or []:
+        meta = r.get("meta") or {}
+        if not isinstance(meta, dict):
+            continue
+        ca = meta.get("copy_ask")
+        if ca is None:
+            continue
+        with_copy.append(r)
+        lb = meta.get("lag_bps")
+        if lb is None:
+            lb = _lag_bps(r.get("market_ask"), ca, str(r.get("outcome") or "").lower())
+        if lb is not None:
+            try:
+                lags.append(float(lb))
+            except (TypeError, ValueError):
+                pass
+    lags.sort()
+    def _pct(p):
+        if not lags:
+            return None
+        if len(lags) == 1:
+            return lags[0]
+        pos = (p / 100.0) * (len(lags) - 1)
+        lo = int(pos)
+        hi = min(lo + 1, len(lags) - 1)
+        frac = pos - lo
+        return round(lags[lo] * (1.0 - frac) + lags[hi] * frac, 1)
+    return {
+        "n": n,
+        "n_with_copy_ask": len(with_copy),
+        "n_with_lag": len(lags),
+        "lag_mean_bps": round(sum(lags) / len(lags), 1) if lags else None,
+        "lag_median_bps": _pct(50),
+        "lag_p90_bps": _pct(90),
+        "lag_positive_frac": (round(sum(1 for x in lags if x > 0) / len(lags), 3)
+                              if lags else None),
+        "note": ("positive lag_bps = lagged copy worse than whale fill; "
+                 "settlement PnL is a separate pass"),
+    }
+
+
+def paper_pnl_at_copy(side: str, size: float, copy_ask: float,
+                      outcome_won: bool) -> float | None:
+    """Binary paper PnL if we copied at `copy_ask` for `size` contracts.
+
+    BUY of the named outcome: win → size*(1-ask), lose → -size*ask.
+    SELL of the named outcome: win (outcome pays) → -size*(1-ask)  [we sold it],
+    lose → +size*ask. Returns None on bad inputs.
+    """
+    try:
+        size = float(size)
+        copy_ask = float(copy_ask)
+    except (TypeError, ValueError):
+        return None
+    if size <= 0 or not (0.0 < copy_ask < 1.0):
+        return None
+    side = (side or "").lower()
+    if side == "buy":
+        return round(size * (1.0 - copy_ask) if outcome_won else -size * copy_ask, 4)
+    if side == "sell":
+        return round(-size * (1.0 - copy_ask) if outcome_won else size * copy_ask, 4)
+    return None
+
+
+def resolution_won(outcomes, outcome_prices, outcome_name: str) -> bool | None:
+    """Did `outcome_name` win on a resolved binary/multi market?
+
+    `outcomes` / `outcome_prices` are parallel lists (gamma shape; prices may be
+    JSON strings). Returns True/False when a clear winner exists, else None.
+    """
+    if outcome_name is None:
+        return None
+    try:
+        if isinstance(outcomes, str):
+            import json as _json
+            outcomes = _json.loads(outcomes)
+        if isinstance(outcome_prices, str):
+            import json as _json
+            outcome_prices = _json.loads(outcome_prices)
+    except Exception:
+        return None
+    if not (isinstance(outcomes, list) and isinstance(outcome_prices, list)):
+        return None
+    if len(outcomes) != len(outcome_prices) or not outcomes:
+        return None
+    try:
+        prices = [float(p) for p in outcome_prices]
+    except (TypeError, ValueError):
+        return None
+    # resolved markets pin the winner near 1.0
+    if max(prices) < 0.95:
+        return None
+    winner_idx = max(range(len(prices)), key=lambda i: prices[i])
+    want = str(outcome_name).strip().lower()
+    win = str(outcomes[winner_idx]).strip().lower()
+    return want == win
+
+
+def score_settled_rows(rows: list[dict],
+                       resolutions: dict) -> dict:
+    """Score rows that have copy_ask against a slug→{outcomes, outcomePrices} map.
+
+    `resolutions` keyed by meta.slug (or market base slug). Returns aggregate
+    paper PnL at the lagged copy price + hit counts. Does not mutate rows.
+    """
+    n_scored = 0
+    n_unresolved = 0
+    n_no_copy = 0
+    pnl_total = 0.0
+    hits = 0
+    for r in rows or []:
+        meta = r.get("meta") or {}
+        if not isinstance(meta, dict):
+            continue
+        ca = meta.get("copy_ask")
+        if ca is None:
+            n_no_copy += 1
+            continue
+        slug = meta.get("slug") or str(r.get("market_slug") or "").split("|", 1)[0]
+        res = resolutions.get(slug)
+        if not res:
+            n_unresolved += 1
+            continue
+        won = resolution_won(res.get("outcomes"), res.get("outcomePrices"),
+                             meta.get("outcome_name"))
+        if won is None:
+            n_unresolved += 1
+            continue
+        size = meta.get("size") or 0
+        pnl = paper_pnl_at_copy(r.get("outcome"), size, ca, won)
+        if pnl is None:
+            n_unresolved += 1
+            continue
+        n_scored += 1
+        pnl_total += pnl
+        if won and str(r.get("outcome") or "").lower() == "buy":
+            hits += 1
+        elif (not won) and str(r.get("outcome") or "").lower() == "sell":
+            hits += 1
+    return {
+        "n_scored": n_scored,
+        "n_unresolved": n_unresolved,
+        "n_no_copy": n_no_copy,
+        "paper_pnl": round(pnl_total, 4),
+        "hits": hits,
+        "hit_rate": round(hits / n_scored, 3) if n_scored else None,
+    }

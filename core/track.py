@@ -20,7 +20,10 @@ CONFLICT = "model,market_slug,settle_date,run_date"
 
 
 def _creds():
-    return os.getenv("SUPABASE_URL", ""), os.getenv("SUPABASE_ANON_KEY", "")
+    # ANON is what the app/worker use; SERVICE_KEY works for agent/scripts when
+    # ANON isn't present in the environment (same PostgREST surface).
+    key = os.getenv("SUPABASE_ANON_KEY") or os.getenv("SUPABASE_SERVICE_KEY") or ""
+    return os.getenv("SUPABASE_URL", ""), key
 
 
 def _now() -> str:
