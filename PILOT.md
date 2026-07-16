@@ -141,14 +141,19 @@ Fat pool arrived (`max_pool=$2400` Liga MX `atc-lmx-*`). Bounded live economics 
 | `POLY_VOL_CAP` | `0.05` (Stage 2 hard-exclude choppy legs) |
 | `POLY_MAX_INVENTORY` / `EXPOSURE_CAP` / `DAILY_LOSS` | `50` / `75` / `15` |
 | `POLY_LIVE_ARMED` | `true` |
-| `desired_mode` / `live_until` | `live` / **2026-07-16T19:56:18Z** (~24h) |
+| `desired_mode` / `live_until` | `live` / **2026-07-17T13:30:33Z** (extended after resume) |
 | takers | `wx_taker=off`, `mlb_taker=off` |
+| `POLY_DENY_SLUGS` | includes `atc-fwc-eng-arg-2026-07-15-arg` (Andrew's manual WC soccer bet; +462 inv — not bot) |
 
-**Live confirmed:** quoting `atc-lmx-asl-caz-2026-07-17-{asl,caz}` @size=25, `placed_ok=4 rej=0`,
-readbacks `st=200`, `resting(pre-cancel)=2` across cycles. Heartbeat `mode=live status=quoting`.
+**Live confirmed:** quoting Liga MX (`asl-caz` / similar) @size=25, `placed_ok=4 rej=0`,
+readbacks `st=200`, resting across cycles. Heartbeat `mode=live status=quoting`.
+
+**Resume (2026-07-16 ~13:30Z):** breaker had tripped on the manual +462 WC position and stood
+the farm aside since 15th 20:19Z. Deny-listed that slug (excluded from selection + inventory
+breaker), redeployed, cleared halt, extended `live_until`. Drop deny entry after it settles.
 
 **Watch for 24–48h (GO/KILL):** modeled reward share vs inventory drift / unrealized loss;
 breaker trips; credited earnings later (~5+2bd). **KILL:** set `desired_mode=track` (auto-
 cancels resting) or restore `POLY_ALLOW` + `POLY_VOL_CAP=0`. Snapshot of pre-pilot allow was
-`aec,arankc,apdc,cranc`. Note: account balance read `$52.93` at arm (was `$127.93` on 07-14;
-`open_contracts=5` unchanged — not from this pilot's fills).
+`aec,arankc,apdc,cranc`. Note: balance ~$465 at resume (deposit + manual bet); pilot budget
+still $50.
