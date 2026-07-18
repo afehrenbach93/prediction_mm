@@ -48,6 +48,32 @@ export type FlowScoutDetail = {
   ts?: string;
 };
 
+export type ArbScanDetail = {
+  n_slugs: number;
+  n_books: number;
+  n_families: number;
+  actionable_bin: number;
+  actionable_part: number;
+  suspect_part?: number;
+  with_depth?: number;
+  recorded: number;
+  cum_actionable?: number;
+  verdict?: string;
+  ts?: string;
+};
+
+export type SweepScoutDetail = {
+  n_slugs: number;
+  n_books: number;
+  candidates: number;
+  recorded: number;
+  cum_candidates?: number;
+  min_ask?: number;
+  max_ask?: number;
+  verdict?: string;
+  ts?: string;
+};
+
 export type OpsSnapshot = {
   mode: string;
   status: string;
@@ -64,6 +90,8 @@ export type OpsSnapshot = {
   reward_yield: RewardYieldDetail | null;
   whale_scout: WhaleScoutDetail | null;
   flow_scout: FlowScoutDetail | null;
+  arb_scan: ArbScanDetail | null;
+  sweep_scout: SweepScoutDetail | null;
   wx_on: boolean;
   mlb_on: boolean;
   wx_tripped: boolean;
@@ -79,6 +107,8 @@ export function parseOps(detail: any, mode = '', status = ''): OpsSnapshot {
   const ry = d.reward_yield && typeof d.reward_yield === 'object' ? d.reward_yield : null;
   const ws = d.whale_scout && typeof d.whale_scout === 'object' ? d.whale_scout : null;
   const fs = d.flow_scout && typeof d.flow_scout === 'object' ? d.flow_scout : null;
+  const ar = d.arb_scan && typeof d.arb_scan === 'object' ? d.arb_scan : null;
+  const sw = d.sweep_scout && typeof d.sweep_scout === 'object' ? d.sweep_scout : null;
   return {
     mode,
     status: status || String(d.status || ''),
@@ -141,6 +171,30 @@ export function parseOps(detail: any, mode = '', status = ''): OpsSnapshot {
       eg_frac: num(fs.eg_frac) ?? undefined,
       short_max: num(fs.short_max) ?? undefined,
       ts: fs.ts,
+    } : null,
+    arb_scan: ar ? {
+      n_slugs: Number(ar.n_slugs) || 0,
+      n_books: Number(ar.n_books) || 0,
+      n_families: Number(ar.n_families) || 0,
+      actionable_bin: Number(ar.actionable_bin) || 0,
+      actionable_part: Number(ar.actionable_part) || 0,
+      suspect_part: num(ar.suspect_part) ?? undefined,
+      with_depth: num(ar.with_depth) ?? undefined,
+      recorded: Number(ar.recorded) || 0,
+      cum_actionable: num(ar.cum_actionable) ?? undefined,
+      verdict: ar.verdict ? String(ar.verdict) : undefined,
+      ts: ar.ts,
+    } : null,
+    sweep_scout: sw ? {
+      n_slugs: Number(sw.n_slugs) || 0,
+      n_books: Number(sw.n_books) || 0,
+      candidates: Number(sw.candidates) || 0,
+      recorded: Number(sw.recorded) || 0,
+      cum_candidates: num(sw.cum_candidates) ?? undefined,
+      min_ask: num(sw.min_ask) ?? undefined,
+      max_ask: num(sw.max_ask) ?? undefined,
+      verdict: sw.verdict ? String(sw.verdict) : undefined,
+      ts: sw.ts,
     } : null,
     wx_on: !!d.wx_on,
     mlb_on: !!d.mlb_on,

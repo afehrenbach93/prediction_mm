@@ -55,7 +55,10 @@ reward-earnings read confirms positive net economics.**
 | `lib/fairvalue.py` | **Dormant** salvage — spot-anchored fair value (Bachelier). Not used by the reward maker. |
 | `scripts/poly_scan.py` | Read-only reward-market book scan + pro-rata share estimate. |
 | `scripts/flow_paper_score.py` | Flow-scout lag + settlement paper score (informed-size thesis). |
-| `tests/` | `test_polyclient_shadow` (no-leak gate), `test_polymaker`, `test_poly_breaker`, `test_fairvalue`. |
+| `scripts/arb_scan.py` | Same-venue complement/partition underround scan (paper). |
+| `scripts/sweep_scout.py` | Near-certainty settlement-window paper scout (no source gate). |
+| `core/arbscan.py` / `core/sweepscout.py` | Pure math for arb + sweep paper scouts. |
+| `tests/` | `test_polyclient_shadow` (no-leak gate), `test_polymaker`, `test_poly_breaker`, `test_fairvalue`, arb/sweep unit tests. |
 
 Runtime is stdlib-only except `cryptography` (ED25519). Keys in repo-root `.env`
 (`POLYMARKET_API_KEY` + `POLYMARKET_SECRET`); never commit them.
@@ -73,6 +76,16 @@ volatility to even fire (0 trades). Lesson that paid off repeatedly: **validate
 read-only before funding; reconcile any tape-derived P&L against account balance.**
 
 ## Incident Log
+
+### 2026-07-18 — Master-plan triage → arb/sweep *instruments* (WATCH, not done)
+External master plan mapped vs repo. Highest new promise: same-venue arb +
+settlement sweep — but **scaffolding ≠ validated edge**. Shipped detectors +
+paper-score CLIs + live baseline (2026-07-18Z): 503 books / 63 families →
+partition p50 raw edge **−4¢** (normal overround); 1 plausible small hit + several
+**SUSPECT** incomplete partitions (e.g. UFC champ +82¢ — not exhaustive). Sweep:
+0 candidates in band (max ask on scanned set 0.95). Verdict both **WATCH**.
+GO bars: arb ≥30 depth-backed hits + rules screen; sweep ≥50 settled @≥99%
+*and* named-source gate. Unit tests only prove math helpers.
 
 ### 2026-07-18 — App Overview overhaul (yield / whale / flow ops view)
 Dashboard was still World-Cup + Elo-model centric. Overview now shows worker hero

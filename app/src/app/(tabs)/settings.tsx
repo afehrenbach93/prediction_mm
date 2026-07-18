@@ -252,7 +252,14 @@ function StrategiesCard({ control, status, busy, setBusy, refresh }:
           {'\n'}Flow scout: {d.flow_scout
             ? `on · ${d.flow_scout.n_slugs ?? 0} slugs tracked`
             : 'off'}
-          {'\n'}Toggle these via Render env (REWARD_YIELD / WHALE_SCOUT / FLOW_SCOUT), not here.
+          {'\n'}Arb scan: {d.arb_scan
+            ? `on · ${d.arb_scan.verdict ?? 'WATCH'} · cum ${d.arb_scan.cum_actionable ?? 0} hits`
+            : 'off'}
+          {'\n'}Sweep scout: {d.sweep_scout
+            ? `on · ${d.sweep_scout.verdict ?? 'WATCH'} · cum ${d.sweep_scout.cum_candidates ?? 0}`
+            : 'off'}
+          {'\n'}Toggle via Render env (REWARD_YIELD / WHALE_SCOUT / FLOW_SCOUT / ARB_SCAN / SWEEP_SCOUT).
+          Instruments only — not proven edges.
         </Text>
         <Text style={s.modeDesc}>
           Turning a strategy off stops NEW orders only — resting orders and positions
