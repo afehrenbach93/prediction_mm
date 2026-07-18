@@ -74,6 +74,12 @@ read-only before funding; reconcile any tape-derived P&L against account balance
 
 ## Incident Log
 
+### 2026-07-18 — App Overview overhaul (yield / whale / flow ops view)
+Dashboard was still World-Cup + Elo-model centric. Overview now shows worker hero
+(mode, live_until, quote counts, pipeline chips), reward-pool & $/hr bar charts from
+`detail.reward_yield`, whale + flow scout panels, and paper-row counts. Settings
+Go Live copy → reward-maker pilot; research scouts listed as observe-only.
+
 ### 2026-07-18 — Flow scout (read-only): large tape prints as informed-flow proxy
 New research thesis parallel to whale-scout: unusually large prints may proxy informed
 money. Built `core/flowscout.py` + `poly_runner.flow_scout` (`FLOW_SCOUT=1`): polls
