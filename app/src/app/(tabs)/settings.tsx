@@ -52,9 +52,9 @@ export default function Settings() {
 
   const goLive = () => {
     Alert.alert(
-      'Go Live — World Cup',
-      `Quote World Cup reward markets for ~24h with a $${budget} budget, then auto-revert ` +
-      `to the tracker.\n\n${armed
+      'Go Live — Reward maker',
+      `Quote reward-eligible markets (POLY_ALLOW on the worker, currently Liga MX / fat pools) ` +
+      `for ~24h with a $${budget} budget, then auto-revert to track.\n\n${armed
         ? '⚠️ The worker is ARMED — this places REAL orders with real money.'
         : 'The worker is NOT armed, so this runs in shadow ($0, no real orders) until you set POLY_LIVE_ARMED on the worker.'}`,
       [{ text: 'Cancel', style: 'cancel' },
@@ -106,7 +106,7 @@ export default function Settings() {
           </Card>
         );
       })}
-      <SectionTitle>Go Live — World Cup</SectionTitle>
+      <SectionTitle>Go Live — Reward maker</SectionTitle>
       <Card>
         {isLive ? (
           <View>
@@ -117,7 +117,7 @@ export default function Settings() {
               </Text>
             </View>
             <Text style={s.modeDesc}>
-              Budget ${control?.budget ?? budget} · World Cup reward markets
+              Budget ${control?.budget ?? budget} · POLY_ALLOW markets on worker
               {liveUntil ? ` · auto-reverts ${liveUntil.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}` : ''}
             </Text>
             <View style={{ height: 10 }} />
@@ -127,8 +127,9 @@ export default function Settings() {
         ) : (
           <View>
             <Text style={s.modeDesc}>
-              Quote World Cup reward markets for ~24h, bounded, then auto-revert to the
-              read-only tracker. {armed
+              Bounded live economics pilot on reward-eligible markets (~24h), then
+              auto-revert to track. Scope is set by worker env (POLY_ALLOW / deny /
+              vol cap) — not this button. {armed
                 ? 'Worker is ARMED — real orders.'
                 : 'Worker not armed — runs in shadow ($0) until POLY_LIVE_ARMED is set.'}
             </Text>
@@ -147,9 +148,8 @@ export default function Settings() {
         )}
       </Card>
       <Text style={s.note}>
-        Live runs only the World-Cup reward maker, bounded by budget with a daily-loss
-        breaker and auto-revert. Heads-up: the live order path is not yet proven (last
-        pilot’s post-only orders didn’t rest), so watch the Overview after going live.
+        Live = reward-maker quoting only (breakers + auto-revert). Whale / flow scouts
+        stay paper-only. Watch Overview for pool rankings, quote counts, and scout flags.
       </Text>
 
       <SectionTitle>Account</SectionTitle>
@@ -244,6 +244,16 @@ function StrategiesCard({ control, status, busy, setBusy, refresh }:
         {row('MLB probe', mlbOn, d.mlb_tripped === true, d.mlb_taker ?? '',
              mlbBudget, applying(mlbOn, mlbBudget, d.mlb_on, d.mlb_budget),
              'mlb_taker', 'mlb_budget')}
+        <View style={s.stratDivider} />
+        <Text style={s.modeLabel}>Research (worker env · observe-only)</Text>
+        <Text style={s.modeDesc}>
+          Reward yield: {d.reward_yield ? `on · max pool $${d.reward_yield.max_pool ?? '—'}` : 'off'}
+          {'\n'}Whale scout: {d.whale_scout ? `on · ${d.whale_scout.n ?? 0} whales` : 'off'}
+          {'\n'}Flow scout: {d.flow_scout
+            ? `on · ${d.flow_scout.n_slugs ?? 0} slugs tracked`
+            : 'off'}
+          {'\n'}Toggle these via Render env (REWARD_YIELD / WHALE_SCOUT / FLOW_SCOUT), not here.
+        </Text>
         <Text style={s.modeDesc}>
           Turning a strategy off stops NEW orders only — resting orders and positions
           ride (use My trading → Turn off to also cancel your resting bot orders).

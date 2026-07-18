@@ -26,6 +26,8 @@ export const MODEL_META: Record<string, { label: string; color: string }> = {
   'elo-atp': { label: 'Tennis ATP · Elo', color: C.green },
   'elo-wta': { label: 'Tennis WTA · Elo', color: C.purple },
   'golf-skill': { label: 'Golf · Field model', color: C.amber },
+  'whale-scout': { label: 'Whale scout · paper copy', color: C.purple },
+  'flow-scout': { label: 'Flow scout · size spikes', color: C.amber },
 };
 
 export const modelLabel = (m: string) => MODEL_META[m]?.label ?? m;
@@ -35,12 +37,15 @@ export function statusColor(status: string, heartbeatAgeS: number | null): strin
   if (heartbeatAgeS == null || heartbeatAgeS > 300) return C.dim;     // dead/no heartbeat
   if (status === 'off' || status === 'tripped') return C.red;
   if (status === 'idle') return C.amber;
-  return C.green;                                                     // recording
+  if (status === 'quoting') return C.green;
+  return C.green;                                                     // recording / healthy
 }
 
 export function statusLabel(status: string, heartbeatAgeS: number | null): string {
   if (heartbeatAgeS == null) return 'no heartbeat';
   if (heartbeatAgeS > 300) return `dead (${Math.round(heartbeatAgeS / 60)}m silent)`;
+  if (status === 'quoting') return 'quoting (live orders)';
+  if (status === 'recording') return 'recording (research)';
   return status || 'unknown';
 }
 
