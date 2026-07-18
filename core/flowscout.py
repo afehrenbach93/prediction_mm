@@ -85,18 +85,79 @@ def minutes_to_end(end_ts, now_ts) -> float | None:
     return (end_ts - now_ts) / 60.0
 
 
-def in_endgame(minutes_left: float | None, max_minutes: float) -> bool:
-    """Within the endgame window. max_minutes<=0 means 'any time counts'."""
-    if max_minutes is None or float(max_minutes) <= 0:
+def market_duration_minutes(start_ts, end_ts) -> float | None:
+    """Listed market lifetime in minutes (end - start). None if unknown/invalid."""
+    try:
+        start_ts = float(start_ts)
+        end_ts = float(end_ts)
+    except (TypeError, ValueError):
+        return None
+    if end_ts <= start_ts:
+        return None
+    return (end_ts - start_ts) / 60.0
+
+
+def endgame_window_minutes(duration_min: float | None, *,
+                           frac: float = 0.5,
+                           floor_min: float = 30.0,
+                           cap_min: float = 360.0,
+                           short_max: float = 240.0) -> float | None:
+    """How many minutes-before-end count as endgame for THIS market.
+
+    Fixed absolute windows (e.g. always 180) are wrong across types:
+      - 3h soccer / UFC: want most/all of the live event, not just a tail slice
+        that assumes a multi-day market.
+      - week-long politics: last 50% would be days — must CAP.
+
+    Rules:
+      - unknown duration → None (caller decides)
+      - short markets (duration ≤ short_max, default 4h) → window = full duration
+        (any spike while the market is still live is "in play / endgame")
+      - longer markets → clamp(duration * frac, floor, cap)
+        defaults: last 50%, at least 30m, at most 6h
+    """
+    if duration_min is None:
+        return None
+    try:
+        duration_min = float(duration_min)
+        frac = float(frac)
+        floor_min = float(floor_min)
+        cap_min = float(cap_min)
+        short_max = float(short_max)
+    except (TypeError, ValueError):
+        return None
+    if duration_min <= 0:
+        return None
+    if duration_min <= short_max:
+        return duration_min
+    # longer-dated: relative slice, bounded
+    frac = min(max(frac, 0.05), 1.0)
+    return max(floor_min, min(cap_min, duration_min * frac))
+
+
+def in_endgame(minutes_left: float | None, window_min: float | None) -> bool:
+    """True if minutes_left is inside [0, window_min].
+
+    window_min None → False (unknown schedule; still record spike, just untagged).
+    window_min <= 0 → True (explicit any-time endgame tag — rare).
+    """
+    if window_min is None:
+        return False
+    try:
+        window_min = float(window_min)
+    except (TypeError, ValueError):
+        return False
+    if window_min <= 0:
         return True
     if minutes_left is None:
         return False
-    return 0 <= float(minutes_left) <= float(max_minutes)
+    return 0 <= float(minutes_left) <= window_min
 
 
 def paper_flow_record(trade: dict, *, copy_ask=None, spike_mult=None,
                       baseline_med=None, minutes_left=None, today: str = "",
-                      endgame: bool = False) -> dict:
+                      endgame: bool = False, duration_min=None,
+                      endgame_window=None) -> dict:
     """Shape one flagged print into a model_predictions row (model='flow-scout')."""
     base = str(trade.get("slug") or trade.get("conditionId") or "")[:88]
     tx = str(trade.get("transactionHash") or "")
@@ -134,6 +195,9 @@ def paper_flow_record(trade: dict, *, copy_ask=None, spike_mult=None,
             "spike_mult": spike_mult,
             "baseline_med": baseline_med,
             "minutes_left": (round(minutes_left, 1) if minutes_left is not None else None),
+            "duration_min": (round(duration_min, 1) if duration_min is not None else None),
+            "endgame_window": (round(endgame_window, 1)
+                               if endgame_window is not None else None),
             "endgame": bool(endgame),
             "copy_ask": copy_ask,
             "lag_bps": (_lag_bps(their_px, copy_ask, side)

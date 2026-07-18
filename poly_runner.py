@@ -1868,14 +1868,22 @@ def mirror_pspspsps5(log, state):
 
 
 def flow_scout(log, state):
-    """READ-ONLY informed-flow scout — flag unusually LARGE tape prints (esp. near
-    market end) on offshore .com, stamp lagged copy_ask, paper-score later.
-    Thesis: size spikes may proxy informed money. $0 / no orders. Env:
-      FLOW_SCOUT_MULT (5), FLOW_SCOUT_MIN_SIZE (100), FLOW_SCOUT_ENDGAME_MIN (180;
-      0 = flag any-time spikes), FLOW_SCOUT_TRADE_LIMIT (120)."""
+    """READ-ONLY informed-flow scout — flag unusually LARGE tape prints on offshore
+    .com, stamp lagged copy_ask, paper-score later. $0 / no orders.
+
+    Endgame is DURATION-RELATIVE (not a fixed 180m): short sports (≤4h listed life)
+    treat the whole live window as endgame; longer markets use last 50% clamped to
+    [30m, 6h]. By default we record ALL size spikes and TAG endgame for stratified
+    scoring — set FLOW_SCOUT_ENDGAME_ONLY=1 to drop non-endgame (legacy strict).
+
+    Env: FLOW_SCOUT_MULT (5), FLOW_SCOUT_MIN_SIZE (100), FLOW_SCOUT_TRADE_LIMIT (120),
+    FLOW_SCOUT_ENDGAME_FRAC (0.5), FLOW_SCOUT_ENDGAME_FLOOR (30),
+    FLOW_SCOUT_ENDGAME_CAP (360), FLOW_SCOUT_SHORT_MAX (240),
+    FLOW_SCOUT_ENDGAME_ONLY (0)."""
     import json as _json
     import urllib.request as _u
     from datetime import date as _date
+    from urllib.parse import quote as _quote
     from core import track, flowscout as fs
     def _get(url):
         try:
@@ -1896,28 +1904,39 @@ def flow_scout(log, state):
             return min(float(a["price"]) for a in asks if a.get("price") is not None) if asks else None
         except Exception:
             return None
-    def _end_ts(slug):
-        """Cache gamma endDate (unix) per slug; None if unknown."""
-        cache = state.setdefault("ends", {})
+    def _schedule(slug):
+        """Cache gamma (start_ts, end_ts) per slug; either may be None."""
+        cache = state.setdefault("sched", {})
         if slug in cache:
             return cache[slug]
-        from urllib.parse import quote as _quote
         st, raw = _get(f"https://gamma-api.polymarket.com/markets?slug={_quote(slug, safe='')}")
-        end = None
+        start = end = None
         if st == 200 and isinstance(raw, list) and raw:
-            ed = raw[0].get("endDate") or raw[0].get("end_date_iso")
-            if ed:
+            m = raw[0]
+            for key, slot in (("startDate", "start"), ("endDate", "end"),
+                              ("eventStartTime", "start"), ("end_date_iso", "end")):
+                ed = m.get(key)
+                if not ed:
+                    continue
                 try:
-                    end = datetime.fromisoformat(str(ed).replace("Z", "+00:00")).timestamp()
+                    ts = datetime.fromisoformat(str(ed).replace("Z", "+00:00")).timestamp()
                 except Exception:
-                    end = None
-        cache[slug] = end
-        return end
+                    continue
+                if slot == "start" and start is None:
+                    start = ts
+                if slot == "end" and end is None:
+                    end = ts
+        cache[slug] = (start, end)
+        return cache[slug]
 
     mult = float(os.getenv("FLOW_SCOUT_MULT", "5"))
     min_size = float(os.getenv("FLOW_SCOUT_MIN_SIZE", "100"))
-    endgame_min = float(os.getenv("FLOW_SCOUT_ENDGAME_MIN", "180"))
     trade_lim = int(os.getenv("FLOW_SCOUT_TRADE_LIMIT", "120"))
+    eg_frac = float(os.getenv("FLOW_SCOUT_ENDGAME_FRAC", "0.5"))
+    eg_floor = float(os.getenv("FLOW_SCOUT_ENDGAME_FLOOR", "30"))
+    eg_cap = float(os.getenv("FLOW_SCOUT_ENDGAME_CAP", "360"))
+    short_max = float(os.getenv("FLOW_SCOUT_SHORT_MAX", "240"))
+    endgame_only = os.getenv("FLOW_SCOUT_ENDGAME_ONLY", "").strip() in ("1", "true", "yes")
     st, raw = _get(f"https://data-api.polymarket.com/trades?limit={trade_lim}")
     if st != 200 or not isinstance(raw, list):
         log(f"flow-scout: trades http={st} {str(raw)[:120]}")
@@ -1926,7 +1945,7 @@ def flow_scout(log, state):
     now_ts = datetime.now(timezone.utc).timestamp()
     seen = state.setdefault("seen", set())
     baselines = state.setdefault("baselines", {})  # slug -> [sizes]
-    new_rows, n_flagged, n_endgame = [], 0, 0
+    new_rows, n_flagged, n_endgame, n_dropped = [], 0, 0, 0
     # process oldest→newest so baseline warms before later spikes
     trades = list(reversed(raw))
     for t in trades:
@@ -1947,15 +1966,21 @@ def flow_scout(log, state):
         fs.push_baseline(hist, size)
         if not spiked:
             continue
-        end = _end_ts(slug)
+        start, end = _schedule(slug)
+        dur = fs.market_duration_minutes(start, end) if (start and end) else None
+        # if we only have end, still compute minutes_left; window unknown → not endgame
         mins = fs.minutes_to_end(end, now_ts) if end else None
-        eg = fs.in_endgame(mins, endgame_min)
-        if endgame_min > 0 and not eg:
-            continue  # gated to endgame only when window > 0
+        window = fs.endgame_window_minutes(dur, frac=eg_frac, floor_min=eg_floor,
+                                           cap_min=eg_cap, short_max=short_max)
+        eg = fs.in_endgame(mins, window)
+        if endgame_only and not eg:
+            n_dropped += 1
+            continue
         copy_ask = _clob_ask(t.get("asset"))
         new_rows.append(fs.paper_flow_record(
             t, copy_ask=copy_ask, spike_mult=(round(size / med, 2) if med else None),
-            baseline_med=med, minutes_left=mins, today=today, endgame=eg))
+            baseline_med=med, minutes_left=mins, today=today, endgame=eg,
+            duration_min=dur, endgame_window=window))
         n_flagged += 1
         if eg:
             n_endgame += 1
@@ -1965,11 +1990,14 @@ def flow_scout(log, state):
         state["seen"] = set(list(seen)[-3000:])
     state["summary"] = {
         "n_slugs": len(baselines), "new_flags": n_flagged, "endgame_flags": n_endgame,
-        "mult": mult, "min_size": min_size, "endgame_min": endgame_min,
+        "dropped_non_eg": n_dropped, "endgame_only": endgame_only,
+        "mult": mult, "min_size": min_size,
+        "eg_frac": eg_frac, "short_max": short_max,
         "ts": datetime.now(timezone.utc).strftime("%H:%MZ"),
     }
     log(f"flow-scout: scanned={len(raw)} flags=+{n_flagged} endgame={n_endgame} "
-        f"slugs_tracked={len(baselines)} mult={mult}x min_size={min_size}")
+        f"dropped_non_eg={n_dropped} slugs={len(baselines)} mult={mult}x "
+        f"short_max={short_max:.0f}m only={int(endgame_only)}")
 
 
 def whale_scout(log, state):

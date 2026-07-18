@@ -157,10 +157,19 @@ cancels resting) or restore `POLY_ALLOW` + `POLY_VOL_CAP=0`. Snapshot of pre-pil
 
 ## Flow scout — informed-size / endgame tape (observe-only)
 
-**Thesis:** a print much larger than a market’s recent tape — especially in the last
-~3h before end — may carry information. We flag it, record a lagged executable price,
+**Thesis:** a print much larger than a market’s recent tape — especially late in that
+market’s own life — may carry information. We flag it, record a lagged executable price,
 and paper-score vs settlement. No orders. Offshore `.com` observe-only (US person still
 can’t place); if GO, next question is whether a US-tradable parallel exists.
+
+**Endgame window is duration-relative (not a fixed 180 minutes):**
+| Market listed life | Endgame tag |
+|--------------------|-------------|
+| ≤ 4h (soccer/UFC/TT) | **whole live window** — kickoff spike counts |
+| longer (days/weeks) | last **50%** of duration, clamped to **[30m, 6h]** |
+
+Default: record **all** size spikes; tag `meta.endgame` for stratified scoring. Optional
+`FLOW_SCOUT_ENDGAME_ONLY=1` drops non-endgame (strict mode).
 
 **What success looks like (GO):**
 1. ≥**100** settled `flow-scout` flags (enough sample).
@@ -172,11 +181,10 @@ can’t place); if GO, next question is whether a US-tradable parallel exists.
 
 **Run:**
 ```bash
-# worker env
 FLOW_SCOUT=1
 FLOW_SCOUT_MULT=5
 FLOW_SCOUT_MIN_SIZE=100
-FLOW_SCOUT_ENDGAME_MIN=180   # 0 = flag spikes any time
+# FLOW_SCOUT_ENDGAME_ONLY=1   # optional strict
 
 python scripts/flow_paper_score.py
 python scripts/flow_paper_score.py --settle

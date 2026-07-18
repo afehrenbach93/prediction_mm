@@ -74,15 +74,14 @@ read-only before funding; reconcile any tape-derived P&L against account balance
 
 ## Incident Log
 
-### 2026-07-18 — Flow scout (read-only): large endgame tape prints as informed-flow proxy
-New research thesis parallel to whale-scout: unusually large prints near market end may
-proxy informed money. Built `core/flowscout.py` + `poly_runner.flow_scout` (env
-`FLOW_SCOUT=1`): polls `data-api/trades`, warms per-slug size baseline, flags prints
-≥`FLOW_SCOUT_MULT`× median and ≥`FLOW_SCOUT_MIN_SIZE`, optionally gated to
-≤`FLOW_SCOUT_ENDGAME_MIN` minutes-to-end; stamps lagged CLOB `copy_ask`. Rows
-`model='flow-scout'`. Score: `scripts/flow_paper_score.py`. **GO:** ≥100 settled,
-paper PnL@copy_ask > 0, hit ≥55%. **KILL:** coin-flip / negative EV after lag. $0 /
-no orders / .com observe-only. Does not re-arm the reward farm.
+### 2026-07-18 — Flow scout (read-only): large tape prints as informed-flow proxy
+New research thesis parallel to whale-scout: unusually large prints may proxy informed
+money. Built `core/flowscout.py` + `poly_runner.flow_scout` (`FLOW_SCOUT=1`): polls
+`data-api/trades`, per-slug size baseline, flags ≥mult× median. **Endgame is
+duration-relative** (short ≤4h sports = whole live window; longer = last 50% clamped
+[30m,6h]) — not a fixed 180m clock that would mishandle short events. Default records
+all spikes + tags endgame; `ENDGAME_ONLY=1` for strict. Score:
+`scripts/flow_paper_score.py`. GO ≥100 settled / PnL>0 / hit≥55%. $0 / .com observe-only.
 
 ### 2026-07-15 (later) — Whale scout (read-only): rank by official PROFIT, paper-copy trades
 Parallel research thesis to the reward farm: can lagged copy of top wallets survive
