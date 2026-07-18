@@ -1867,6 +1867,139 @@ def mirror_pspspsps5(log, state):
     log(f"mirror: +{len(rows)} trades | positions n={npos} realizedPnl_sum={realized}")
 
 
+def flow_scout(log, state):
+    """READ-ONLY informed-flow scout — flag unusually LARGE tape prints on offshore
+    .com, stamp lagged copy_ask, paper-score later. $0 / no orders.
+
+    Endgame is DURATION-RELATIVE (not a fixed 180m): short sports (≤4h listed life)
+    treat the whole live window as endgame; longer markets use last 50% clamped to
+    [30m, 6h]. By default we record ALL size spikes and TAG endgame for stratified
+    scoring — set FLOW_SCOUT_ENDGAME_ONLY=1 to drop non-endgame (legacy strict).
+
+    Env: FLOW_SCOUT_MULT (5), FLOW_SCOUT_MIN_SIZE (100), FLOW_SCOUT_TRADE_LIMIT (120),
+    FLOW_SCOUT_ENDGAME_FRAC (0.5), FLOW_SCOUT_ENDGAME_FLOOR (30),
+    FLOW_SCOUT_ENDGAME_CAP (360), FLOW_SCOUT_SHORT_MAX (240),
+    FLOW_SCOUT_ENDGAME_ONLY (0)."""
+    import json as _json
+    import urllib.request as _u
+    from datetime import date as _date
+    from urllib.parse import quote as _quote
+    from core import track, flowscout as fs
+    def _get(url):
+        try:
+            with _u.urlopen(_u.Request(url, headers={"User-Agent": "prediction-mm/flow-scout",
+                                                     "Accept": "application/json"}),
+                            timeout=15) as r:
+                return r.status, _json.loads(r.read())
+        except Exception as e:
+            return getattr(e, "code", None), {"_err": str(e)[:160]}
+    def _clob_ask(token_id):
+        if not token_id:
+            return None
+        st, d = _get(f"https://clob.polymarket.com/book?token_id={token_id}")
+        if st != 200 or not isinstance(d, dict):
+            return None
+        try:
+            asks = d.get("asks") or []
+            return min(float(a["price"]) for a in asks if a.get("price") is not None) if asks else None
+        except Exception:
+            return None
+    def _schedule(slug):
+        """Cache gamma (start_ts, end_ts) per slug; either may be None."""
+        cache = state.setdefault("sched", {})
+        if slug in cache:
+            return cache[slug]
+        st, raw = _get(f"https://gamma-api.polymarket.com/markets?slug={_quote(slug, safe='')}")
+        start = end = None
+        if st == 200 and isinstance(raw, list) and raw:
+            m = raw[0]
+            for key, slot in (("startDate", "start"), ("endDate", "end"),
+                              ("eventStartTime", "start"), ("end_date_iso", "end")):
+                ed = m.get(key)
+                if not ed:
+                    continue
+                try:
+                    ts = datetime.fromisoformat(str(ed).replace("Z", "+00:00")).timestamp()
+                except Exception:
+                    continue
+                if slot == "start" and start is None:
+                    start = ts
+                if slot == "end" and end is None:
+                    end = ts
+        cache[slug] = (start, end)
+        return cache[slug]
+
+    mult = float(os.getenv("FLOW_SCOUT_MULT", "5"))
+    min_size = float(os.getenv("FLOW_SCOUT_MIN_SIZE", "100"))
+    trade_lim = int(os.getenv("FLOW_SCOUT_TRADE_LIMIT", "120"))
+    eg_frac = float(os.getenv("FLOW_SCOUT_ENDGAME_FRAC", "0.5"))
+    eg_floor = float(os.getenv("FLOW_SCOUT_ENDGAME_FLOOR", "30"))
+    eg_cap = float(os.getenv("FLOW_SCOUT_ENDGAME_CAP", "360"))
+    short_max = float(os.getenv("FLOW_SCOUT_SHORT_MAX", "240"))
+    endgame_only = os.getenv("FLOW_SCOUT_ENDGAME_ONLY", "").strip() in ("1", "true", "yes")
+    st, raw = _get(f"https://data-api.polymarket.com/trades?limit={trade_lim}")
+    if st != 200 or not isinstance(raw, list):
+        log(f"flow-scout: trades http={st} {str(raw)[:120]}")
+        return
+    today = _date.today().isoformat()
+    now_ts = datetime.now(timezone.utc).timestamp()
+    seen = state.setdefault("seen", set())
+    baselines = state.setdefault("baselines", {})  # slug -> [sizes]
+    new_rows, n_flagged, n_endgame, n_dropped = [], 0, 0, 0
+    # process oldest→newest so baseline warms before later spikes
+    trades = list(reversed(raw))
+    for t in trades:
+        if not isinstance(t, dict):
+            continue
+        key = fs.trade_dedupe_key(t)
+        if key in seen:
+            continue
+        seen.add(key)
+        slug = str(t.get("slug") or "")
+        if not slug:
+            continue
+        size = fs.trade_size(t)
+        hist = baselines.setdefault(slug, [])
+        # decide on PRE-update baseline (spike vs prior tape)
+        spiked = fs.is_spike(size, hist, mult=mult, min_size=min_size)
+        med = fs.median(hist)
+        fs.push_baseline(hist, size)
+        if not spiked:
+            continue
+        start, end = _schedule(slug)
+        dur = fs.market_duration_minutes(start, end) if (start and end) else None
+        # if we only have end, still compute minutes_left; window unknown → not endgame
+        mins = fs.minutes_to_end(end, now_ts) if end else None
+        window = fs.endgame_window_minutes(dur, frac=eg_frac, floor_min=eg_floor,
+                                           cap_min=eg_cap, short_max=short_max)
+        eg = fs.in_endgame(mins, window)
+        if endgame_only and not eg:
+            n_dropped += 1
+            continue
+        copy_ask = _clob_ask(t.get("asset"))
+        new_rows.append(fs.paper_flow_record(
+            t, copy_ask=copy_ask, spike_mult=(round(size / med, 2) if med else None),
+            baseline_med=med, minutes_left=mins, today=today, endgame=eg,
+            duration_min=dur, endgame_window=window))
+        n_flagged += 1
+        if eg:
+            n_endgame += 1
+    if new_rows:
+        track.record_predictions(new_rows)
+    if len(seen) > 8000:
+        state["seen"] = set(list(seen)[-3000:])
+    state["summary"] = {
+        "n_slugs": len(baselines), "new_flags": n_flagged, "endgame_flags": n_endgame,
+        "dropped_non_eg": n_dropped, "endgame_only": endgame_only,
+        "mult": mult, "min_size": min_size,
+        "eg_frac": eg_frac, "short_max": short_max,
+        "ts": datetime.now(timezone.utc).strftime("%H:%MZ"),
+    }
+    log(f"flow-scout: scanned={len(raw)} flags=+{n_flagged} endgame={n_endgame} "
+        f"dropped_non_eg={n_dropped} slugs={len(baselines)} mult={mult}x "
+        f"short_max={short_max:.0f}m only={int(endgame_only)}")
+
+
 def whale_scout(log, state):
     """READ-ONLY whale scout — find top wallets by OFFICIAL leaderboard PROFIT
     (lb-api/profit, not volume), mirror their recent public TRADE activity, and stamp
@@ -2319,12 +2452,13 @@ def main():
         golf_rec: set[str] = set()
         last_wx = last_soc = last_sports = last_settle = last_hb = last_pnl = 0.0
         last_wxchk = last_odds = last_mlb = last_users = last_crypto = 0.0
-        last_mirror = last_ryield = last_whale = 0.0
+        last_mirror = last_ryield = last_whale = last_flow = 0.0
         odds_state: dict = {}
         crypto_state: dict = {}
         mirror_state: dict = {}
         ryield_state: dict = {}
         whale_state: dict = {}
+        flow_state: dict = {}
         PNL_EVERY = 300          # log an account P&L snapshot every 5 min while live
         pnl_summ: dict = {}
         # multi-user execution: ONE shared brain, one client per registered venue
@@ -2507,6 +2641,13 @@ def main():
                 except Exception as e:
                     log(f"whale-scout error: {e}")
                 last_whale = now
+            # Flow scout — unusually large tape prints near market end (informed-flow thesis).
+            if os.getenv("FLOW_SCOUT") and now - last_flow >= 60:
+                try:
+                    flow_scout(log, flow_state)
+                except Exception as e:
+                    log(f"flow-scout error: {e}")
+                last_flow = now
             # Reward-YIELD diagnostic (Stage 1) — read-only pool-yield vs adverse-selection
             # ranking, surfaced in the heartbeat. The per-cycle sampler accumulates a
             # rolling mid history for the watched markets; the scan re-ranks every 10 min
@@ -2577,6 +2718,8 @@ def main():
                     wx_hb["reward_yield"] = ryield_state["summary"]
                 if whale_state.get("summary"):
                     wx_hb["whale_scout"] = whale_state["summary"]
+                if flow_state.get("summary"):
+                    wx_hb["flow_scout"] = flow_state["summary"]
                 if live_now:
                     _track.heartbeat("live" if LIVE_ARMED else "live-shadow",
                                      res.get("status", "?"),
