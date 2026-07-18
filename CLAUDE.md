@@ -54,6 +54,7 @@ reward-earnings read confirms positive net economics.**
 | `core/polymaker.py` | Pure quoting: `maker_quotes` (join touch, inventory skew/cap), `program_active` (period-driven reward window). |
 | `lib/fairvalue.py` | **Dormant** salvage — spot-anchored fair value (Bachelier). Not used by the reward maker. |
 | `scripts/poly_scan.py` | Read-only reward-market book scan + pro-rata share estimate. |
+| `scripts/flow_paper_score.py` | Flow-scout lag + settlement paper score (informed-size thesis). |
 | `tests/` | `test_polyclient_shadow` (no-leak gate), `test_polymaker`, `test_poly_breaker`, `test_fairvalue`. |
 
 Runtime is stdlib-only except `cryptography` (ED25519). Keys in repo-root `.env`
@@ -72,6 +73,16 @@ volatility to even fire (0 trades). Lesson that paid off repeatedly: **validate
 read-only before funding; reconcile any tape-derived P&L against account balance.**
 
 ## Incident Log
+
+### 2026-07-18 — Flow scout (read-only): large endgame tape prints as informed-flow proxy
+New research thesis parallel to whale-scout: unusually large prints near market end may
+proxy informed money. Built `core/flowscout.py` + `poly_runner.flow_scout` (env
+`FLOW_SCOUT=1`): polls `data-api/trades`, warms per-slug size baseline, flags prints
+≥`FLOW_SCOUT_MULT`× median and ≥`FLOW_SCOUT_MIN_SIZE`, optionally gated to
+≤`FLOW_SCOUT_ENDGAME_MIN` minutes-to-end; stamps lagged CLOB `copy_ask`. Rows
+`model='flow-scout'`. Score: `scripts/flow_paper_score.py`. **GO:** ≥100 settled,
+paper PnL@copy_ask > 0, hit ≥55%. **KILL:** coin-flip / negative EV after lag. $0 /
+no orders / .com observe-only. Does not re-arm the reward farm.
 
 ### 2026-07-15 (later) — Whale scout (read-only): rank by official PROFIT, paper-copy trades
 Parallel research thesis to the reward farm: can lagged copy of top wallets survive

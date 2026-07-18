@@ -152,3 +152,32 @@ breaker trips; credited earnings later (~5+2bd). **KILL:** set `desired_mode=tra
 cancels resting) or restore `POLY_ALLOW` + `POLY_VOL_CAP=0`. Snapshot of pre-pilot allow was
 `aec,arankc,apdc,cranc`. Note: account balance read `$52.93` at arm (was `$127.93` on 07-14;
 `open_contracts=5` unchanged — not from this pilot's fills).
+
+---
+
+## Flow scout — informed-size / endgame tape (observe-only)
+
+**Thesis:** a print much larger than a market’s recent tape — especially in the last
+~3h before end — may carry information. We flag it, record a lagged executable price,
+and paper-score vs settlement. No orders. Offshore `.com` observe-only (US person still
+can’t place); if GO, next question is whether a US-tradable parallel exists.
+
+**What success looks like (GO):**
+1. ≥**100** settled `flow-scout` flags (enough sample).
+2. Paper PnL at lagged `copy_ask` **> 0** (direction of the print, after latency tax).
+3. Hit rate **≥ ~55%** overall; endgame subset not worse than non-endgame.
+4. Still validate-first — GO means “keep researching / consider a tiny US shadow,” not scale.
+
+**KILL:** hit ≤ ~52% or paper PnL ≤ 0 after lag (same pattern as whale-scout lag tax).
+
+**Run:**
+```bash
+# worker env
+FLOW_SCOUT=1
+FLOW_SCOUT_MULT=5
+FLOW_SCOUT_MIN_SIZE=100
+FLOW_SCOUT_ENDGAME_MIN=180   # 0 = flag spikes any time
+
+python scripts/flow_paper_score.py
+python scripts/flow_paper_score.py --settle
+```

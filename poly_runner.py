@@ -1867,6 +1867,111 @@ def mirror_pspspsps5(log, state):
     log(f"mirror: +{len(rows)} trades | positions n={npos} realizedPnl_sum={realized}")
 
 
+def flow_scout(log, state):
+    """READ-ONLY informed-flow scout — flag unusually LARGE tape prints (esp. near
+    market end) on offshore .com, stamp lagged copy_ask, paper-score later.
+    Thesis: size spikes may proxy informed money. $0 / no orders. Env:
+      FLOW_SCOUT_MULT (5), FLOW_SCOUT_MIN_SIZE (100), FLOW_SCOUT_ENDGAME_MIN (180;
+      0 = flag any-time spikes), FLOW_SCOUT_TRADE_LIMIT (120)."""
+    import json as _json
+    import urllib.request as _u
+    from datetime import date as _date
+    from core import track, flowscout as fs
+    def _get(url):
+        try:
+            with _u.urlopen(_u.Request(url, headers={"User-Agent": "prediction-mm/flow-scout",
+                                                     "Accept": "application/json"}),
+                            timeout=15) as r:
+                return r.status, _json.loads(r.read())
+        except Exception as e:
+            return getattr(e, "code", None), {"_err": str(e)[:160]}
+    def _clob_ask(token_id):
+        if not token_id:
+            return None
+        st, d = _get(f"https://clob.polymarket.com/book?token_id={token_id}")
+        if st != 200 or not isinstance(d, dict):
+            return None
+        try:
+            asks = d.get("asks") or []
+            return min(float(a["price"]) for a in asks if a.get("price") is not None) if asks else None
+        except Exception:
+            return None
+    def _end_ts(slug):
+        """Cache gamma endDate (unix) per slug; None if unknown."""
+        cache = state.setdefault("ends", {})
+        if slug in cache:
+            return cache[slug]
+        from urllib.parse import quote as _quote
+        st, raw = _get(f"https://gamma-api.polymarket.com/markets?slug={_quote(slug, safe='')}")
+        end = None
+        if st == 200 and isinstance(raw, list) and raw:
+            ed = raw[0].get("endDate") or raw[0].get("end_date_iso")
+            if ed:
+                try:
+                    end = datetime.fromisoformat(str(ed).replace("Z", "+00:00")).timestamp()
+                except Exception:
+                    end = None
+        cache[slug] = end
+        return end
+
+    mult = float(os.getenv("FLOW_SCOUT_MULT", "5"))
+    min_size = float(os.getenv("FLOW_SCOUT_MIN_SIZE", "100"))
+    endgame_min = float(os.getenv("FLOW_SCOUT_ENDGAME_MIN", "180"))
+    trade_lim = int(os.getenv("FLOW_SCOUT_TRADE_LIMIT", "120"))
+    st, raw = _get(f"https://data-api.polymarket.com/trades?limit={trade_lim}")
+    if st != 200 or not isinstance(raw, list):
+        log(f"flow-scout: trades http={st} {str(raw)[:120]}")
+        return
+    today = _date.today().isoformat()
+    now_ts = datetime.now(timezone.utc).timestamp()
+    seen = state.setdefault("seen", set())
+    baselines = state.setdefault("baselines", {})  # slug -> [sizes]
+    new_rows, n_flagged, n_endgame = [], 0, 0
+    # process oldest→newest so baseline warms before later spikes
+    trades = list(reversed(raw))
+    for t in trades:
+        if not isinstance(t, dict):
+            continue
+        key = fs.trade_dedupe_key(t)
+        if key in seen:
+            continue
+        seen.add(key)
+        slug = str(t.get("slug") or "")
+        if not slug:
+            continue
+        size = fs.trade_size(t)
+        hist = baselines.setdefault(slug, [])
+        # decide on PRE-update baseline (spike vs prior tape)
+        spiked = fs.is_spike(size, hist, mult=mult, min_size=min_size)
+        med = fs.median(hist)
+        fs.push_baseline(hist, size)
+        if not spiked:
+            continue
+        end = _end_ts(slug)
+        mins = fs.minutes_to_end(end, now_ts) if end else None
+        eg = fs.in_endgame(mins, endgame_min)
+        if endgame_min > 0 and not eg:
+            continue  # gated to endgame only when window > 0
+        copy_ask = _clob_ask(t.get("asset"))
+        new_rows.append(fs.paper_flow_record(
+            t, copy_ask=copy_ask, spike_mult=(round(size / med, 2) if med else None),
+            baseline_med=med, minutes_left=mins, today=today, endgame=eg))
+        n_flagged += 1
+        if eg:
+            n_endgame += 1
+    if new_rows:
+        track.record_predictions(new_rows)
+    if len(seen) > 8000:
+        state["seen"] = set(list(seen)[-3000:])
+    state["summary"] = {
+        "n_slugs": len(baselines), "new_flags": n_flagged, "endgame_flags": n_endgame,
+        "mult": mult, "min_size": min_size, "endgame_min": endgame_min,
+        "ts": datetime.now(timezone.utc).strftime("%H:%MZ"),
+    }
+    log(f"flow-scout: scanned={len(raw)} flags=+{n_flagged} endgame={n_endgame} "
+        f"slugs_tracked={len(baselines)} mult={mult}x min_size={min_size}")
+
+
 def whale_scout(log, state):
     """READ-ONLY whale scout — find top wallets by OFFICIAL leaderboard PROFIT
     (lb-api/profit, not volume), mirror their recent public TRADE activity, and stamp
@@ -2319,12 +2424,13 @@ def main():
         golf_rec: set[str] = set()
         last_wx = last_soc = last_sports = last_settle = last_hb = last_pnl = 0.0
         last_wxchk = last_odds = last_mlb = last_users = last_crypto = 0.0
-        last_mirror = last_ryield = last_whale = 0.0
+        last_mirror = last_ryield = last_whale = last_flow = 0.0
         odds_state: dict = {}
         crypto_state: dict = {}
         mirror_state: dict = {}
         ryield_state: dict = {}
         whale_state: dict = {}
+        flow_state: dict = {}
         PNL_EVERY = 300          # log an account P&L snapshot every 5 min while live
         pnl_summ: dict = {}
         # multi-user execution: ONE shared brain, one client per registered venue
@@ -2507,6 +2613,13 @@ def main():
                 except Exception as e:
                     log(f"whale-scout error: {e}")
                 last_whale = now
+            # Flow scout — unusually large tape prints near market end (informed-flow thesis).
+            if os.getenv("FLOW_SCOUT") and now - last_flow >= 60:
+                try:
+                    flow_scout(log, flow_state)
+                except Exception as e:
+                    log(f"flow-scout error: {e}")
+                last_flow = now
             # Reward-YIELD diagnostic (Stage 1) — read-only pool-yield vs adverse-selection
             # ranking, surfaced in the heartbeat. The per-cycle sampler accumulates a
             # rolling mid history for the watched markets; the scan re-ranks every 10 min
@@ -2577,6 +2690,8 @@ def main():
                     wx_hb["reward_yield"] = ryield_state["summary"]
                 if whale_state.get("summary"):
                     wx_hb["whale_scout"] = whale_state["summary"]
+                if flow_state.get("summary"):
+                    wx_hb["flow_scout"] = flow_state["summary"]
                 if live_now:
                     _track.heartbeat("live" if LIVE_ARMED else "live-shadow",
                                      res.get("status", "?"),
