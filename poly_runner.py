@@ -2000,6 +2000,147 @@ def flow_scout(log, state):
         f"short_max={short_max:.0f}m only={int(endgame_only)}")
 
 
+def _scout_candidate_slugs(client, *, max_pages: int = 5) -> list[str]:
+    """Active reward + sports slugs for same-venue paper scouts (capped)."""
+    slugs: list[str] = []
+    seen: set[str] = set()
+    for tp in client.get_incentives() or []:
+        s = tp.get("marketSlug") if isinstance(tp, dict) else None
+        if s and s not in seen:
+            seen.add(s)
+            slugs.append(s)
+    for m in client.get_markets(category="sports", max_pages=max_pages) or []:
+        s = (m.get("slug") if isinstance(m, dict) else None) or ""
+        if s and s not in seen:
+            seen.add(s)
+            slugs.append(s)
+    return slugs
+
+
+def arb_scan(client, log, state):
+    """READ-ONLY same-venue arb scanner — binary complement + partition underround.
+
+    Paper only: records actionable edges to model_predictions (model='arb-scan').
+    Does NOT place orders. Crypto Up/Down complete-set arb is a CLOSED thesis.
+    Env: ARB_SCAN_FEE_BIN (0.01), ARB_SCAN_FEE_PART (0.02), ARB_SCAN_MAX_PAGES (5).
+    """
+    from datetime import date as _date
+    from core import track, arbscan as a
+
+    fee_bin = float(os.getenv("ARB_SCAN_FEE_BIN", "0.01"))
+    fee_part = float(os.getenv("ARB_SCAN_FEE_PART", "0.02"))
+    max_pages = int(os.getenv("ARB_SCAN_MAX_PAGES", "5"))
+    today = _date.today().isoformat()
+    slugs = _scout_candidate_slugs(client, max_pages=max_pages)
+    books: dict[str, tuple] = {}  # slug -> (bid, ask) best
+    n_books, n_bin, n_part = 0, 0, 0
+    new_rows: list[dict] = []
+    for slug in slugs:
+        try:
+            bids, offers = client.get_book(slug)
+        except Exception:
+            continue
+        if not bids or not offers:
+            continue
+        bb, ba = bids[0][0], offers[0][0]
+        books[slug] = (bb, ba)
+        n_books += 1
+        e = a.binary_complement_edge(bb, ba, fee_buffer=fee_bin)
+        if e and e["actionable"]:
+            n_bin += 1
+            new_rows.append(a.paper_arb_record(
+                "binary_complement", family=slug, legs=[slug],
+                edge=e["edge"], cost=e["cost"], today=today, detail=e))
+    fams = a.group_families(list(books.keys()))
+    for fam, members in fams.items():
+        asks = []
+        ok = True
+        for m in members:
+            ba = books.get(m, (None, None))[1]
+            if ba is None:
+                ok = False
+                break
+            asks.append(ba)
+        if not ok or len(asks) < 2:
+            continue
+        e = a.partition_edge(asks, fee_buffer=fee_part)
+        if e and e["actionable"]:
+            n_part += 1
+            new_rows.append(a.paper_arb_record(
+                "partition", family=fam, legs=members,
+                edge=e["edge"], cost=e["cost"], today=today, detail=e))
+    if new_rows:
+        track.record_predictions(new_rows)
+    state["summary"] = {
+        "n_slugs": len(slugs), "n_books": n_books, "n_families": len(fams),
+        "actionable_bin": n_bin, "actionable_part": n_part,
+        "recorded": len(new_rows),
+        "fee_bin": fee_bin, "fee_part": fee_part,
+        "ts": datetime.now(timezone.utc).strftime("%H:%MZ"),
+    }
+    log(f"arb-scan: slugs={len(slugs)} books={n_books} fams={len(fams)} "
+        f"actionable bin={n_bin} part={n_part} recorded={len(new_rows)}")
+
+
+def sweep_scout(client, log, state):
+    """READ-ONLY settlement-sweep paper scout — near-certainty ask + near end.
+
+    Flags price/time shape only. Bright line (source-feed confirmation) is NOT
+    enforced yet — never auto-buy. Env: SWEEP_SCOUT_MIN_ASK (0.97),
+    SWEEP_SCOUT_MAX_ASK (0.995), SWEEP_SCOUT_MAX_MIN (2880), SWEEP_SCOUT_MAX_PAGES (5).
+    """
+    from datetime import date as _date
+    from core import track, sweepscout as ss
+
+    min_ask = float(os.getenv("SWEEP_SCOUT_MIN_ASK", "0.97"))
+    max_ask = float(os.getenv("SWEEP_SCOUT_MAX_ASK", "0.995"))
+    max_min = float(os.getenv("SWEEP_SCOUT_MAX_MIN", str(48 * 60)))
+    max_pages = int(os.getenv("SWEEP_SCOUT_MAX_PAGES", "5"))
+    today = _date.today().isoformat()
+    now_ts = datetime.now(timezone.utc).timestamp()
+    slugs = _scout_candidate_slugs(client, max_pages=max_pages)
+    seen = state.setdefault("seen", set())  # slug|day already recorded
+    new_rows, n_cand, n_books = [], 0, 0
+    for slug in slugs:
+        key = f"{slug}|{today}"
+        if key in seen:
+            continue
+        try:
+            mk = client.get_market(slug)
+            bids, offers = client.get_book(slug)
+        except Exception:
+            continue
+        if not offers:
+            continue
+        n_books += 1
+        ask = offers[0][0]
+        bid = bids[0][0] if bids else None
+        end_ts = iso_ts((mk or {}).get("endDate") or "") or iso_ts(
+            (mk or {}).get("gameStartTime") or "")
+        mins = ((end_ts - now_ts) / 60.0) if end_ts else None
+        if not ss.is_sweep_candidate(
+                ask, bid, minutes_left=mins, min_ask=min_ask, max_ask=max_ask,
+                max_minutes_left=max_min, require_near_end=True):
+            continue
+        title = ((mk or {}).get("question") or (mk or {}).get("title") or "")[:160]
+        new_rows.append(ss.paper_sweep_record(
+            slug, ask=ask, bid=bid, minutes_left=mins, today=today, title=title))
+        seen.add(key)
+        n_cand += 1
+    if new_rows:
+        track.record_predictions(new_rows)
+    if len(seen) > 4000:
+        state["seen"] = set(list(seen)[-1500:])
+    state["summary"] = {
+        "n_slugs": len(slugs), "n_books": n_books, "candidates": n_cand,
+        "recorded": len(new_rows), "min_ask": min_ask, "max_ask": max_ask,
+        "max_min": max_min,
+        "ts": datetime.now(timezone.utc).strftime("%H:%MZ"),
+    }
+    log(f"sweep-scout: slugs={len(slugs)} books={n_books} candidates=+{n_cand} "
+        f"ask=[{min_ask},{max_ask}] max_min={max_min:.0f}")
+
+
 def whale_scout(log, state):
     """READ-ONLY whale scout — find top wallets by OFFICIAL leaderboard PROFIT
     (lb-api/profit, not volume), mirror their recent public TRADE activity, and stamp
@@ -2453,12 +2594,15 @@ def main():
         last_wx = last_soc = last_sports = last_settle = last_hb = last_pnl = 0.0
         last_wxchk = last_odds = last_mlb = last_users = last_crypto = 0.0
         last_mirror = last_ryield = last_whale = last_flow = 0.0
+        last_arb = last_sweep = 0.0
         odds_state: dict = {}
         crypto_state: dict = {}
         mirror_state: dict = {}
         ryield_state: dict = {}
         whale_state: dict = {}
         flow_state: dict = {}
+        arb_state: dict = {}
+        sweep_state: dict = {}
         PNL_EVERY = 300          # log an account P&L snapshot every 5 min while live
         pnl_summ: dict = {}
         # multi-user execution: ONE shared brain, one client per registered venue
@@ -2648,6 +2792,20 @@ def main():
                 except Exception as e:
                     log(f"flow-scout error: {e}")
                 last_flow = now
+            # Same-venue arb scanner — binary complement + partition underround (paper only).
+            if os.getenv("ARB_SCAN") and now - last_arb >= 300:
+                try:
+                    arb_scan(client, log, arb_state)
+                except Exception as e:
+                    log(f"arb-scan error: {e}")
+                last_arb = now
+            # Settlement-sweep paper scout — near-certainty ask + near end (no source gate yet).
+            if os.getenv("SWEEP_SCOUT") and now - last_sweep >= 300:
+                try:
+                    sweep_scout(client, log, sweep_state)
+                except Exception as e:
+                    log(f"sweep-scout error: {e}")
+                last_sweep = now
             # Reward-YIELD diagnostic (Stage 1) — read-only pool-yield vs adverse-selection
             # ranking, surfaced in the heartbeat. The per-cycle sampler accumulates a
             # rolling mid history for the watched markets; the scan re-ranks every 10 min
@@ -2720,6 +2878,10 @@ def main():
                     wx_hb["whale_scout"] = whale_state["summary"]
                 if flow_state.get("summary"):
                     wx_hb["flow_scout"] = flow_state["summary"]
+                if arb_state.get("summary"):
+                    wx_hb["arb_scan"] = arb_state["summary"]
+                if sweep_state.get("summary"):
+                    wx_hb["sweep_scout"] = sweep_state["summary"]
                 if live_now:
                     _track.heartbeat("live" if LIVE_ARMED else "live-shadow",
                                      res.get("status", "?"),

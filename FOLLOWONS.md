@@ -1,5 +1,11 @@
 # Follow-ons
 
+## #A — Arb + sweep paper scouts (2026-07-18)
+Master-plan cracks ranked vs this repo: implement **same-venue arb** + **settlement
+sweep** as paper scouts (`ARB_SCAN=1`, `SWEEP_SCOUT=1`). Do **not** arm live until
+(1) arb shows repeated actionable edges with depth, (2) sweep has a named-source
+trigger + ≥50 settled paper hits at ≥99% accuracy. Crypto Up/Down arb stays closed.
+
 ## #0 — CONFIRMED LIVE 2026-06-20: bot quoted real COD esports orders; halted to shadow
 During the migration cutover the worker (BOT_MODE=live, inherited — already live
 pre-migration) was observed **placing real orders on Call of Duty esports reward

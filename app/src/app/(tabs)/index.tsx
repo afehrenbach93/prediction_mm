@@ -174,6 +174,8 @@ function WorkerHero({
         <PipeChip on={!!ops.reward_yield} label="Yield" />
         <PipeChip on={!!ops.whale_scout} label="Whale" />
         <PipeChip on={!!ops.flow_scout} label="Flow" />
+        <PipeChip on={!!ops.arb_scan} label="Arb" />
+        <PipeChip on={!!ops.sweep_scout} label="Sweep" />
         <PipeChip on={ops.wx_on} label="Wx" tripped={ops.wx_tripped} />
         <PipeChip on={ops.mlb_on} label="MLB" tripped={ops.mlb_tripped} />
       </View>

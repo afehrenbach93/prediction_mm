@@ -55,7 +55,10 @@ reward-earnings read confirms positive net economics.**
 | `lib/fairvalue.py` | **Dormant** salvage — spot-anchored fair value (Bachelier). Not used by the reward maker. |
 | `scripts/poly_scan.py` | Read-only reward-market book scan + pro-rata share estimate. |
 | `scripts/flow_paper_score.py` | Flow-scout lag + settlement paper score (informed-size thesis). |
-| `tests/` | `test_polyclient_shadow` (no-leak gate), `test_polymaker`, `test_poly_breaker`, `test_fairvalue`. |
+| `scripts/arb_scan.py` | Same-venue complement/partition underround scan (paper). |
+| `scripts/sweep_scout.py` | Near-certainty settlement-window paper scout (no source gate). |
+| `core/arbscan.py` / `core/sweepscout.py` | Pure math for arb + sweep paper scouts. |
+| `tests/` | `test_polyclient_shadow` (no-leak gate), `test_polymaker`, `test_poly_breaker`, `test_fairvalue`, arb/sweep unit tests. |
 
 Runtime is stdlib-only except `cryptography` (ED25519). Keys in repo-root `.env`
 (`POLYMARKET_API_KEY` + `POLYMARKET_SECRET`); never commit them.
@@ -73,6 +76,15 @@ volatility to even fire (0 trades). Lesson that paid off repeatedly: **validate
 read-only before funding; reconcile any tape-derived P&L against account balance.**
 
 ## Incident Log
+
+### 2026-07-18 — Master-plan triage → arb + sweep paper scouts
+External master plan (5 cracks) ignored prior Kalshi/Poly closed theses. Mapped vs
+repo: **MM+incentives** = built (pilot weak); **model niches** mostly closed;
+**behavioral** partially covered by whale/flow. Highest new promise: (1) same-venue
+deterministic arb (complement/partition — not crypto Up/Down), (2) settlement-sweep
+paper scout. Shipped `core/arbscan.py` + `core/sweepscout.py`, wired
+`ARB_SCAN=1` / `SWEEP_SCOUT=1` into track loop (heartbeat `detail.arb_scan` /
+`detail.sweep_scout`). **Paper only — no live arm; sweep still lacks source-feed gate.**
 
 ### 2026-07-18 — App Overview overhaul (yield / whale / flow ops view)
 Dashboard was still World-Cup + Elo-model centric. Overview now shows worker hero
