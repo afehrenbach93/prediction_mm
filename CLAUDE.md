@@ -77,6 +77,12 @@ read-only before funding; reconcile any tape-derived P&L against account balance
 
 ## Incident Log
 
+### 2026-07-18 — Arb/sweep hang: uncapped book crawl blocked track loop
+After merging #108 + enabling env, `arb_scan` walked ~600 `get_book`s with no
+budget and starved heartbeats (last_seen stuck). Disabled flags, restarted worker,
+fixed via combined `edge_scouts` (max 100 books / 35s budget, rotate offset,
+sweep meta only for hot asks). Re-enable only after that fix is live.
+
 ### 2026-07-18 — Master-plan triage → arb/sweep *instruments* (WATCH, not done)
 External master plan mapped vs repo. Highest new promise: same-venue arb +
 settlement sweep — but **scaffolding ≠ validated edge**. Shipped detectors +
