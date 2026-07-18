@@ -7,7 +7,10 @@ Flavors we can check from books alone (no cross-venue, no Kalshi):
   2) Exhaustive partition — Σ YES_asks across sibling outcome legs < 1
      (e.g. Liga MX home/away/draw)
 
-READ-ONLY / paper. Execution + rules-exhaustiveness verification are later.
+READ-ONLY / paper. This module is the *detector*; the thesis is NOT proven by
+unit tests. GO requires a measured sample of actionable opportunities with
+executable depth that survive fees — see go_kill().
+
 Crypto Up/Down complete-set arb is a CLOSED thesis — do not re-open it here.
 """
 
@@ -22,12 +25,15 @@ def synthetic_no_ask(yes_bid) -> float | None:
     return round(1.0 - yes_bid, 6)
 
 
-def binary_complement_edge(yes_bid, yes_ask, *, fee_buffer: float = 0.01) -> dict | None:
+def binary_complement_edge(yes_bid, yes_ask, *, fee_buffer: float = 0.01,
+                           yes_ask_size=None, yes_bid_size=None) -> dict | None:
     """Long-the-complement: buy YES @ ask + buy NO @ (1−bid).
 
     Edge > 0 means locked profit before fees if both legs fill at those prices.
     On a Yes-only book this only fires when the book is locked/crossed
     (ask < bid) or nearly so after buffer — rare, but O(1) to check.
+
+    `depth` = min size across the two synthetic legs (contracts), when sizes given.
     """
     try:
         yes_bid = float(yes_bid)
@@ -40,6 +46,12 @@ def binary_complement_edge(yes_bid, yes_ask, *, fee_buffer: float = 0.01) -> dic
         return None
     cost = yes_ask + no_ask
     edge = 1.0 - cost - fee_buffer
+    depth = None
+    try:
+        if yes_ask_size is not None and yes_bid_size is not None:
+            depth = min(float(yes_ask_size), float(yes_bid_size))
+    except (TypeError, ValueError):
+        depth = None
     return {
         "kind": "binary_complement",
         "yes_bid": yes_bid,
@@ -47,12 +59,18 @@ def binary_complement_edge(yes_bid, yes_ask, *, fee_buffer: float = 0.01) -> dic
         "no_ask": no_ask,
         "cost": round(cost, 6),
         "edge": round(edge, 6),
-        "actionable": edge > 0,
+        "raw_edge": round(1.0 - cost, 6),  # before fee buffer
+        "depth": depth,
+        "actionable": edge > 0 and (depth is None or depth > 0),
     }
 
 
-def partition_edge(asks: list[float], *, fee_buffer: float = 0.02) -> dict | None:
-    """Long-the-book on an exhaustive set: Σ asks < 1 − fee_buffer."""
+def partition_edge(asks: list[float], *, fee_buffer: float = 0.02,
+                   sizes: list[float] | None = None) -> dict | None:
+    """Long-the-book on an exhaustive set: Σ asks < 1 − fee_buffer.
+
+    `depth` = min available size across legs (VWAP-at-touch; not book-walked).
+    """
     try:
         asks = [float(a) for a in asks]
         fee_buffer = float(fee_buffer)
@@ -62,13 +80,29 @@ def partition_edge(asks: list[float], *, fee_buffer: float = 0.02) -> dict | Non
         return None
     cost = sum(asks)
     edge = 1.0 - cost - fee_buffer
+    depth = None
+    if sizes is not None:
+        try:
+            sz = [float(s) for s in sizes]
+            if len(sz) == len(asks) and all(s >= 0 for s in sz):
+                depth = min(sz) if sz else None
+        except (TypeError, ValueError):
+            depth = None
+    raw = round(1.0 - cost, 6)
+    # Huge underrounds are almost always incomplete partitions (missing "other"
+    # / not-exhaustive sibling set) — not a free lunch. Flag; don't treat as GO fuel.
+    suspect = raw > 0.10
+    actionable = edge > 0 and (depth is None or depth > 0) and not suspect
     return {
         "kind": "partition",
         "n_legs": len(asks),
         "asks": [round(a, 6) for a in asks],
         "cost": round(cost, 6),
         "edge": round(edge, 6),
-        "actionable": edge > 0,
+        "raw_edge": raw,
+        "depth": depth,
+        "suspect_incomplete": suspect,
+        "actionable": actionable,
     }
 
 
@@ -81,7 +115,6 @@ def family_key(slug: str) -> str | None:
     if not slug or "-" not in slug:
         return None
     base, _tail = slug.rsplit("-", 1)
-    # need enough structure left (prefix + date-ish)
     if base.count("-") < 2:
         return None
     return base
@@ -100,11 +133,47 @@ def group_families(slugs: list[str]) -> dict[str, list[str]]:
     return {k: v for k, v in fam.items() if len(v) >= 2}
 
 
+def summarize_edges(raw_edges: list[float]) -> dict:
+    """Distribution of raw (pre-fee) edges. Negative = overround (normal)."""
+    xs = [float(x) for x in raw_edges if x is not None]
+    if not xs:
+        return {"n": 0}
+    xs.sort()
+    n = len(xs)
+    pos = [x for x in xs if x > 0]
+    near = [x for x in xs if -0.05 <= x <= 0.05]  # within 5¢ of fair
+
+    def pct(p: float) -> float:
+        if n == 1:
+            return xs[0]
+        i = min(n - 1, max(0, int(round((p / 100.0) * (n - 1)))))
+        return xs[i]
+
+    return {
+        "n": n,
+        "min": round(xs[0], 6),
+        "p25": round(pct(25), 6),
+        "p50": round(pct(50), 6),
+        "p75": round(pct(75), 6),
+        "max": round(xs[-1], 6),
+        "n_positive": len(pos),
+        "n_near_fair": len(near),
+        "best": round(xs[-1], 6),
+    }
+
+
 def paper_arb_record(kind: str, *, family: str, legs: list[str],
                      edge: float, cost: float, today: str,
-                     detail: dict | None = None) -> dict:
-    """model_predictions row for an observed (paper) arb opportunity."""
-    uniq = f"{kind}|{family}|{today}"[:120]
+                     detail: dict | None = None,
+                     run_id: str = "") -> dict:
+    """model_predictions row for an observed (paper) arb opportunity.
+
+    `run_id` (e.g. HHMM) makes multiple observations/day unique under the
+    (model, market_slug, settle_date, run_date) conflict key — we need a
+    time series, not one flag per day.
+    """
+    tag = run_id or today
+    uniq = f"{kind}|{family}|{tag}"[:120]
     return {
         "model": "arb-scan",
         "sport": "arb",
@@ -123,6 +192,36 @@ def paper_arb_record(kind: str, *, family: str, legs: list[str],
             "legs": legs,
             "cost": cost,
             "edge": edge,
+            "run_id": tag,
             **(detail or {}),
         },
     }
+
+
+def go_kill(n_actionable: int, n_with_depth: int, median_edge: float | None,
+            *, min_n: int = 30, min_depth_hits: int = 10,
+            min_median_edge: float = 0.005) -> tuple[str, str]:
+    """Arb GO needs repeated actionable hits WITH executable depth.
+
+    Unit tests and a single scan are never enough. Default bar:
+      ≥30 actionable observations, ≥10 with depth>0, median net edge ≥0.5¢.
+    Even then: rules-exhaustiveness verification still required before live.
+    """
+    if n_actionable < min_n:
+        return ("WATCH",
+                f"need ≥{min_n} actionable observations (have {n_actionable}) "
+                f"— detector only, thesis unproven")
+    if n_with_depth < min_depth_hits:
+        return ("WATCH",
+                f"need ≥{min_depth_hits} with depth>0 (have {n_with_depth}) "
+                f"— phantom books don't pay")
+    if median_edge is None:
+        return "INCONCLUSIVE", "missing median_edge"
+    if median_edge < min_median_edge:
+        return ("KILL",
+                f"median_edge={median_edge:.4f} < {min_median_edge} "
+                f"— fees/slip eat the lock")
+    return ("GO",
+            f"{n_actionable} actionable, {n_with_depth} with depth, "
+            f"median_edge={median_edge:.4f} — still need rules-exhaustiveness "
+            f"check before live")

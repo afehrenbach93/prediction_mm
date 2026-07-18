@@ -77,14 +77,15 @@ read-only before funding; reconcile any tape-derived P&L against account balance
 
 ## Incident Log
 
-### 2026-07-18 — Master-plan triage → arb + sweep paper scouts
-External master plan (5 cracks) ignored prior Kalshi/Poly closed theses. Mapped vs
-repo: **MM+incentives** = built (pilot weak); **model niches** mostly closed;
-**behavioral** partially covered by whale/flow. Highest new promise: (1) same-venue
-deterministic arb (complement/partition — not crypto Up/Down), (2) settlement-sweep
-paper scout. Shipped `core/arbscan.py` + `core/sweepscout.py`, wired
-`ARB_SCAN=1` / `SWEEP_SCOUT=1` into track loop (heartbeat `detail.arb_scan` /
-`detail.sweep_scout`). **Paper only — no live arm; sweep still lacks source-feed gate.**
+### 2026-07-18 — Master-plan triage → arb/sweep *instruments* (WATCH, not done)
+External master plan mapped vs repo. Highest new promise: same-venue arb +
+settlement sweep — but **scaffolding ≠ validated edge**. Shipped detectors +
+paper-score CLIs + live baseline (2026-07-18Z): 503 books / 63 families →
+partition p50 raw edge **−4¢** (normal overround); 1 plausible small hit + several
+**SUSPECT** incomplete partitions (e.g. UFC champ +82¢ — not exhaustive). Sweep:
+0 candidates in band (max ask on scanned set 0.95). Verdict both **WATCH**.
+GO bars: arb ≥30 depth-backed hits + rules screen; sweep ≥50 settled @≥99%
+*and* named-source gate. Unit tests only prove math helpers.
 
 ### 2026-07-18 — App Overview overhaul (yield / whale / flow ops view)
 Dashboard was still World-Cup + Elo-model centric. Overview now shows worker hero

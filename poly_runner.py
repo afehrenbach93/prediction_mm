@@ -2020,8 +2020,11 @@ def _scout_candidate_slugs(client, *, max_pages: int = 5) -> list[str]:
 def arb_scan(client, log, state):
     """READ-ONLY same-venue arb scanner — binary complement + partition underround.
 
-    Paper only: records actionable edges to model_predictions (model='arb-scan').
-    Does NOT place orders. Crypto Up/Down complete-set arb is a CLOSED thesis.
+    Measurement instrument, not a proven edge. Every cycle logs the FULL edge
+    distribution (most markets are overround) plus any actionable hits with depth.
+    Thesis stays WATCH until go_kill clears a real sample — unit tests never suffice.
+
+    Paper only. Crypto Up/Down complete-set arb is CLOSED.
     Env: ARB_SCAN_FEE_BIN (0.01), ARB_SCAN_FEE_PART (0.02), ARB_SCAN_MAX_PAGES (5).
     """
     from datetime import date as _date
@@ -2031,10 +2034,15 @@ def arb_scan(client, log, state):
     fee_part = float(os.getenv("ARB_SCAN_FEE_PART", "0.02"))
     max_pages = int(os.getenv("ARB_SCAN_MAX_PAGES", "5"))
     today = _date.today().isoformat()
+    run_id = datetime.now(timezone.utc).strftime("%H%M%S")
     slugs = _scout_candidate_slugs(client, max_pages=max_pages)
-    books: dict[str, tuple] = {}  # slug -> (bid, ask) best
-    n_books, n_bin, n_part = 0, 0, 0
+    # slug -> (bid, bid_sz, ask, ask_sz)
+    books: dict[str, tuple] = {}
+    n_books, n_bin, n_part, n_depth, n_suspect = 0, 0, 0, 0, 0
+    raw_bin: list[float] = []
+    raw_part: list[float] = []
     new_rows: list[dict] = []
+    best_hits: list[dict] = []
     for slug in slugs:
         try:
             bids, offers = client.get_book(slug)
@@ -2042,52 +2050,110 @@ def arb_scan(client, log, state):
             continue
         if not bids or not offers:
             continue
-        bb, ba = bids[0][0], offers[0][0]
-        books[slug] = (bb, ba)
+        bb, bbs = bids[0][0], bids[0][1]
+        ba, bas = offers[0][0], offers[0][1]
+        books[slug] = (bb, bbs, ba, bas)
         n_books += 1
-        e = a.binary_complement_edge(bb, ba, fee_buffer=fee_bin)
-        if e and e["actionable"]:
+        e = a.binary_complement_edge(bb, ba, fee_buffer=fee_bin,
+                                     yes_ask_size=bas, yes_bid_size=bbs)
+        if not e:
+            continue
+        raw_bin.append(e["raw_edge"])
+        if e["actionable"]:
             n_bin += 1
+            if e.get("depth"):
+                n_depth += 1
             new_rows.append(a.paper_arb_record(
                 "binary_complement", family=slug, legs=[slug],
-                edge=e["edge"], cost=e["cost"], today=today, detail=e))
+                edge=e["edge"], cost=e["cost"], today=today, detail=e,
+                run_id=run_id))
+            best_hits.append({"kind": "bin", "fam": slug[:40], "edge": e["edge"],
+                              "depth": e.get("depth")})
     fams = a.group_families(list(books.keys()))
     for fam, members in fams.items():
-        asks = []
+        asks, sizes = [], []
         ok = True
         for m in members:
-            ba = books.get(m, (None, None))[1]
-            if ba is None:
+            row = books.get(m)
+            if not row:
                 ok = False
                 break
-            asks.append(ba)
+            asks.append(row[2])
+            sizes.append(row[3])
         if not ok or len(asks) < 2:
             continue
-        e = a.partition_edge(asks, fee_buffer=fee_part)
-        if e and e["actionable"]:
-            n_part += 1
+        e = a.partition_edge(asks, fee_buffer=fee_part, sizes=sizes)
+        if not e:
+            continue
+        raw_part.append(e["raw_edge"])
+        # always record suspect + actionable — suspects are the training set for
+        # rules-exhaustiveness filtering; actionable alone is the GO counter
+        if e.get("suspect_incomplete") or e["actionable"]:
             new_rows.append(a.paper_arb_record(
                 "partition", family=fam, legs=members,
-                edge=e["edge"], cost=e["cost"], today=today, detail=e))
+                edge=e["edge"], cost=e["cost"], today=today, detail=e,
+                run_id=run_id))
+        if e.get("suspect_incomplete"):
+            n_suspect += 1
+            best_hits.append({"kind": "SUSPECT", "fam": fam[:40], "edge": e["edge"],
+                              "depth": e.get("depth")})
+        elif e["actionable"]:
+            n_part += 1
+            if e.get("depth"):
+                n_depth += 1
+            best_hits.append({"kind": "part", "fam": fam[:40], "edge": e["edge"],
+                              "depth": e.get("depth")})
     if new_rows:
         track.record_predictions(new_rows)
+    # cumulative counters for go_kill (survive across cycles in worker state)
+    # SUSPECT hits are excluded — incomplete partitions inflate edge
+    cum = state.setdefault("cum", {"actionable": 0, "with_depth": 0, "edges": [],
+                                   "suspect": 0})
+    cum["actionable"] += n_bin + n_part
+    cum["with_depth"] += n_depth
+    cum["suspect"] += n_suspect
+    for h in best_hits:
+        if h["kind"] != "SUSPECT":
+            cum["edges"].append(h["edge"])
+    if len(cum["edges"]) > 500:
+        cum["edges"] = cum["edges"][-500:]
+    med = None
+    if cum["edges"]:
+        se = sorted(cum["edges"])
+        med = se[len(se) // 2]
+    verdict, reason = a.go_kill(cum["actionable"], cum["with_depth"], med)
+    dist_bin = a.summarize_edges(raw_bin)
+    dist_part = a.summarize_edges(raw_part)
     state["summary"] = {
         "n_slugs": len(slugs), "n_books": n_books, "n_families": len(fams),
         "actionable_bin": n_bin, "actionable_part": n_part,
-        "recorded": len(new_rows),
+        "suspect_part": n_suspect, "with_depth": n_depth, "recorded": len(new_rows),
+        "dist_bin": dist_bin, "dist_part": dist_part,
+        "cum_actionable": cum["actionable"], "cum_depth": cum["with_depth"],
+        "cum_suspect": cum["suspect"],
+        "cum_median_edge": med, "verdict": verdict, "verdict_note": reason,
         "fee_bin": fee_bin, "fee_part": fee_part,
         "ts": datetime.now(timezone.utc).strftime("%H:%MZ"),
     }
-    log(f"arb-scan: slugs={len(slugs)} books={n_books} fams={len(fams)} "
-        f"actionable bin={n_bin} part={n_part} recorded={len(new_rows)}")
+    log(f"arb-scan: books={n_books} fams={len(fams)} "
+        f"bin[p50={dist_bin.get('p50')}/pos={dist_bin.get('n_positive', 0)}] "
+        f"part[p50={dist_part.get('p50')}/pos={dist_part.get('n_positive', 0)}] "
+        f"hit bin={n_bin} part={n_part} suspect={n_suspect} depth={n_depth} "
+        f"cum={cum['actionable']} verdict={verdict}")
+    if best_hits:
+        for h in sorted(best_hits, key=lambda x: -abs(x["edge"]))[:5]:
+            log(f"  arb-hit {h['kind']} {h['fam']} edge={h['edge']:+.4f} "
+                f"depth={h.get('depth')}")
 
 
 def sweep_scout(client, log, state):
     """READ-ONLY settlement-sweep paper scout — near-certainty ask + near end.
 
-    Flags price/time shape only. Bright line (source-feed confirmation) is NOT
-    enforced yet — never auto-buy. Env: SWEEP_SCOUT_MIN_ASK (0.97),
-    SWEEP_SCOUT_MAX_ASK (0.995), SWEEP_SCOUT_MAX_MIN (2880), SWEEP_SCOUT_MAX_PAGES (5).
+    Measurement instrument. Price/time shape only — named-source gate missing,
+    so go_kill stays WATCH even with a good sample. Never auto-buy.
+
+    Env: SWEEP_SCOUT_MIN_ASK (0.97), SWEEP_SCOUT_MAX_ASK (0.995),
+    SWEEP_SCOUT_MAX_MIN (2880), SWEEP_SCOUT_MAX_PAGES (5), SWEEP_SCOUT_SIZE (10).
     """
     from datetime import date as _date
     from core import track, sweepscout as ss
@@ -2096,15 +2162,18 @@ def sweep_scout(client, log, state):
     max_ask = float(os.getenv("SWEEP_SCOUT_MAX_ASK", "0.995"))
     max_min = float(os.getenv("SWEEP_SCOUT_MAX_MIN", str(48 * 60)))
     max_pages = int(os.getenv("SWEEP_SCOUT_MAX_PAGES", "5"))
+    paper_sz = float(os.getenv("SWEEP_SCOUT_SIZE", "10"))
     today = _date.today().isoformat()
+    run_id = datetime.now(timezone.utc).strftime("%H%M%S")
     now_ts = datetime.now(timezone.utc).timestamp()
     slugs = _scout_candidate_slugs(client, max_pages=max_pages)
-    seen = state.setdefault("seen", set())  # slug|day already recorded
+    # Dedup by slug|hour so we build a time series, not one row/day.
+    seen = state.setdefault("seen", set())
+    hour_tag = datetime.now(timezone.utc).strftime("%Y%m%d%H")
     new_rows, n_cand, n_books = [], 0, 0
+    all_asks: list[float] = []
+    near_end_asks: list[float] = []
     for slug in slugs:
-        key = f"{slug}|{today}"
-        if key in seen:
-            continue
         try:
             mk = client.get_market(slug)
             bids, offers = client.get_book(slug)
@@ -2114,31 +2183,51 @@ def sweep_scout(client, log, state):
             continue
         n_books += 1
         ask = offers[0][0]
+        ask_sz = offers[0][1]
         bid = bids[0][0] if bids else None
+        all_asks.append(ask)
         end_ts = iso_ts((mk or {}).get("endDate") or "") or iso_ts(
             (mk or {}).get("gameStartTime") or "")
         mins = ((end_ts - now_ts) / 60.0) if end_ts else None
+        if mins is not None and 0 < mins <= max_min:
+            near_end_asks.append(ask)
         if not ss.is_sweep_candidate(
                 ask, bid, minutes_left=mins, min_ask=min_ask, max_ask=max_ask,
                 max_minutes_left=max_min, require_near_end=True):
             continue
+        key = f"{slug}|{hour_tag}"
+        if key in seen:
+            continue
         title = ((mk or {}).get("question") or (mk or {}).get("title") or "")[:160]
+        # paper size capped by resting ask size
+        sz = min(paper_sz, ask_sz) if ask_sz else paper_sz
         new_rows.append(ss.paper_sweep_record(
-            slug, ask=ask, bid=bid, minutes_left=mins, today=today, title=title))
+            slug, ask=ask, bid=bid, minutes_left=mins, today=today, title=title,
+            ask_size=sz, run_id=run_id))
         seen.add(key)
         n_cand += 1
     if new_rows:
         track.record_predictions(new_rows)
     if len(seen) > 4000:
         state["seen"] = set(list(seen)[-1500:])
+    cum = state.setdefault("cum", {"candidates": 0})
+    cum["candidates"] += n_cand
+    ask_dist = ss.summarize_asks(all_asks, min_ask=min_ask)
+    near_dist = ss.summarize_asks(near_end_asks, min_ask=min_ask)
+    # settled sample lives in Supabase — until then, always WATCH
+    verdict, reason = ss.go_kill(0, None, None, source_gate=False)
     state["summary"] = {
         "n_slugs": len(slugs), "n_books": n_books, "candidates": n_cand,
-        "recorded": len(new_rows), "min_ask": min_ask, "max_ask": max_ask,
-        "max_min": max_min,
+        "recorded": len(new_rows), "cum_candidates": cum["candidates"],
+        "ask_dist": ask_dist, "near_end_dist": near_dist,
+        "min_ask": min_ask, "max_ask": max_ask, "max_min": max_min,
+        "verdict": verdict, "verdict_note": reason,
         "ts": datetime.now(timezone.utc).strftime("%H:%MZ"),
     }
-    log(f"sweep-scout: slugs={len(slugs)} books={n_books} candidates=+{n_cand} "
-        f"ask=[{min_ask},{max_ask}] max_min={max_min:.0f}")
+    log(f"sweep-scout: books={n_books} candidates=+{n_cand} "
+        f"asks[max={ask_dist.get('max_ask')} ge{min_ask}={ask_dist.get('n_ge_min', 0)}] "
+        f"near_end[n={near_dist.get('n', 0)} ge={near_dist.get('n_ge_min', 0)}] "
+        f"cum={cum['candidates']} verdict={verdict}")
 
 
 def whale_scout(log, state):

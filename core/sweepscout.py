@@ -8,6 +8,9 @@ lose −99¢), so Phase 0 is PAPER ONLY — flag candidates, never auto-buy.
 Bright line (enforced later with source feeds): only sweep when the *named
 resolution source* has published. This module only flags price/time shape
 (ask in band + near end / already extreme mid) for the paper ledger.
+
+Unit tests ≠ thesis validation. GO needs ≥50 settled paper sweeps at ≥99% hit
+rate AFTER a source-feed gate exists. Until then: WATCH.
 """
 
 
@@ -72,13 +75,50 @@ def max_entry_from_error_rate(error_rate: float, k: float = 3.0) -> float | None
     return round(max(0.0, min(0.999, 1.0 - k * error_rate)), 6)
 
 
+def paper_pnl_buy(ask: float, size: float, won: bool) -> float | None:
+    """Paper PnL for buying `size` contracts at `ask`, settling Yes→$1 / No→$0."""
+    try:
+        ask = float(ask)
+        size = float(size)
+    except (TypeError, ValueError):
+        return None
+    if size <= 0 or not (0.0 < ask < 1.0):
+        return None
+    if won:
+        return round(size * (1.0 - ask), 4)
+    return round(-size * ask, 4)
+
+
+def summarize_asks(asks: list[float], *, min_ask: float = 0.97) -> dict:
+    """How close is the book universe to the sweep band?"""
+    xs = []
+    for a in asks:
+        try:
+            xs.append(float(a))
+        except (TypeError, ValueError):
+            continue
+    if not xs:
+        return {"n": 0}
+    xs.sort()
+    in_band = [a for a in xs if a >= min_ask]
+    return {
+        "n": len(xs),
+        "n_ge_min": len(in_band),
+        "max_ask": round(xs[-1], 6),
+        "p90": round(xs[int(0.9 * (len(xs) - 1))], 6) if len(xs) > 1 else round(xs[0], 6),
+        "p50": round(xs[len(xs) // 2], 6),
+    }
+
+
 def paper_sweep_record(slug: str, *, ask: float, bid=None, minutes_left=None,
-                       today: str = "", title: str = "") -> dict:
+                       today: str = "", title: str = "",
+                       ask_size=None, run_id: str = "") -> dict:
     ret = sweep_return(ask)
+    tag = run_id or today
     return {
         "model": "sweep-scout",
         "sport": "sweep",
-        "market_slug": f"{slug}|{today}"[:120],
+        "market_slug": f"{slug}|{tag}"[:120],
         "outcome": "buy",
         "model_prob": None,
         "market_bid": bid,
@@ -92,24 +132,37 @@ def paper_sweep_record(slug: str, *, ask: float, bid=None, minutes_left=None,
             "title": (title or "")[:160],
             "ask": ask,
             "bid": bid,
+            "ask_size": ask_size,
             "minutes_left": (round(minutes_left, 1)
                              if minutes_left is not None else None),
             "sweep_return": ret,
+            "run_id": tag,
+            "source_confirmed": False,
             "note": "paper-only; no source-feed confirmation yet",
         },
     }
 
 
 def go_kill(n_settled: int, hit_rate: float | None, paper_pnl: float | None,
-            *, min_n: int = 50, min_hit: float = 0.99) -> tuple[str, str]:
-    """Sweep needs extreme accuracy — default min_hit 99%."""
+            *, min_n: int = 50, min_hit: float = 0.99,
+            source_gate: bool = False) -> tuple[str, str]:
+    """Sweep needs extreme accuracy — default min_hit 99%.
+
+    Even with a passing sample, refuse GO until a named-source gate exists
+    (`source_gate=True`). Price-shape alone is not a strategy.
+    """
     if n_settled < min_n:
-        return "WATCH", f"need ≥{min_n} settled sweeps (have {n_settled})"
+        return ("WATCH",
+                f"need ≥{min_n} settled sweeps (have {n_settled}) "
+                f"— detector only, thesis unproven")
     if hit_rate is None or paper_pnl is None:
         return "INCONCLUSIVE", "missing hit_rate/paper_pnl"
-    if paper_pnl > 0 and hit_rate >= min_hit:
-        return "GO", (f"paper_pnl={paper_pnl:+.2f} hit={hit_rate:.2%} on {n_settled} "
-                      f"— still requires source-feed gate before live")
     if hit_rate < min_hit or paper_pnl <= 0:
         return "KILL", f"hit={hit_rate} pnl={paper_pnl} — too many −99¢ errors"
-    return "WATCH", f"marginal hit={hit_rate:.2%} pnl={paper_pnl:+.2f}"
+    if not source_gate:
+        return ("WATCH",
+                f"paper looks good (pnl={paper_pnl:+.2f} hit={hit_rate:.2%} "
+                f"n={n_settled}) but source-feed gate is missing — not GO")
+    return ("GO",
+            f"paper_pnl={paper_pnl:+.2f} hit={hit_rate:.2%} on {n_settled} "
+            f"with source gate")

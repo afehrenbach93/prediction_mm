@@ -54,7 +54,11 @@ export type ArbScanDetail = {
   n_families: number;
   actionable_bin: number;
   actionable_part: number;
+  suspect_part?: number;
+  with_depth?: number;
   recorded: number;
+  cum_actionable?: number;
+  verdict?: string;
   ts?: string;
 };
 
@@ -63,8 +67,10 @@ export type SweepScoutDetail = {
   n_books: number;
   candidates: number;
   recorded: number;
+  cum_candidates?: number;
   min_ask?: number;
   max_ask?: number;
+  verdict?: string;
   ts?: string;
 };
 
@@ -172,7 +178,11 @@ export function parseOps(detail: any, mode = '', status = ''): OpsSnapshot {
       n_families: Number(ar.n_families) || 0,
       actionable_bin: Number(ar.actionable_bin) || 0,
       actionable_part: Number(ar.actionable_part) || 0,
+      suspect_part: num(ar.suspect_part) ?? undefined,
+      with_depth: num(ar.with_depth) ?? undefined,
       recorded: Number(ar.recorded) || 0,
+      cum_actionable: num(ar.cum_actionable) ?? undefined,
+      verdict: ar.verdict ? String(ar.verdict) : undefined,
       ts: ar.ts,
     } : null,
     sweep_scout: sw ? {
@@ -180,8 +190,10 @@ export function parseOps(detail: any, mode = '', status = ''): OpsSnapshot {
       n_books: Number(sw.n_books) || 0,
       candidates: Number(sw.candidates) || 0,
       recorded: Number(sw.recorded) || 0,
+      cum_candidates: num(sw.cum_candidates) ?? undefined,
       min_ask: num(sw.min_ask) ?? undefined,
       max_ask: num(sw.max_ask) ?? undefined,
+      verdict: sw.verdict ? String(sw.verdict) : undefined,
       ts: sw.ts,
     } : null,
     wx_on: !!d.wx_on,
