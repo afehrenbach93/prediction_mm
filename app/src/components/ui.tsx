@@ -4,7 +4,7 @@ import {
 } from 'react-native';
 import { C } from '../theme';
 
-export function Card({ children, style }: { children: React.ReactNode; style?: ViewStyle }) {
+export function Card({ children, style }: { children: React.ReactNode; style?: ViewStyle | ViewStyle[] }) {
   return <View style={[s.card, style]}>{children}</View>;
 }
 
