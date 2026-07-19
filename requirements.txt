@@ -1,6 +1,4 @@
-# prediction-mm — Polymarket US liquidity-reward maker.
-# Runtime is deliberately tiny: poly_runner + polyclient use only the stdlib
-# (urllib for HTTP, a hand-rolled .env parser) except for ED25519 signing.
+# prediction-mm — CLOB liquidity-reward maker + yield scan.
+# Stdlib for US stack; CLOB trading uses official SDK.
 cryptography>=41.0
-
-# Tests use the stdlib `unittest` only — no extra test deps.
+py-clob-client-v2>=1.1.0

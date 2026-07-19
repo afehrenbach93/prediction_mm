@@ -1,102 +1,238 @@
 """
 Read-only Polymarket US liquidity-incentive assessment. PLACES NO ORDERS.
 
-For each ACTIVE reward market, pull the live order book and quantify the
-validate-first question: at our retail capital, what pro-rata share of the
-reward pool could we realistically capture at the touch, and how much pro size
-are we competing against? Also estimates the maker rebate per round trip.
+Scores competition with the US formula:
+    Score = discountFactor^(ticks_from_best) * size
+(summed over both sides of the book), then estimates capture as
+    est_reward = rewardPool * my_score / (my_score + book_score)
+for a hypothetical two-sided touch quote sized to `budget`.
 
-The reward score is  discountFactor^(ticks_from_best) * size , snapshotted ~1/s
-and split pro-rata. Posting one tick off best at discount 0.3 keeps only 30% of
-the score, so meaningful earning means quoting AT the touch — exactly where
-adverse selection is worst (this tool measures the share; the adverse-selection
-cost needs a LIVE game, run during one).
+This is NOT the global CLOB quadratic / sampling-markets scan — US venue only.
 
-    python scripts/poly_scan.py                 # one sweep, default $400 budget
-    python scripts/poly_scan.py 489             # assume $489 of resting capital
+    PYTHONPATH=. python scripts/poly_scan.py
+    PYTHONPATH=. python scripts/poly_scan.py 500
+    PYTHONPATH=. python scripts/poly_scan.py 500 --csv data/reward_scans/latest.csv
+    PYTHONPATH=. python scripts/poly_scan.py --history   # stability report from snapshots
 """
+from __future__ import annotations
+
+import argparse
+import csv
 import sys
+from datetime import datetime, timezone
+from pathlib import Path
 
 from core.polyclient import from_env
+from core.rewardscore import score_market
 
 # maker rebate: payment of 0.0125 * C * p * (1-p) per contract traded (you get paid)
 MAKER_REBATE_THETA = 0.0125
+DEFAULT_SCAN_DIR = Path("data/reward_scans")
 
 
 def maker_rebate(price: float, contracts: float) -> float:
     return MAKER_REBATE_THETA * contracts * price * (1.0 - price)
 
 
-def main(budget: float):
-    c = from_env()
-    progs = c.get_incentives()
-    # group programs by market; keep the biggest live pool + the day_of pool
-    by_market = {}
+def _iso_now() -> str:
+    return datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+
+
+def _day_stamp() -> str:
+    return datetime.now(timezone.utc).strftime("%Y-%m-%d")
+
+
+def scan_markets(client, budget: float) -> list[dict]:
+    progs = client.get_incentives()
+    by_market: dict[str, list] = {}
     for tp in progs:
         by_market.setdefault(tp["marketSlug"], []).append(tp)
 
-    print(f"=== POLYMARKET US REWARD-MARKET ASSESSMENT  (resting budget ${budget:.0f}) ===")
-    print(f"active reward markets: {len(by_market)} "
-          f"(programs: {len(progs)})\n")
-
-    open_rows, total_live_pool = [], 0.0
+    rows = []
     for slug, tps in by_market.items():
-        mk = c.get_market(slug)
+        mk = client.get_market(slug)
         if not mk or mk.get("closed"):
             continue
+        # Prefer live-period pool/discount; else largest pool among programs
         live = next((t for t in tps if t.get("period") == "live"), None)
-        day_of = next((t for t in tps if t.get("period") == "day_of"), None)
-        pool_live = float((live or {}).get("rewardPool") or 0)
-        disc = float((live or {}).get("discountFactor") or 0.3)
-        tsize = float((live or {}).get("targetSize") or 0)
-        total_live_pool += pool_live
+        chosen = live or max(tps, key=lambda t: float(t.get("rewardPool") or 0))
+        pool = float(chosen.get("rewardPool") or 0)
+        disc = float(chosen.get("discountFactor") or 0.3)
+        period = chosen.get("period") or ""
+        end_date = mk.get("endDate") or ""
 
-        bids, offers = c.get_book(slug)
+        bids, offers = client.get_book(slug)
         if not bids or not offers:
-            open_rows.append((slug, mk.get("gameStartTime"), None, None, None,
-                              pool_live, tsize, disc, mk.get("volume24hr")))
+            rows.append({
+                "ts": _iso_now(), "slug": slug, "period": period, "pool": pool,
+                "discount": disc, "mid": "", "spread": "", "book_score": 0.0,
+                "my_score": 0.0, "share": 0.0, "est_reward": 0.0,
+                "near_zero": True, "end_date": end_date, "no_book": True,
+            })
             continue
-        bb, bbq = bids[0]
-        bo, boq = offers[0]
-        spread = round(bo - bb, 4)
-        touch = bbq + boq               # pro size already at the touch (both sides)
-        mid = (bb + bo) / 2.0
-        # contracts WE can rest with `budget`, split both sides at mid price
-        my_contracts = budget / mid if mid > 0 else 0
-        # pro-rata touch share: our tick-0 score vs (existing touch + ours)
-        share = my_contracts / (touch + my_contracts) if touch else 0
-        open_rows.append((slug, mk.get("gameStartTime"), spread, touch, share,
-                          pool_live, tsize, disc, mk.get("volume24hr")))
+        sr = score_market(bids, offers, pool=pool, budget=budget, discount=disc)
+        if sr is None:
+            continue
+        rows.append({
+            "ts": _iso_now(), "slug": slug, "period": period, "pool": pool,
+            "discount": disc, "mid": round(sr.mid, 4), "spread": sr.spread,
+            "book_score": round(sr.book_score, 4), "my_score": round(sr.my_score, 4),
+            "share": round(sr.share, 6), "est_reward": round(sr.est_reward, 4),
+            "near_zero": sr.near_zero, "end_date": end_date, "no_book": False,
+        })
+    return rows
 
-    # report
-    hdr = f"{'market':46} {'kickoff':17} {'spr':>5} {'touchQty':>9} {'ourShr':>7} {'livePool':>8}"
-    print(hdr); print("-" * len(hdr))
-    booked = [r for r in open_rows if r[2] is not None]
-    for slug, ks, spr, touch, share, pool, tsize, disc, v24 in sorted(
-            booked, key=lambda r: -(r[4] or 0))[:20]:
-        ks = (ks or "")[5:16]
-        print(f"{slug[:46]:46} {ks:17} {spr*100:>4.0f}¢ {touch:>9,.0f} "
-              f"{(share or 0)*100:>6.1f}% ${pool:>7,.0f}")
 
-    print(f"\nmarkets with a live two-sided book now: {len(booked)} / {len(open_rows)} open")
-    if booked:
-        avg_touch = sum(r[3] for r in booked) / len(booked)
-        avg_share = sum(r[4] for r in booked) / len(booked)
-        avg_spr = sum(r[2] for r in booked) / len(booked)
-        print(f"avg touch depth (both sides): {avg_touch:,.0f} contracts")
-        print(f"avg spread: {avg_spr*100:.1f}¢   target_size: 20,000")
-        print(f"our avg pro-rata touch share at ${budget:.0f}: {avg_share*100:.2f}%")
-        # reward range: pool is per-market; cadence (per-game vs per-day) unknown,
-        # so bracket it. share * pool is the optimistic ceiling (we never beat it).
-        ceil = avg_share * 9900
-        print(f"\noptimistic reward CEILING per live market = share x $9,900 pool "
-              f"≈ ${ceil:,.2f}")
-        print(f"maker rebate on a 1,000-contract round trip at $0.50 ≈ "
+CSV_FIELDS = [
+    "ts", "slug", "period", "pool", "discount", "mid", "spread",
+    "book_score", "my_score", "share", "est_reward", "near_zero",
+    "end_date", "no_book",
+]
+
+
+def write_csv(path: Path, rows: list[dict]):
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with open(path, "w", newline="") as f:
+        w = csv.DictWriter(f, fieldnames=CSV_FIELDS, extrasaction="ignore")
+        w.writeheader()
+        for r in rows:
+            w.writerow(r)
+
+
+def append_daily_snapshot(scan_dir: Path, rows: list[dict]):
+    """Append today's ranked rows for multi-day stability study."""
+    day_path = scan_dir / f"{_day_stamp()}.csv"
+    scan_dir.mkdir(parents=True, exist_ok=True)
+    write_header = not day_path.exists()
+    with open(day_path, "a", newline="") as f:
+        w = csv.DictWriter(f, fieldnames=CSV_FIELDS, extrasaction="ignore")
+        if write_header:
+            w.writeheader()
+        for r in rows:
+            w.writerow(r)
+    return day_path
+
+
+def print_report(rows: list[dict], budget: float):
+    booked = [r for r in rows if not r.get("no_book")]
+    competed = [r for r in booked if not r["near_zero"]]
+    near_zero = [r for r in booked if r["near_zero"]]
+
+    print(f"=== POLYMARKET US REWARD YIELD SCAN  (budget ${budget:.0f}) ===")
+    print(f"open reward markets: {len(rows)}  with book: {len(booked)}  "
+          f"competed: {len(competed)}  near-zero: {len(near_zero)}\n")
+
+    hdr = (f"{'market':42} {'mid':>5} {'spr':>5} {'pool':>8} {'bookScr':>9} "
+           f"{'est$':>8} {'shr%':>6} {'nz':>3}")
+    print("--- competed (ranked by est_reward) ---")
+    print(hdr)
+    print("-" * len(hdr))
+    for r in sorted(competed, key=lambda x: -x["est_reward"])[:50]:
+        print(f"{r['slug'][:42]:42} {r['mid']:5.3f} {r['spread']*100:4.1f}¢ "
+              f"${r['pool']:7,.0f} {r['book_score']:9,.1f} "
+              f"${r['est_reward']:7.2f} {r['share']*100:5.1f}%   ")
+
+    if near_zero:
+        print("\n--- near-zero competition (advanced tier / high AS risk) ---")
+        print(hdr)
+        print("-" * len(hdr))
+        for r in sorted(near_zero, key=lambda x: -float(x["pool"] or 0))[:30]:
+            mid = r["mid"] if r["mid"] != "" else 0.0
+            spr = r["spread"] if r["spread"] != "" else 0.0
+            print(f"{r['slug'][:42]:42} {mid:5.3f} {spr*100:4.1f}¢ "
+                  f"${r['pool']:7,.0f} {r['book_score']:9,.1f} "
+                  f"${r['est_reward']:7.2f} {r['share']*100:5.1f}%  NZ")
+
+    if competed:
+        top = sorted(competed, key=lambda x: -x["est_reward"])[:20]
+        avg_share = sum(r["share"] for r in top) / len(top)
+        avg_est = sum(r["est_reward"] for r in top) / len(top)
+        print(f"\ntop-20 competed: avg share {avg_share*100:.2f}%  "
+              f"avg est_reward ${avg_est:.2f} (pool ceiling × share)")
+        print(f"maker rebate on 1,000-ct round trip @ $0.50 ≈ "
               f"${maker_rebate(0.50, 1000):.2f}")
-        print("\nNOTE: ceiling ignores (a) discount decay if we're not exactly at touch,")
-        print("(b) ADVERSE SELECTION on in-play fills — measure that on a LIVE game.")
+    print("\nNOTE: est_reward uses rewardPool as a ceiling proxy — cadence unknown.")
+    print("Adverse selection is NOT subtracted; prefer competed markets for pilots.")
+
+
+def history_report(scan_dir: Path):
+    """Per-slug stability across daily CSV snapshots."""
+    files = sorted(scan_dir.glob("????-??-??.csv"))
+    if not files:
+        print(f"no daily snapshots in {scan_dir}")
+        return
+    # slug -> list of (day, est_reward, book_score, near_zero)
+    series: dict[str, list] = {}
+    for fp in files:
+        day = fp.stem
+        with open(fp, newline="") as f:
+            for row in csv.DictReader(f):
+                slug = row["slug"]
+                series.setdefault(slug, []).append({
+                    "day": day,
+                    "est": float(row.get("est_reward") or 0),
+                    "book": float(row.get("book_score") or 0),
+                    "nz": row.get("near_zero", "").lower() in ("true", "1", "yes"),
+                })
+
+    print(f"=== STABILITY REPORT  ({len(files)} days, {len(series)} markets) ===")
+    hdr = f"{'market':42} {'days':>4} {'avg_est':>8} {'min_est':>8} {'avg_book':>9} {'nz_days':>7}"
+    print(hdr)
+    print("-" * len(hdr))
+    ranked = []
+    for slug, pts in series.items():
+        ests = [p["est"] for p in pts]
+        books = [p["book"] for p in pts]
+        ranked.append((
+            slug, len(pts),
+            sum(ests) / len(ests), min(ests),
+            sum(books) / len(books),
+            sum(1 for p in pts if p["nz"]),
+        ))
+    for slug, n, avg_e, min_e, avg_b, nz in sorted(ranked, key=lambda x: -x[2])[:40]:
+        print(f"{slug[:42]:42} {n:4} ${avg_e:7.2f} ${min_e:7.2f} "
+              f"{avg_b:9,.1f} {nz:7}")
+
+
+def main():
+    ap = argparse.ArgumentParser(description="Polymarket US reward yield scan")
+    ap.add_argument("budget", nargs="?", type=float, default=400.0)
+    ap.add_argument("--csv", type=str, default="",
+                    help="Write ranked CSV to this path")
+    ap.add_argument("--snapshot", action="store_true", default=True,
+                    help="Append daily snapshot under data/reward_scans/ (default)")
+    ap.add_argument("--no-snapshot", action="store_true",
+                    help="Skip daily snapshot append")
+    ap.add_argument("--history", action="store_true",
+                    help="Print stability report from daily snapshots and exit")
+    ap.add_argument("--scan-dir", type=str, default=str(DEFAULT_SCAN_DIR))
+    args = ap.parse_args()
+
+    scan_dir = Path(args.scan_dir)
+    if args.history:
+        history_report(scan_dir)
+        return
+
+    client = from_env()
+    rows = scan_markets(client, args.budget)
+    print_report(rows, args.budget)
+
+    # always write latest.csv for tooling
+    latest = scan_dir / "latest.csv"
+    write_csv(latest, sorted(rows, key=lambda r: -float(r.get("est_reward") or 0)))
+    print(f"\nwrote {latest}")
+
+    if args.csv:
+        write_csv(Path(args.csv), rows)
+        print(f"wrote {args.csv}")
+
+    if not args.no_snapshot:
+        day_path = append_daily_snapshot(scan_dir, rows)
+        print(f"appended daily snapshot {day_path}")
 
 
 if __name__ == "__main__":
-    budget = float(sys.argv[1]) if len(sys.argv) > 1 else 400.0
-    main(budget)
+    # allow legacy: `python scripts/poly_scan.py 489`
+    if len(sys.argv) == 2 and sys.argv[1].replace(".", "", 1).isdigit():
+        sys.argv = [sys.argv[0], sys.argv[1]]
+    main()

@@ -1,22 +1,56 @@
-# Render Blueprint — prediction-mm (Polymarket US liquidity-reward maker).
+# Render Blueprint — prediction-mm (CLOB reward-yield + quoter).
 #
-# One background worker. The live service was created manually in the Render
-# dashboard (start command + env can only be edited there, not via MCP), so
-# this file is infrastructure-as-reference.
-#
-# To stand it up manually:
-#   New → Background Worker → repo afehrenbach93/prediction_mm, branch main,
-#   Language: Python (NOT Docker)
-#   Build:  pip install -r requirements.txt
-#   Start:  python poly_runner.py
-#
-# Secrets (set per service in the Render dashboard, never in this file):
-#   POLYMARKET_API_KEY, POLYMARKET_SECRET
+# Deep-dive deploy path:
+#   1) cron: daily clob_yield_scan (stability study)
+#   2) worker: clob_runner (shadow until micro-pilot)
+# US poly_runner kept shadow-only / optional.
 
 services:
-  # ── POLYMARKET US — liquidity-reward maker ─────────────────────────────
-  # Quotes post-only at the touch on reward-eligible markets. SHADOW until the
-  # reward economics validate live, then the operator flips BOT_MODE=live.
+  # Regular CLOB pulse on clob.polymarket.com (scan + stability + pulse.json).
+  # Also scheduled in .github/workflows/clob-pulse.yml (00:00 + 15:00 UTC).
+  - type: cron
+    name: clob-pulse
+    runtime: python
+    schedule: "0 15 * * *"          # 15:00 UTC daily
+    buildCommand: pip install -r requirements.txt
+    startCommand: PYTHONPATH=. python scripts/clob_pulse.py --budget 500 --top 250
+    envVars: []
+
+  - type: cron
+    name: clob-pulse-morning
+    runtime: python
+    schedule: "0 0 * * *"           # 00:00 UTC daily
+    buildCommand: pip install -r requirements.txt
+    startCommand: PYTHONPATH=. python scripts/clob_pulse.py --budget 500 --top 250
+    envVars: []
+
+  - type: worker
+    name: clob-mm
+    runtime: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: PYTHONPATH=. python clob_runner.py
+    envVars:
+      - key: CLOB_MODE
+        value: "shadow"
+      - key: CLOB_BUDGET_PER_MARKET
+        value: "75"
+      - key: CLOB_MAX_MARKETS
+        value: "3"
+      - key: CLOB_SPREAD_FRACTION
+        value: "0.5"
+      - key: CLOB_MIN_HOURS_TO_END
+        value: "168"
+      - key: CLOB_PRIVATE_KEY
+        sync: false
+      - key: CLOB_API_KEY
+        sync: false
+      - key: CLOB_SECRET
+        sync: false
+      - key: CLOB_PASS_PHRASE
+        sync: false
+      - key: CLOB_FUNDER
+        sync: false
+
   - type: worker
     name: polymarket-mm
     runtime: python
@@ -24,17 +58,7 @@ services:
     startCommand: python poly_runner.py
     envVars:
       - key: BOT_MODE
-        value: "shadow"          # flip to "live" ONLY after the live reward test
-      - key: POLY_BUDGET
-        value: "200"
-      - key: POLY_SIZE
-        value: "100"
-      - key: POLY_MAX_INVENTORY
-        value: "300"
-      - key: POLY_DAILY_LOSS
-        value: "15"
-      - key: POLY_MAX_MARKETS
-        value: "5"
+        value: "shadow"
       - key: POLYMARKET_API_KEY
         sync: false
       - key: POLYMARKET_SECRET

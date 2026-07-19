@@ -40,6 +40,30 @@ class TestPositionsParse(unittest.TestCase):
         self.assertEqual(out["m1"]["entry"], 0.55)
         self.assertEqual(out["m2"]["net"], -50.0)
 
+    def test_live_api_netPosition_field(self):
+        """FOLLOWONS #0: live shape uses netPosition; breaker was blind without it."""
+        c = FakeClient(positions={
+            "tec-f-wc-2026-07-19-groupb-winner-bih": {
+                "netPosition": "332",
+                "qtyBought": "332",
+                "qtySold": "0",
+                "avgPrice": {"value": "0.42"},
+            },
+        })
+        out = pr.positions_net(c)
+        self.assertEqual(out["tec-f-wc-2026-07-19-groupb-winner-bih"]["net"], 332.0)
+        self.assertEqual(out["tec-f-wc-2026-07-19-groupb-winner-bih"]["entry"], 0.42)
+
+    def test_netPosition_trips_inventory_breaker(self):
+        pr.MAX_INV, pr.EXPOSURE_CAP, pr.DAILY_LOSS = 300.0, 300.0, 15.0
+        c = FakeClient(positions={
+            "m": {"netPosition": "332", "avgPrice": {"value": "0.50"}},
+        })
+        pos = pr.positions_net(c)
+        trip, reason = pr.breaker_check(c, pos)
+        self.assertTrue(trip)
+        self.assertIn("inventory", reason)
+
 
 class TestBreaker(unittest.TestCase):
     def setUp(self):

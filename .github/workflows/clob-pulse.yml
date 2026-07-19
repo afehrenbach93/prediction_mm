@@ -1,0 +1,69 @@
+# Regular CLOB market pulse against clob.polymarket.com (deep-dive §7.1).
+# Twice daily so weekend vs weekday books are both sampled.
+name: clob-pulse
+
+on:
+  schedule:
+    - cron: "0 0 * * *"    # 00:00 UTC
+    - cron: "0 15 * * *"   # 15:00 UTC (matches deep-dive snapshot hour)
+  workflow_dispatch:
+    inputs:
+      top:
+        description: "Top-N by daily_rate to score"
+        default: "250"
+      budget:
+        description: "Hypothetical budget USD"
+        default: "500"
+
+permissions:
+  contents: write
+
+jobs:
+  pulse:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install deps
+        run: pip install -r requirements.txt
+
+      - name: Run CLOB pulse (scan + stability + summary)
+        env:
+          PYTHONPATH: ${{ github.workspace }}
+        run: |
+          python scripts/clob_pulse.py \
+            --budget "${{ github.event.inputs.budget || '500' }}" \
+            --top "${{ github.event.inputs.top || '250' }}" \
+            --workers 8 \
+            --min-days 1 \
+            --min-yield 3
+
+      - name: Upload pulse artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: clob-pulse-${{ github.run_id }}
+          path: |
+            data/clob_scans/latest.csv
+            data/clob_scans/pilot_universe.csv
+            data/clob_scans/pulse.json
+            data/clob_scans/pulse.md
+            data/clob_scans/????-??-??.csv
+          if-no-files-found: error
+
+      - name: Commit scan snapshots (stability time series)
+        run: |
+          git config user.name "clob-pulse-bot"
+          git config user.email "clob-pulse-bot@users.noreply.github.com"
+          git add data/clob_scans/*.csv data/clob_scans/pulse.json data/clob_scans/pulse.md || true
+          if git diff --staged --quiet; then
+            echo "No scan changes to commit"
+          else
+            git commit -m "clob-pulse: $(date -u +%Y-%m-%dT%H:%MZ) market snapshot"
+            # Push to the ref that triggered the run (schedule runs on default branch)
+            git push origin HEAD:${GITHUB_REF_NAME}
+          fi

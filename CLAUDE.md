@@ -1,100 +1,43 @@
 # prediction-mm — Worklog & Operating Rules
 
-Polymarket US liquidity-reward market maker. Fresh repo (2026-06-20), migrated
-from `kalshi-mm` (Kalshi retired — every Kalshi income thesis closed; see
-"Closed theses" below). Squashed baseline; full Kalshi history lives in the old
-repo.
-
-> **Standing rule:** after every bug fix, ship, or significant decision, add a
-> dated entry to the Incident Log below. Keep this file ≤ ~1 page.
+> After each ship: dated Incident Log entry. Keep ≤ ~1 page.
 
 ## Thesis
-Polymarket US (CFTC/QCEX-regulated, `api.polymarket.us`) **pays market makers** —
-a maker rebate (`0.0125·C·p·(1−p)`) plus liquidity-reward pools
-(`Score = discountFactor^(ticks_from_best)·size`, snapshotted ~1/s, split
-pro-rata). That LP reward is the income mechanism Kalshi never had. **Unresolved:**
-pool cadence/scope and live adverse selection — rewards have been World-Cup-only
-and the economics aren't proven. **Validate-first: stay in shadow until a live
-reward-earnings read confirms positive net economics.**
+**Global CLOB liquidity rewards** (`clob.polymarket.com`). Quadratic score inside
+`max_spread`; capture = `daily_rate · my/(my+book)`. Polymarket US: no proven edge — parked.
 
-## Invariants (must never break)
-- **`BOT_MODE=shadow` = no orders reach the exchange.** `PolyClient(live=False)`
-  records intended orders to `shadow_orders` and returns a synthetic ack; a test
-  asserts no network leak. Only the operator flips `BOT_MODE=live`.
-- **Quote only reward-eligible markets in an active window** — selection comes
-  from `/v1/incentives` (`RewardMarketCache`), gated by `polymaker.program_active`.
-- **Full reconcile every cycle:** `cancel_all_orders` (with each order's
-  `marketSlug` in the body — empty body 400s) BEFORE re-posting, or orders pile up.
-- **Post-only at the EXACT book price** (futures tick in 0.001, not 0.01 — rounding
-  crosses a 1-tick book and gets post-only-rejected).
-- **Budget bounded:** top `POLY_MAX_MARKETS` by pool, size = `BUDGET/N`; breaker
-  trips on per-market inventory > cap, total exposure > `EXPOSURE_CAP` (1.5×budget),
-  or unrealized loss < −`POLY_DAILY_LOSS`, then cancels all + stands aside.
+## Deep-dive sequence (source of truth)
+1. Regular CLOB pulse (`scripts/clob_pulse.py` → `clob.polymarket.com`) twice daily
+   via `.github/workflows/clob-pulse.yml` (00:00 + 15:00 UTC); CSVs committed
+2. Docs-reconciled scoring (`core/clobscore.py`: S, Q_min, min_size mid)
+3. Eligibility + wallet + L2 keys (`scripts/clob_derive_keys.py`) — ops
+4. Quoting bot (`clob_runner.py`): two-sided, refresh, inventory, kill, fill log
+5. Micro-pilot: $50–100 × ≤3 competed, ≥7d to end — not near-zero list
+6. Scale gate: net > 50% of est gross over ≥14d (`scripts/clob_scale_gate.py`)
+
+## Invariants
+- `CLOB_MODE=shadow` → no CLOB mutations (`ClobTrader` gate + test)
+- Pilot from `pilot_universe.csv` only; near-zero excluded
+- Post-only; full cancel/replace; kill file `data/clob_logs/KILL`
+- Rewards ledger ≠ trading fills (`data/clob_logs/`)
 
 ## Architecture
-| File | Role |
+| Path | Role |
 |------|------|
-| `poly_runner.py` | Worker: select reward markets in-window, full-reconcile quote loop, breaker. `BOT_MODE` shadow/live/off. |
-| `core/polyclient.py` | Polymarket US REST + ED25519 auth (`msg = f"{ts_ms}GET{path}"`, seed = `base64(SECRET)[:32]`). Shadow-gated order layer (`place_order`/`cancel_order(id, market_slug)`/`get_open_orders`/`get_positions`/`get_book`/`get_incentives`). |
-| `core/polymaker.py` | Pure quoting: `maker_quotes` (join touch, inventory skew/cap), `program_active` (period-driven reward window). |
-| `lib/fairvalue.py` | **Dormant** salvage — spot-anchored fair value (Bachelier). Not used by the reward maker. |
-| `scripts/poly_scan.py` | Read-only reward-market book scan + pro-rata share estimate. |
-| `tests/` | `test_polyclient_shadow` (no-leak gate), `test_polymaker`, `test_poly_breaker`, `test_fairvalue`. |
-
-Runtime is stdlib-only except `cryptography` (ED25519). Keys in repo-root `.env`
-(`POLYMARKET_API_KEY` + `POLYMARKET_SECRET`); never commit them.
-
-## Deploy
-Render background worker `polymarket-mm` (build `pip install -r requirements.txt`,
-start `python poly_runner.py`). Start command + env are dashboard-only (Render MCP
-can read logs/env but can't create workers or edit the start command).
-
-## Closed theses (Kalshi — do not re-litigate)
-MM bleeds (adverse-selected in every config); no executable guaranteed arb
-(7.5k events swept, 0 robust); convergence efficient (weather settles on official
-climate report not raw obs; sports converge to $1 instantly); momentum needs
-volatility to even fire (0 trades). Lesson that paid off repeatedly: **validate
-read-only before funding; reconcile any tape-derived P&L against account balance.**
+| `scripts/clob_yield_scan.py` | Daily yield scan + CSV |
+| `scripts/clob_stability.py` | Persistent-yield → pilot_universe.csv |
+| `scripts/clob_derive_keys.py` | L1→L2 credential derive |
+| `scripts/clob_scale_gate.py` | Scale-up gate |
+| `clob_runner.py` | Quoter worker |
+| `core/clobscore.py` / `clobmaker.py` / `clobtrader.py` / `clob_ledger.py` | Score, quotes, shadow gate, accounting |
+| `poly_runner.py` | Parked US worker |
 
 ## Incident Log
 
-### 2026-06-20 — Repo migrated from kalshi-mm (Phase 1)
-Assembled the Polymarket keeper tree as a clean baseline: `poly_runner.py`,
-`core/polyclient.py`, `core/polymaker.py`, `scripts/poly_scan.py`, the poly tests,
-and `lib/fairvalue.py` (+ its tests, salvaged from branch
-`claude/kalshi-mm-multi-bot-x5xrd5`, import re-pointed `core`→`lib`). requirements/
-.env.example/render.yaml re-cut Polymarket-only; CLAUDE.md distilled. **Dropped the
-two convergence scanners** (`poly_wx_scan`, `poly_sports_scan`) per Andrew — they
-were closed-thesis tools depending on dropped modules (weatherfeed/gamefeed/
-convergence→alpha); only `poly_scan.py` (live reward thesis) came along. See
-`FOLLOWONS.md` for the esports-orders investigation (do before any live quoting).
+### 2026-07-19 — Implement deep-dive CLOB plan
+Built stability filter, docs-reconciled score (adjusted mid + Q_min), L2 derive
+helper, shadow-gated `clob_runner`, micro-pilot defaults, scale gate, separate
+rewards/fills ledgers, Render cron+worker stubs. US parked.
 
-### 2026-06-20 — Migration phases 3–5 (cutover)
-- **Render (Phase 4, done):** the live poly worker physically *is* the old
-  `kalshi-bot-hourly` service (`srv-d8kmtfrtqb8s73eg6tu0`, runs `python
-  poly_runner.py`) — **renamed to `polymarket-mm`**. Deleted the 4 dead Kalshi
-  workers (kalshi-mm core, kalshi-bot-sports, kalshi-bot-alpha, kalshi-runner).
-  Kept: polymarket-mm, kalshi-mm-app (static), kalshi-mm (dashboard web),
-  just_pick_it (unrelated).
-- **Render (Phase 4, BLOCKED):** repointing polymarket-mm's repo to
-  `prediction_mm` fails — Render's GitHub App lacks access to the new **private**
-  repo ("invalid or unfetchable"). It still builds from `kalshi-mm@main` (byte-
-  identical poly code). **Unblock:** grant Render's GitHub App access to
-  `afehrenbach93/prediction_mm`, then PATCH the service repo→prediction_mm/main.
-- **Supabase (Phase 3, done — nothing to delete):** project `pecafqwbfveovymyjako`
-  ("Andrew's Project"). The plan's cleanup targets are already absent — no `macro`
-  bot_control row, no `bot_markets`/`bot_series` tables, zero test-pollution rows
-  (shadow_orders/fills/etc. for tickers A/B/TICK or bot_id='t'). `0001_baseline.sql`
-  stays deferred until poly telemetry lands (follow-on #2). **Security:** 4 tables
-  have RLS disabled (market_snapshots, bot_config, fix_requests, app_users).
-- **Phase 5 (BLOCKED from this session):** archiving `kalshi-mm` + deleting its 8
-  dead branches need GitHub repo-settings/ref-delete access not available here (git
-  proxy blocks delete refspecs; no MCP delete-ref tool). Also hold the archive
-  until polymarket-mm is repointed off kalshi-mm. **Do manually** (or once tooling
-  allows): delete branches `claude/kalshi-mm-multi-bot-x5xrd5`,
-  `claude/kalshi-mm-premortem-93GCf`, `claude/kalshi-multi-agent-build-ctzKn`,
-  `claude/kalshi-multi-agent-session-g8ftz5`, `claude/migration-plan-continuation-grzs6d`,
-  `claude/review-share-purchase-logic-Gq3wk`, `claude/trusting-knuth-6b8fcd`,
-  `feature/mm/web-app-development-scaffold`; keep `main`.
-- **Keys:** Render key already rotated (Andrew). Polymarket key rotation is
-  operator-only (rotate in Polymarket UI + update polymarket-mm env).
+### 2026-07-19 — US path closed as unproven; CLOB scan first land
+Egress unrestricted; live scan ~9k markets / top-250 yields. See git history.
