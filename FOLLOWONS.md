@@ -1,12 +1,16 @@
 # Follow-ons — deep-dive checklist
 
-## §7.1 Stability study
+## §7.1 Stability study — regular CLOB pulse
+Domain: `https://clob.polymarket.com` (sampling-markets + books).
+
 ```bash
-PYTHONPATH=. python3 scripts/clob_yield_scan.py --budget 500 --top 250
-PYTHONPATH=. python3 scripts/clob_stability.py --min-days 1 --min-yield 3
+PYTHONPATH=. python3 scripts/clob_pulse.py --budget 500 --top 250
 # raise --min-days to 5–7 as daily CSVs accrue
 ```
-Render cron: `clob-yield-scan-daily` in `render.yaml`.
+
+Scheduled:
+- GitHub Actions `.github/workflows/clob-pulse.yml` — **00:00 + 15:00 UTC** daily; commits CSVs + `pulse.json` / `pulse.md`
+- Render crons `clob-pulse` / `clob-pulse-morning` in `render.yaml` (needs dashboard/Blueprint apply — Render MCP workspace not selected from this agent)
 
 ## §7.2 Docs reconciliation
 Implemented in `core/clobscore.py` per

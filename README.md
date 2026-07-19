@@ -9,9 +9,8 @@ Polymarket US MM is parked (no proven edge).
 pip install -r requirements.txt
 cp .env.example .env
 
-# 1) Daily yield scan + stability → pilot universe
-PYTHONPATH=. python3 scripts/clob_yield_scan.py --budget 500 --top 250
-PYTHONPATH=. python3 scripts/clob_stability.py --min-days 1 --min-yield 3
+# 1) Regular CLOB pulse (scan + stability + pulse.json) — also GH Actions 00:00/15:00 UTC
+PYTHONPATH=. python3 scripts/clob_pulse.py --budget 500 --top 250
 
 # 2) Derive L2 keys (ops; needs wallet key)
 CLOB_PRIVATE_KEY=0x... PYTHONPATH=. python3 scripts/clob_derive_keys.py

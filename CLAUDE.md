@@ -7,7 +7,8 @@
 `max_spread`; capture = `daily_rate · my/(my+book)`. Polymarket US: no proven edge — parked.
 
 ## Deep-dive sequence (source of truth)
-1. Daily `clob_yield_scan` → time series (rate, qual depth, yield)
+1. Regular CLOB pulse (`scripts/clob_pulse.py` → `clob.polymarket.com`) twice daily
+   via `.github/workflows/clob-pulse.yml` (00:00 + 15:00 UTC); CSVs committed
 2. Docs-reconciled scoring (`core/clobscore.py`: S, Q_min, min_size mid)
 3. Eligibility + wallet + L2 keys (`scripts/clob_derive_keys.py`) — ops
 4. Quoting bot (`clob_runner.py`): two-sided, refresh, inventory, kill, fill log

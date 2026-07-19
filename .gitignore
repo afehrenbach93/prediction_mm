@@ -9,8 +9,13 @@ data/logs/*
 !data/logs/.gitkeep
 data/reward_scans/*
 !data/reward_scans/.gitkeep
+# Persist CLOB scan CSVs + pulse for the stability time series (committed by
+# the clob-pulse GitHub Action). Ignore only ephemeral working junk.
 data/clob_scans/*
 !data/clob_scans/.gitkeep
+!data/clob_scans/*.csv
+!data/clob_scans/pulse.json
+!data/clob_scans/pulse.md
 data/clob_logs/*
 !data/clob_logs/.gitkeep
 

@@ -6,12 +6,22 @@
 # US poly_runner kept shadow-only / optional.
 
 services:
+  # Regular CLOB pulse on clob.polymarket.com (scan + stability + pulse.json).
+  # Also scheduled in .github/workflows/clob-pulse.yml (00:00 + 15:00 UTC).
   - type: cron
-    name: clob-yield-scan-daily
+    name: clob-pulse
     runtime: python
     schedule: "0 15 * * *"          # 15:00 UTC daily
     buildCommand: pip install -r requirements.txt
-    startCommand: PYTHONPATH=. python scripts/clob_yield_scan.py --budget 500 --top 250 && PYTHONPATH=. python scripts/clob_stability.py --min-days 1 --min-yield 3
+    startCommand: PYTHONPATH=. python scripts/clob_pulse.py --budget 500 --top 250
+    envVars: []
+
+  - type: cron
+    name: clob-pulse-morning
+    runtime: python
+    schedule: "0 0 * * *"           # 00:00 UTC daily
+    buildCommand: pip install -r requirements.txt
+    startCommand: PYTHONPATH=. python scripts/clob_pulse.py --budget 500 --top 250
     envVars: []
 
   - type: worker
