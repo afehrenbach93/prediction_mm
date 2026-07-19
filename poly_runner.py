@@ -2000,8 +2000,8 @@ def flow_scout(log, state):
         f"short_max={short_max:.0f}m only={int(endgame_only)}")
 
 
-def _scout_candidate_slugs(client, *, max_pages: int = 1) -> list[str]:
-    """Active reward + sports slugs for same-venue paper scouts (capped)."""
+def _scout_candidate_slugs(client, *, max_pages: int = 3) -> list[str]:
+    """Catalog slugs for census (incentives + sports pages). Cheap — no books."""
     slugs: list[str] = []
     seen: set[str] = set()
     for tp in client.get_incentives() or []:
@@ -2017,53 +2017,100 @@ def _scout_candidate_slugs(client, *, max_pages: int = 1) -> list[str]:
     return slugs
 
 
+def _near_end_markets(client, *, max_min: float, max_pages: int = 20) -> list[dict]:
+    """Markets with endDate in (0, max_min] — list payload includes endDate/question."""
+    now_ts = time.time()
+    out = []
+    for page in range(max(1, max_pages)):
+        try:
+            st, d = client.public_get("/v1/markets", limit=100, offset=page * 100,
+                                      active="true", closed="false")
+        except Exception:
+            break
+        page_m = (d.get("markets") if isinstance(d, dict) else d) or []
+        if st != 200 or not page_m:
+            break
+        for m in page_m:
+            if not isinstance(m, dict):
+                continue
+            end_ts = iso_ts(m.get("endDate") or "")
+            if not end_ts:
+                continue
+            mins = (end_ts - now_ts) / 60.0
+            if 0 < mins <= max_min:
+                out.append({"slug": m.get("slug"), "minutes_left": mins,
+                            "title": (m.get("question") or m.get("title") or "")[:160],
+                            "endDate": m.get("endDate")})
+    out.sort(key=lambda r: r["minutes_left"])
+    return out
+
+
 def _env_on(name: str) -> bool:
     return os.getenv(name, "").strip().lower() in ("1", "true", "yes", "on")
 
 
 def edge_scouts(client, log, arb_state, sweep_state):
-    """Combined arb + sweep paper pass — ONE book crawl, hard time budget.
+    """Combined arb + sweep paper pass — budgeted crawl + rules census.
 
-    Prior #108 hang: ~600 sequential get_book calls blocked the track loop and
-    starved heartbeats. Caps: EDGE_SCOUT_MAX_BOOKS (100), EDGE_SCOUT_BUDGET_SECS (35).
-    Rotates slug offset across cycles for breadth without blocking the worker.
+    Arb: only rules-complete families (full catalog census booked) count toward GO.
+    Sweep: discover by endDate window first (venue has almost nothing in 48h —
+    default window 30d), then book those slugs preferentially.
+    Caps: EDGE_SCOUT_MAX_BOOKS (100), EDGE_SCOUT_BUDGET_SECS (35).
     """
     from datetime import date as _date
-    from core import track, arbscan as a, sweepscout as ss
+    from core import track, arbscan as a, arbrules as ar, sweepscout as ss
 
     do_arb = _env_on("ARB_SCAN")
     do_sweep = _env_on("SWEEP_SCOUT")
     if not do_arb and not do_sweep:
         return
-    max_pages = int(os.getenv("EDGE_SCOUT_MAX_PAGES",
-                              os.getenv("ARB_SCAN_MAX_PAGES", "1")))
+    max_pages = int(os.getenv("EDGE_SCOUT_MAX_PAGES", "3"))
     max_books = int(os.getenv("EDGE_SCOUT_MAX_BOOKS", "100"))
     budget = float(os.getenv("EDGE_SCOUT_BUDGET_SECS", "35"))
     fee_bin = float(os.getenv("ARB_SCAN_FEE_BIN", "0.01"))
     fee_part = float(os.getenv("ARB_SCAN_FEE_PART", "0.02"))
+    max_fam = int(os.getenv("ARB_MAX_FAMILY_SIZE", "12"))
     min_ask = float(os.getenv("SWEEP_SCOUT_MIN_ASK", "0.97"))
     max_ask = float(os.getenv("SWEEP_SCOUT_MAX_ASK", "0.995"))
-    max_min = float(os.getenv("SWEEP_SCOUT_MAX_MIN", str(48 * 60)))
+    # Poly US active book is mostly weeks out — 30d default for paper discovery
+    max_min = float(os.getenv("SWEEP_SCOUT_MAX_MIN", str(30 * 24 * 60)))
+    sweep_pages = int(os.getenv("SWEEP_SCOUT_CATALOG_PAGES", "20"))
     paper_sz = float(os.getenv("SWEEP_SCOUT_SIZE", "10"))
 
     today = _date.today().isoformat()
     run_id = datetime.now(timezone.utc).strftime("%H%M%S")
     now_ts = time.time()
     deadline = now_ts + budget
-    slugs = _scout_candidate_slugs(client, max_pages=max_pages)
-    # rotate window so we sample different markets across cycles
-    off = int(arb_state.get("slug_off", 0)) % max(len(slugs), 1)
-    if slugs:
-        slugs = slugs[off:] + slugs[:off]
-        arb_state["slug_off"] = off + max_books
+
+    catalog = _scout_candidate_slugs(client, max_pages=max_pages)
+    census = ar.census_families(catalog)
+    off = int(arb_state.get("fam_off", 0))
+    fetch_slugs: list[str] = []
+    near_meta: dict[str, dict] = {}
+
+    if do_sweep:
+        near = _near_end_markets(client, max_min=max_min, max_pages=sweep_pages)
+        for row in near:
+            s = row.get("slug")
+            if s and s not in near_meta:
+                near_meta[s] = row
+                fetch_slugs.append(s)
+    if do_arb:
+        fam_slugs = ar.prioritize_complete_families(
+            census, max_books=max_books, max_family_size=max_fam, offset=off)
+        arb_state["fam_off"] = off + 1
+        for s in fam_slugs:
+            if s not in fetch_slugs:
+                fetch_slugs.append(s)
 
     log(f"edge-scouts: start arb={int(do_arb)} sweep={int(do_sweep)} "
-        f"slugs={len(slugs)} max_books={max_books} budget={budget:.0f}s off={off}")
+        f"catalog={len(catalog)} census_fams={len(census)} near_end={len(near_meta)} "
+        f"fetch={len(fetch_slugs)} max_books={max_books} budget={budget:.0f}s")
 
-    books: dict[str, tuple] = {}  # slug -> (bid, bid_sz, ask, ask_sz)
+    books: dict[str, tuple] = {}
     n_books = 0
     truncated = False
-    for slug in slugs:
+    for slug in fetch_slugs:
         if n_books >= max_books or time.time() >= deadline:
             truncated = True
             break
@@ -2083,9 +2130,8 @@ def edge_scouts(client, log, arb_state, sweep_state):
     arb_rows: list[dict] = []
     sweep_rows: list[dict] = []
 
-    # ---- arb analysis on fetched books ----
     if do_arb:
-        n_bin = n_part = n_depth = n_suspect = 0
+        n_bin = n_part = n_depth = n_suspect = n_incomplete = n_rules = 0
         raw_bin: list[float] = []
         raw_part: list[float] = []
         best_hits: list[dict] = []
@@ -2099,99 +2145,108 @@ def edge_scouts(client, log, arb_state, sweep_state):
             raw_bin.append(e["raw_edge"])
             if e["actionable"]:
                 n_bin += 1
+                n_rules += 1  # binary is self-complete
                 if e.get("depth"):
                     n_depth += 1
+                detail = dict(e, rules_ok=True, rules_note="binary")
                 arb_rows.append(a.paper_arb_record(
                     "binary_complement", family=slug, legs=[slug],
-                    edge=e["edge"], cost=e["cost"], today=today, detail=e,
+                    edge=e["edge"], cost=e["cost"], today=today, detail=detail,
                     run_id=run_id))
                 best_hits.append({"kind": "bin", "fam": slug[:40], "edge": e["edge"],
                                   "depth": e.get("depth")})
-        fams = a.group_families(list(books.keys()))
-        for fam, members in fams.items():
-            asks, sizes = [], []
-            ok = True
-            for m in members:
-                row = books.get(m)
-                if not row:
-                    ok = False
-                    break
-                asks.append(row[2])
-                sizes.append(row[3])
-            if not ok or len(asks) < 2:
+        # evaluate census families that we fully booked
+        for fam, expected in census.items():
+            if len(expected) > max_fam:
                 continue
+            complete, note = ar.family_complete(fam, list(books.keys()), census,
+                                                max_family_size=max_fam)
+            members = [m for m in expected if m in books]
+            if len(members) < 2:
+                continue
+            asks = [books[m][2] for m in members]
+            sizes = [books[m][3] for m in members]
             e = a.partition_edge(asks, fee_buffer=fee_part, sizes=sizes)
             if not e:
                 continue
             raw_part.append(e["raw_edge"])
-            if e.get("suspect_incomplete") or e["actionable"]:
+            detail = dict(e, rules_ok=complete, rules_note=note,
+                          census_n=len(expected), booked_n=len(members))
+            if e.get("suspect_incomplete") or e["actionable"] or not complete:
                 arb_rows.append(a.paper_arb_record(
                     "partition", family=fam, legs=members,
-                    edge=e["edge"], cost=e["cost"], today=today, detail=e,
+                    edge=e["edge"], cost=e["cost"], today=today, detail=detail,
                     run_id=run_id))
+            if not complete:
+                n_incomplete += 1
+                if e["raw_edge"] > 0:
+                    best_hits.append({"kind": "INCOMPLETE", "fam": fam[:40],
+                                      "edge": e["edge"], "depth": e.get("depth")})
+                continue
             if e.get("suspect_incomplete"):
                 n_suspect += 1
                 best_hits.append({"kind": "SUSPECT", "fam": fam[:40],
                                   "edge": e["edge"], "depth": e.get("depth")})
             elif e["actionable"]:
                 n_part += 1
+                n_rules += 1
                 if e.get("depth"):
                     n_depth += 1
                 best_hits.append({"kind": "part", "fam": fam[:40], "edge": e["edge"],
                                   "depth": e.get("depth")})
-        cum = arb_state.setdefault("cum", {"actionable": 0, "with_depth": 0,
-                                           "edges": [], "suspect": 0})
-        cum["actionable"] += n_bin + n_part
+        # reset legacy false-GO counters: only rules-complete accumulate
+        cum = arb_state.setdefault("cum", {"rules_ok": 0, "with_depth": 0,
+                                           "edges": [], "incomplete": 0, "suspect": 0})
+        # one-time migrate away from pre-rules counters
+        if "actionable" in cum and "rules_ok" not in cum:
+            cum = {"rules_ok": 0, "with_depth": 0, "edges": [], "incomplete": 0,
+                   "suspect": 0}
+            arb_state["cum"] = cum
+        cum["rules_ok"] += n_rules
         cum["with_depth"] += n_depth
+        cum["incomplete"] += n_incomplete
         cum["suspect"] += n_suspect
         for h in best_hits:
-            if h["kind"] != "SUSPECT":
+            if h["kind"] in ("bin", "part"):
                 cum["edges"].append(h["edge"])
         if len(cum["edges"]) > 500:
             cum["edges"] = cum["edges"][-500:]
         med = sorted(cum["edges"])[len(cum["edges"]) // 2] if cum["edges"] else None
-        verdict, reason = a.go_kill(cum["actionable"], cum["with_depth"], med)
+        verdict, reason = ar.go_kill(cum["rules_ok"], cum["with_depth"], med)
         dist_bin, dist_part = a.summarize_edges(raw_bin), a.summarize_edges(raw_part)
         arb_state["summary"] = {
-            "n_slugs": len(slugs), "n_books": n_books, "n_families": len(fams),
+            "n_slugs": len(catalog), "n_books": n_books, "n_families": len(census),
             "actionable_bin": n_bin, "actionable_part": n_part,
+            "rules_ok": n_rules, "incomplete": n_incomplete,
             "suspect_part": n_suspect, "with_depth": n_depth,
             "recorded": len(arb_rows), "truncated": truncated,
             "dist_bin": dist_bin, "dist_part": dist_part,
-            "cum_actionable": cum["actionable"], "cum_depth": cum["with_depth"],
-            "cum_suspect": cum["suspect"], "cum_median_edge": med,
-            "verdict": verdict, "verdict_note": reason,
+            "cum_actionable": cum["rules_ok"],  # app field: now rules-complete
+            "cum_rules_ok": cum["rules_ok"], "cum_depth": cum["with_depth"],
+            "cum_incomplete": cum["incomplete"], "cum_suspect": cum["suspect"],
+            "cum_median_edge": med, "verdict": verdict, "verdict_note": reason,
             "budget_s": budget, "ts": datetime.now(timezone.utc).strftime("%H:%MZ"),
         }
-        log(f"arb-scan: books={n_books}{'*' if truncated else ''} fams={len(fams)} "
-            f"bin[p50={dist_bin.get('p50')}/pos={dist_bin.get('n_positive', 0)}] "
-            f"part[p50={dist_part.get('p50')}/pos={dist_part.get('n_positive', 0)}] "
-            f"hit bin={n_bin} part={n_part} suspect={n_suspect} "
-            f"cum={cum['actionable']} verdict={verdict}")
+        log(f"arb-scan: books={n_books}{'*' if truncated else ''} "
+            f"census={len(census)} rules_ok={n_rules} incomplete={n_incomplete} "
+            f"suspect={n_suspect} bin={n_bin} part={n_part} "
+            f"cum_rules={cum['rules_ok']} verdict={verdict}")
         for h in sorted(best_hits, key=lambda x: -abs(x["edge"]))[:5]:
             log(f"  arb-hit {h['kind']} {h['fam']} edge={h['edge']:+.4f} "
                 f"depth={h.get('depth')}")
 
-    # ---- sweep: only fetch market meta for high asks (avoid N extra GETs) ----
     if do_sweep:
         seen = sweep_state.setdefault("seen", set())
         hour_tag = datetime.now(timezone.utc).strftime("%Y%m%d%H")
         n_cand = 0
         all_asks = [row[2] for row in books.values()]
         near_end_asks: list[float] = []
-        # prefilter: ask near band before spending a get_market call
-        hot = [(s, b) for s, b in books.items() if b[2] >= min_ask - 0.02]
-        for slug, (bb, bbs, ba, bas) in hot:
-            if time.time() >= deadline:
-                truncated = True
-                break
-            try:
-                mk = client.get_market(slug)
-            except Exception:
-                mk = None
-            end_ts = iso_ts((mk or {}).get("endDate") or "") or iso_ts(
-                (mk or {}).get("gameStartTime") or "")
-            mins = ((end_ts - now_ts) / 60.0) if end_ts else None
+        # prefer books we already have that are in the near-end set; also any high ask
+        for slug, (bb, bbs, ba, bas) in books.items():
+            meta = near_meta.get(slug) or {}
+            mins = meta.get("minutes_left")
+            if mins is None and slug in near_meta:
+                mins = near_meta[slug]["minutes_left"]
             if mins is not None and 0 < mins <= max_min:
                 near_end_asks.append(ba)
             if not ss.is_sweep_candidate(
@@ -2201,7 +2256,7 @@ def edge_scouts(client, log, arb_state, sweep_state):
             key = f"{slug}|{hour_tag}"
             if key in seen:
                 continue
-            title = ((mk or {}).get("question") or (mk or {}).get("title") or "")[:160]
+            title = meta.get("title") or ""
             sz = min(paper_sz, bas) if bas else paper_sz
             sweep_rows.append(ss.paper_sweep_record(
                 slug, ask=ba, bid=bb, minutes_left=mins, today=today, title=title,
@@ -2214,19 +2269,21 @@ def edge_scouts(client, log, arb_state, sweep_state):
         cum_s["candidates"] += n_cand
         ask_dist = ss.summarize_asks(all_asks, min_ask=min_ask)
         near_dist = ss.summarize_asks(near_end_asks, min_ask=min_ask)
+        # settled sample still empty → WATCH; surface discovery stats
         verdict, reason = ss.go_kill(0, None, None, source_gate=False)
         sweep_state["summary"] = {
-            "n_slugs": len(slugs), "n_books": n_books, "candidates": n_cand,
+            "n_slugs": len(near_meta), "n_books": n_books, "candidates": n_cand,
             "recorded": len(sweep_rows), "cum_candidates": cum_s["candidates"],
             "ask_dist": ask_dist, "near_end_dist": near_dist, "truncated": truncated,
+            "near_end_catalog": len(near_meta),
             "min_ask": min_ask, "max_ask": max_ask, "max_min": max_min,
             "verdict": verdict, "verdict_note": reason,
             "budget_s": budget, "ts": datetime.now(timezone.utc).strftime("%H:%MZ"),
         }
-        log(f"sweep-scout: books={n_books}{'*' if truncated else ''} "
-            f"candidates=+{n_cand} "
+        log(f"sweep-scout: near_end_catalog={len(near_meta)} books={n_books}"
+            f"{'*' if truncated else ''} candidates=+{n_cand} "
             f"asks[max={ask_dist.get('max_ask')} ge{min_ask}={ask_dist.get('n_ge_min', 0)}] "
-            f"hot={len(hot)} cum={cum_s['candidates']} verdict={verdict}")
+            f"cum={cum_s['candidates']} verdict={verdict}")
 
     rows = arb_rows + sweep_rows
     if rows:
@@ -2247,6 +2304,51 @@ def sweep_scout(client, log, state):
     if not _env_on("SWEEP_SCOUT"):
         os.environ["SWEEP_SCOUT"] = "1"
     edge_scouts(client, log, {}, state)
+
+
+def copy_settle_pass(log, state):
+    """Settle whale/flow paper rows against gamma closed markets; score GO/KILL.
+
+    Runs in-process so Overview heartbeat shows settle progress without a manual
+    CLI. Budgeted slug count keeps it off the critical path. Env: COPY_SETTLE=1
+    (default on when WHALE_SCOUT or FLOW_SCOUT is on), COPY_SETTLE_LIMIT (800),
+    COPY_SETTLE_MAX_SLUGS (120).
+    """
+    from core import copyscore, flowscout as fs
+    if not (_env_on("COPY_SETTLE") or _env_on("WHALE_SCOUT") or _env_on("FLOW_SCOUT")):
+        return
+    # explicit COPY_SETTLE=0 disables
+    if os.getenv("COPY_SETTLE", "").strip().lower() in ("0", "false", "no", "off"):
+        return
+    limit = int(os.getenv("COPY_SETTLE_LIMIT", "800"))
+    max_slugs = int(os.getenv("COPY_SETTLE_MAX_SLUGS", "120"))
+    summary = {}
+    for model, gate in (("whale-scout", "WHALE_SCOUT"), ("flow-scout", "FLOW_SCOUT")):
+        if not _env_on(gate) and not _env_on("COPY_SETTLE"):
+            continue
+        if not _env_on(gate):
+            continue
+        try:
+            out = copyscore.score_model(model, limit=limit, settle=True, write=True,
+                                        max_slugs=max_slugs)
+        except Exception as e:
+            log(f"copy-settle {model} error: {e}")
+            continue
+        scored = out.get("scored") or {}
+        v, reason = fs.go_kill(scored.get("n_scored") or 0, scored.get("hit_rate"),
+                               scored.get("paper_pnl"), min_n=100, min_hit=0.55)
+        summary[model] = {
+            "n_rows": out.get("n_rows"), "resolutions": out.get("resolutions"),
+            "n_scored": scored.get("n_scored"), "hit_rate": scored.get("hit_rate"),
+            "paper_pnl": scored.get("paper_pnl"), "wrote": out.get("wrote"),
+            "verdict": v, "verdict_note": reason,
+            "lag_median_bps": (out.get("lag") or {}).get("lag_median_bps"),
+            "ts": datetime.now(timezone.utc).strftime("%H:%MZ"),
+        }
+        log(f"copy-settle {model}: rows={out.get('n_rows')} resolved={out.get('resolutions')} "
+            f"scored={scored.get('n_scored')} pnl={scored.get('paper_pnl')} "
+            f"wrote={out.get('wrote')} verdict={v}")
+    state["summary"] = summary
 
 
 def whale_scout(log, state):
@@ -2702,7 +2804,7 @@ def main():
         last_wx = last_soc = last_sports = last_settle = last_hb = last_pnl = 0.0
         last_wxchk = last_odds = last_mlb = last_users = last_crypto = 0.0
         last_mirror = last_ryield = last_whale = last_flow = 0.0
-        last_arb = last_sweep = 0.0
+        last_arb = last_sweep = last_copy_settle = 0.0
         odds_state: dict = {}
         crypto_state: dict = {}
         mirror_state: dict = {}
@@ -2711,6 +2813,7 @@ def main():
         flow_state: dict = {}
         arb_state: dict = {}
         sweep_state: dict = {}
+        copy_settle_state: dict = {}
         PNL_EVERY = 300          # log an account P&L snapshot every 5 min while live
         pnl_summ: dict = {}
         # multi-user execution: ONE shared brain, one client per registered venue
@@ -2907,6 +3010,14 @@ def main():
                 except Exception as e:
                     log(f"edge-scouts error: {e}")
                 last_arb = last_sweep = now
+            # Whale/flow gamma settlement + GO/KILL (hourly; writes settled rows).
+            if ((_env_on("WHALE_SCOUT") or _env_on("FLOW_SCOUT") or _env_on("COPY_SETTLE"))
+                    and now - last_copy_settle >= 3600):
+                try:
+                    copy_settle_pass(log, copy_settle_state)
+                except Exception as e:
+                    log(f"copy-settle error: {e}")
+                last_copy_settle = now
             # Reward-YIELD diagnostic (Stage 1) — read-only pool-yield vs adverse-selection
             # ranking, surfaced in the heartbeat. The per-cycle sampler accumulates a
             # rolling mid history for the watched markets; the scan re-ranks every 10 min
@@ -2983,6 +3094,8 @@ def main():
                     wx_hb["arb_scan"] = arb_state["summary"]
                 if sweep_state.get("summary"):
                     wx_hb["sweep_scout"] = sweep_state["summary"]
+                if copy_settle_state.get("summary"):
+                    wx_hb["copy_settle"] = copy_settle_state["summary"]
                 if live_now:
                     _track.heartbeat("live" if LIVE_ARMED else "live-shadow",
                                      res.get("status", "?"),

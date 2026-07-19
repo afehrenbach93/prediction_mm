@@ -200,28 +200,11 @@ def paper_arb_record(kind: str, *, family: str, legs: list[str],
 
 def go_kill(n_actionable: int, n_with_depth: int, median_edge: float | None,
             *, min_n: int = 30, min_depth_hits: int = 10,
-            min_median_edge: float = 0.005) -> tuple[str, str]:
-    """Arb GO needs repeated actionable hits WITH executable depth.
-
-    Unit tests and a single scan are never enough. Default bar:
-      ≥30 actionable observations, ≥10 with depth>0, median net edge ≥0.5¢.
-    Even then: rules-exhaustiveness verification still required before live.
-    """
-    if n_actionable < min_n:
-        return ("WATCH",
-                f"need ≥{min_n} actionable observations (have {n_actionable}) "
-                f"— detector only, thesis unproven")
-    if n_with_depth < min_depth_hits:
-        return ("WATCH",
-                f"need ≥{min_depth_hits} with depth>0 (have {n_with_depth}) "
-                f"— phantom books don't pay")
-    if median_edge is None:
-        return "INCONCLUSIVE", "missing median_edge"
-    if median_edge < min_median_edge:
-        return ("KILL",
-                f"median_edge={median_edge:.4f} < {min_median_edge} "
-                f"— fees/slip eat the lock")
-    return ("GO",
-            f"{n_actionable} actionable, {n_with_depth} with depth, "
-            f"median_edge={median_edge:.4f} — still need rules-exhaustiveness "
-            f"check before live")
+            min_median_edge: float = 0.005, n_rules_ok: int | None = None
+            ) -> tuple[str, str]:
+    """Deprecated wrapper — prefer core.arbrules.go_kill (rules-complete only)."""
+    from core import arbrules as ar
+    n = n_rules_ok if n_rules_ok is not None else n_actionable
+    return ar.go_kill(n, n_with_depth, median_edge, min_n=min_n,
+                      min_depth_hits=min_depth_hits,
+                      min_median_edge=min_median_edge)

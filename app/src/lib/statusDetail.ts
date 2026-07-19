@@ -54,10 +54,13 @@ export type ArbScanDetail = {
   n_families: number;
   actionable_bin: number;
   actionable_part: number;
+  rules_ok?: number;
+  incomplete?: number;
   suspect_part?: number;
   with_depth?: number;
   recorded: number;
   cum_actionable?: number;
+  cum_rules_ok?: number;
   verdict?: string;
   ts?: string;
 };
@@ -178,10 +181,13 @@ export function parseOps(detail: any, mode = '', status = ''): OpsSnapshot {
       n_families: Number(ar.n_families) || 0,
       actionable_bin: Number(ar.actionable_bin) || 0,
       actionable_part: Number(ar.actionable_part) || 0,
+      rules_ok: num(ar.rules_ok) ?? undefined,
+      incomplete: num(ar.incomplete) ?? undefined,
       suspect_part: num(ar.suspect_part) ?? undefined,
       with_depth: num(ar.with_depth) ?? undefined,
       recorded: Number(ar.recorded) || 0,
       cum_actionable: num(ar.cum_actionable) ?? undefined,
+      cum_rules_ok: num(ar.cum_rules_ok) ?? undefined,
       verdict: ar.verdict ? String(ar.verdict) : undefined,
       ts: ar.ts,
     } : null,

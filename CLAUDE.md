@@ -77,6 +77,15 @@ read-only before funding; reconcile any tape-derived P&L against account balance
 
 ## Incident Log
 
+### 2026-07-19 — Three priorities: rules census, sweep widen, copy settle
+(1) Arb false-GO fixed: only **rules-complete** families (full catalog census
+booked, size≤12) count — prior `GO` was incomplete MVP/champ subsets. (2) Sweep
+discovers by `endDate` (default **30d**; venue ≈0 in 48h) — live smoke found
+candidates @0.99. (3) Whale/flow settle via gamma **events** lookup +
+`copyscore` / hourly `copy_settle_pass`. **First settle verdicts: whale KILL
+(pnl≈−$76k, hit 47% on 488); flow KILL (pnl≈−$67k, hit 46% on 145).** Lag copy
+of .com whales/flow is not an edge.
+
 ### 2026-07-18 — Arb/sweep hang: uncapped book crawl blocked track loop
 After merging #108 + enabling env, `arb_scan` walked ~600 `get_book`s with no
 budget and starved heartbeats (last_seen stuck). Disabled flags, restarted worker,

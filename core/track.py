@@ -20,7 +20,8 @@ CONFLICT = "model,market_slug,settle_date,run_date"
 
 
 def _creds():
-    return os.getenv("SUPABASE_URL", ""), os.getenv("SUPABASE_ANON_KEY", "")
+    return (os.getenv("SUPABASE_URL", ""),
+            os.getenv("SUPABASE_ANON_KEY") or os.getenv("SUPABASE_SERVICE_KEY") or "")
 
 
 def _now() -> str:
