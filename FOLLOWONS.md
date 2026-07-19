@@ -1,30 +1,28 @@
 # Follow-ons
 
-## #0 — FIXED 2026-07-19: `netPosition` breaker blindness
-Live API field is `netPosition` (raw shape: `{'netPosition':'332',...}`).
-`positions_net` now parses `netPosition` first; unit test locks the logged shape.
-**Still operator-owned:** cancel any leftover live COD orders via
-`PYTHONPATH=. python scripts/poly_cancel_all.py` (or UI) — shadow cannot cancel
-exchange orders. Open 332-contract WC position may still exist; breaker will now
-see it once positions are readable.
+## Active thesis — Global CLOB LP rewards (pivoted 2026-07-19)
+Polymarket US produced **no proven edge**. Pivot to global CLOB incentive capture.
 
-## #1 — Esports scope (mitigated; confirm before live)
-`/v1/incentives` listed COD (`aec-cod-*`) and the bot correctly quoted them.
-**Mitigation shipped:** `POLY_DENY_PREFIXES=aec-cod-` (default) drops those
-prefixes in `RewardMarketCache.refresh()`. Before any live flip: confirm current
-`get_incentives()` set and extend the deny-list if other esports programs appear.
+1. **Stability study:** run `PYTHONPATH=. python3 scripts/clob_yield_scan.py` daily;
+   keep markets whose competed yield persists (`--history`).
+2. **Docs fidelity:** scoring in `core/clobscore.py` matches published quadratic +
+   Q_min; re-check if Polymarket changes `c` or sampling cadence.
+3. **Eligibility / wallet:** confirm US/FL access to global Polymarket; Polygon
+   wallet + USDC; CLOB L1/L2 API keys. (Ops — not coded.)
+4. **Quoting bot (not built):** two-sided quotes inside `max_spread`, refresh on
+   mid move, inventory caps, hard kill switch, fill logging.
+5. **Micro-pilot:** $50–100 on 2–3 *competed*, long-dated, catalyst-light markets.
+   Scale only if realized net > ~50% of estimated gross.
+6. **Avoid near-zero books** until event-aware quote-pulling exists.
 
-## #2 — Telemetry + app
-Local append-only ledger now writes `data/logs/{quotes,fills,rewards}.csv` +
-`events.jsonl`. Supabase / Expo app retarget still open.
+## Parked — Polymarket US
+- `#0` `netPosition` parse: **fixed** in code; cancel leftovers with
+  `scripts/poly_cancel_all.py` if any remain.
+- `#1` Esports deny-list (`aec-cod-`): shipped; keep US worker on `BOT_MODE=shadow`.
+- `#2` Local ledger exists; Supabase/app still open if US ever resumes.
+- `#3` US LP economics: **closed as unproven** — do not fund without new evidence.
 
-## #3 — Resolve LP-reward economics (in progress)
-- Scan: multi-level US score + `est_reward = pool × my/(my+book)`; daily snapshots
-  under `data/reward_scans/`; `--history` stability report.
-- Runner polls `/v1/incentives/earnings` every `POLY_EARNINGS_SECS` into
-  `rewards.csv` (separate from trading fills).
-- Stay shadow until earnings show positive gross; micro-size live only on
-  competed, long-dated markets (`POLY_REQUIRE_COMPETED=1`, `POLY_MIN_HOURS_TO_END=72`).
-- Near-zero competition markets are an advanced tier — excluded by default.
-- Global CLOB (`sampling-markets` / quadratic) remains a separate venue decision;
-  not wired here.
+## Domains / egress
+Cloud agent egress is **unrestricted** (`clob.polymarket.com`,
+`gamma-api.polymarket.com`, `gateway.polymarket.us` all reachable). No allowlist
+block on CLOB scans in this environment.

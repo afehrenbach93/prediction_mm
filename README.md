@@ -1,42 +1,35 @@
 # prediction-mm
 
-Polymarket US **liquidity-reward market maker**. A small, focused worker that
-rests post-only quotes at the touch on reward-eligible markets to farm the
-maker rebate + liquidity-reward pools.
+**Active thesis:** Polymarket **global CLOB** liquidity-reward yield search
+(quadratic scoring on `clob.polymarket.com`). Polymarket US MM is parked — no
+proven edge after extended testing.
 
-> Migrated from `kalshi-mm` (2026-06-20). The Kalshi engine and its closed
-> theses stay in that repo's history. See `CLAUDE.md` for the thesis,
-> invariants, and worklog.
+See `CLAUDE.md` for thesis / invariants / worklog.
 
 ## Layout
 ```
-poly_runner.py              worker: select + reconcile + breaker + earnings ledger
-core/polyclient.py          Polymarket US REST + ED25519 auth, shadow-gated orders
-core/polymaker.py           pure quoting (join touch, inventory skew, windows)
-core/rewardscore.py         US multi-level reward score + capture estimate
-core/ledger.py              quotes / fills / rewards logs under data/logs/
-lib/fairvalue.py            dormant salvage (spot-anchored fair value), tested
-scripts/poly_scan.py        yield scan + CSV + daily stability snapshots
-scripts/poly_cancel_all.py  one-shot LIVE cancel of leftover resting orders
+scripts/clob_yield_scan.py  ACTIVE: CLOB reward-yield scan + daily CSV snapshots
+core/clobclient.py          read-only CLOB HTTP (sampling-markets, book)
+core/clobscore.py           quadratic LP score + capture estimate
+poly_runner.py              PARKED: US shadow worker
+core/polyclient.py          US REST + ED25519 (parked)
+scripts/poly_scan.py        US scan (parked)
+scripts/poly_cancel_all.py  one-shot LIVE cancel leftover US orders
 tests/                      unittest suite
-render.yaml                 Render blueprint (polymarket-mm worker, reference)
 ```
 
 ## Setup
 ```bash
 pip install -r requirements.txt
-cp .env.example .env            # fill in POLYMARKET_API_KEY / POLYMARKET_SECRET
+cp .env.example .env   # only needed for parked US worker / cancel helper
 ```
 
-## Run
+## Run (edge search)
 ```bash
 PYTHONPATH=. python3 -m unittest discover -s tests -v
-PYTHONPATH=. python3 scripts/poly_scan.py 500          # yield scan + snapshot
-PYTHONPATH=. python3 scripts/poly_scan.py --history    # multi-day stability
-BOT_MODE=shadow PYTHONPATH=. python3 poly_runner.py    # shadow (default)
-PYTHONPATH=. python3 scripts/poly_cancel_all.py --dry-run  # list leftover live orders
+PYTHONPATH=. python3 scripts/clob_yield_scan.py --budget 500 --top 250
+PYTHONPATH=. python3 scripts/clob_yield_scan.py --history
 ```
 
-**Safety:** `BOT_MODE=shadow` is the default and records orders without sending
-them. Only the operator flips `BOT_MODE=live`, and only after the live reward
-economics validate. See `FOLLOWONS.md` before any live quoting.
+**Safety:** CLOB code is read-only today (no order placement). US worker stays
+`BOT_MODE=shadow`. See `FOLLOWONS.md` for the path to a micro-pilot.
