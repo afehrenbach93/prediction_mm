@@ -1,249 +1,215 @@
 # Build review — CLOB liquidity-reward stack
 
-**PR:** https://github.com/afehrenbach93/prediction_mm/pull/111  
-**Branch:** `cursor/reward-capture-gaps-eeb7`  
-**Base:** `claude/prediction-mm-migration-p1-wja5v5`  
+**Share this file:** https://github.com/afehrenbach93/prediction_mm/blob/claude/prediction-mm-migration-p1-wja5v5/BUILD_REVIEW.md  
+
+**Raw (plain text copy):** https://raw.githubusercontent.com/afehrenbach93/prediction_mm/claude/prediction-mm-migration-p1-wja5v5/BUILD_REVIEW.md  
+
+**PR (merged):** https://github.com/afehrenbach93/prediction_mm/pull/111  
 **As of:** 2026-07-19  
 
-This document is a review packet for everything built in this PR. Source plan: the 2026-07-19 deep-dive (Polymarket global CLOB reward-yield scan → deployment sequence).
+Source plan: deep-dive “Polymarket Market Making + Incentive Capture” (global CLOB reward-yield → deployment sequence).
 
 ---
 
-## 1. Decision recorded in code
+## What we built (process → deliverables)
+
+### Phase 0 — Diagnosis
+- Compared the deep-dive (global CLOB / `clob.polymarket.com` / quadratic rewards) to the existing Polymarket **US** worker.
+- Fact: US path had no proven edge after prior scan/test; CLOB had measurable **gross** reward opportunity.
+- Decision: **pivot thesis to global CLOB**; park US MM.
+
+### Phase 1 — CLOB yield scan
+| Built | Purpose |
+|-------|---------|
+| `core/clobclient.py` | Read-only HTTP to `clob.polymarket.com` (`/sampling-markets`, `/book`) |
+| `core/clobscore.py` | Docs-reconciled quadratic score + capture estimate |
+| `scripts/clob_yield_scan.py` | Rank markets by est $/day; competed vs near-zero tables; CSV snapshots |
+
+### Phase 2 — Deep-dive sequence implementation
+| Built | Purpose |
+|-------|---------|
+| `scripts/clob_stability.py` | Persistent-yield filter → `pilot_universe.csv` |
+| `scripts/clob_derive_keys.py` | L1 wallet key → L2 API key/secret/passphrase |
+| `core/clobmaker.py` | Two-sided quote prices at fraction of `max_spread` |
+| `core/clobtrader.py` | Shadow-gated `py-clob-client-v2` (no live orders unless `CLOB_MODE=live`) |
+| `core/clob_ledger.py` | Separate `rewards.csv` vs `fills.csv` + daily pnl |
+| `clob_runner.py` | Quoting worker: cancel/replace, inventory, kill switch, fill/reward logs |
+| `scripts/clob_scale_gate.py` | Scale only if net/est_gross > 50% over ≥14 days |
+
+### Phase 3 — Regular market pulses
+| Built | Purpose |
+|-------|---------|
+| `scripts/clob_pulse.py` | One command: scan + stability + `pulse.json` / `pulse.md` |
+| `.github/workflows/clob-pulse.yml` | Twice daily (00:00 + 15:00 UTC); commits CSVs |
+| Render crons `clob-pulse` / `clob-pulse-morning` | Same pulse on Render schedule |
+
+### Phase 4 — Merge + deploy (done)
+| Action | Result |
+|--------|--------|
+| Merged PR #111 | Into `claude/prediction-mm-migration-p1-wja5v5` |
+| Retargeted `polymarket-mm` worker | Branch = default; start = `PYTHONPATH=. python clob_runner.py` |
+| Env | `CLOB_MODE=shadow` + micro-pilot defaults |
+| Created Render crons | `clob-pulse` (15:00 UTC), `clob-pulse-morning` (00:00 UTC) |
+| Deploy | Live; shadow quoting 3 pilot markets confirmed in logs |
+| One-off pulse job | Succeeded on Render |
+
+**Dashboards**
+- Worker: https://dashboard.render.com/worker/srv-d8kmtfrtqb8s73eg6tu0  
+- Pulse cron: https://dashboard.render.com/cron/crn-d9eg4fv41pts73eshjk0  
+
+---
+
+## Decisions recorded
 
 | Item | Fact |
 |------|------|
 | Active venue | Global Polymarket CLOB — `https://clob.polymarket.com` |
-| Parked venue | Polymarket US (`api.polymarket.us` / `poly_runner.py`) — no proven edge |
+| Parked venue | Polymarket US (`api.polymarket.us` / `poly_runner.py`) |
 | Default trade mode | `CLOB_MODE=shadow` — no orders hit the exchange |
 | Score model | Official quadratic LP rewards (docs-reconciled) |
-| Edge status | Gross opportunity measurable; net edge **not** yet proven (needs micro-pilot) |
+| Edge status | Gross opportunity measurable; **net edge not proven** until micro-pilot |
 
 ---
 
-## 2. Deep-dive plan → what was built
+## Deep-dive plan → code map
 
 | Deep-dive step | Deliverable | Status |
 |----------------|-------------|--------|
-| §7.1 Stability study / regular scans | `scripts/clob_pulse.py` + GH Actions 00:00 & 15:00 UTC + Render cron stubs | Built |
+| §7.1 Stability / regular scans | `clob_pulse.py` + GH Actions + Render crons | Built + deployed |
 | §7.2 Docs reconciliation | `core/clobscore.py` — `S=((v−s)/v)²`, size-cutoff mid, Q_min, c=3 | Built |
-| §7.3 Eligibility + wallet + L2 keys | `.env.example` CLOB_* + `scripts/clob_derive_keys.py` | Scaffolded (ops confirm access/funding) |
-| §7.4 Quoting bot | `clob_runner.py` + `core/clobtrader.py` (py-clob-client-v2, shadow-gated) | Built |
-| §7.5 Micro-pilot defaults | $75 × 3 markets, ≥7d to end, near-zero excluded | Built |
-| §7.6 Scale gate | `scripts/clob_scale_gate.py` — net/est_gross > 0.5 over ≥14d | Built |
-| Gap §6.7 Accounting | `core/clob_ledger.py` — `rewards.csv` ≠ `fills.csv` | Built |
+| §7.3 Eligibility + wallet + L2 keys | `.env.example` + `clob_derive_keys.py` | Scaffolded — **ops: put keys on Render** |
+| §7.4 Quoting bot | `clob_runner.py` + `clobtrader.py` | Built + deployed (shadow) |
+| §7.5 Micro-pilot defaults | $75 × 3, ≥7d to end, near-zero excluded | Built |
+| §7.6 Scale gate | `clob_scale_gate.py` | Built |
+| Accounting | `clob_ledger.py` — rewards ≠ fills | Built |
 
 ---
 
-## 3. Architecture
+## Architecture
 
 ```
 clob.polymarket.com
         │
-        ├─ sampling-markets (paginated) ──► clob_yield_scan / clob_pulse
-        │                                      │
-        │                                      ├─ data/clob_scans/YYYY-MM-DD.csv
-        │                                      ├─ data/clob_scans/latest.csv
-        │                                      ├─ data/clob_scans/pulse.json|md
-        │                                      └─ clob_stability ──► pilot_universe.csv
+        ├─ sampling-markets ──► clob_pulse / clob_yield_scan
+        │                         ├─ data/clob_scans/YYYY-MM-DD.csv
+        │                         ├─ latest.csv, pulse.json, pulse.md
+        │                         └─ clob_stability → pilot_universe.csv
         │
-        └─ book?token_id=… ──► score + (shadow|live) quotes
-                                      │
-                                      clob_runner
-                                      ├─ ClobTrader (shadow gate)
-                                      ├─ clobmaker (bid/ask at spread fraction)
-                                      └─ clob_ledger (quotes / fills / rewards / pnl)
+        └─ book?token_id=… ──► clob_runner (shadow|live)
+                                  ├─ ClobTrader (shadow gate)
+                                  ├─ clobmaker (bid/ask)
+                                  └─ clob_ledger (quotes / fills / rewards)
 ```
 
 ---
 
-## 4. File inventory (this PR)
+## File inventory
 
 ### Active CLOB path
-
 | Path | Role |
 |------|------|
-| `scripts/clob_pulse.py` | **Entrypoint for regular pulse:** scan + stability + summary |
-| `scripts/clob_yield_scan.py` | Pull sampling-markets, score top-N books, write CSVs |
-| `scripts/clob_stability.py` | Multi-day persistent-yield filter → `pilot_universe.csv` |
-| `scripts/clob_derive_keys.py` | L1 private key → L2 API key/secret/passphrase |
-| `scripts/clob_scale_gate.py` | Scale-up gate from `pnl_daily.csv` |
-| `clob_runner.py` | Quoting worker (shadow/live/off) |
-| `core/clobclient.py` | Read-only HTTP (sampling-markets, book) |
-| `core/clobscore.py` | Quadratic score + capture estimate |
-| `core/clobmaker.py` | Pure quote prices/sizes |
-| `core/clobtrader.py` | Shadow-gated wrapper over `py-clob-client-v2` |
-| `core/clob_ledger.py` | Quotes / fills / rewards / daily pnl logs |
-| `.github/workflows/clob-pulse.yml` | Scheduled pulse 00:00 + 15:00 UTC; commits CSVs |
-| `render.yaml` | Cron stubs + `clob-mm` worker (shadow) |
-| `data/clob_scans/*` | Snapshot CSVs + `pulse.json` / `pulse.md` / pilot universe |
-| `requirements.txt` | Adds `py-clob-client-v2>=1.1.0` |
+| `scripts/clob_pulse.py` | Regular pulse entrypoint |
+| `scripts/clob_yield_scan.py` | Yield scan + CSV |
+| `scripts/clob_stability.py` | Persistent-yield → pilot universe |
+| `scripts/clob_derive_keys.py` | L1 → L2 credentials |
+| `scripts/clob_scale_gate.py` | Scale-up gate |
+| `clob_runner.py` | Quoter worker |
+| `core/clobclient.py` | Read-only CLOB HTTP |
+| `core/clobscore.py` | Quadratic score + capture |
+| `core/clobmaker.py` | Quote prices/sizes |
+| `core/clobtrader.py` | Shadow-gated trading SDK wrapper |
+| `core/clob_ledger.py` | Accounting logs |
+| `.github/workflows/clob-pulse.yml` | Scheduled pulse |
+| `render.yaml` | IaC reference for cron/worker |
+| `data/clob_scans/*` | Snapshot CSVs + pulse artifacts |
+| `requirements.txt` | Includes `py-clob-client-v2` |
 
-### Tests added
+### Tests
+`tests/test_clobscore.py`, `test_clobmaker.py`, `test_clobtrader_shadow.py`, `test_clob_stability.py`
 
-| Path | Covers |
-|------|--------|
-| `tests/test_clobscore.py` | Weight, adjusted mid, Q_min, capture |
-| `tests/test_clobmaker.py` | Quote prices/sizes/inventory |
-| `tests/test_clobtrader_shadow.py` | Shadow place/cancel never live |
-| `tests/test_clob_stability.py` | Persistent competed filter |
-
-### Parked / incidental (US — not the thesis)
-
-| Path | Note |
-|------|------|
-| `poly_runner.py` | US worker; hardened (netPosition, deny-list, selection) but parked |
-| `core/polyclient.py`, `polymaker.py`, `rewardscore.py`, `ledger.py` | US stack |
-| `scripts/poly_scan.py`, `poly_cancel_all.py` | US scan / leftover cancel helper |
+### Parked (US — not the thesis)
+`poly_runner.py`, `core/polyclient.py`, `polymaker.py`, `rewardscore.py`, `scripts/poly_scan.py`, `poly_cancel_all.py`
 
 ---
 
-## 5. Scoring formula (docs-reconciled)
+## Scoring (docs-reconciled)
 
-Source: https://docs.polymarket.com/market-makers/liquidity-rewards  
+https://docs.polymarket.com/market-makers/liquidity-rewards  
 
 ```
 S(v, s) = ((v - s) / v)^2 * b
 ```
 
-- `v` = `rewards.max_spread` from API (**cents**, e.g. 4.5 → 4.5¢)
-- `s` = distance from **size-cutoff-adjusted** midpoint (levels with size < `min_size` ignored for mid)
-- `Q_one` / `Q_two` = Σ S × size per side  
-- `Q_min` = `max(min(Q1,Q2), max(Q1,Q2)/c)` when mid ∈ [0.10, 0.90], else `min(Q1,Q2)`  
-- `c = 3.0`  
-- Capture estimate: `est_daily = daily_rate × my_score / (my_score + book_score)`  
-- Hypothetical quote: budget split two-sided at **half** max_spread (weight 0.25)
+- `v` = API `max_spread` in **cents**
+- Mid ignores levels below `min_size`
+- `Q_min` two-sided rule with `c = 3`
+- Capture: `est_daily = daily_rate × my_score / (my_score + book_score)`
+- Hypothetical quote at half max_spread (weight 0.25)
 
 ---
 
-## 6. Regular market pulse (domains)
+## Keys — where they go
 
-**Domain scanned:** `https://clob.polymarket.com`  
-Endpoints used: `/sampling-markets`, `/book?token_id=…`
+| Where | What |
+|-------|------|
+| **Render** `polymarket-mm` env | `CLOB_PRIVATE_KEY`, `CLOB_API_KEY`, `CLOB_SECRET`, `CLOB_PASS_PHRASE`, `CLOB_FUNDER`, `CLOB_SIGNATURE_TYPE` — required before `CLOB_MODE=live` |
+| Local `.env` | Only for laptop runs / `clob_derive_keys.py` |
+| Repo / git | Never |
 
-| Scheduler | Cadence | Action |
-|-----------|---------|--------|
-| GitHub Actions `clob-pulse` | 00:00 UTC + 15:00 UTC | Run pulse; upload artifacts; commit CSVs |
-| Render `clob-pulse` / `clob-pulse-morning` | same (Blueprint) | Needs dashboard/Blueprint apply |
-| Manual | anytime | `PYTHONPATH=. python3 scripts/clob_pulse.py --budget 500 --top 250` |
-
-Outputs under `data/clob_scans/`:
-
-- `YYYY-MM-DD.csv` — daily snapshot rows  
-- `latest.csv` — last full ranked set  
-- `pilot_universe.csv` — competed markets passing persistence filter  
-- `pulse.json` / `pulse.md` — headline metrics for review  
-
-**Egress fact (this cloud agent):** unrestricted; CLOB reachable. No allowlist block observed.
+Get L1 key: export Polymarket wallet private key (Magic reveal or MetaMask).  
+Derive L2: `CLOB_PRIVATE_KEY=0x… PYTHONPATH=. python3 scripts/clob_derive_keys.py`
 
 ---
 
-## 7. Quoter behavior (`clob_runner.py`)
-
-| Behavior | Default |
-|----------|---------|
-| Mode | `CLOB_MODE=shadow` |
-| Markets | Top of `pilot_universe.csv`, max 3 |
-| Size | `$75` notional per market (both sides) |
-| Quote distance | `0.5 × max_spread` from mid |
-| Min time to end | 168 hours (7 days) |
-| Near-zero books | Excluded |
-| Orders | Post-only GTC; cancel/replace each cycle |
-| Inventory cap | 200 shares / market |
-| Exposure cap | `1.5 × budget × markets` |
-| Kill switch | `touch data/clob_logs/KILL` |
-| Logs | `data/clob_logs/{quotes,fills,rewards,pnl_daily}.csv` |
-
-Live path requires: `CLOB_PRIVATE_KEY`, L2 creds (`clob_derive_keys.py`), Polygon USDC, operator flip to `CLOB_MODE=live`.
-
----
-
-## 8. Operator runbook
+## Operator runbook
 
 ```bash
-pip install -r requirements.txt
-cp .env.example .env
-
-# Pulse (also scheduled)
+# Pulse
 PYTHONPATH=. python3 scripts/clob_pulse.py --budget 500 --top 250
 
-# Derive L2 keys (ops — needs wallet)
+# Derive L2 keys → paste into Render env
 CLOB_PRIVATE_KEY=0x... PYTHONPATH=. python3 scripts/clob_derive_keys.py
-# paste CLOB_API_KEY / CLOB_SECRET / CLOB_PASS_PHRASE / CLOB_FUNDER into .env
 
-# Quoter — stays shadow until you flip
+# Quoter (local); Render already runs this in shadow
 PYTHONPATH=. python3 clob_runner.py
 
-# After pilot pnl rows exist
+# Scale gate after pilot pnl exists
 PYTHONPATH=. python3 scripts/clob_scale_gate.py --min-days 14 --threshold 0.5
-
-# Tests
-PYTHONPATH=. python3 -m unittest discover -s tests -v
 ```
 
-### Ops checklist (not done by this agent)
+Kill switch: `touch data/clob_logs/KILL`
+
+---
+
+## Safety invariants
+
+1. `CLOB_MODE=shadow` → no exchange mutations (unit-tested).  
+2. Kill file cancels / stands aside.  
+3. Pilot excludes near-zero competition books.  
+4. Scale gate blocks size-up unless net > 50% of estimated gross over ≥14 days.  
+5. Secrets not in git.
+
+---
+
+## Still ops (not code)
 
 - [ ] Confirm US/FL access / ToS for polymarket.com  
-- [ ] Fund Polygon wallet with USDC  
-- [ ] Derive and store L2 credentials  
-- [ ] Merge PR so GH Actions schedule runs on default branch  
-- [ ] Apply Render Blueprint / create crons if using Render  
-- [ ] Flip `CLOB_MODE=live` only for micro-pilot on competed markets  
-- [ ] Raise `clob_stability --min-days` to 5–7 after enough daily CSVs  
+- [ ] Fund Polygon USDC  
+- [ ] Put CLOB keys on Render  
+- [ ] Flip `CLOB_MODE=live` only for micro-pilot  
+- [ ] Raise stability `--min-days` to 5–7 as CSV history accrues  
 
 ---
 
-## 9. Sample pulse (committed)
-
-From `data/clob_scans/pulse.json` (run 2026-07-19, top-100 score pass in later pulse; earlier top-250 also on branch history):
-
-- Domain: `clob.polymarket.com`  
-- Gross yields on competed books remain large in snapshot terms  
-- Near-zero markets flagged separately and **excluded from pilot**  
-- See `data/clob_scans/pulse.md` for ranked tables  
-
-**Interpretation constraint from the plan:** these numbers are **gross reward capture only**. Adverse selection / fill losses are not subtracted until the micro-pilot ledger has real fills + reward receipts.
-
----
-
-## 10. Safety / invariants
-
-1. `CLOB_MODE=shadow` → `ClobTrader` records intended orders; no `create_and_post_order` / cancel mutations. Covered by `tests/test_clobtrader_shadow.py`.  
-2. Kill file stops quoting and cancels (live) / logs cancel (shadow).  
-3. Pilot universe excludes near-zero competition by default.  
-4. Scale gate blocks size increases unless `mean(net/est_gross) > 0.5` over ≥14 days.  
-5. Secrets never committed (`.env` gitignored; Render `sync: false`).  
-
----
-
-## 11. Commits on this branch (summary)
-
-1. US methodology gaps (pre-pivot safety: netPosition, deny-list, US scan/ledger)  
-2. Pivot: CLOB yield scan + score + client  
-3. Full deep-dive: stability, quoter, derive keys, scale gate, ledger, Render stubs  
-4. Regular pulses: `clob_pulse.py` + GH Actions schedule + persisted CSVs  
-
----
-
-## 12. What is intentionally not built
+## Intentionally not built
 
 | Item | Why |
 |------|-----|
-| Event-aware quote pulling on near-zero / news markets | Plan marks as advanced tier |
-| Automated eligibility/ToS legal check | Ops |
-| On-chain wallet funding automation | Ops |
-| Guaranteed net edge | Requires live micro-pilot measurement |
-| Polymarket US as income thesis | Closed as unproven |
+| Event-aware quote pull on near-zero/news markets | Advanced tier per plan |
+| Automated eligibility/legal check | Ops |
+| On-chain funding automation | Ops |
+| Proven net edge | Needs live micro-pilot measurement |
 
 ---
 
-## 13. Review questions for Andrew
-
-1. Merge PR so twice-daily GH Actions pulse starts accumulating the 5–7 day stability series?  
-2. Confirm FL/US access + wallet before any `CLOB_MODE=live`?  
-3. Apply Render crons/worker, or rely on GitHub Actions + local/shadow runner only?  
-4. Micro-pilot market shortlist: take top competed from `pilot_universe.csv` after ≥5 snapshot days, or hand-pick now?  
-
----
-
-*End of build review packet.*
+*End of build review — share via the GitHub link at the top of this file.*
