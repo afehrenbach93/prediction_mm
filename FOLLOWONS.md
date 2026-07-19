@@ -1,28 +1,37 @@
-# Follow-ons
+# Follow-ons — deep-dive checklist
 
-## Active thesis — Global CLOB LP rewards (pivoted 2026-07-19)
-Polymarket US produced **no proven edge**. Pivot to global CLOB incentive capture.
+## §7.1 Stability study
+```bash
+PYTHONPATH=. python3 scripts/clob_yield_scan.py --budget 500 --top 250
+PYTHONPATH=. python3 scripts/clob_stability.py --min-days 1 --min-yield 3
+# raise --min-days to 5–7 as daily CSVs accrue
+```
+Render cron: `clob-yield-scan-daily` in `render.yaml`.
 
-1. **Stability study:** run `PYTHONPATH=. python3 scripts/clob_yield_scan.py` daily;
-   keep markets whose competed yield persists (`--history`).
-2. **Docs fidelity:** scoring in `core/clobscore.py` matches published quadratic +
-   Q_min; re-check if Polymarket changes `c` or sampling cadence.
-3. **Eligibility / wallet:** confirm US/FL access to global Polymarket; Polygon
-   wallet + USDC; CLOB L1/L2 API keys. (Ops — not coded.)
-4. **Quoting bot (not built):** two-sided quotes inside `max_spread`, refresh on
-   mid move, inventory caps, hard kill switch, fill logging.
-5. **Micro-pilot:** $50–100 on 2–3 *competed*, long-dated, catalyst-light markets.
-   Scale only if realized net > ~50% of estimated gross.
-6. **Avoid near-zero books** until event-aware quote-pulling exists.
+## §7.2 Docs reconciliation
+Implemented in `core/clobscore.py` per
+https://docs.polymarket.com/market-makers/liquidity-rewards
+(`S=((v-s)/v)^2`, size-cutoff mid, Q_min, c=3). Re-verify if Polymarket changes `c`.
+
+## §7.3 Eligibility + wallet (ops — not automatable here)
+- [ ] Confirm US/FL access to polymarket.com ToS
+- [ ] Polygon wallet + USDC
+- [ ] `CLOB_PRIVATE_KEY=… python3 scripts/clob_derive_keys.py` → fill `.env`
+- [ ] Keep `CLOB_MODE=shadow` until micro-pilot go
+
+## §7.4 Quoting bot
+`PYTHONPATH=. python3 clob_runner.py` — shadow default.
+Kill: `touch data/clob_logs/KILL`
+
+## §7.5 Micro-pilot
+Defaults: `$75 × 3` competed, `MIN_HOURS_TO_END=168`, near-zero excluded.
+Measure: rewards (`rewards.csv`) − fill losses (`fills.csv`).
+
+## §7.6 Scale gate
+```bash
+PYTHONPATH=. python3 scripts/clob_scale_gate.py --min-days 14 --threshold 0.5
+```
+PASS required before increasing size. Near-zero tier stays advanced-only.
 
 ## Parked — Polymarket US
-- `#0` `netPosition` parse: **fixed** in code; cancel leftovers with
-  `scripts/poly_cancel_all.py` if any remain.
-- `#1` Esports deny-list (`aec-cod-`): shipped; keep US worker on `BOT_MODE=shadow`.
-- `#2` Local ledger exists; Supabase/app still open if US ever resumes.
-- `#3` US LP economics: **closed as unproven** — do not fund without new evidence.
-
-## Domains / egress
-Cloud agent egress is **unrestricted** (`clob.polymarket.com`,
-`gamma-api.polymarket.com`, `gateway.polymarket.us` all reachable). No allowlist
-block on CLOB scans in this environment.
+No proven edge. `BOT_MODE=shadow`. `netPosition` fix + deny-list remain for safety.

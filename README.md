@@ -1,35 +1,41 @@
 # prediction-mm
 
-**Active thesis:** Polymarket **global CLOB** liquidity-reward yield search
-(quadratic scoring on `clob.polymarket.com`). Polymarket US MM is parked — no
-proven edge after extended testing.
+Global Polymarket **CLOB liquidity-reward** stack (deep-dive plan).
+Polymarket US MM is parked (no proven edge).
 
-See `CLAUDE.md` for thesis / invariants / worklog.
+## Operate
+
+```bash
+pip install -r requirements.txt
+cp .env.example .env
+
+# 1) Daily yield scan + stability → pilot universe
+PYTHONPATH=. python3 scripts/clob_yield_scan.py --budget 500 --top 250
+PYTHONPATH=. python3 scripts/clob_stability.py --min-days 1 --min-yield 3
+
+# 2) Derive L2 keys (ops; needs wallet key)
+CLOB_PRIVATE_KEY=0x... PYTHONPATH=. python3 scripts/clob_derive_keys.py
+
+# 3) Quoter (shadow default)
+PYTHONPATH=. python3 clob_runner.py
+
+# 4) Scale gate after pilot pnl rows exist
+PYTHONPATH=. python3 scripts/clob_scale_gate.py
+```
+
+Kill switch: `touch data/clob_logs/KILL`
 
 ## Layout
 ```
-scripts/clob_yield_scan.py  ACTIVE: CLOB reward-yield scan + daily CSV snapshots
-core/clobclient.py          read-only CLOB HTTP (sampling-markets, book)
-core/clobscore.py           quadratic LP score + capture estimate
-poly_runner.py              PARKED: US shadow worker
-core/polyclient.py          US REST + ED25519 (parked)
-scripts/poly_scan.py        US scan (parked)
-scripts/poly_cancel_all.py  one-shot LIVE cancel leftover US orders
-tests/                      unittest suite
+clob_runner.py                 quoter (shadow/live)
+scripts/clob_yield_scan.py     reward yield scan
+scripts/clob_stability.py      persistent-yield filter
+scripts/clob_derive_keys.py    L1→L2 credentials
+scripts/clob_scale_gate.py     net vs gross scale rule
+core/clobscore.py              quadratic score (docs-reconciled)
+core/clobmaker.py              quote prices/sizes
+core/clobtrader.py             shadow-gated py-clob-client-v2
+core/clob_ledger.py            rewards vs fills accounting
 ```
 
-## Setup
-```bash
-pip install -r requirements.txt
-cp .env.example .env   # only needed for parked US worker / cancel helper
-```
-
-## Run (edge search)
-```bash
-PYTHONPATH=. python3 -m unittest discover -s tests -v
-PYTHONPATH=. python3 scripts/clob_yield_scan.py --budget 500 --top 250
-PYTHONPATH=. python3 scripts/clob_yield_scan.py --history
-```
-
-**Safety:** CLOB code is read-only today (no order placement). US worker stays
-`BOT_MODE=shadow`. See `FOLLOWONS.md` for the path to a micro-pilot.
+See `CLAUDE.md` / `FOLLOWONS.md`.

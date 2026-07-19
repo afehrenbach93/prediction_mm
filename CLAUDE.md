@@ -1,59 +1,42 @@
 # prediction-mm — Worklog & Operating Rules
 
-> **Standing rule:** after every bug fix, ship, or significant decision, add a
-> dated entry to the Incident Log below. Keep this file ≤ ~1 page.
+> After each ship: dated Incident Log entry. Keep ≤ ~1 page.
 
-## Thesis (PIVOTED 2026-07-19)
-**Active edge search: Polymarket global CLOB liquidity rewards**
-(`clob.polymarket.com` / quadratic score inside `max_spread`). Deep-dive scan
-shows large gross pools vs thin qualifying depth on many markets — unproven net
-after adverse selection, but the only live opportunity with measurable scale.
+## Thesis
+**Global CLOB liquidity rewards** (`clob.polymarket.com`). Quadratic score inside
+`max_spread`; capture = `daily_rate · my/(my+book)`. Polymarket US: no proven edge — parked.
 
-**Polymarket US (`api.polymarket.us`) is parked.** Days of US scanning/testing
-produced no proven edge. Keep US shadow worker + safety fixes; do not treat US
-as the income thesis.
-
-**Validate-first:** daily CLOB yield snapshots → stability filter → docs-reconciled
-scoring → micro-size on competed/catalyst-free markets only. Gross ≠ net.
+## Deep-dive sequence (source of truth)
+1. Daily `clob_yield_scan` → time series (rate, qual depth, yield)
+2. Docs-reconciled scoring (`core/clobscore.py`: S, Q_min, min_size mid)
+3. Eligibility + wallet + L2 keys (`scripts/clob_derive_keys.py`) — ops
+4. Quoting bot (`clob_runner.py`): two-sided, refresh, inventory, kill, fill log
+5. Micro-pilot: $50–100 × ≤3 competed, ≥7d to end — not near-zero list
+6. Scale gate: net > 50% of est gross over ≥14d (`scripts/clob_scale_gate.py`)
 
 ## Invariants
-- **No live CLOB orders until** wallet + L1/L2 creds + kill switch exist and a
-  micro-pilot is explicitly approved. Current CLOB code is **read-only scan**.
-- **US shadow gate still holds** for `poly_runner.py` (`BOT_MODE=shadow` default).
-- **CLOB score:** `S=((v-s)/v)^2·size` with Q_min two-sided rule; capture =
-  `daily_rate · my/(my+book)`. `max_spread` from API is **cents**.
-- Prefer **competed** books; treat near-zero competition as advanced / high AS.
+- `CLOB_MODE=shadow` → no CLOB mutations (`ClobTrader` gate + test)
+- Pilot from `pilot_universe.csv` only; near-zero excluded
+- Post-only; full cancel/replace; kill file `data/clob_logs/KILL`
+- Rewards ledger ≠ trading fills (`data/clob_logs/`)
 
 ## Architecture
-| File | Role |
+| Path | Role |
 |------|------|
-| `scripts/clob_yield_scan.py` | **Active:** global CLOB reward-yield scan + daily CSV |
-| `core/clobclient.py` | Read-only CLOB HTTP (sampling-markets, book) |
-| `core/clobscore.py` | Quadratic LP score + capture estimate |
-| `poly_runner.py` | Parked US worker (shadow); safety/selection hardened |
-| `core/polyclient.py` / `polymaker.py` / `rewardscore.py` | US stack (parked) |
-| `scripts/poly_scan.py` | US scan (parked; not the edge thesis) |
-| `scripts/poly_cancel_all.py` | One-shot LIVE cancel leftover US orders |
-
-## Deploy
-Render `polymarket-mm` still runs US `poly_runner.py` — keep **shadow**. CLOB
-scanner is local/cron until a CLOB worker is built.
-
-## Closed theses
-Kalshi: MM bleeds, no arb, convergence efficient. **Polymarket US LP:** no proven
-edge after extended scan/test — do not re-litigate without new venue data.
+| `scripts/clob_yield_scan.py` | Daily yield scan + CSV |
+| `scripts/clob_stability.py` | Persistent-yield → pilot_universe.csv |
+| `scripts/clob_derive_keys.py` | L1→L2 credential derive |
+| `scripts/clob_scale_gate.py` | Scale-up gate |
+| `clob_runner.py` | Quoter worker |
+| `core/clobscore.py` / `clobmaker.py` / `clobtrader.py` / `clob_ledger.py` | Score, quotes, shadow gate, accounting |
+| `poly_runner.py` | Parked US worker |
 
 ## Incident Log
 
-### 2026-07-19 — Pivot to global CLOB reward-yield search
-US path had no proven edge. Egress is unrestricted (CLOB reachable). Built
-read-only `clob_yield_scan` (sampling-markets + quadratic score + capture CSV /
-daily snapshots). US worker stays shadow; CLOB quoting infra not built yet.
+### 2026-07-19 — Implement deep-dive CLOB plan
+Built stability filter, docs-reconciled score (adjusted mid + Q_min), L2 derive
+helper, shadow-gated `clob_runner`, micro-pilot defaults, scale gate, separate
+rewards/fills ledgers, Render cron+worker stubs. US parked.
 
-### 2026-07-19 — US methodology gaps (pre-pivot)
-`netPosition` breaker fix, deny-list, US multi-level score, earnings ledger —
-useful safety, not an edge. See prior PR work.
-
-### 2026-06-20 — Migration from kalshi-mm
-US baseline + Render cutover; live COD esports halt. Details in git history /
-`FOLLOWONS.md`.
+### 2026-07-19 — US path closed as unproven; CLOB scan first land
+Egress unrestricted; live scan ~9k markets / top-250 yields. See git history.

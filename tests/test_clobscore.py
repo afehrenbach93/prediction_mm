@@ -1,10 +1,8 @@
-"""
-Tests for CLOB quadratic reward scoring.
-Run: PYTHONPATH=. python3 -m unittest tests.test_clobscore -v
-"""
+"""Tests for CLOB quadratic reward scoring (docs-reconciled)."""
 import unittest
 
 from core.clobscore import (
+    adjusted_midpoint,
     book_competition,
     estimate_capture,
     my_twosided_score,
@@ -19,11 +17,20 @@ class TestOrderWeight(unittest.TestCase):
         self.assertAlmostEqual(order_weight(0.0, 4.5), 1.0)
 
     def test_half_max_is_quarter(self):
-        # deep-dive: half max spread → weight 0.25
         self.assertAlmostEqual(order_weight(2.25, 4.5), 0.25)
 
     def test_outside_band_zero(self):
         self.assertEqual(order_weight(5.0, 4.5), 0.0)
+
+
+class TestAdjustedMid(unittest.TestCase):
+    def test_ignores_dust_at_touch(self):
+        # dust at touch ignored when min_size=30
+        bids = [(0.55, 1), (0.40, 100)]
+        asks = [(0.56, 1), (0.70, 100)]
+        adj, raw = adjusted_midpoint(bids, asks, min_sz=30)
+        self.assertAlmostEqual(raw, 0.555)
+        self.assertAlmostEqual(adj, 0.55)  # (0.40+0.70)/2
 
 
 class TestQMin(unittest.TestCase):
@@ -31,7 +38,6 @@ class TestQMin(unittest.TestCase):
         self.assertAlmostEqual(q_min(100, 100, 0.5), 100)
 
     def test_one_sided_reduced(self):
-        # max/c = 300/3 = 100; min=0 → max(0, 100) = 100
         self.assertAlmostEqual(q_min(300, 0, 0.5), 100)
 
     def test_tail_requires_both(self):
@@ -48,14 +54,11 @@ class TestCapture(unittest.TestCase):
 
 class TestMarketScore(unittest.TestCase):
     def test_half_spread_hypothetical(self):
-        # mid 0.50, max_spread 4.5¢, budget $500 → 500 shares/side at weight 0.25
-        # my_score = 0.25 * 500 = 125 (each side); Q_min = 125
         mine = my_twosided_score(500, 0.50, 4.5, 0.5)
         self.assertAlmostEqual(mine, 125.0)
 
     def test_competed_vs_empty(self):
         rewards = {"rates": [{"rewards_daily_rate": 100}], "min_size": 0, "max_spread": 4.5}
-        # empty-ish book near mid
         empty = score_market([(0.49, 1)], [(0.51, 1)], rewards, budget=500,
                              near_zero_notional=50)
         deep = score_market([(0.50, 5000)], [(0.51, 5000)], rewards, budget=500,
@@ -65,15 +68,13 @@ class TestMarketScore(unittest.TestCase):
         self.assertGreater(empty.est_daily, deep.est_daily)
 
     def test_qualifying_band(self):
-        # level outside max_spread should not count
-        qmin, qraw, notion, mid = book_competition(
-            [(0.50, 100), (0.40, 10000)],  # 0.40 is 10¢ away > 4.5¢
+        qmin, qraw, notion, adj, raw = book_competition(
+            [(0.50, 100), (0.40, 10000)],
             [(0.51, 100)],
-            max_spread_cents=4.5,
+            v_cents=4.5,
             min_sz=0,
         )
-        self.assertAlmostEqual(mid, 0.505)
-        # only the in-band sizes contribute to raw
+        self.assertAlmostEqual(adj, 0.505)
         self.assertLess(qraw, 10000)
 
 

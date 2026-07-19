@@ -11,6 +11,8 @@ data/reward_scans/*
 !data/reward_scans/.gitkeep
 data/clob_scans/*
 !data/clob_scans/.gitkeep
+data/clob_logs/*
+!data/clob_logs/.gitkeep
 
 .claude/
 *.rtf
