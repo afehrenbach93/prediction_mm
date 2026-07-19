@@ -1,13 +1,11 @@
 # Follow-ons
 
-## #A — Arb + sweep measurement (2026-07-18) — WATCH, not done
-Instruments only (`ARB_SCAN=1`, `SWEEP_SCOUT=1`). Live baseline: books mostly
-overround; huge partition “edges” are incomplete families (flagged SUSPECT).
-Sweep band empty on current Poly US sports/reward set. Score with
-`scripts/arb_paper_score.py` / `scripts/sweep_paper_score.py --settle`.
-**Do not arm** until arb clears go_kill (≥30 depth-backed, median edge≥0.5¢) *and*
-rules-exhaustiveness registry exists; sweep needs source-feed gate + ≥50 @≥99%.
-Crypto Up/Down arb stays closed.
+## #A — Arb + sweep + copy (2026-07-19)
+- **Arb:** rules census required (`core/arbrules.py`); incomplete families excluded.
+  Prior false-GO retired. Still WATCH for rules-complete sample.
+- **Sweep:** endDate discovery, 30d window; candidates exist. Still no source gate.
+- **Whale/flow:** settle scored → **KILL** (large negative paper PnL @ copy_ask).
+  Keep recording optional; do not arm. Crypto Up/Down arb stays closed.
 
 ## #0 — CONFIRMED LIVE 2026-06-20: bot quoted real COD esports orders; halted to shadow
 During the migration cutover the worker (BOT_MODE=live, inherited — already live
