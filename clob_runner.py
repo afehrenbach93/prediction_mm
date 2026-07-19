@@ -21,7 +21,7 @@ from pathlib import Path
 
 from core.clob_ledger import ClobLedger
 from core.clobmaker import ClobQuoteParams, maker_quotes
-from core.clobscore import daily_rate, max_spread_cents, min_size
+from core.clobscore import max_spread_cents, min_size
 from core.clobtrader import ClobTrader
 
 MODE = os.getenv("CLOB_MODE", "shadow").strip().lower()
