@@ -2,7 +2,7 @@
 Scale gate (deep-dive §7.6).
 
 Only increase size if realized net yield > 50% of estimated gross over the
-window in data/clob_logs/pnl_daily.csv.
+window. Source of truth: Supabase clob_daily_pnl (CSV is a convenience dump).
 
   net = rewards_usd + trading_pnl
   gate PASS if mean(net / est_gross) > 0.50 over >= min_days
@@ -17,30 +17,34 @@ import csv
 import sys
 from pathlib import Path
 
+from core.supabase_clob import SupabaseClob
+
 DEFAULT_LOG = Path("data/clob_logs/pnl_daily.csv")
 
 
-def main():
-    ap = argparse.ArgumentParser()
-    ap.add_argument("--pnl-csv", default=str(DEFAULT_LOG))
-    ap.add_argument("--min-days", type=int, default=14)
-    ap.add_argument("--threshold", type=float, default=0.50)
-    args = ap.parse_args()
+def rows_from_supabase(limit: int = 60) -> list[dict]:
+    sb = SupabaseClob()
+    if not sb.enabled:
+        return []
+    return sb.fetch_daily_pnl(limit=limit)
 
-    path = Path(args.pnl_csv)
+
+def rows_from_csv(path: Path) -> list[dict]:
     if not path.exists():
-        print(f"FAIL: no pnl file at {path} (need pilot data first)")
-        return 2
+        return []
+    with open(path, newline="") as f:
+        return list(csv.DictReader(f))
 
-    rows = list(csv.DictReader(open(path)))
-    # last N distinct days
-    by_day = {}
+
+def evaluate(rows: list[dict], min_days: int, threshold: float) -> tuple[int, str]:
+    by_day: dict[str, dict] = {}
     for r in rows:
-        by_day[r["day"]] = r
-    days = sorted(by_day)[-args.min_days:]
-    if len(days) < args.min_days:
-        print(f"FAIL: only {len(days)}/{args.min_days} days of pnl")
-        return 2
+        day = str(r.get("day") or "")
+        if day:
+            by_day[day] = r
+    days = sorted(by_day)[-min_days:]
+    if len(days) < min_days:
+        return 2, f"FAIL: only {len(days)}/{min_days} days of pnl"
 
     ratios = []
     nets = []
@@ -52,16 +56,41 @@ def main():
         if est > 0:
             ratios.append(net / est)
     if not ratios:
-        print("FAIL: no positive est_gross rows")
-        return 2
+        return 2, "FAIL: no positive est_gross rows"
     avg = sum(ratios) / len(ratios)
-    print(f"days={len(days)} avg_net_vs_gross={avg:.3f} "
-          f"threshold={args.threshold} sum_net=${sum(nets):.2f}")
-    if avg > args.threshold:
-        print("PASS: scale-up permitted under gate rule")
-        return 0
-    print("FAIL: do not increase size")
-    return 1
+    msg = (
+        f"days={len(days)} avg_net_vs_gross={avg:.3f} "
+        f"threshold={threshold} sum_net=${sum(nets):.2f}"
+    )
+    if avg > threshold:
+        return 0, msg + "\nPASS: scale-up permitted under gate rule"
+    return 1, msg + "\nFAIL: do not increase size"
+
+
+def main():
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--pnl-csv", default=str(DEFAULT_LOG),
+                    help="Fallback CSV if Supabase unavailable")
+    ap.add_argument("--min-days", type=int, default=14)
+    ap.add_argument("--threshold", type=float, default=0.50)
+    ap.add_argument("--csv-only", action="store_true",
+                    help="Skip Supabase (tests / offline)")
+    args = ap.parse_args()
+
+    source = "supabase"
+    rows = [] if args.csv_only else rows_from_supabase(limit=max(60, args.min_days * 2))
+    if not rows:
+        source = "csv"
+        rows = rows_from_csv(Path(args.pnl_csv))
+    if not rows:
+        print("FAIL: no pnl in Supabase clob_daily_pnl and no CSV fallback "
+              f"at {args.pnl_csv}")
+        return 2
+
+    print(f"source={source} rows={len(rows)}")
+    code, msg = evaluate(rows, args.min_days, args.threshold)
+    print(msg)
+    return code
 
 
 if __name__ == "__main__":

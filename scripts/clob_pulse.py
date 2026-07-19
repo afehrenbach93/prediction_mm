@@ -5,6 +5,8 @@ Runs against clob.polymarket.com:
   1) yield scan (sampling-markets + books + quadratic capture)
   2) stability filter → pilot_universe.csv
   3) pulse summary → pulse.json + pulse.md
+  4) reward recon section (empty until live)
+  5) optional Supabase snapshot (preferred over committing to deploy branch)
 
     PYTHONPATH=. python3 scripts/clob_pulse.py
     PYTHONPATH=. python3 scripts/clob_pulse.py --budget 500 --top 250
@@ -26,6 +28,10 @@ DEFAULT_SCAN_DIR = Path("data/clob_scans")
 
 def _iso() -> str:
     return datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+
+
+def _day() -> str:
+    return datetime.now(timezone.utc).strftime("%Y-%m-%d")
 
 
 def _run(cmd: list[str]) -> int:
@@ -69,9 +75,13 @@ def summarize(scan_dir: Path, budget: float) -> dict:
         return out
 
     pilot_n = 0
+    provisional_n = 0
     if pilot.exists():
         with open(pilot, newline="") as f:
-            pilot_n = sum(1 for _ in csv.DictReader(f))
+            for r in csv.DictReader(f):
+                pilot_n += 1
+                if str(r.get("provisional", "")).lower() in ("true", "1", "yes"):
+                    provisional_n += 1
 
     top20 = sorted(competed, key=lambda r: -float(r.get("est_daily") or 0))[:20]
     avg_top20 = (
@@ -88,6 +98,7 @@ def summarize(scan_dir: Path, budget: float) -> dict:
         "competed": len(competed),
         "near_zero": len(near),
         "pilot_universe": pilot_n,
+        "pilot_provisional": provisional_n,
         "top20_competed_avg_yield_pct": round(avg_top20, 4),
         "top10_competed": top_yield(competed, 10),
         "top10_near_zero": top_yield(near, 10),
@@ -108,7 +119,8 @@ def write_pulse_md(path: Path, pulse: dict):
         f"- Snapshot days on disk: {pulse['snapshot_days']}",
         f"- Scored: {pulse['scored_markets']}  competed: {pulse['competed']}  "
         f"near-zero: {pulse['near_zero']}",
-        f"- Pilot universe: {pulse['pilot_universe']}",
+        f"- Pilot universe: {pulse['pilot_universe']} "
+        f"(provisional: {pulse.get('pilot_provisional', 0)})",
         f"- Top-20 competed avg yield: {pulse['top20_competed_avg_yield_pct']}%/day "
         f"(gross)",
         "",
@@ -132,16 +144,46 @@ def write_pulse_md(path: Path, pulse: dict):
     path.write_text("\n".join(lines) + "\n")
 
 
+def push_supabase(scan_dir: Path, pulse: dict) -> bool:
+    """Persist pulse + pilot to Supabase so deploy-branch commits are unnecessary."""
+    try:
+        from core.supabase_clob import SupabaseClob
+    except Exception:
+        return False
+    sb = SupabaseClob()
+    if not sb.enabled:
+        print("supabase not configured — skip pulse snapshot push", flush=True)
+        return False
+    pilot_rows = []
+    pilot = scan_dir / "pilot_universe.csv"
+    if pilot.exists():
+        with open(pilot, newline="") as f:
+            pilot_rows = list(csv.DictReader(f))
+    payload = {
+        "pulse": pulse,
+        "pilot_universe": pilot_rows,
+    }
+    st, _ = sb.insert("clob_pulse_snapshots", {
+        "day": _day(),
+        "payload_json": payload,
+    })
+    ok = st in (200, 201)
+    print(f"supabase clob_pulse_snapshots insert status={st}", flush=True)
+    return ok
+
+
 def main() -> int:
     ap = argparse.ArgumentParser(description="CLOB regular market pulse")
     ap.add_argument("--budget", type=float, default=500.0)
     ap.add_argument("--top", type=int, default=250)
     ap.add_argument("--workers", type=int, default=8)
-    ap.add_argument("--min-days", type=int, default=1)
+    ap.add_argument("--min-days", type=int, default=5)
     ap.add_argument("--min-yield", type=float, default=3.0)
     ap.add_argument("--scan-dir", default=str(DEFAULT_SCAN_DIR))
     ap.add_argument("--skip-scan", action="store_true",
                     help="Only re-summarize existing CSVs")
+    ap.add_argument("--skip-recon", action="store_true")
+    ap.add_argument("--no-supabase", action="store_true")
     args = ap.parse_args()
 
     scan_dir = Path(args.scan_dir)
@@ -175,12 +217,23 @@ def main() -> int:
     (scan_dir / "pulse.json").write_text(json.dumps(pulse, indent=2) + "\n")
     write_pulse_md(scan_dir / "pulse.md", pulse)
 
+    if not args.skip_recon:
+        _run([
+            py, "scripts/clob_reward_recon.py",
+            "--out-md", str(scan_dir / "pulse.md"),
+            "--json-out", str(scan_dir / "reward_recon.json"),
+        ])
+
+    if not args.no_supabase:
+        push_supabase(scan_dir, pulse)
+
     print(json.dumps({
         "ts": pulse["ts"],
         "scored": pulse["scored_markets"],
         "competed": pulse["competed"],
         "near_zero": pulse["near_zero"],
         "pilot": pulse["pilot_universe"],
+        "provisional": pulse.get("pilot_provisional", 0),
         "top20_avg_yield_pct": pulse["top20_competed_avg_yield_pct"],
     }, indent=2))
     print(f"wrote {scan_dir / 'pulse.json'}")

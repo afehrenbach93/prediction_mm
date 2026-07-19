@@ -4,25 +4,48 @@
 #   1) cron: daily clob_yield_scan (stability study)
 #   2) worker: clob_runner (shadow until micro-pilot)
 # US poly_runner kept shadow-only / optional.
+#
+# ── Autodeploy / pulse artifacts (P0) ───────────────────────────
+# Pulse CSVs must NEVER land on the branch Render autodeploys from.
+# GH Actions publishes scans to the dedicated `data` branch (+ Supabase).
+# Dashboard check (cannot set via Blueprint alone):
+#   polymarket-mm / clob-mm → Settings → Auto-Deploy = "Yes" only for the
+#   code branch (e.g. claude/prediction-mm-migration-p1-wja5v5 or main).
+#   Do NOT point Auto-Deploy at the `data` branch.
+# If Auto-Deploy cannot ignore paths, keep pulse commits off the deploy branch
+# (current workflow) — that alone breaks the pulse→restart loop.
+#
+# Ledger / kill: Supabase (sql/0002_clob_ledger.sql). Disk under
+# data/clob_logs/ is ephemeral CSV dump only.
+# Live requires CLOB_MODE=live AND ELIGIBILITY_CONFIRMED=true.
 
 services:
   # Regular CLOB pulse on clob.polymarket.com (scan + stability + pulse.json).
   # Also scheduled in .github/workflows/clob-pulse.yml (00:00 + 15:00 UTC).
+  # Cron jobs do not restart the worker; they write local artifacts + Supabase.
   - type: cron
     name: clob-pulse
     runtime: python
     schedule: "0 15 * * *"          # 15:00 UTC daily
     buildCommand: pip install -r requirements.txt
-    startCommand: PYTHONPATH=. python scripts/clob_pulse.py --budget 500 --top 250
-    envVars: []
+    startCommand: PYTHONPATH=. python scripts/clob_pulse.py --budget 500 --top 250 --min-days 5
+    envVars:
+      - key: SUPABASE_URL
+        sync: false
+      - key: SUPABASE_SERVICE_ROLE_KEY
+        sync: false
 
   - type: cron
     name: clob-pulse-morning
     runtime: python
     schedule: "0 0 * * *"           # 00:00 UTC daily
     buildCommand: pip install -r requirements.txt
-    startCommand: PYTHONPATH=. python scripts/clob_pulse.py --budget 500 --top 250
-    envVars: []
+    startCommand: PYTHONPATH=. python scripts/clob_pulse.py --budget 500 --top 250 --min-days 5
+    envVars:
+      - key: SUPABASE_URL
+        sync: false
+      - key: SUPABASE_SERVICE_ROLE_KEY
+        sync: false
 
   - type: worker
     name: clob-mm
@@ -32,6 +55,10 @@ services:
     envVars:
       - key: CLOB_MODE
         value: "shadow"
+      - key: ELIGIBILITY_CONFIRMED
+        value: "false"
+      - key: CLOB_KILL
+        value: "false"
       - key: CLOB_BUDGET_PER_MARKET
         value: "75"
       - key: CLOB_MAX_MARKETS
@@ -50,16 +77,33 @@ services:
         sync: false
       - key: CLOB_FUNDER
         sync: false
+      - key: CLOB_SIGNATURE_TYPE
+        value: "0"
+      - key: SUPABASE_URL
+        sync: false
+      - key: SUPABASE_SERVICE_ROLE_KEY
+        sync: false
+      - key: SUPABASE_ANON_KEY
+        sync: false
 
   - type: worker
     name: polymarket-mm
     runtime: python
     buildCommand: pip install -r requirements.txt
-    startCommand: python poly_runner.py
+    # Active path is clob_runner; keep poly_runner only if explicitly needed.
+    startCommand: PYTHONPATH=. python clob_runner.py
     envVars:
+      - key: CLOB_MODE
+        value: "shadow"
+      - key: ELIGIBILITY_CONFIRMED
+        value: "false"
       - key: BOT_MODE
         value: "shadow"
       - key: POLYMARKET_API_KEY
         sync: false
       - key: POLYMARKET_SECRET
+        sync: false
+      - key: SUPABASE_URL
+        sync: false
+      - key: SUPABASE_ANON_KEY
         sync: false

@@ -7,37 +7,40 @@
 `max_spread`; capture = `daily_rate · my/(my+book)`. Polymarket US: no proven edge — parked.
 
 ## Deep-dive sequence (source of truth)
-1. Regular CLOB pulse (`scripts/clob_pulse.py` → `clob.polymarket.com`) twice daily
-   via `.github/workflows/clob-pulse.yml` (00:00 + 15:00 UTC); CSVs committed
+1. Regular CLOB pulse → `data` branch + Supabase (never deploy-branch commits)
 2. Docs-reconciled scoring (`core/clobscore.py`: S, Q_min, min_size mid)
-3. Eligibility + wallet + L2 keys (`scripts/clob_derive_keys.py`) — ops
-4. Quoting bot (`clob_runner.py`): two-sided, refresh, inventory, kill, fill log
+3. Eligibility + dedicated pilot wallet + L2 keys — ops
+4. Quoting bot: two-sided, WS mids, shadow fills, Supabase ledger, remote kill
 5. Micro-pilot: $50–100 × ≤3 competed, ≥7d to end — not near-zero list
-6. Scale gate: net > 50% of est gross over ≥14d (`scripts/clob_scale_gate.py`)
+6. Scale gate: net > 50% of est gross over ≥14d (Supabase `clob_daily_pnl`)
 
 ## Invariants
-- `CLOB_MODE=shadow` → no CLOB mutations (`ClobTrader` gate + test)
-- Pilot from `pilot_universe.csv` only; near-zero excluded
-- Post-only; full cancel/replace; kill file `data/clob_logs/KILL`
-- Rewards ledger ≠ trading fills (`data/clob_logs/`)
+- Live requires `CLOB_MODE=live` **and** `ELIGIBILITY_CONFIRMED=true` (else shadow)
+- `CLOB_MODE=shadow` → no CLOB mutations (`ClobTrader` gate + tests)
+- Pilot from `pilot_universe.csv`; provisional (<5d) logged as WARNING
+- Post-only; full cancel/replace; kill via `CLOB_KILL` or Supabase `clob_control`
+- Ledger SoT: Supabase (`sql/0002_clob_ledger.sql`); CSV dump optional only
+- Pulse must not restart the worker (no deploy-branch artifact commits)
 
 ## Architecture
 | Path | Role |
 |------|------|
-| `scripts/clob_yield_scan.py` | Daily yield scan + CSV |
-| `scripts/clob_stability.py` | Persistent-yield → pilot_universe.csv |
-| `scripts/clob_derive_keys.py` | L1→L2 credential derive |
-| `scripts/clob_scale_gate.py` | Scale-up gate |
-| `clob_runner.py` | Quoter worker |
-| `core/clobscore.py` / `clobmaker.py` / `clobtrader.py` / `clob_ledger.py` | Score, quotes, shadow gate, accounting |
+| `clob_runner.py` | Quoter (WS mids, shadow fills, kill poll) |
+| `core/eligibility.py` | Hard live gate |
+| `core/clob_ledger.py` / `supabase_clob.py` | Persistent ledger + kill |
+| `core/clob_shadowfills.py` / `clob_bookws.py` | Shadow tape fills / WS |
+| `scripts/clob_pulse.py` / `clob_reward_recon.py` | Pulse + actual vs est |
+| `scripts/clob_scale_gate.py` | Scale-up gate (Supabase) |
 | `poly_runner.py` | Parked US worker |
 
 ## Incident Log
 
-### 2026-07-19 — Implement deep-dive CLOB plan
-Built stability filter, docs-reconciled score (adjusted mid + Q_min), L2 derive
-helper, shadow-gated `clob_runner`, micro-pilot defaults, scale gate, separate
-rewards/fills ledgers, Render cron+worker stubs. US parked.
+### 2026-07-19 — Handback P0–P2 post-review fixes
+Eligibility hard gate; Supabase ledger/kill; pulse→`data` branch (no deploy
+restart); shadow-fill sim; WS mids; reward recon wire; score/maker footgun tests;
+stability `--min-days 5` + provisional; wallet hygiene docs. **Do not set
+`CLOB_MODE=live` until P0 verified (SQL applied, kill poll, pulse no-restart).**
 
-### 2026-07-19 — US path closed as unproven; CLOB scan first land
-Egress unrestricted; live scan ~9k markets / top-250 yields. See git history.
+### 2026-07-19 — Implement deep-dive CLOB plan
+Built stability filter, docs-reconciled score, L2 derive, shadow-gated runner,
+micro-pilot defaults, scale gate, ledgers, Render stubs. US parked.
