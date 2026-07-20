@@ -1,34 +1,36 @@
-# CLOB pulse — 2026-07-19T16:53:48Z
+# CLOB pulse — 2026-07-20T02:12:53Z
 
 - Domain: `https://clob.polymarket.com`
 - Budget: $500
-- Snapshot days on disk: 1
-- Scored: 100  competed: 92  near-zero: 8
+- Snapshot days on disk: 2
+- Scored: 250  competed: 214  near-zero: 36
 - Pilot universe: 50
-- Top-20 competed avg yield: 19.7864%/day (gross)
+- Top-20 competed avg yield: 20.7608%/day (gross)
 
 ## Top competed
 
 | # | yield%/d | est$/d | rate | qual$ | market |
 |---|----------|--------|------|-------|--------|
-| 1 | 37.36 | 186.81 | 300 | 464 | Iran full airspace closure by July 24? |
-| 2 | 33.55 | 167.76 | 877 | 8032 | Will LeBron James play for the Cleveland Cavaliers in 20 |
-| 3 | 32.15 | 160.77 | 1234 | 9478 | Will LeBron James play for the Miami Heat in 2026-27? |
-| 4 | 29.09 | 145.46 | 300 | 872 | Israel closes its airspace by July 24? |
-| 5 | 27.27 | 136.37 | 600 | 4387 | Israel x Iran ceasefire continues through July 25? |
-| 6 | 22.89 | 114.45 | 194 | 191 | Welltower (WELL) Q2 same store NOI (SSNOI) growth 15%-18 |
-| 7 | 21.54 | 107.69 | 195 | 514 | Will Dee Valladares win Big Brother season 28? |
-| 8 | 19.89 | 99.44 | 149 | 466 | Will Swim – BTS be the top song for 2026? |
-| 9 | 19.59 | 97.93 | 173 | 293 | Will the next Claude Opus model be released on July 23,  |
-| 10 | 19.29 | 96.47 | 600 | 3930 | Israel x Iran ceasefire continues through July 31? |
+| 1 | 40.49 | 202.45 | 217 | 128 | Will Chuck Norris be the #1 searched passing on Google t |
+| 2 | 33.27 | 166.34 | 300 | 678 | Iran full airspace closure by July 24? |
+| 3 | 21.66 | 108.31 | 132 | 277 | Will Swim – BTS be the top song for 2026? |
+| 4 | 19.86 | 99.32 | 100 | 115 | Will South Korea ETF (EWY) hit (LOW) $158 Week of July 2 |
+| 5 | 19.84 | 99.21 | 100 | 196 | Will South Korea ETF (EWY) hit (HIGH) $168 Week of July  |
+| 6 | 19.71 | 98.55 | 100 | 101 | Will South Korea ETF (EWY) hit (LOW) $161 Week of July 2 |
+| 7 | 19.24 | 96.22 | 600 | 10947 | Israel x Iran ceasefire continues through July 31? |
+| 8 | 19.14 | 95.70 | 100 | 182 | Will Rocket Lab USA, Inc. (RKLB) hit (HIGH) $72 Week of  |
+| 9 | 18.95 | 94.74 | 100 | 93 | Will South Korea ETF (EWY) hit (LOW) $156 Week of July 2 |
+| 10 | 18.78 | 93.92 | 100 | 181 | Will Amazon.com, Inc. (AMZN) hit (LOW) $232 Week of July |
 
 ## Near-zero (excluded from pilot)
 
-| 1 | 36.40 | 182.00 | Will Shadow Fiend Be the Most Banned Hero at the Dota EW |
-| 2 | 36.40 | 182.00 | Will Treant Protector Be the Most Banned Hero at the Dot |
-| 3 | 33.60 | 168.00 | Will "hate that i made you love me - Ariana Grande" be t |
-| 4 | 26.80 | 134.00 | Will PVISION have the widest hero pool at EWC 2026? |
-| 5 | 26.60 | 133.00 | Will 52 senators vote "Yea" for Todd Blanche as Attorney |
-| 6 | 26.60 | 133.00 | Will BB Team have the widest hero pool at EWC 2026? |
-| 7 | 26.60 | 133.00 | Will Vici Gaming have the widest hero pool at EWC 2026? |
-| 8 | 23.42 | 117.09 | Will Chuck Norris be the #1 searched passing on Google t |
+| 1 | 40.00 | 200.00 | Will Team Yandex Win the Shortest Game at EWC 2026? |
+| 2 | 40.00 | 200.00 | Will LGD Gaming Win the Shortest Game at EWC 2026? |
+| 3 | 30.80 | 154.00 | Will Seattle have between 0.5 and 1 inches of precipitat |
+| 4 | 28.00 | 140.00 | Will 55 senators vote "Yea" for Todd Blanche as Attorney |
+| 5 | 25.00 | 125.00 | Will Seattle have less than 0.5 inches of precipitation  |
+| 6 | 23.80 | 119.00 | Will Los Angeles Mad Drops win the Major League Pickleba |
+| 7 | 23.00 | 115.00 | Will There be 1-3 Knife Kills at Blast Bounty 2026 Seaso |
+| 8 | 20.00 | 100.00 | Will Airbnb, Inc. (ABNB) hit (LOW) $140 in July? |
+| 9 | 20.00 | 100.00 | Will Team Vitality Win More than 4.5 Matches in VCT 2026 |
+| 10 | 20.00 | 100.00 | Will FURIA Qualify to VCT Champs 2026? |
