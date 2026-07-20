@@ -1,0 +1,224 @@
+{
+  "ts": "2026-07-20T16:27:52Z",
+  "domain": "https://clob.polymarket.com",
+  "budget_usd": 500.0,
+  "snapshot_days": 2,
+  "scored_markets": 250,
+  "competed": 215,
+  "near_zero": 35,
+  "pilot_universe": 0,
+  "pilot_provisional": 0,
+  "top20_competed_avg_yield_pct": 24.8873,
+  "top10_competed": [
+    {
+      "question": "US x Iran Effective Ceasefire by July 31?",
+      "slug": "us-x-iran-effective-ceasfire-by-july-31-20260715194822045",
+      "daily_rate": 600.0,
+      "qual_notional": 2237.24,
+      "est_daily": 237.2831,
+      "yield_pct": 47.4566,
+      "mid": "0.23",
+      "near_zero": false
+    },
+    {
+      "question": "Will Dricus Du Plessis fight Sean Strickland next?",
+      "slug": "will-dricus-du-plessis-fight-sean-strickland-next-20260720150618475",
+      "daily_rate": 222.0,
+      "qual_notional": 166.94,
+      "est_daily": 214.9074,
+      "yield_pct": 42.9815,
+      "mid": "0.695",
+      "near_zero": false
+    },
+    {
+      "question": "US x Iran Effective Ceasefire by July 24?",
+      "slug": "us-x-iran-effective-ceasfire-by-july-24-20260715194822044",
+      "daily_rate": 600.0,
+      "qual_notional": 2441.61,
+      "est_daily": 177.4101,
+      "yield_pct": 35.482,
+      "mid": "0.16",
+      "near_zero": false
+    },
+    {
+      "question": "Will Dricus Du Plessis fight Khamzat Chimaev next?",
+      "slug": "will-dricus-du-plessis-fight-khamzat-chimaev-next-20260720150618476",
+      "daily_rate": 178.0,
+      "qual_notional": 86.39,
+      "est_daily": 170.0822,
+      "yield_pct": 34.0164,
+      "mid": "0.25",
+      "near_zero": false
+    },
+    {
+      "question": "Iran charges Hormuz fees by August 31?",
+      "slug": "iran-charges-hormuz-fees-by-august-31-20260625175039062-177",
+      "daily_rate": 200.0,
+      "qual_notional": 1045.94,
+      "est_daily": 150.0897,
+      "yield_pct": 30.0179,
+      "mid": "0.36",
+      "near_zero": false
+    },
+    {
+      "question": "Will St. Louis Shock win the Major League Pickleball End of Season Championship?",
+      "slug": "will-st-louis-shock-win-the-major-league-pickleball-end-of-season-championship",
+      "daily_rate": 194.0,
+      "qual_notional": 162.62,
+      "est_daily": 149.3867,
+      "yield_pct": 29.8773,
+      "mid": "0.38",
+      "near_zero": false
+    },
+    {
+      "question": "Will WTI Crude Oil (WTI) hit (HIGH) $90 in July?",
+      "slug": "will-wti-reach-90-in-july-2026-334",
+      "daily_rate": 400.0,
+      "qual_notional": 3709.43,
+      "est_daily": 102.1476,
+      "yield_pct": 20.4295,
+      "mid": "0.3255",
+      "near_zero": false
+    },
+    {
+      "question": "Will S&P 500 (SPY) hit (LOW) $735 Week of July 20 2026?",
+      "slug": "will-spy-dip-to-735-by-july-20-2026",
+      "daily_rate": 100.0,
+      "qual_notional": 372.93,
+      "est_daily": 100.0,
+      "yield_pct": 20.0,
+      "mid": "0.375",
+      "near_zero": false
+    },
+    {
+      "question": "Will Gold (XAUUSD) hit (HIGH) $4,100 Week of July 20 2026?",
+      "slug": "will-xauusd-reach-4100-by-july-20-2026",
+      "daily_rate": 100.0,
+      "qual_notional": 100.8,
+      "est_daily": 100.0,
+      "yield_pct": 20.0,
+      "mid": "0.315",
+      "near_zero": false
+    },
+    {
+      "question": "Will Airbnb, Inc. (ABNB) hit (LOW) $142 Week of July 20 2026?",
+      "slug": "will-abnb-dip-to-142-by-july-20-2026",
+      "daily_rate": 100.0,
+      "qual_notional": 57.56,
+      "est_daily": 99.7404,
+      "yield_pct": 19.9481,
+      "mid": "0.48",
+      "near_zero": false
+    }
+  ],
+  "top10_near_zero": [
+    {
+      "question": "Will 55 senators vote \"Yea\" for Todd Blanche as Attorney General?",
+      "slug": "will-55-senators-vote-yea-for-todd-blanche-as-attorney-general-20260608212508885",
+      "daily_rate": 137.0,
+      "qual_notional": 0.0,
+      "est_daily": 137.0,
+      "yield_pct": 27.400000000000002,
+      "mid": "0.43",
+      "near_zero": true
+    },
+    {
+      "question": "Mastercard (MA) Q2 gross dollar volume growth (local currency basis) 8.5%-9.5%?",
+      "slug": "mastercard-ma-q2-gross-dollar-volume-growth-local-currency-basis-8pt5-9pt5-20260717030237757",
+      "daily_rate": 134.0,
+      "qual_notional": 0.0,
+      "est_daily": 134.0,
+      "yield_pct": 26.8,
+      "mid": "0.535",
+      "near_zero": true
+    },
+    {
+      "question": "Will Shabana Mahmood be the next Chancellor of the Exchequer of the UK in 2026?",
+      "slug": "will-shabana-mahmood-be-the-next-chancellor-of-the-exchequer-of-the-uk-in-2026-20260621005429785",
+      "daily_rate": 108.0,
+      "qual_notional": 0.0,
+      "est_daily": 108.0,
+      "yield_pct": 21.6,
+      "mid": "0.653",
+      "near_zero": true
+    },
+    {
+      "question": "Will S&P 500 (SPY) hit (LOW) $720 in July?",
+      "slug": "will-spy-dip-to-720-in-july-2026",
+      "daily_rate": 100.0,
+      "qual_notional": 0.0,
+      "est_daily": 100.0,
+      "yield_pct": 20.0,
+      "mid": "0.24",
+      "near_zero": true
+    },
+    {
+      "question": "Will S&P 500 (SPY) hit (HIGH) $760 in July?",
+      "slug": "will-spy-reach-760-in-july-2026",
+      "daily_rate": 100.0,
+      "qual_notional": 0.0,
+      "est_daily": 100.0,
+      "yield_pct": 20.0,
+      "mid": "0.305",
+      "near_zero": true
+    },
+    {
+      "question": "Israel military action against Greater Beirut by July 31?",
+      "slug": "israel-military-action-against-greater-beirut-by-july-31-20260708204650550",
+      "daily_rate": 100.0,
+      "qual_notional": 0.0,
+      "est_daily": 100.0,
+      "yield_pct": 20.0,
+      "mid": "0.235",
+      "near_zero": true
+    },
+    {
+      "question": "Will Team Vitality Win More than 4.5 Matches in VCT 2026 EMEA Stage 2",
+      "slug": "will-team-vitality-win-more-than-4pt5-games-in-vct-2026-emea-stage-2-20260710204142751",
+      "daily_rate": 100.0,
+      "qual_notional": 0.0,
+      "est_daily": 100.0,
+      "yield_pct": 20.0,
+      "mid": "0.31",
+      "near_zero": true
+    },
+    {
+      "question": "Will FURIA Qualify to VCT Champs 2026?",
+      "slug": "will-furia-qualify-to-vct-champs-2026-20260714215938480",
+      "daily_rate": 100.0,
+      "qual_notional": 0.0,
+      "est_daily": 100.0,
+      "yield_pct": 20.0,
+      "mid": "0.2",
+      "near_zero": true
+    },
+    {
+      "question": "Will NRG Win More than 3.5 Matches in VCT 2026 Americas Stage 2",
+      "slug": "will-nrg-win-more-than-3pt5-matches-in-vct-2026-americas-stage-2-20260710215217321",
+      "daily_rate": 100.0,
+      "qual_notional": 0.0,
+      "est_daily": 100.0,
+      "yield_pct": 20.0,
+      "mid": "0.5",
+      "near_zero": true
+    },
+    {
+      "question": "Will FUT Esports Win More than 3.5 Matches in VCT 2026 EMEA Stage 2",
+      "slug": "will-fut-esports-win-more-than-3pt5-games-in-vct-2026-emea-stage-2-20260710204142752",
+      "daily_rate": 100.0,
+      "qual_notional": 0.0,
+      "est_daily": 100.0,
+      "yield_pct": 20.0,
+      "mid": "0.5",
+      "near_zero": true
+    }
+  ],
+  "files": {
+    "latest": "data/clob_scans/latest.csv",
+    "pilot_universe": "data/clob_scans/pilot_universe.csv",
+    "day_csvs": [
+      "2026-07-19.csv",
+      "2026-07-20.csv"
+    ]
+  }
+}
