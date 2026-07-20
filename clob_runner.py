@@ -297,6 +297,14 @@ def main():
                     trader.cancel_all()
                     ledger.event("breaker", reason=reason)
                     log(f"*** BREAKER: {reason} ***")
+                    # Shadow inventory is in-process; clear so a redeploy isn't
+                    # required to resume quoting after a sim backfill spike.
+                    if not trader.live:
+                        shadow_state.inventory.clear()
+                        shadow_state.avg_entry.clear()
+                        shadow_state.adverse_moves.clear()
+                        log("shadow inventory reset after breaker")
+                        tripped = False
             else:
                 log("breaker tripped — standing aside")
 

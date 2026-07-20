@@ -27,10 +27,22 @@ class TestCross(unittest.TestCase):
 
 
 class TestProcessTape(unittest.TestCase):
-    def test_simulated_fill_logged(self):
+    def test_warmup_skips_historical_fills(self):
         q = ShadowQuote("tok1", bid=0.45, ask=0.55, bid_size=20, ask_size=20,
                         mid=0.50, slug="m")
         state = ShadowFillState()
+        trades = [{"id": "tr1", "price": 0.44, "size": 5, "side": "SELL"}]
+        with patch("core.clob_shadowfills.fetch_trades", return_value=trades):
+            fills = process_tape([q], state)
+        self.assertEqual(fills, [])
+        self.assertEqual(state.fills_today, 0)
+        self.assertIn("tok1", state.warmed_tokens)
+
+    def test_simulated_fill_after_warmup(self):
+        q = ShadowQuote("tok1", bid=0.45, ask=0.55, bid_size=20, ask_size=20,
+                        mid=0.50, slug="m")
+        state = ShadowFillState()
+        state.warmed_tokens.add("tok1")
         trades = [{"id": "tr1", "price": 0.44, "size": 5, "side": "SELL"}]
         with patch("core.clob_shadowfills.fetch_trades", return_value=trades):
             fills = process_tape([q], state)

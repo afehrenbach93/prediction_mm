@@ -36,6 +36,8 @@ class ShadowFillState:
     avg_entry: dict[str, float] = field(default_factory=dict)
     fills_today: int = 0
     adverse_moves: list[float] = field(default_factory=list)
+    # First tape poll per token only warms seen_ids (avoids backfilling history).
+    warmed_tokens: set[str] = field(default_factory=set)
 
 
 def fetch_trades(token_id: str = "", condition_id: str = "",
@@ -95,15 +97,34 @@ def mark_to_mid(state: ShadowFillState, mids: dict[str, float]) -> float:
     return pnl
 
 
+def _trade_key(token_id: str, t: dict) -> str:
+    tid = str(t.get("id") or t.get("transactionHash") or t.get("trade_id") or "")
+    return (
+        f"{token_id}:{tid}:"
+        f"{t.get('timestamp') or t.get('match_time') or t.get('createdAt')}"
+    )
+
+
 def process_tape(quotes: list[ShadowQuote], state: ShadowFillState,
-                 ledger=None) -> list[dict]:
-    """Check recent trades against shadow quotes; return new simulated fills."""
+                 ledger=None, max_fills_per_cycle: int = 10) -> list[dict]:
+    """Check recent trades against shadow quotes; return new simulated fills.
+
+    First poll per token is a warm-up: mark tape ids seen without filling, so we
+    do not backfill the entire recent history into simulated inventory.
+    """
     new_fills = []
     for q in quotes:
         trades = fetch_trades(token_id=q.token_id, limit=30)
+        warmed = q.token_id in state.warmed_tokens
+        if not warmed:
+            for t in trades:
+                state.seen_trade_ids.add(_trade_key(q.token_id, t))
+            state.warmed_tokens.add(q.token_id)
+            continue
         for t in trades:
-            tid = str(t.get("id") or t.get("transactionHash") or t.get("trade_id") or "")
-            key = f"{q.token_id}:{tid}:{t.get('timestamp') or t.get('match_time') or t.get('createdAt')}"
+            if len(new_fills) >= max_fills_per_cycle:
+                break
+            key = _trade_key(q.token_id, t)
             if key in state.seen_trade_ids:
                 continue
             state.seen_trade_ids.add(key)
@@ -122,7 +143,7 @@ def process_tape(quotes: list[ShadowQuote], state: ShadowFillState,
             if fill_px is None or fill_sz <= 0:
                 continue
             rec = {
-                "id": tid or key,
+                "id": str(t.get("id") or t.get("transactionHash") or t.get("trade_id") or key),
                 "token_id": q.token_id,
                 "asset_id": q.token_id,
                 "side": fill_side,
