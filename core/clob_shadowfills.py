@@ -106,7 +106,9 @@ def _trade_key(token_id: str, t: dict) -> str:
 
 
 def process_tape(quotes: list[ShadowQuote], state: ShadowFillState,
-                 ledger=None, max_fills_per_cycle: int = 10) -> list[dict]:
+                 ledger=None, max_fills_per_cycle: int = 3,
+                 max_fill_size: float = 5.0,
+                 max_inventory: float = 200.0) -> list[dict]:
     """Check recent trades against shadow quotes; return new simulated fills.
 
     First poll per token is a warm-up: mark tape ids seen without filling, so we
@@ -120,6 +122,9 @@ def process_tape(quotes: list[ShadowQuote], state: ShadowFillState,
             for t in trades:
                 state.seen_trade_ids.add(_trade_key(q.token_id, t))
             state.warmed_tokens.add(q.token_id)
+            continue
+        inv = state.inventory.get(q.token_id, 0.0)
+        if abs(inv) >= max_inventory:
             continue
         for t in trades:
             if len(new_fills) >= max_fills_per_cycle:
@@ -139,7 +144,13 @@ def process_tape(quotes: list[ShadowQuote], state: ShadowFillState,
             if not fill_side:
                 continue
             fill_px = q.bid if fill_side == "BUY" else q.ask
-            fill_sz = min(sz, q.bid_size if fill_side == "BUY" else q.ask_size)
+            room = max_inventory - abs(state.inventory.get(q.token_id, 0.0))
+            fill_sz = min(
+                sz,
+                q.bid_size if fill_side == "BUY" else q.ask_size,
+                max_fill_size,
+                room,
+            )
             if fill_px is None or fill_sz <= 0:
                 continue
             rec = {
