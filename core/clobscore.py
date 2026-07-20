@@ -49,11 +49,25 @@ def daily_rate(rewards: dict | None) -> float:
     return total
 
 
+def normalize_max_spread_cents(raw: float) -> float:
+    """API usually sends cents (e.g. 3.5). Some payloads use price units (0.035).
+    Values in (0, 1] are treated as price units → ×100 to cents."""
+    try:
+        v = float(raw)
+    except (TypeError, ValueError):
+        return 0.0
+    if v <= 0:
+        return 0.0
+    if v <= 1.0:
+        return v * 100.0
+    return v
+
+
 def max_spread_cents(rewards: dict | None) -> float:
     if not rewards:
         return 0.0
     try:
-        return float(rewards.get("max_spread") or 0)
+        return normalize_max_spread_cents(float(rewards.get("max_spread") or 0))
     except (TypeError, ValueError):
         return 0.0
 

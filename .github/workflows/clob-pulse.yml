@@ -1,5 +1,12 @@
 # Regular CLOB market pulse against clob.polymarket.com (deep-dive §7.1).
 # Twice daily so weekend vs weekday books are both sampled.
+#
+# IMPORTANT (P0): do NOT commit pulse artifacts to the deploy/default branch.
+# Render autodeploy on that branch would restart polymarket-mm / clob-mm and
+# cancel resting quotes. Artifacts go to:
+#   1) GitHub Actions artifacts
+#   2) dedicated `data` branch
+#   3) Supabase clob_pulse_snapshots when SUPABASE_* secrets are set
 name: clob-pulse
 
 on:
@@ -32,15 +39,18 @@ jobs:
       - name: Install deps
         run: pip install -r requirements.txt
 
-      - name: Run CLOB pulse (scan + stability + summary)
+      - name: Run CLOB pulse (scan + stability + summary + recon)
         env:
           PYTHONPATH: ${{ github.workspace }}
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+          SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
         run: |
           python scripts/clob_pulse.py \
             --budget "${{ github.event.inputs.budget || '500' }}" \
             --top "${{ github.event.inputs.top || '250' }}" \
             --workers 8 \
-            --min-days 1 \
+            --min-days 5 \
             --min-yield 3
 
       - name: Upload pulse artifacts
@@ -52,18 +62,38 @@ jobs:
             data/clob_scans/pilot_universe.csv
             data/clob_scans/pulse.json
             data/clob_scans/pulse.md
+            data/clob_scans/reward_recon.json
             data/clob_scans/????-??-??.csv
           if-no-files-found: error
 
-      - name: Commit scan snapshots (stability time series)
+      # Push ONLY to the `data` branch — never to the deploy/default branch.
+      - name: Publish scans to data branch (not deploy branch)
         run: |
-          git config user.name "clob-pulse-bot"
-          git config user.email "clob-pulse-bot@users.noreply.github.com"
-          git add data/clob_scans/*.csv data/clob_scans/pulse.json data/clob_scans/pulse.md || true
+          set -euo pipefail
+          STAMP=$(date -u +%Y-%m-%dT%H:%MZ)
+          SCAN_SRC="${GITHUB_WORKSPACE}/data/clob_scans"
+          git config --global user.name "clob-pulse-bot"
+          git config --global user.email "clob-pulse-bot@users.noreply.github.com"
+
+          TMP=$(mktemp -d)
+          cd "$TMP"
+          git clone --depth 1 --branch data \
+            "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" repo \
+            || {
+              mkdir repo && cd repo && git init && git checkout --orphan data
+              git remote add origin \
+                "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+              cd ..
+            }
+          cd repo
+          mkdir -p data/clob_scans
+          cp -a "$SCAN_SRC"/. data/clob_scans/
+          git add data/clob_scans
           if git diff --staged --quiet; then
-            echo "No scan changes to commit"
+            echo "No scan changes on data branch"
           else
-            git commit -m "clob-pulse: $(date -u +%Y-%m-%dT%H:%MZ) market snapshot"
-            # Push to the ref that triggered the run (schedule runs on default branch)
-            git push origin HEAD:${GITHUB_REF_NAME}
+            git commit -m "clob-pulse: ${STAMP} market snapshot"
+            git push -u origin HEAD:data
           fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

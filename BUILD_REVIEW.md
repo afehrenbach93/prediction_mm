@@ -9,6 +9,19 @@
 
 Source plan: deep-dive “Polymarket Market Making + Incentive Capture” (global CLOB reward-yield → deployment sequence).
 
+### Handback fixes (post-review) — do not go live until P0 verified
+| # | Item | Status in code |
+|---|------|----------------|
+| P0.1 | `ELIGIBILITY_CONFIRMED` hard gate | `core/eligibility.py` + `ClobTrader` + tests |
+| P0.2 | Supabase ledger + remote kill | `sql/0002_clob_ledger.sql`, `clob_ledger`, `clob_control` |
+| P0.3 | Pulse ≠ deploy restart | GH Actions → `data` branch only; `render.yaml` notes |
+| P1.4 | Shadow-fill simulator | `core/clob_shadowfills.py` |
+| P1.5 | Reward recon (actual vs est) | `scripts/clob_reward_recon.py` (wired in pulse) |
+| P1.6 | Websocket mids | `core/clob_bookws.py` + REST fallback |
+| P2 | Footgun tests, provisional pilot, wallet docs | done |
+
+**Ops before live:** apply SQL in Supabase; set `SUPABASE_*` on Render; confirm Auto-Deploy is not on `data` branch; keep `CLOB_MODE=shadow` until eligibility confirmed.
+
 ---
 
 ## What we built (process → deliverables)
