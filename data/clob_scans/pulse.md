@@ -1,43 +1,43 @@
-# CLOB pulse — 2026-07-20T16:27:52Z
+# CLOB pulse — 2026-07-21T01:56:19Z
 
 - Domain: `https://clob.polymarket.com`
 - Budget: $500
-- Snapshot days on disk: 2
-- Scored: 250  competed: 215  near-zero: 35
+- Snapshot days on disk: 3
+- Scored: 250  competed: 192  near-zero: 58
 - Pilot universe: 0 (provisional: 0)
-- Top-20 competed avg yield: 24.8873%/day (gross)
+- Top-20 competed avg yield: 20.1567%/day (gross)
 
 ## Top competed
 
 | # | yield%/d | est$/d | rate | qual$ | market |
 |---|----------|--------|------|-------|--------|
-| 1 | 47.46 | 237.28 | 600 | 2237 | US x Iran Effective Ceasefire by July 31? |
-| 2 | 42.98 | 214.91 | 222 | 167 | Will Dricus Du Plessis fight Sean Strickland next? |
-| 3 | 35.48 | 177.41 | 600 | 2442 | US x Iran Effective Ceasefire by July 24? |
-| 4 | 34.02 | 170.08 | 178 | 86 | Will Dricus Du Plessis fight Khamzat Chimaev next? |
-| 5 | 30.02 | 150.09 | 200 | 1046 | Iran charges Hormuz fees by August 31? |
-| 6 | 29.88 | 149.39 | 194 | 163 | Will St. Louis Shock win the Major League Pickleball End |
-| 7 | 20.43 | 102.15 | 400 | 3709 | Will WTI Crude Oil (WTI) hit (HIGH) $90 in July? |
-| 8 | 20.00 | 100.00 | 100 | 373 | Will S&P 500 (SPY) hit (LOW) $735 Week of July 20 2026? |
-| 9 | 20.00 | 100.00 | 100 | 101 | Will Gold (XAUUSD) hit (HIGH) $4,100 Week of July 20 202 |
-| 10 | 19.95 | 99.74 | 100 | 58 | Will Airbnb, Inc. (ABNB) hit (LOW) $142 Week of July 20  |
+| 1 | 61.66 | 308.30 | 400 | 157 | Will "Spider-Man: Brand New Day" score at least 95 on th |
+| 2 | 21.06 | 105.30 | 194 | 426 | Will St. Louis Shock win the Major League Pickleball End |
+| 3 | 20.62 | 103.12 | 200 | 1690 | Iran full airspace closure by August 31? |
+| 4 | 20.08 | 100.41 | 184 | 457 | Will Dricus Du Plessis fight Sean Strickland next? |
+| 5 | 19.28 | 96.42 | 400 | 1076 | Will WTI Crude Oil (WTI) hit (LOW) $75 in July? |
+| 6 | 18.97 | 94.86 | 144 | 141 | Will New Jersey 5s win the Major League Pickleball End o |
+| 7 | 18.54 | 92.70 | 122 | 831 | Will Spain win the UEFA EURO 2028? |
+| 8 | 18.13 | 90.66 | 114 | 679 | Will France win the UEFA EURO 2028? |
+| 9 | 18.02 | 90.10 | 100 | 312 | Will Jahmyr Gibbs finish the 2026-27 NFL regular season  |
+| 10 | 17.79 | 88.93 | 100 | 109 | Will Israel election happen as scheduled? |
 
 ## Near-zero (excluded from pilot)
 
-| 1 | 27.40 | 137.00 | Will 55 senators vote "Yea" for Todd Blanche as Attorney |
-| 2 | 26.80 | 134.00 | Mastercard (MA) Q2 gross dollar volume growth (local cur |
-| 3 | 21.60 | 108.00 | Will Shabana Mahmood be the next Chancellor of the Exche |
-| 4 | 20.00 | 100.00 | Will S&P 500 (SPY) hit (LOW) $720 in July? |
-| 5 | 20.00 | 100.00 | Will S&P 500 (SPY) hit (HIGH) $760 in July? |
-| 6 | 20.00 | 100.00 | Israel military action against Greater Beirut by July 31 |
-| 7 | 20.00 | 100.00 | Will Team Vitality Win More than 4.5 Matches in VCT 2026 |
-| 8 | 20.00 | 100.00 | Will FURIA Qualify to VCT Champs 2026? |
-| 9 | 20.00 | 100.00 | Will NRG Win More than 3.5 Matches in VCT 2026 Americas  |
-| 10 | 20.00 | 100.00 | Will FUT Esports Win More than 3.5 Matches in VCT 2026 E |
+| 1 | 60.00 | 300.00 | Will Alibaba be the third-best Chinese AI company at the |
+| 2 | 37.00 | 185.00 | Will Yordan Alvarez win the 2026 American League MVP Awa |
+| 3 | 21.20 | 106.00 | Will Thorsten Frei be the next leader of the German Unio |
+| 4 | 20.00 | 100.00 | Will Team Vitality Win More than 4.5 Matches in VCT 2026 |
+| 5 | 20.00 | 100.00 | Will FUT Esports Win More than 3.5 Matches in VCT 2026 E |
+| 6 | 20.00 | 100.00 | Will Astralis Qualify to LAN BLAST Bounty 2026 Season 2? |
+| 7 | 20.00 | 100.00 | Will FURIA Qualify to VCT Champs 2026? |
+| 8 | 20.00 | 100.00 | Will The MongolZ Qualify to LAN BLAST Bounty 2026 Season |
+| 9 | 20.00 | 100.00 | Will G2 Qualify to LAN BLAST Bounty 2026 Season 2? |
+| 10 | 20.00 | 100.00 | Will MOUZ Qualify to LAN BLAST Bounty 2026 Season 2? |
 
 ## Rewards: actual vs estimated
 
-- ts: `2026-07-20T16:27:52Z`
+- ts: `2026-07-21T01:56:19Z`
 - total actual: $0
 - total estimated: $0
 - ratio: n/a
