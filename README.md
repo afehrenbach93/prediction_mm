@@ -61,4 +61,4 @@ core/clob_bookws.py            market websocket mids
 sql/0002_clob_ledger.sql       Supabase schema
 ```
 
-See `CLAUDE.md` / `FOLLOWONS.md` / `BUILD_REVIEW.md`.
+See `CLAUDE.md` / `FOLLOWONS.md` / `BUILD_REVIEW.md` / `docs/CLOB_LIVE_RUNBOOK.md`.
