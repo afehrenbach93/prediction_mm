@@ -18,7 +18,13 @@ from pathlib import Path
 
 from core.clob_bookws import BookMidCache, MarketWsThread
 from core.clob_ledger import ClobLedger
-from core.clob_shadowfills import ShadowFillState, ShadowQuote, process_tape, summary
+from core.clob_shadowfills import (
+    ShadowFillState,
+    ShadowQuote,
+    process_tape,
+    rollover_utc_day,
+    summary,
+)
 from core.clobmaker import ClobQuoteParams, maker_quotes
 from core.clobscore import max_spread_cents, min_size
 from core.clobtrader import ClobTrader
@@ -37,6 +43,9 @@ EARNINGS_SECS = int(os.getenv("CLOB_EARNINGS_SECS", "3600"))
 MID_MOVE_TICKS = float(os.getenv("CLOB_MID_MOVE_TICKS", "1"))
 MAX_REFRESH_SECS = float(os.getenv("CLOB_MAX_REFRESH_SECS", "2"))
 WS_ENABLED = os.getenv("CLOB_WS", "1").strip().lower() not in ("0", "false", "no")
+SHADOW_MAX_INV = float(os.getenv("CLOB_SHADOW_MAX_INVENTORY", "150"))
+SHADOW_MAX_FILL = float(os.getenv("CLOB_SHADOW_MAX_FILL", "5"))
+SHADOW_FILLS_PER_CYCLE = int(os.getenv("CLOB_SHADOW_FILLS_PER_CYCLE", "5"))
 
 
 def log(msg: str):
@@ -142,20 +151,31 @@ def quote_one(trader: ClobTrader, ledger: ClobLedger, row: dict, position: float
     now = time.time()
     moved = prev is None or abs(mid - prev) >= MID_MOVE_TICKS * tick
     cooled = (now - last_refresh.get(token_id, 0.0)) >= MAX_REFRESH_SECS
-    if not moved and token_id in last_quote_mid:
-        # keep prior shadow quote levels for simulator
-        sq = ShadowQuote(
-            token_id=token_id,
-            bid=last_quote_mid.get(f"{token_id}:bid"),
-            ask=last_quote_mid.get(f"{token_id}:ask"),
-            bid_size=params.budget_usd / 2 / mid if mid else 0,
-            ask_size=params.budget_usd / 2 / mid if mid else 0,
-            mid=mid,
-            slug=row.get("slug") or "",
+
+    def _shadow_quote_from_mid() -> ShadowQuote | None:
+        """Recompute bid/ask from current mid for the tape simulator (no place)."""
+        qs = maker_quotes(mid, v, tick, position, msz, params)
+        if not qs:
+            return None
+        bid_px = ask_px = None
+        bid_sz = ask_sz = 0.0
+        for qq in qs:
+            if qq.side == "BUY":
+                bid_px, bid_sz = qq.price, qq.size
+            else:
+                ask_px, ask_sz = qq.price, qq.size
+        last_quote_mid[f"{token_id}:bid"] = bid_px
+        last_quote_mid[f"{token_id}:ask"] = ask_px
+        return ShadowQuote(
+            token_id=token_id, bid=bid_px, ask=ask_px,
+            bid_size=bid_sz, ask_size=ask_sz, mid=mid, slug=row.get("slug") or "",
         )
-        return 0, mid, sq
+
+    if not moved and token_id in last_quote_mid:
+        # Hold resting shadow orders, but refresh sim quote levels to current mid.
+        return 0, mid, _shadow_quote_from_mid()
     if not cooled and prev is not None:
-        return 0, mid, None
+        return 0, mid, _shadow_quote_from_mid()
 
     quotes = maker_quotes(mid, v, tick, position, msz, params)
     trader.cancel_market(token_id=token_id, condition_id=row.get("condition_id") or "")
@@ -230,6 +250,9 @@ def main():
     last_quote_mid: dict = {}
     last_refresh: dict = {}
     shadow_state = ShadowFillState()
+    if not trader.live:
+        log(f"shadow-sample: max_inv={SHADOW_MAX_INV} max_fill={SHADOW_MAX_FILL} "
+            f"fills/cycle={SHADOW_FILLS_PER_CYCLE} (UTC day rollover enabled)")
 
     while True:
         try:
@@ -287,7 +310,12 @@ def main():
                         shadow_quotes.append(sq)
                 # shadow fills from public tape
                 if not trader.live and shadow_quotes:
-                    new_f = process_tape(shadow_quotes, shadow_state, ledger=ledger)
+                    new_f = process_tape(
+                        shadow_quotes, shadow_state, ledger=ledger,
+                        max_fills_per_cycle=SHADOW_FILLS_PER_CYCLE,
+                        max_fill_size=SHADOW_MAX_FILL,
+                        max_inventory=SHADOW_MAX_INV,
+                    )
                     if new_f:
                         log(f"shadow-fills: {len(new_f)} simulated "
                             f"(today={shadow_state.fills_today})")
@@ -302,11 +330,26 @@ def main():
                     if not trader.live:
                         shadow_state.inventory.clear()
                         shadow_state.avg_entry.clear()
-                        shadow_state.adverse_moves.clear()
                         log("shadow inventory reset after breaker")
                         tripped = False
             else:
                 log("breaker tripped — standing aside")
+
+            # UTC day rollover → lock prior day PnL sample, start fresh inventory
+            if not trader.live and mids:
+                rolled, _, prior = rollover_utc_day(shadow_state, mids)
+                if rolled and prior:
+                    est = sum(float(r.get("avg_est_daily") or 0) for r in pilot)
+                    ledger.log_daily_pnl(
+                        trading_pnl=float(prior.get("realized_pnl") or prior.get("net_pnl_today") or 0),
+                        rewards_usd=0.0, est_gross=est,
+                        note=f"shadow_day_close fills={prior.get('fills_today')} "
+                             f"adverse={prior.get('avg_adverse_move')}",
+                    )
+                    log(f"shadow-day-close {prior.get('day')}: "
+                        f"fills={prior.get('fills_today')} "
+                        f"net=${prior.get('realized_pnl')} "
+                        f"adverse={prior.get('avg_adverse_move')}")
 
             now = time.time()
             if now - last_earnings >= EARNINGS_SECS:
@@ -314,22 +357,26 @@ def main():
                 if earn is not None:
                     ledger.log_rewards(earn, note="daily_poll", source="estimate")
                 est = sum(float(r.get("avg_est_daily") or 0) for r in pilot)
-                mtm = 0.0
+                trading = 0.0
                 if not trader.live:
-                    from core.clob_shadowfills import mark_to_mid
-                    mtm = mark_to_mid(shadow_state, mids)
                     s = summary(shadow_state, mids)
-                    log(f"shadow-pnl: fills={s['fills_today']} mtm=${s['mtm_pnl']} "
+                    trading = float(s["net_pnl_today"])
+                    log(f"shadow-pnl: day={s['day']} fills={s['fills_today']} "
+                        f"net=${s['net_pnl_today']} mtm=${s['mtm_pnl']} "
+                        f"realized=${s['realized_pnl_today']} "
                         f"avg_adverse={s['avg_adverse_move']}")
+                else:
+                    trading = 0.0
                 ledger.log_daily_pnl(
-                    trading_pnl=mtm, rewards_usd=0.0, est_gross=est,
+                    trading_pnl=trading, rewards_usd=0.0, est_gross=est,
                     note="shadow_mtm" if not trader.live else "live_stub",
                 )
                 last_earnings = now
 
             log(f"cycle: {len(pilot)} mkts, {total} orders, "
                 f"shadow_log={len(trader.shadow_orders)} tripped={tripped} "
-                f"ws={'up' if cache.connected else 'down'}")
+                f"ws={'up' if cache.connected else 'down'} "
+                f"fills_today={shadow_state.fills_today if not trader.live else '-'}")
         except Exception as e:
             log(f"loop error: {e}")
             try:
