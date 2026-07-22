@@ -16,6 +16,8 @@
 
 ## Invariants
 - Live requires `CLOB_MODE=live` **and** `ELIGIBILITY_CONFIRMED=true` (else shadow)
+- Live egress must pass `GET https://polymarket.com/api/geoblock` → `blocked:false`
+  (Render oregon is US API close-only — see `docs/CLOB_LIVE_RUNBOOK.md`)
 - `CLOB_MODE=shadow` → no CLOB mutations (`ClobTrader` gate + tests)
 - Pilot from `pilot_universe.csv`; provisional (<5d) logged as WARNING
 - Post-only; full cancel/replace; kill via `CLOB_KILL` or Supabase `clob_control`
@@ -26,6 +28,7 @@
 | Path | Role |
 |------|------|
 | `clob_runner.py` | Quoter (WS mids, shadow fills, kill poll) |
+| `docs/CLOB_LIVE_RUNBOOK.md` | Live egress + flip/abort checklist |
 | `core/eligibility.py` | Hard live gate |
 | `core/clob_ledger.py` / `supabase_clob.py` | Persistent ledger + kill |
 | `core/clob_shadowfills.py` / `clob_bookws.py` | Shadow tape fills / WS |
@@ -35,11 +38,17 @@
 
 ## Incident Log
 
+### 2026-07-22 — Live blocked by CLOB geoblock (Render oregon)
+Flipped live after eligibility confirm; first `/order` → 403 geoblock (US API
+close-only). Reverted shadow. Runbook: `docs/CLOB_LIVE_RUNBOOK.md` (live host
+needs API-allowed egress, e.g. IE/`eu-west-1`; Render stays shadow).
+
+### 2026-07-22 — Shadow multi-day sampling fix
+Inventory-at-cap froze sim fills; flatten + UTC day rollover (#115).
+
 ### 2026-07-19 — Handback P0–P2 post-review fixes
-Eligibility hard gate; Supabase ledger/kill; pulse→`data` branch (no deploy
-restart); shadow-fill sim; WS mids; reward recon wire; score/maker footgun tests;
-stability `--min-days 5` + provisional; wallet hygiene docs. **Do not set
-`CLOB_MODE=live` until P0 verified (SQL applied, kill poll, pulse no-restart).**
+Eligibility hard gate; Supabase ledger/kill; pulse→`data` branch; shadow-fill
+sim; WS mids; reward recon; footgun tests; provisional pilot; wallet docs.
 
 ### 2026-07-19 — Implement deep-dive CLOB plan
 Built stability filter, docs-reconciled score, L2 derive, shadow-gated runner,
