@@ -1,43 +1,43 @@
-# CLOB pulse — 2026-07-23T02:02:45Z
+# CLOB pulse — 2026-07-23T16:39:48Z
 
 - Domain: `https://clob.polymarket.com`
 - Budget: $500
 - Snapshot days on disk: 3
-- Scored: 250  competed: 230  near-zero: 20
+- Scored: 250  competed: 214  near-zero: 36
 - Pilot universe: 0 (provisional: 0)
-- Top-20 competed avg yield: 25.1028%/day (gross)
+- Top-20 competed avg yield: 20.6194%/day (gross)
 
 ## Top competed
 
 | # | yield%/d | est$/d | rate | qual$ | market |
 |---|----------|--------|------|-------|--------|
-| 1 | 55.16 | 275.82 | 309 | 159 | Will Mitchell Berman be the WI-01 Democratic nominee? |
-| 2 | 47.81 | 239.05 | 747 | 4472 | Will LeBron James play for the Cleveland Cavaliers in 20 |
-| 3 | 45.38 | 226.88 | 400 | 1217 | Will WTI Crude Oil (WTI) hit (LOW) $85 in July? |
-| 4 | 31.74 | 158.72 | 297 | 444 | Will Jay Collins finish second in the Florida Republican |
-| 5 | 30.12 | 150.59 | 200 | 5093 | Will WTI Crude Oil (WTI) hit (HIGH) $100 in July? |
-| 6 | 24.36 | 121.80 | 250 | 359 | Copper cable hit with Sec. 232 tariffs by December 31, 2 |
-| 7 | 23.90 | 119.51 | 250 | 281 | Will seltzers with 5mg THC be legal on November 13, 2026 |
-| 8 | 22.48 | 112.39 | 267 | 457 | Will Gary Cordery win the 2026 Hawaii Governor Republica |
-| 9 | 21.03 | 105.13 | 300 | 2003 | Iran full airspace closure by July 27? |
-| 10 | 19.90 | 99.50 | 100 | 83 | Will Warsh say "Supply shock" during July Press Conferen |
+| 1 | 55.96 | 279.79 | 300 | 247 | Israel x Iran ceasefire continues through August 31? |
+| 2 | 27.13 | 135.63 | 1000 | 6451 | Israel x Iran ceasefire continues through July 31? |
+| 3 | 22.79 | 113.94 | 300 | 2834 | Iran full airspace closure by July 27? |
+| 4 | 19.83 | 99.14 | 100 | 110 | Will Tower Semiconductor (TSEM) beat quarterly earnings? |
+| 5 | 19.28 | 96.39 | 100 | 86 | Will MicroStrategy (MSTR) beat quarterly earnings? |
+| 6 | 19.09 | 95.45 | 100 | 74 | Will Paramount Skydance (PSKY) beat quarterly earnings? |
+| 7 | 18.89 | 94.44 | 100 | 287 | Will Penske (PAG) beat quarterly earnings? |
+| 8 | 18.48 | 92.39 | 1000 | 8194 | Clarity Act signed into law in 2026? |
+| 9 | 18.48 | 92.39 | 100 | 75 | Will Microsoft Corporation (MSFT) hit (HIGH) $435 in Jul |
+| 10 | 18.24 | 91.18 | 100 | 109 | Will StoneX Group (SNEX) beat quarterly earnings? |
 
 ## Near-zero (excluded from pilot)
 
-| 1 | 80.00 | 400.00 | Will CXMT’s closing IPO market cap be at least 2T yuan? |
-| 2 | 80.00 | 400.00 | Will CXMT’s closing IPO market cap be at least 1.5T yuan |
-| 3 | 35.80 | 179.00 | Will HBO Max win the most Emmys? |
-| 4 | 29.60 | 148.00 | Will Netflix win the most Emmys? |
-| 5 | 24.60 | 123.00 | Will Ken Fujiyama win the 2026 Hawaii Governor Republica |
-| 6 | 20.97 | 104.87 | Will Alibaba have the best Math AI model at the end of S |
-| 7 | 20.00 | 100.00 | Will NRG Win More than 3.5 Matches in VCT 2026 Americas  |
-| 8 | 20.00 | 100.00 | Will FUT Esports Win More than 3.5 Matches in VCT 2026 E |
-| 9 | 20.00 | 100.00 | Will FURIA Qualify to VCT Champs 2026? |
-| 10 | 20.00 | 100.00 | Will magic Qualify to LAN BLAST Bounty 2026 Season 2? |
+| 1 | 80.00 | 400.00 | Will CXMT’s closing IPO market cap be at least 3T yuan? |
+| 2 | 24.50 | 122.48 | Will "A Toxic Love Story" be the #2 global Netflix movie |
+| 3 | 24.40 | 122.00 | Will "The Hawk: Season 1" be the top US Netflix show thi |
+| 4 | 22.60 | 113.00 | Will "72 Hours" be the top global Netflix movie this wee |
+| 5 | 20.40 | 102.00 | Will "Ransom Canyon: Season 2" be the #2 US Netflix show |
+| 6 | 20.00 | 100.00 | Will Tesla, Inc. (TSLA) hit (LOW) $300 in July? |
+| 7 | 20.00 | 100.00 | Will Airbnb, Inc. (ABNB) hit (HIGH) $152 in July? |
+| 8 | 20.00 | 100.00 | Will gas hit $4.25 (High) by July 31? |
+| 9 | 20.00 | 100.00 | Will Alphabet Inc. (GOOGL) hit (LOW) $290 in July? |
+| 10 | 20.00 | 100.00 | Will Bed Bath & Beyond (BBBY) beat quarterly earnings? |
 
 ## Rewards: actual vs estimated
 
-- ts: `2026-07-23T02:02:45Z`
+- ts: `2026-07-23T16:39:48Z`
 - total actual: $0
 - total estimated: $0
 - ratio: n/a
