@@ -125,8 +125,30 @@ class ClobTrader:
         # Passing pre-derived CLOB_* L2 keys can mismatch POLY_1271 binding.
         self._secure = SecureClient.create(**kwargs)
         self._backend = "secure"
+        self._refresh_secure_collateral()
         print("[clob] live backend=SecureClient (polymarket-client)", flush=True)
         return self._secure
+
+    def _refresh_secure_collateral(self) -> None:
+        """Force CLOB to re-index deposit-wallet collateral after funding."""
+        if self._secure is None:
+            return
+        try:
+            from polymarket._internal.actions import account as _account_actions
+            from polymarket._internal.wallet import signature_type_for
+
+            sig = signature_type_for(self._secure.wallet_type)
+            path, params = _account_actions.build_update_balance_allowance_request(
+                asset_type="COLLATERAL", token_id=None, signature_type=sig,
+            )
+            self._secure._ctx.secure_clob.get_bytes(path, params=params)
+            bal = self._secure.get_balance_allowance(asset_type="COLLATERAL")
+            print(
+                f"[clob] collateral refreshed balance_usd={bal.balance / 1e6:.2f}",
+                flush=True,
+            )
+        except Exception as e:
+            print(f"[clob] collateral refresh warning: {e}", flush=True)
 
     def _auth_client(self):
         if not self._live_mutations_allowed():
