@@ -6,7 +6,8 @@ signature_type=3). Fallback: legacy ``ClobTrader`` / py-clob-client-v2.
 
 Usage:
   set -a && source .env && set +a
-  pip install -U 'polymarket>=0.1.0'
+  pip uninstall -y polymarket   # unrelated 3KB odds package; conflicts on name
+  pip install -U 'polymarket-client>=0.1.0'
   PYTHONPATH=. python scripts/clob_test_order.py
   PYTHONPATH=. python scripts/clob_test_order.py --legacy
 """
@@ -21,6 +22,18 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
+
+
+def _import_secure_client():
+    try:
+        from polymarket import SecureClient
+        return SecureClient
+    except ImportError as e:
+        raise SystemExit(
+            "Missing official SDK. Install: pip uninstall -y polymarket; "
+            "pip install -U 'polymarket-client>=0.1.0'\n"
+            f"Import error: {e}"
+        ) from e
 
 
 def _first_pilot_token() -> tuple[str, str]:
@@ -65,7 +78,7 @@ def _builder_api_key():
 
 
 def run_polymarket_sdk() -> None:
-    from polymarket import SecureClient
+    SecureClient = _import_secure_client()
 
     pk = os.environ["CLOB_PRIVATE_KEY"]
     wallet = os.environ["CLOB_FUNDER"]
@@ -77,7 +90,7 @@ def run_polymarket_sdk() -> None:
     if builder is not None:
         kwargs["api_key"] = builder
 
-    print(f"sdk=polymarket SecureClient wallet={wallet}")
+    print(f"sdk=polymarket-client SecureClient wallet={wallet}")
     print(f"slug={slug}")
     client = SecureClient.create(**kwargs)
     try:
