@@ -1,43 +1,43 @@
-# CLOB pulse — 2026-07-23T16:39:48Z
+# CLOB pulse — 2026-07-24T01:58:29Z
 
 - Domain: `https://clob.polymarket.com`
 - Budget: $500
 - Snapshot days on disk: 3
-- Scored: 250  competed: 214  near-zero: 36
+- Scored: 250  competed: 223  near-zero: 27
 - Pilot universe: 0 (provisional: 0)
-- Top-20 competed avg yield: 20.6194%/day (gross)
+- Top-20 competed avg yield: 26.7792%/day (gross)
 
 ## Top competed
 
 | # | yield%/d | est$/d | rate | qual$ | market |
 |---|----------|--------|------|-------|--------|
-| 1 | 55.96 | 279.79 | 300 | 247 | Israel x Iran ceasefire continues through August 31? |
-| 2 | 27.13 | 135.63 | 1000 | 6451 | Israel x Iran ceasefire continues through July 31? |
-| 3 | 22.79 | 113.94 | 300 | 2834 | Iran full airspace closure by July 27? |
-| 4 | 19.83 | 99.14 | 100 | 110 | Will Tower Semiconductor (TSEM) beat quarterly earnings? |
-| 5 | 19.28 | 96.39 | 100 | 86 | Will MicroStrategy (MSTR) beat quarterly earnings? |
-| 6 | 19.09 | 95.45 | 100 | 74 | Will Paramount Skydance (PSKY) beat quarterly earnings? |
-| 7 | 18.89 | 94.44 | 100 | 287 | Will Penske (PAG) beat quarterly earnings? |
-| 8 | 18.48 | 92.39 | 1000 | 8194 | Clarity Act signed into law in 2026? |
-| 9 | 18.48 | 92.39 | 100 | 75 | Will Microsoft Corporation (MSFT) hit (HIGH) $435 in Jul |
-| 10 | 18.24 | 91.18 | 100 | 109 | Will StoneX Group (SNEX) beat quarterly earnings? |
+| 1 | 66.33 | 331.63 | 400 | 93 | Will CXMT’s closing IPO market cap be at least 3.5T yuan |
+| 2 | 45.49 | 227.43 | 262 | 593 | Will Scott Timko win the special election to fill the Pe |
+| 3 | 38.96 | 194.78 | 200 | 131 | Will the next Claude Opus model be released by July 29,  |
+| 4 | 38.90 | 194.51 | 200 | 303 | Will the next Claude Opus model be released by July 31,  |
+| 5 | 34.20 | 171.01 | 200 | 697 | Will gas hit $4.25 (High) by July 31? |
+| 6 | 28.63 | 143.15 | 300 | 1088 | Israel x Iran ceasefire continues through August 31? |
+| 7 | 25.03 | 125.14 | 186 | 172 | Will Connie Chan win the CA-11 House seat? |
+| 8 | 24.14 | 120.71 | 187 | 284 | Will John Nagel be the MN-05 Republican nominee? |
+| 9 | 22.18 | 110.89 | 400 | 800 | Will Mike Beltran be the FL-14 Republican nominee? |
+| 10 | 21.32 | 106.61 | 200 | 719 | Will WTI Crude Oil (WTI) hit (LOW) $85 in July? |
 
 ## Near-zero (excluded from pilot)
 
-| 1 | 80.00 | 400.00 | Will CXMT’s closing IPO market cap be at least 3T yuan? |
-| 2 | 24.50 | 122.48 | Will "A Toxic Love Story" be the #2 global Netflix movie |
-| 3 | 24.40 | 122.00 | Will "The Hawk: Season 1" be the top US Netflix show thi |
-| 4 | 22.60 | 113.00 | Will "72 Hours" be the top global Netflix movie this wee |
-| 5 | 20.40 | 102.00 | Will "Ransom Canyon: Season 2" be the #2 US Netflix show |
-| 6 | 20.00 | 100.00 | Will Tesla, Inc. (TSLA) hit (LOW) $300 in July? |
-| 7 | 20.00 | 100.00 | Will Airbnb, Inc. (ABNB) hit (HIGH) $152 in July? |
-| 8 | 20.00 | 100.00 | Will gas hit $4.25 (High) by July 31? |
-| 9 | 20.00 | 100.00 | Will Alphabet Inc. (GOOGL) hit (LOW) $290 in July? |
-| 10 | 20.00 | 100.00 | Will Bed Bath & Beyond (BBBY) beat quarterly earnings? |
+| 1 | 30.40 | 152.00 | Will the number of votes cast in the 2026 Clacton by-ele |
+| 2 | 26.60 | 133.00 | Will "I Will Find You: Limited Series" be the #2 global  |
+| 3 | 24.80 | 124.00 | Will "A Toxic Love Story" be the #2 global Netflix movie |
+| 4 | 20.00 | 100.00 | Will Invesco (IVZ) beat quarterly earnings? |
+| 5 | 20.00 | 100.00 | Will Pinterest (PINS) beat quarterly earnings? |
+| 6 | 20.00 | 100.00 | Will Wisconsin disenfranchise any voter for betting on e |
+| 7 | 20.00 | 100.00 | Will Houthis successfully target shipping on August 17,  |
+| 8 | 20.00 | 100.00 | Will Houthis successfully target shipping on August 21,  |
+| 9 | 20.00 | 100.00 | Will the highest score achieved by an Anthropic Claude m |
+| 10 | 20.00 | 100.00 | Will any AI model reach a Chatbot Arena score of at leas |
 
 ## Rewards: actual vs estimated
 
-- ts: `2026-07-23T16:39:48Z`
+- ts: `2026-07-24T01:58:29Z`
 - total actual: $0
 - total estimated: $0
 - ratio: n/a
