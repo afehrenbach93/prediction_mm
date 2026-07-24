@@ -178,6 +178,22 @@ def quote_one(trader: ClobTrader, ledger: ClobLedger, row: dict, position: float
         return 0, mid, _shadow_quote_from_mid()
 
     quotes = maker_quotes(mid, v, tick, position, msz, params)
+    # Live: cannot SELL outcome tokens we don't hold (CLOB checks conditional
+    # balance). Skip asks until inventory exists from buys/fills.
+    if trader.live:
+        held = max(0.0, position)
+        before = len(quotes)
+        quotes = [
+            q for q in quotes
+            if q.side != "SELL" or q.size <= held + 1e-9
+        ]
+        if before and not quotes:
+            log(f"  {(row.get('slug') or '')[:36]} skip — no buy/sell sized for inv={position:.2f}")
+            return 0, mid, None
+        skipped_sells = before - len(quotes)
+        if skipped_sells:
+            log(f"  {(row.get('slug') or '')[:36]} skip {skipped_sells} SELL (inv={position:.2f})")
+
     trader.cancel_market(token_id=token_id, condition_id=row.get("condition_id") or "")
     n = 0
     bid_px = ask_px = None
@@ -195,6 +211,7 @@ def quote_one(trader: ClobTrader, ledger: ClobLedger, row: dict, position: float
                 if "429" in str(e) and attempt < 3:
                     time.sleep(2 ** attempt)
                     continue
+                log(f"  place fail {q.side} {q.size}@{q.price}: {e}")
                 raise
         ledger.log_quote(
             token_id, q.side, q.price, q.size, mid, MODE,
