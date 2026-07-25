@@ -55,12 +55,15 @@ def log(msg: str):
     print(f"[clob] {datetime.now(timezone.utc):%H:%M:%S}Z {msg}", flush=True)
 
 
-def load_pilot(path: Path, max_n: int) -> list[dict]:
+def load_pilot(path: Path, max_n: int, trader: ClobTrader | None = None) -> list[dict]:
+    """Load up to ``max_n`` eligible pilot rows; skip empty books when trader given."""
     if not path.exists():
         log(f"pilot universe missing: {path}")
         return []
-    rows = []
+    candidates: list[dict] = []
     now = datetime.now(timezone.utc)
+    # Pull extra candidates so no-book skips can still fill max_n slots.
+    want = max_n * 8 if trader is not None else max_n
     with open(path, newline="") as f:
         for r in csv.DictReader(f):
             if int(float(r.get("near_zero_days") or 0)) > 0:
@@ -75,9 +78,25 @@ def load_pilot(path: Path, max_n: int) -> list[dict]:
                     pass
             if str(r.get("provisional", "")).lower() in ("true", "1", "yes"):
                 log(f"WARNING: quoting provisional market {r.get('slug')}")
-            rows.append(r)
-            if len(rows) >= max_n:
+            candidates.append(r)
+            if len(candidates) >= want:
                 break
+    if trader is None:
+        return candidates[:max_n]
+    rows: list[dict] = []
+    for r in candidates:
+        tid = r.get("token_id") or ""
+        try:
+            bids, asks = trader.get_book(str(tid))
+        except Exception as e:
+            log(f"pilot skip book-err {(r.get('slug') or '')[:40]}: {e}")
+            continue
+        if not bids or not asks:
+            log(f"pilot skip no book {(r.get('slug') or '')[:48]}")
+            continue
+        rows.append(r)
+        if len(rows) >= max_n:
+            break
     return rows
 
 
@@ -353,7 +372,7 @@ def main():
             else:
                 standing_aside = False
 
-            pilot = load_pilot(PILOT_CSV, MAX_MARKETS)
+            pilot = load_pilot(PILOT_CSV, MAX_MARKETS, trader=trader)
             if not pilot:
                 log("no pilot markets — idle")
                 time.sleep(POLL)
@@ -363,11 +382,21 @@ def main():
                 log("building sampling index…")
                 idx = build_token_index(trader)
                 log(f"index tokens={len(idx)}")
-                if WS_ENABLED:
-                    assets = [r["token_id"] for r in pilot]
-                    ws_thread = MarketWsThread(assets, cache)
-                    ws_thread.start()
-                    log(f"ws subscribed assets={len(assets)}")
+            # (Re)subscribe WS when pilot set changes (e.g. empty-book swap).
+            pilot_assets = [str(r["token_id"]) for r in pilot]
+            if WS_ENABLED and (
+                ws_thread is None
+                or list(ws_thread.asset_ids) != pilot_assets
+            ):
+                if ws_thread is not None:
+                    try:
+                        ws_thread.stop()
+                    except Exception:
+                        pass
+                ws_thread = MarketWsThread(pilot_assets, cache)
+                ws_thread.start()
+                log(f"ws subscribed assets={len(pilot_assets)} "
+                    f"slugs={[ (r.get('slug') or '')[:28] for r in pilot ]}")
 
             trades = trader.get_trades()
             for t in trades:
