@@ -38,6 +38,11 @@
 
 ## Incident Log
 
+### 2026-07-25 — Live loop: Decimal not JSON serializable
+EC2 `clob-runner` stuck every ~30s logging fills/rewards: SecureClient payloads
+embed `Decimal`. Fixed: `_jsonable` in `clobtrader`, `json.dumps(..., default=str)`
+in `supabase_clob`, sanitize `raw_json`/`payload_json` before insert.
+
 ### 2026-07-22 — Live blocked by CLOB geoblock (Render oregon)
 Flipped live after eligibility confirm; first `/order` → 403 geoblock (US API
 close-only). Reverted shadow. Runbook: `docs/CLOB_LIVE_RUNBOOK.md` (live host

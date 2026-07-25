@@ -95,6 +95,11 @@ class ClobLedger:
                 sz = float(row["size"]) if row["size"] != "" else None
             except (TypeError, ValueError):
                 sz = None
+            # Keep raw_json JSON-safe (SecureClient trades may embed Decimal)
+            try:
+                raw_safe = json.loads(json.dumps(trade, default=str))
+            except Exception:
+                raw_safe = {"_raw": str(trade)}
             self.sb.insert("clob_fills", {
                 "trade_id": row["trade_id"],
                 "token_id": row["token_id"],
@@ -104,7 +109,7 @@ class ClobLedger:
                 "fee": str(row["fee"]),
                 "simulated": simulated,
                 "mid_at_fill": mid_at_fill,
-                "raw_json": trade,
+                "raw_json": raw_safe,
             })
 
     def log_rewards(self, payload, note: str = "", source: str = "estimate",
@@ -115,15 +120,20 @@ class ClobLedger:
             "payload_json": json.dumps(payload, default=str)[:8000],
         })
         if self.sb.enabled:
+            if isinstance(payload, (dict, list)):
+                try:
+                    payload_safe = json.loads(json.dumps(payload, default=str))
+                except Exception:
+                    payload_safe = {"_raw": str(payload)}
+            else:
+                payload_safe = {"raw": str(payload)}
             self.sb.insert("clob_rewards", {
                 "source": source,
                 "note": note,
                 "market_slug": market_slug or None,
                 "condition_id": condition_id or None,
                 "amount_usd": amount_usd,
-                "payload_json": payload if isinstance(payload, (dict, list)) else {
-                    "raw": str(payload)
-                },
+                "payload_json": payload_safe,
             })
 
     def log_daily_pnl(self, trading_pnl: float, rewards_usd: float,

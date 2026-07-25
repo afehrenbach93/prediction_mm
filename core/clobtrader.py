@@ -34,28 +34,54 @@ def _use_secure_client() -> bool:
     return int(os.getenv("CLOB_SIGNATURE_TYPE", "0") or 0) == 3
 
 
+def _jsonable(obj: Any) -> Any:
+    """Convert Decimals / nested models so ledger JSON never blows up."""
+    try:
+        from decimal import Decimal as _Decimal
+    except ImportError:  # pragma: no cover
+        _Decimal = None  # type: ignore
+    if obj is None or isinstance(obj, (str, int, float, bool)):
+        return obj
+    if _Decimal is not None and isinstance(obj, _Decimal):
+        return float(obj)
+    if isinstance(obj, dict):
+        return {str(k): _jsonable(v) for k, v in obj.items()}
+    if isinstance(obj, (list, tuple)):
+        return [_jsonable(v) for v in obj]
+    if hasattr(obj, "model_dump"):
+        try:
+            return _jsonable(obj.model_dump(mode="json"))
+        except Exception:
+            try:
+                return _jsonable(obj.model_dump())
+            except Exception:
+                pass
+    if hasattr(obj, "dict"):
+        try:
+            return _jsonable(obj.dict())
+        except Exception:
+            pass
+    return str(obj)
+
+
 def _as_dict(obj: Any) -> dict:
     if obj is None:
         return {}
     if isinstance(obj, dict):
-        return obj
-    if hasattr(obj, "model_dump"):
-        try:
-            return obj.model_dump(mode="python")
-        except Exception:
-            pass
-    if hasattr(obj, "dict"):
-        try:
-            return obj.dict()
-        except Exception:
-            pass
-    out = {}
-    for k in ("order_id", "orderID", "id", "status", "ok", "trade_ids"):
-        if hasattr(obj, k):
-            out[k] = getattr(obj, k)
-    if "order_id" in out and "orderID" not in out:
-        out["orderID"] = out["order_id"]
-    return out or {"resp": str(obj)}
+        dumped = _jsonable(obj)
+    else:
+        dumped = _jsonable(obj)
+        if not isinstance(dumped, dict):
+            out = {}
+            for k in ("order_id", "orderID", "id", "status", "ok", "trade_ids"):
+                if hasattr(obj, k):
+                    out[k] = _jsonable(getattr(obj, k))
+            dumped = out or {"resp": str(obj)}
+    if isinstance(dumped, dict):
+        if "order_id" in dumped and "orderID" not in dumped:
+            dumped["orderID"] = dumped["order_id"]
+        return dumped
+    return {"resp": str(obj)}
 
 
 class ClobTrader:
@@ -327,7 +353,9 @@ class ClobTrader:
                 if n >= 500:
                     break
             return out
-        return client.get_trades() or []
+        # Legacy client may still return Decimal-bearing dicts
+        return [_as_dict(t) if not isinstance(t, dict) else _jsonable(t)
+                for t in (client.get_trades() or [])]
 
     def get_earnings_today(self):
         if not self._live_mutations_allowed():
@@ -336,7 +364,9 @@ class ClobTrader:
         try:
             if _use_secure_client():
                 day = datetime.now(timezone.utc).strftime("%Y-%m-%d")
-                return client.get_total_earnings_for_user_for_day(date=day)
-            return client.get_total_earnings_for_user_for_day()
+                raw = client.get_total_earnings_for_user_for_day(date=day)
+            else:
+                raw = client.get_total_earnings_for_user_for_day()
+            return _jsonable(raw)
         except Exception as e:
             return {"_err": str(e)}

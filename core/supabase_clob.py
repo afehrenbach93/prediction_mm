@@ -42,7 +42,8 @@ class SupabaseClob:
         headers = self._headers()
         if prefer:
             headers["Prefer"] = prefer
-        data = None if body is None else json.dumps(body).encode()
+        # SecureClient / pydantic payloads often include Decimal
+        data = None if body is None else json.dumps(body, default=str).encode()
         req = urllib.request.Request(url, data=data, headers=headers, method=method)
         try:
             with urllib.request.urlopen(req, timeout=30) as r:
