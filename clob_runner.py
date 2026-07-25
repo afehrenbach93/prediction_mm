@@ -33,7 +33,10 @@ from core.eligibility import resolve_live_mode
 MODE = os.getenv("CLOB_MODE", "shadow").strip().lower()
 BUDGET_PER = float(os.getenv("CLOB_BUDGET_PER_MARKET", "75"))
 MAX_MARKETS = int(os.getenv("CLOB_MAX_MARKETS", "3"))
+# Share ceiling is a backstop only — low mids need many shares per $ of risk.
 MAX_INV = float(os.getenv("CLOB_MAX_INVENTORY", "200"))
+# Primary inventory risk limit (USD notional = |shares| * mid).
+MAX_INV_USD = float(os.getenv("CLOB_MAX_INVENTORY_USD", str(BUDGET_PER * 1.25)))
 SPREAD_FRAC = float(os.getenv("CLOB_SPREAD_FRACTION", "0.5"))
 POLL = int(os.getenv("CLOB_POLL_SECS", "30"))
 EXPOSURE_CAP = float(os.getenv("CLOB_EXPOSURE_CAP", str(BUDGET_PER * MAX_MARKETS * 1.5)))
@@ -78,25 +81,68 @@ def load_pilot(path: Path, max_n: int) -> list[dict]:
     return rows
 
 
+def _trade_size_shares(t: dict) -> float:
+    """Normalize CLOB trade size to shares (API sometimes returns e6 base units)."""
+    try:
+        sz = float(t.get("size") or t.get("matched_amount") or 0)
+    except (TypeError, ValueError):
+        return 0.0
+    # Heuristic: human share sizes for micro-pilot are << 1e5; e6 raw looks huge.
+    if abs(sz) >= 1e5:
+        sz = sz / 1e6
+    return sz
+
+
+def _our_trade_side(t: dict) -> str:
+    """Return OUR buy/sell. ClobTrade.side is the taker side when we are maker."""
+    side = (t.get("side") or "").upper()
+    trader_side = (t.get("trader_side") or t.get("traderSide") or "").upper()
+    if trader_side == "MAKER":
+        if side == "BUY":
+            return "SELL"
+        if side == "SELL":
+            return "BUY"
+    return side
+
+
 def positions_from_trades(trades: list) -> dict[str, float]:
     net: dict[str, float] = {}
     for t in trades or []:
         tid = str(t.get("asset_id") or t.get("token_id") or "")
         if not tid:
             continue
-        try:
-            sz = float(t.get("size") or t.get("matched_amount") or 0)
-        except (TypeError, ValueError):
+        sz = _trade_size_shares(t)
+        if sz <= 0:
             continue
-        side = (t.get("side") or "").upper()
+        side = _our_trade_side(t)
+        if side not in ("BUY", "SELL"):
+            continue
         net[tid] = net.get(tid, 0.0) + (sz if side == "BUY" else -sz)
     return net
 
 
+def share_room_for_mid(mid: float) -> float:
+    """Shares allowed at this mid from USD inventory cap (and share backstop)."""
+    m = max(float(mid) or 0.0, 0.01)
+    from_usd = MAX_INV_USD / m
+    return max(MAX_INV, from_usd)
+
+
 def breaker(positions: dict[str, float], mids: dict[str, float]) -> tuple[bool, str]:
     for tid, n in positions.items():
-        if abs(n) > MAX_INV:
-            return True, f"inventory {n:+.1f} on {tid[:16]}… > {MAX_INV}"
+        mid = mids.get(tid)
+        if mid is None or mid <= 0:
+            mid = 0.5
+        notional = abs(n) * mid
+        if notional > MAX_INV_USD:
+            return True, (
+                f"inventory ${notional:.1f} ({n:+.1f} sh @ {mid:.3f}) "
+                f"on {tid[:16]}… > ${MAX_INV_USD:.0f}"
+            )
+        # Extreme share backstop (ignore tiny mids already covered by USD)
+        hard_shares = max(MAX_INV * 20, share_room_for_mid(0.02) * 2)
+        if abs(n) > hard_shares:
+            return True, f"inventory {n:+.1f} sh on {tid[:16]}… > {hard_shares:.0f}"
     exposure = sum(abs(n) * mids.get(tid, 0.5) for tid, n in positions.items())
     if exposure > EXPOSURE_CAP:
         return True, f"exposure ${exposure:.0f} > cap ${EXPOSURE_CAP:.0f}"
@@ -154,7 +200,15 @@ def quote_one(trader: ClobTrader, ledger: ClobLedger, row: dict, position: float
 
     def _shadow_quote_from_mid() -> ShadowQuote | None:
         """Recompute bid/ask from current mid for the tape simulator (no place)."""
-        qs = maker_quotes(mid, v, tick, position, msz, params)
+        room = share_room_for_mid(mid)
+        qparams = ClobQuoteParams(
+            budget_usd=params.budget_usd,
+            spread_fraction=params.spread_fraction,
+            max_inventory=room,
+            min_price=params.min_price,
+            max_price=params.max_price,
+        )
+        qs = maker_quotes(mid, v, tick, position, msz, qparams)
         if not qs:
             return None
         bid_px = ask_px = None
@@ -177,7 +231,16 @@ def quote_one(trader: ClobTrader, ledger: ClobLedger, row: dict, position: float
     if not cooled and prev is not None:
         return 0, mid, _shadow_quote_from_mid()
 
-    quotes = maker_quotes(mid, v, tick, position, msz, params)
+    # Per-market share room from USD inventory cap (cheap mids need more shares).
+    room = share_room_for_mid(mid)
+    qparams = ClobQuoteParams(
+        budget_usd=params.budget_usd,
+        spread_fraction=params.spread_fraction,
+        max_inventory=room,
+        min_price=params.min_price,
+        max_price=params.max_price,
+    )
+    quotes = maker_quotes(mid, v, tick, position, msz, qparams)
     # Live: cannot SELL outcome tokens we don't hold (CLOB checks conditional
     # balance). Skip asks until inventory exists from buys/fills.
     if trader.live:
@@ -252,7 +315,7 @@ def main():
     )
     log(f"START mode={'LIVE' if trader.live else 'SHADOW'} "
         f"(CLOB_MODE={MODE}) budget/mkt=${BUDGET_PER} max_mkts={MAX_MARKETS} "
-        f"spread_frac={SPREAD_FRAC} poll={POLL}s")
+        f"spread_frac={SPREAD_FRAC} max_inv_usd=${MAX_INV_USD:.0f} poll={POLL}s")
     if not trader.live:
         log("SHADOW: no orders reach CLOB. Live needs CLOB_MODE=live AND "
             "ELIGIBILITY_CONFIRMED=true.")
@@ -305,52 +368,80 @@ def main():
             trades = trader.get_trades()
             for t in trades:
                 ledger.log_fill(t, simulated=False)
-            positions = positions_from_trades(trades)
-            # merge shadow simulated inventory for breaker in shadow
-            if not trader.live:
+            # Live: prefer open positions API (trade netting misses maker side /
+            # pagination). Shadow keeps sim inventory.
+            if trader.live:
+                live_pos = trader.get_positions()
+                positions = live_pos if live_pos else positions_from_trades(trades)
+            else:
+                positions = positions_from_trades(trades)
                 for tid, n in shadow_state.inventory.items():
                     positions[tid] = positions.get(tid, 0.0) + n
 
             mids: dict[str, float] = {}
+            # Seed mids for inventory tokens (incl. non-pilot) so USD breaker works.
+            for tid in positions:
+                wm = cache.get_mid(tid, max_age=30.0)
+                if wm is not None:
+                    mids[tid] = wm
+                else:
+                    try:
+                        bids, asks = trader.get_book(tid)
+                        if bids and asks:
+                            mids[tid] = (bids[0][0] + asks[0][0]) / 2.0
+                    except Exception:
+                        pass
             shadow_quotes: list[ShadowQuote] = []
             total = 0
-            if not tripped:
-                for row in pilot:
-                    pos = positions.get(row["token_id"], 0.0)
-                    n, mid, sq = quote_one(
-                        trader, ledger, row, pos, params, idx, cache,
-                        last_quote_mid, last_refresh,
-                    )
+            for row in pilot:
+                pos = positions.get(row["token_id"], 0.0)
+                if tripped:
+                    mid, _, _ = resolve_mid(row["token_id"], cache, trader)
                     mids[row["token_id"]] = mid
-                    total += n
-                    if sq is not None:
-                        shadow_quotes.append(sq)
-                # shadow fills from public tape
-                if not trader.live and shadow_quotes:
-                    new_f = process_tape(
-                        shadow_quotes, shadow_state, ledger=ledger,
-                        max_fills_per_cycle=SHADOW_FILLS_PER_CYCLE,
-                        max_fill_size=SHADOW_MAX_FILL,
-                        max_inventory=SHADOW_MAX_INV,
-                    )
-                    if new_f:
-                        log(f"shadow-fills: {len(new_f)} simulated "
-                            f"(today={shadow_state.fills_today})")
-                trip, reason = breaker(positions, mids)
-                if trip:
-                    tripped = True
+                    continue
+                n, mid, sq = quote_one(
+                    trader, ledger, row, pos, params, idx, cache,
+                    last_quote_mid, last_refresh,
+                )
+                mids[row["token_id"]] = mid
+                total += n
+                if sq is not None:
+                    shadow_quotes.append(sq)
+            # shadow fills from public tape
+            if not tripped and not trader.live and shadow_quotes:
+                new_f = process_tape(
+                    shadow_quotes, shadow_state, ledger=ledger,
+                    max_fills_per_cycle=SHADOW_FILLS_PER_CYCLE,
+                    max_fill_size=SHADOW_MAX_FILL,
+                    max_inventory=SHADOW_MAX_INV,
+                )
+                if new_f:
+                    log(f"shadow-fills: {len(new_f)} simulated "
+                        f"(today={shadow_state.fills_today})")
+            trip, reason = breaker(positions, mids)
+            if trip:
+                if not tripped:
                     trader.cancel_all()
                     ledger.event("breaker", reason=reason)
                     log(f"*** BREAKER: {reason} ***")
-                    # Shadow inventory is in-process; clear so a redeploy isn't
-                    # required to resume quoting after a sim backfill spike.
-                    if not trader.live:
-                        shadow_state.inventory.clear()
-                        shadow_state.avg_entry.clear()
-                        log("shadow inventory reset after breaker")
-                        tripped = False
-            else:
-                log("breaker tripped — standing aside")
+                    top = sorted(positions.items(), key=lambda kv: -abs(kv[1]))[:5]
+                    log("  positions: " + ", ".join(
+                        f"{tid[:12]}…={n:+.1f}" for tid, n in top
+                    ))
+                tripped = True
+                # Shadow inventory is in-process; clear so a redeploy isn't
+                # required to resume quoting after a sim backfill spike.
+                if not trader.live:
+                    shadow_state.inventory.clear()
+                    shadow_state.avg_entry.clear()
+                    log("shadow inventory reset after breaker")
+                    tripped = False
+                else:
+                    log("breaker tripped — standing aside")
+            elif tripped:
+                log("breaker clear — resuming quotes")
+                tripped = False
+                ledger.event("breaker_clear", reason="under_limits")
 
             # UTC day rollover → lock prior day PnL sample, start fresh inventory
             if not trader.live and mids:

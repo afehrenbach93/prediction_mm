@@ -357,6 +357,36 @@ class ClobTrader:
         return [_as_dict(t) if not isinstance(t, dict) else _jsonable(t)
                 for t in (client.get_trades() or [])]
 
+    def get_positions(self) -> dict[str, float] | None:
+        """Open outcome-token sizes from Data API. None = unavailable."""
+        if not self._live_mutations_allowed():
+            return {}
+        if not _use_secure_client():
+            return None
+        try:
+            client = self._secure_client()
+            out: dict[str, float] = {}
+            n = 0
+            for item in client.list_positions().iter_items():
+                d = _as_dict(item)
+                tid = str(d.get("token_id") or d.get("asset") or "")
+                if not tid:
+                    continue
+                try:
+                    sz = float(d.get("size") or 0)
+                except (TypeError, ValueError):
+                    continue
+                if abs(sz) < 1e-12:
+                    continue
+                out[tid] = out.get(tid, 0.0) + sz
+                n += 1
+                if n >= 200:
+                    break
+            return out
+        except Exception as e:
+            print(f"[clob] get_positions failed: {e}", flush=True)
+            return None
+
     def get_earnings_today(self):
         if not self._live_mutations_allowed():
             return None
