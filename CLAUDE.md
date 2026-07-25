@@ -46,7 +46,8 @@ in `supabase_clob`, sanitize `raw_json`/`payload_json` before insert.
 ### 2026-07-25 — Live breaker false-latch on low-mid inventory
 After Decimal fix, breaker latched on `+1360 sh > 200` (≈$75 @ mid 0.055). Share
 cap is wrong for cheap pilots. Now: USD inventory cap, `list_positions` SoT,
-maker-side trade netting, auto-clear when under limits.
+maker-side trade netting, auto-clear when under limits. Follow-up: never assume
+mid=0.5 for unmarked bags (200 sh → fake $100); use position cur/avg marks.
 
 ### 2026-07-22 — Live blocked by CLOB geoblock (Render oregon)
 Flipped live after eligibility confirm; first `/order` → 403 geoblock (US API

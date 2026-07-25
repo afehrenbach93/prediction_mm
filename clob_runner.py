@@ -402,6 +402,18 @@ def main():
                     pass
                 if tid in pos_marks:
                     mids[tid] = pos_marks[tid]
+            pilot_ids = {str(r["token_id"]) for r in pilot}
+            stray = {t: n for t, n in positions.items()
+                     if t not in pilot_ids and abs(n) > 1e-6}
+            if stray:
+                bits = []
+                for tid, n in sorted(stray.items(), key=lambda kv: -abs(kv[1]))[:5]:
+                    mk = mids.get(tid)
+                    bits.append(
+                        f"{tid[:12]}…={n:+.1f}"
+                        + (f"(${abs(n)*mk:.1f})" if mk else "(no mark)")
+                    )
+                log("  leftover inventory (not in pilot): " + ", ".join(bits))
             shadow_quotes: list[ShadowQuote] = []
             total = 0
             for row in pilot:
