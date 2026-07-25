@@ -12,17 +12,26 @@ class TestClobBreaker(unittest.TestCase):
         # ~$75 of a 0.055 token ≈ 1364 shares — must NOT trip on share count alone
         positions = {"tok": 1360.7}
         mids = {"tok": 0.055}
-        with patch.object(cr, "MAX_INV_USD", 75 * 1.25), patch.object(cr, "EXPOSURE_CAP", 500.0):
+        with patch.object(cr, "MAX_INV_USD", 75 * 1.5), patch.object(cr, "EXPOSURE_CAP", 500.0):
             trip, reason = cr.breaker(positions, mids)
         self.assertFalse(trip, reason)
 
     def test_usd_cap_trips(self):
         positions = {"tok": 2000.0}
         mids = {"tok": 0.10}  # $200
-        with patch.object(cr, "MAX_INV_USD", 93.75), patch.object(cr, "EXPOSURE_CAP", 500.0):
+        with patch.object(cr, "MAX_INV_USD", 112.5), patch.object(cr, "EXPOSURE_CAP", 500.0):
             trip, reason = cr.breaker(positions, mids)
         self.assertTrue(trip)
         self.assertIn("inventory $", reason)
+
+    def test_unknown_mid_does_not_assume_half(self):
+        # 200 sh with no mark used to look like $100 @ 0.5 and false-trip
+        positions = {"tok": 200.0}
+        mids: dict = {}
+        with patch.object(cr, "MAX_INV_USD", 94.0), patch.object(cr, "EXPOSURE_CAP", 500.0), \
+             patch.object(cr, "MAX_INV", 200.0):
+            trip, reason = cr.breaker(positions, mids)
+        self.assertFalse(trip, reason)
 
     def test_maker_side_inverted_for_inventory(self):
         # Taker SELL into our bid → we BUY

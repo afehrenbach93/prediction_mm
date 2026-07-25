@@ -357,15 +357,20 @@ class ClobTrader:
         return [_as_dict(t) if not isinstance(t, dict) else _jsonable(t)
                 for t in (client.get_trades() or [])]
 
-    def get_positions(self) -> dict[str, float] | None:
-        """Open outcome-token sizes from Data API. None = unavailable."""
+    def get_positions(self) -> tuple[dict[str, float], dict[str, float]] | None:
+        """Open positions from Data API.
+
+        Returns ``(sizes, marks)`` where marks are ``cur_price`` then ``avg_price``.
+        ``None`` = unavailable; ``({}, {})`` = flat.
+        """
         if not self._live_mutations_allowed():
-            return {}
+            return {}, {}
         if not _use_secure_client():
             return None
         try:
             client = self._secure_client()
-            out: dict[str, float] = {}
+            sizes: dict[str, float] = {}
+            marks: dict[str, float] = {}
             n = 0
             for item in client.list_positions().iter_items():
                 d = _as_dict(item)
@@ -378,11 +383,25 @@ class ClobTrader:
                     continue
                 if abs(sz) < 1e-12:
                     continue
-                out[tid] = out.get(tid, 0.0) + sz
+                sizes[tid] = sizes.get(tid, 0.0) + sz
+                mark = None
+                for key in ("cur_price", "currPrice", "avg_price", "avgPrice"):
+                    raw = d.get(key)
+                    if raw is None or raw == "":
+                        continue
+                    try:
+                        mark = float(raw)
+                    except (TypeError, ValueError):
+                        continue
+                    if 0.0 < mark < 1.0:
+                        break
+                    mark = None
+                if mark is not None:
+                    marks[tid] = mark
                 n += 1
                 if n >= 200:
                     break
-            return out
+            return sizes, marks
         except Exception as e:
             print(f"[clob] get_positions failed: {e}", flush=True)
             return None

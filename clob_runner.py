@@ -36,7 +36,7 @@ MAX_MARKETS = int(os.getenv("CLOB_MAX_MARKETS", "3"))
 # Share ceiling is a backstop only — low mids need many shares per $ of risk.
 MAX_INV = float(os.getenv("CLOB_MAX_INVENTORY", "200"))
 # Primary inventory risk limit (USD notional = |shares| * mid).
-MAX_INV_USD = float(os.getenv("CLOB_MAX_INVENTORY_USD", str(BUDGET_PER * 1.25)))
+MAX_INV_USD = float(os.getenv("CLOB_MAX_INVENTORY_USD", str(BUDGET_PER * 1.5)))
 SPREAD_FRAC = float(os.getenv("CLOB_SPREAD_FRACTION", "0.5"))
 POLL = int(os.getenv("CLOB_POLL_SECS", "30"))
 EXPOSURE_CAP = float(os.getenv("CLOB_EXPOSURE_CAP", str(BUDGET_PER * MAX_MARKETS * 1.5)))
@@ -129,21 +129,25 @@ def share_room_for_mid(mid: float) -> float:
 
 
 def breaker(positions: dict[str, float], mids: dict[str, float]) -> tuple[bool, str]:
+    """Risk check. Requires a real mark in ``mids`` for USD limits — never assume 0.5."""
+    hard_shares = max(MAX_INV * 20, share_room_for_mid(0.02) * 2)
+    exposure = 0.0
     for tid, n in positions.items():
         mid = mids.get(tid)
-        if mid is None or mid <= 0:
-            mid = 0.5
-        notional = abs(n) * mid
-        if notional > MAX_INV_USD:
+        if mid is not None and mid > 0:
+            notional = abs(n) * mid
+            exposure += notional
+            if notional > MAX_INV_USD:
+                return True, (
+                    f"inventory ${notional:.1f} ({n:+.1f} sh @ {mid:.3f}) "
+                    f"on {tid[:16]}… > ${MAX_INV_USD:.0f}"
+                )
+        elif abs(n) > hard_shares:
             return True, (
-                f"inventory ${notional:.1f} ({n:+.1f} sh @ {mid:.3f}) "
-                f"on {tid[:16]}… > ${MAX_INV_USD:.0f}"
+                f"inventory {n:+.1f} sh on {tid[:16]}… > {hard_shares:.0f} "
+                f"(no mark — cannot price USD risk)"
             )
-        # Extreme share backstop (ignore tiny mids already covered by USD)
-        hard_shares = max(MAX_INV * 20, share_room_for_mid(0.02) * 2)
-        if abs(n) > hard_shares:
-            return True, f"inventory {n:+.1f} sh on {tid[:16]}… > {hard_shares:.0f}"
-    exposure = sum(abs(n) * mids.get(tid, 0.5) for tid, n in positions.items())
+        # else: unmarked modest bag — do not false-trip on assumed mid=0.5
     if exposure > EXPOSURE_CAP:
         return True, f"exposure ${exposure:.0f} > cap ${EXPOSURE_CAP:.0f}"
     return False, ""
@@ -370,27 +374,34 @@ def main():
                 ledger.log_fill(t, simulated=False)
             # Live: prefer open positions API (trade netting misses maker side /
             # pagination). Shadow keeps sim inventory.
+            pos_marks: dict[str, float] = {}
             if trader.live:
-                live_pos = trader.get_positions()
-                positions = live_pos if live_pos else positions_from_trades(trades)
+                book = trader.get_positions()
+                if book is not None:
+                    positions, pos_marks = book
+                else:
+                    positions = positions_from_trades(trades)
             else:
                 positions = positions_from_trades(trades)
                 for tid, n in shadow_state.inventory.items():
                     positions[tid] = positions.get(tid, 0.0) + n
 
             mids: dict[str, float] = {}
-            # Seed mids for inventory tokens (incl. non-pilot) so USD breaker works.
+            # Seed marks: WS → book → position cur/avg (never invent 0.5).
             for tid in positions:
                 wm = cache.get_mid(tid, max_age=30.0)
                 if wm is not None:
                     mids[tid] = wm
-                else:
-                    try:
-                        bids, asks = trader.get_book(tid)
-                        if bids and asks:
-                            mids[tid] = (bids[0][0] + asks[0][0]) / 2.0
-                    except Exception:
-                        pass
+                    continue
+                try:
+                    bids, asks = trader.get_book(tid)
+                    if bids and asks:
+                        mids[tid] = (bids[0][0] + asks[0][0]) / 2.0
+                        continue
+                except Exception:
+                    pass
+                if tid in pos_marks:
+                    mids[tid] = pos_marks[tid]
             shadow_quotes: list[ShadowQuote] = []
             total = 0
             for row in pilot:
