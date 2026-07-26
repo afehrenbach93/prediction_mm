@@ -1,43 +1,43 @@
-# CLOB pulse — 2026-07-25T16:08:05Z
+# CLOB pulse — 2026-07-26T02:01:58Z
 
 - Domain: `https://clob.polymarket.com`
 - Budget: $500
 - Snapshot days on disk: 3
-- Scored: 250  competed: 199  near-zero: 51
+- Scored: 250  competed: 183  near-zero: 67
 - Pilot universe: 0 (provisional: 0)
-- Top-20 competed avg yield: 19.4806%/day (gross)
+- Top-20 competed avg yield: 12.5098%/day (gross)
 
 ## Top competed
 
 | # | yield%/d | est$/d | rate | qual$ | market |
 |---|----------|--------|------|-------|--------|
-| 1 | 41.59 | 207.93 | 222 | 243 | Will claude-opus-4-6-thinking be the best AI model on Au |
-| 2 | 35.96 | 179.80 | 200 | 322 | US announces end of Iranian blockade by July 31, 2026? |
-| 3 | 28.54 | 142.71 | 200 | 320 | Will WTI Crude Oil (WTI) hit (LOW) $80 in July? |
-| 4 | 26.93 | 134.63 | 1000 | 11817 | Israel x Iran ceasefire continues through July 31? |
-| 5 | 25.61 | 128.06 | 160 | 213 | Will there be 7+ hurricanes during the Atlantic Hurrican |
-| 6 | 19.15 | 95.74 | 100 | 55 | Will gas hit $4.25 (High) by July 31? |
-| 7 | 18.83 | 94.14 | 181 | 598 | Will any other model be the best AI model on August 10,  |
-| 8 | 18.08 | 90.41 | 200 | 1163 | US announces halt in Iran offensive operations by July 3 |
-| 9 | 17.80 | 88.99 | 100 | 116 | Will the highest score achieved by a Moonshot Kimi model |
-| 10 | 16.18 | 80.91 | 100 | 173 | Will the highest score achieved by a Meta model on Human |
+| 1 | 20.00 | 100.00 | 100 | 2520 | Israel x Iran ceasefire continues through August 15? |
+| 2 | 18.43 | 92.16 | 100 | 54 | Will the highest score achieved by a Meta model on Human |
+| 3 | 17.54 | 87.71 | 100 | 575 | Will WTI Crude Oil (WTI) hit (HIGH) $95 in July? |
+| 4 | 17.28 | 86.40 | 135 | 276 | Will South Korea GDP growth in Q3 2026 be between 3.0% a |
+| 5 | 15.03 | 75.17 | 158 | 631 | Will OpenAI have the best AI Agent at the end of Septemb |
+| 6 | 14.74 | 73.71 | 100 | 423 | Will the highest score achieved by a Moonshot Kimi model |
+| 7 | 13.37 | 66.85 | 200 | 2725 | US announces end of Iranian blockade by July 31, 2026? |
+| 8 | 11.94 | 59.68 | 60 | 96 | Will DetonatioN FocusMe Win More than 1.5 Matches in VCT |
+| 9 | 11.81 | 59.05 | 300 | 2485 | US x Iran Effective Ceasefire by August 31? |
+| 10 | 11.59 | 57.95 | 300 | 3602 | Iran full airspace closure by July 31? |
 
 ## Near-zero (excluded from pilot)
 
-| 1 | 23.00 | 115.00 | Will Mohamed Salah play in Süper Lig next? |
-| 2 | 20.13 | 100.63 | Will Republicans hold 50–52 Senate seats and 208–222 Hou |
-| 3 | 20.00 | 100.00 | Will Baidu have the best AI Agent at the end of August 2 |
-| 4 | 20.00 | 100.00 | Will any AI model reach a Chatbot Arena score of at leas |
-| 5 | 20.00 | 100.00 | Will the highest score achieved by a Moonshot Kimi model |
-| 6 | 20.00 | 100.00 | Will Ukraine re-enter Rodynske by December 31, 2026? |
-| 7 | 20.00 | 100.00 | Will Russia enter Matiasheve by October 31? |
-| 8 | 20.00 | 100.00 | Will Russia enter Matiasheve by August 31? |
-| 9 | 20.00 | 100.00 | Will it rain during the Hungarian Grand Prix? |
-| 10 | 20.00 | 100.00 | Will 2 or more hurricanes make landfall in the US in 202 |
+| 1 | 60.00 | 300.00 | Israel x Iran ceasefire continues through August 31? |
+| 2 | 34.20 | 171.00 | Will MrBeast's next video get less than 40 million views |
+| 3 | 25.40 | 127.00 | Will "Wonderwall Remastered - Oasis" be the #1 song this |
+| 4 | 22.00 | 110.00 | Will MrBeast's next video get between 40 and 50 million  |
+| 5 | 22.00 | 110.00 | Will Mistral be the third-best AI lab at the end of Augu |
+| 6 | 20.00 | 100.00 | Will any AI model reach a Chatbot Arena score of at leas |
+| 7 | 20.00 | 100.00 | Will 2 or more hurricanes make landfall in the US in 202 |
+| 8 | 19.95 | 99.77 | Will gas hit $4.25 (High) by July 31? |
+| 9 | 18.40 | 92.00 | Will SkyView be #2 Paid App in the US Apple App Store on |
+| 10 | 17.00 | 85.00 | Will South Korea GDP growth in Q3 2026 be between 2.5% a |
 
 ## Rewards: actual vs estimated
 
-- ts: `2026-07-25T16:08:05Z`
+- ts: `2026-07-26T02:01:58Z`
 - total actual: $0
 - total estimated: $0
 - ratio: n/a

@@ -1,145 +1,165 @@
 {
-  "ts": "2026-07-25T16:08:05Z",
+  "ts": "2026-07-26T02:01:58Z",
   "domain": "https://clob.polymarket.com",
   "budget_usd": 500.0,
   "snapshot_days": 3,
   "scored_markets": 250,
-  "competed": 199,
-  "near_zero": 51,
+  "competed": 183,
+  "near_zero": 67,
   "pilot_universe": 0,
   "pilot_provisional": 0,
-  "top20_competed_avg_yield_pct": 19.4806,
+  "top20_competed_avg_yield_pct": 12.5098,
   "top10_competed": [
     {
-      "question": "Will claude-opus-4-6-thinking be the best AI model on August 10, 2026?",
-      "slug": "will-claude-opus-4-6-thinking-be-the-best-ai-model-on-august-10-2026-20260724144642843",
-      "daily_rate": 222.0,
-      "qual_notional": 243.41,
-      "est_daily": 207.931,
-      "yield_pct": 41.5862,
-      "mid": "0.53",
+      "question": "Israel x Iran ceasefire continues through August 15?",
+      "slug": "israel-x-iran-ceasefire-continues-through-august-15-20260716224448969-246-815-987-693",
+      "daily_rate": 100.0,
+      "qual_notional": 2520.45,
+      "est_daily": 100.0,
+      "yield_pct": 20.0,
+      "mid": "0.675",
+      "near_zero": false
+    },
+    {
+      "question": "Will the highest score achieved by a Meta model on Humanity\u2019s Last Exam in 2026 ",
+      "slug": "will-the-highest-score-achieved-by-a-meta-model-on-humanitys-last-exam-in-2026-be-55-or-higher-20260723191934218",
+      "daily_rate": 100.0,
+      "qual_notional": 53.85,
+      "est_daily": 92.1574,
+      "yield_pct": 18.4315,
+      "mid": "0.365",
+      "near_zero": false
+    },
+    {
+      "question": "Will WTI Crude Oil (WTI) hit (HIGH) $95 in July?",
+      "slug": "will-wti-reach-95-in-july-2026",
+      "daily_rate": 100.0,
+      "qual_notional": 574.7,
+      "est_daily": 87.7063,
+      "yield_pct": 17.5413,
+      "mid": "0.2245",
+      "near_zero": false
+    },
+    {
+      "question": "Will South Korea GDP growth in Q3 2026 be between 3.0% and 3.4%?",
+      "slug": "will-south-korea-gdp-growth-in-q3-2026-be-between-3pt0-and-3pt4-20260723231127768",
+      "daily_rate": 135.0,
+      "qual_notional": 276.11,
+      "est_daily": 86.4018,
+      "yield_pct": 17.2804,
+      "mid": "0.345",
+      "near_zero": false
+    },
+    {
+      "question": "Will OpenAI have the best AI Agent at the end of September 2026?",
+      "slug": "will-openai-have-the-best-ai-agent-at-the-end-of-september-2026-20260716211946458",
+      "daily_rate": 158.0,
+      "qual_notional": 631.16,
+      "est_daily": 75.1705,
+      "yield_pct": 15.0341,
+      "mid": "0.215",
+      "near_zero": false
+    },
+    {
+      "question": "Will the highest score achieved by a Moonshot Kimi model on Humanity\u2019s Last Exam",
+      "slug": "will-the-highest-score-achieved-by-a-moonshot-kimi-model-on-humanitys-last-exam-in-2026-be-50-or-higher-20260723191206822",
+      "daily_rate": 100.0,
+      "qual_notional": 423.28,
+      "est_daily": 73.7086,
+      "yield_pct": 14.7417,
+      "mid": "0.44",
       "near_zero": false
     },
     {
       "question": "US announces end of Iranian blockade by July 31, 2026?",
       "slug": "us-announces-end-of-iranian-blockade-by-july-31-2026-20260713152715082-212",
       "daily_rate": 200.0,
-      "qual_notional": 322.28,
-      "est_daily": 179.8033,
-      "yield_pct": 35.9607,
-      "mid": "0.215",
+      "qual_notional": 2724.7,
+      "est_daily": 66.8524,
+      "yield_pct": 13.3705,
+      "mid": "0.225",
       "near_zero": false
     },
     {
-      "question": "Will WTI Crude Oil (WTI) hit (LOW) $80 in July?",
-      "slug": "will-wti-dip-to-80-in-july-2026",
-      "daily_rate": 200.0,
-      "qual_notional": 319.61,
-      "est_daily": 142.7122,
-      "yield_pct": 28.5424,
-      "mid": "0.36",
+      "question": "Will DetonatioN FocusMe Win More than 1.5 Matches in VCT 2026 Pacific Stage 2",
+      "slug": "will-detonation-focusme-win-more-than-1pt5-matches-in-vct-2026-pacific-stage-2-20260710212805237",
+      "daily_rate": 60.0,
+      "qual_notional": 96.2,
+      "est_daily": 59.6801,
+      "yield_pct": 11.936,
+      "mid": "0.37",
       "near_zero": false
     },
     {
-      "question": "Israel x Iran ceasefire continues through July 31?",
-      "slug": "israel-x-iran-ceasefire-continues-through-july-31-20260716224448968-384-155-519-798-243",
-      "daily_rate": 1000.0,
-      "qual_notional": 11817.13,
-      "est_daily": 134.6264,
-      "yield_pct": 26.9253,
-      "mid": "0.795",
+      "question": "US x Iran Effective Ceasefire by August 31?",
+      "slug": "us-x-iran-effective-ceasfire-by-august-31-20260715194822047",
+      "daily_rate": 300.0,
+      "qual_notional": 2485.16,
+      "est_daily": 59.0469,
+      "yield_pct": 11.8094,
+      "mid": "0.605",
       "near_zero": false
     },
     {
-      "question": "Will there be 7+ hurricanes during the Atlantic Hurricane Season in 2026?",
-      "slug": "will-there-be-20260723192532703",
-      "daily_rate": 160.0,
-      "qual_notional": 212.76,
-      "est_daily": 128.0589,
-      "yield_pct": 25.6118,
-      "mid": "0.325",
-      "near_zero": false
-    },
-    {
-      "question": "Will gas hit $4.25 (High) by July 31?",
-      "slug": "will-gas-hit-4pt25-high-by-july-31-20260630204749449",
-      "daily_rate": 100.0,
-      "qual_notional": 55.0,
-      "est_daily": 95.7447,
-      "yield_pct": 19.1489,
-      "mid": "0.25",
-      "near_zero": false
-    },
-    {
-      "question": "Will any other model be the best AI model on August 10, 2026?",
-      "slug": "will-any-other-model-be-the-best-ai-model-on-august-10-2026-20260724144642846",
-      "daily_rate": 181.0,
-      "qual_notional": 597.74,
-      "est_daily": 94.1392,
-      "yield_pct": 18.8278,
-      "mid": "0.38",
-      "near_zero": false
-    },
-    {
-      "question": "US announces halt in Iran offensive operations by July 31?",
-      "slug": "will-the-us-announce-an-iran-ceasefire-by-july-31-20260718000915875",
-      "daily_rate": 200.0,
-      "qual_notional": 1162.63,
-      "est_daily": 90.4059,
-      "yield_pct": 18.0812,
-      "mid": "0.32",
-      "near_zero": false
-    },
-    {
-      "question": "Will the highest score achieved by a Moonshot Kimi model on Humanity\u2019s Last Exam",
-      "slug": "will-the-highest-score-achieved-by-a-moonshot-kimi-model-on-humanitys-last-exam-in-2026-be-60-or-higher-20260723191206824",
-      "daily_rate": 100.0,
-      "qual_notional": 116.37,
-      "est_daily": 88.9866,
-      "yield_pct": 17.7973,
-      "mid": "0.105",
-      "near_zero": false
-    },
-    {
-      "question": "Will the highest score achieved by a Meta model on Humanity\u2019s Last Exam in 2026 ",
-      "slug": "will-the-highest-score-achieved-by-a-meta-model-on-humanitys-last-exam-in-2026-be-65-or-higher-20260723191934220",
-      "daily_rate": 100.0,
-      "qual_notional": 172.55,
-      "est_daily": 80.9149,
-      "yield_pct": 16.183,
-      "mid": "0.155",
+      "question": "Iran full airspace closure by July 31?",
+      "slug": "iran-full-airspace-closure-by-july-31-20260625195254150-838",
+      "daily_rate": 300.0,
+      "qual_notional": 3602.48,
+      "est_daily": 57.9548,
+      "yield_pct": 11.591,
+      "mid": "0.1",
       "near_zero": false
     }
   ],
   "top10_near_zero": [
     {
-      "question": "Will Mohamed Salah play in S\u00fcper Lig next?",
-      "slug": "will-mohamed-salah-play-in-sper-lig-next",
-      "daily_rate": 115.0,
+      "question": "Israel x Iran ceasefire continues through August 31?",
+      "slug": "israel-x-iran-ceasefire-continues-through-august-31-20260716224448970-754-896-823",
+      "daily_rate": 300.0,
       "qual_notional": 0.0,
-      "est_daily": 115.0,
-      "yield_pct": 23.0,
-      "mid": "0.5785",
+      "est_daily": 300.0,
+      "yield_pct": 60.0,
+      "mid": "0.545",
       "near_zero": true
     },
     {
-      "question": "Will Republicans hold 50\u201352 Senate seats and 208\u2013222 House seats after the 2026 ",
-      "slug": "will-republicans-hold-5052-senate-seats-and-208222-house-seats-after-the-2026-midterms-20260625152834694",
-      "daily_rate": 101.0,
-      "qual_notional": 40.19,
-      "est_daily": 100.6258,
-      "yield_pct": 20.1252,
-      "mid": "0.0445",
+      "question": "Will MrBeast's next video get less than 40 million views on week 1?",
+      "slug": "will-mrbeasts-next-video-get-less-than-40-million-views-on-week-1-20260706143022531",
+      "daily_rate": 171.0,
+      "qual_notional": 0.0,
+      "est_daily": 171.0,
+      "yield_pct": 34.2,
+      "mid": "0.5935",
       "near_zero": true
     },
     {
-      "question": "Will Baidu have the best AI Agent at the end of August 2026?",
-      "slug": "will-baidu-have-the-best-ai-agent-at-the-end-of-august-2026-20260716210803646",
-      "daily_rate": 100.0,
+      "question": "Will \"Wonderwall Remastered - Oasis\" be the #1 song this week?",
+      "slug": "will-wonderwall-remastered-oasis-be-the-1-song-this-week-20260724181341985",
+      "daily_rate": 127.0,
       "qual_notional": 0.0,
-      "est_daily": 100.0,
-      "yield_pct": 20.0,
-      "mid": "0.379",
+      "est_daily": 127.0,
+      "yield_pct": 25.4,
+      "mid": "0.045",
+      "near_zero": true
+    },
+    {
+      "question": "Will MrBeast's next video get between 40 and 50 million views on week 1?",
+      "slug": "will-mrbeasts-next-video-get-between-40-and-50-million-views-on-week-1-20260706143022532",
+      "daily_rate": 110.0,
+      "qual_notional": 0.0,
+      "est_daily": 110.0,
+      "yield_pct": 22.0,
+      "mid": "0.343",
+      "near_zero": true
+    },
+    {
+      "question": "Will Mistral be the third-best AI lab at the end of August 2026?",
+      "slug": "will-mistral-be-the-third-best-ai-lab-at-the-end-of-august-2026-20260720230611819",
+      "daily_rate": 110.0,
+      "qual_notional": 0.0,
+      "est_daily": 110.0,
+      "yield_pct": 22.0,
+      "mid": "0.42",
       "near_zero": true
     },
     {
@@ -149,57 +169,7 @@
       "qual_notional": 0.0,
       "est_daily": 100.0,
       "yield_pct": 20.0,
-      "mid": "0.33",
-      "near_zero": true
-    },
-    {
-      "question": "Will the highest score achieved by a Moonshot Kimi model on Humanity\u2019s Last Exam",
-      "slug": "will-the-highest-score-achieved-by-a-moonshot-kimi-model-on-humanitys-last-exam-in-2026-be-45-or-higher-20260723191206821",
-      "daily_rate": 100.0,
-      "qual_notional": 0.0,
-      "est_daily": 100.0,
-      "yield_pct": 20.0,
-      "mid": "0.485",
-      "near_zero": true
-    },
-    {
-      "question": "Will Ukraine re-enter Rodynske by December 31, 2026?",
-      "slug": "will-ukraine-re-enter-rodynske-by-december-31-2026-20260724164113825",
-      "daily_rate": 100.0,
-      "qual_notional": 0.0,
-      "est_daily": 100.0,
-      "yield_pct": 20.0,
-      "mid": "0.385",
-      "near_zero": true
-    },
-    {
-      "question": "Will Russia enter Matiasheve by October 31?",
-      "slug": "will-russia-enter-matiasheve-by-october-31-20260724170338274",
-      "daily_rate": 100.0,
-      "qual_notional": 0.0,
-      "est_daily": 100.0,
-      "yield_pct": 20.0,
-      "mid": "0.56",
-      "near_zero": true
-    },
-    {
-      "question": "Will Russia enter Matiasheve by August 31?",
-      "slug": "will-russia-enter-matiasheve-by-august-31-20260724170338273",
-      "daily_rate": 100.0,
-      "qual_notional": 0.0,
-      "est_daily": 100.0,
-      "yield_pct": 20.0,
-      "mid": "0.31",
-      "near_zero": true
-    },
-    {
-      "question": "Will it rain during the Hungarian Grand Prix?",
-      "slug": "will-it-rain-during-the-hungarian-grand-prix-20260722162637051",
-      "daily_rate": 100.0,
-      "qual_notional": 0.0,
-      "est_daily": 100.0,
-      "yield_pct": 20.0,
-      "mid": "0.235",
+      "mid": "0.315",
       "near_zero": true
     },
     {
@@ -209,7 +179,37 @@
       "qual_notional": 0.0,
       "est_daily": 100.0,
       "yield_pct": 20.0,
-      "mid": "0.665",
+      "mid": "0.605",
+      "near_zero": true
+    },
+    {
+      "question": "Will gas hit $4.25 (High) by July 31?",
+      "slug": "will-gas-hit-4pt25-high-by-july-31-20260630204749449",
+      "daily_rate": 100.0,
+      "qual_notional": 11.64,
+      "est_daily": 99.7685,
+      "yield_pct": 19.9537,
+      "mid": "0.145",
+      "near_zero": true
+    },
+    {
+      "question": "Will SkyView be #2 Paid App in the US Apple App Store on July 31?",
+      "slug": "will-skyview-be-2-paid-app-in-the-us-apple-app-store-on-july-31-20260724172726463",
+      "daily_rate": 92.0,
+      "qual_notional": 0.0,
+      "est_daily": 92.0,
+      "yield_pct": 18.4,
+      "mid": "0.355",
+      "near_zero": true
+    },
+    {
+      "question": "Will South Korea GDP growth in Q3 2026 be between 2.5% and 2.9%?",
+      "slug": "will-south-korea-gdp-growth-in-q3-2026-be-between-2pt5-and-2pt9-20260723231127767",
+      "daily_rate": 85.0,
+      "qual_notional": 0.0,
+      "est_daily": 85.0,
+      "yield_pct": 17.0,
+      "mid": "0.225",
       "near_zero": true
     }
   ],
@@ -219,7 +219,7 @@
     "day_csvs": [
       "2026-07-19.csv",
       "2026-07-20.csv",
-      "2026-07-25.csv"
+      "2026-07-26.csv"
     ]
   }
 }
