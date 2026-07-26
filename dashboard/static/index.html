@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en" id="__pm_html">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#15191d" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <title>Portfolio · CLOB MM</title>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/app.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <span class="logo" aria-hidden="true"></span>
+      <span class="brand-name">Polymarket</span>
+      <span class="brand-sub">CLOB MM</span>
+    </div>
+    <button id="btn-refresh" class="icon-btn" type="button" aria-label="Refresh">↻</button>
+  </header>
+
+  <main id="main">
+    <section class="hero">
+      <p class="eyebrow">Portfolio value</p>
+      <h1 id="hero-value">—</h1>
+      <p id="hero-sub" class="hero-sub">Loading ledger…</p>
+      <div class="chips" id="status-chips"></div>
+    </section>
+
+    <section class="kill-bar">
+      <div>
+        <div class="kill-title">Remote kill</div>
+        <div class="kill-note" id="kill-note">Supabase clob_control</div>
+      </div>
+      <button id="btn-kill" class="pill-btn" type="button">—</button>
+    </section>
+
+    <nav class="tabs" role="tablist">
+      <button class="tab active" data-tab="markets" type="button">Markets</button>
+      <button class="tab" data-tab="fills" type="button">Activity</button>
+      <button class="tab" data-tab="pnl" type="button">PnL</button>
+    </nav>
+
+    <section id="panel-markets" class="panel active">
+      <div class="section-head">
+        <h2>Open quoting</h2>
+        <span id="markets-meta" class="muted"></span>
+      </div>
+      <div id="markets-list" class="list"></div>
+    </section>
+
+    <section id="panel-fills" class="panel">
+      <div class="section-head">
+        <h2>Fills · 24h</h2>
+        <span id="fills-meta" class="muted"></span>
+      </div>
+      <div id="fills-list" class="list"></div>
+    </section>
+
+    <section id="panel-pnl" class="panel">
+      <div class="section-head">
+        <h2>Daily PnL</h2>
+        <span class="muted">scale gate source</span>
+      </div>
+      <div id="pnl-list" class="list"></div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <span id="updated">—</span>
+    <span class="dot">·</span>
+    <span>Auto-refresh 20s</span>
+  </footer>
+
+  <script src="/app.js"></script>
+</body>
+</html>

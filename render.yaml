@@ -107,3 +107,20 @@ services:
         sync: false
       - key: SUPABASE_ANON_KEY
         sync: false
+
+  # Phone-friendly ops portfolio (Polymarket look). Reads Supabase ledger.
+  # Set DASHBOARD_TOKEN in Dashboard; open https://<service>.onrender.com/?token=...
+  - type: web
+    name: clob-ops
+    runtime: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: PYTHONPATH=. python dashboard/app.py
+    healthCheckPath: /healthz
+    envVars:
+      - key: SUPABASE_URL
+        sync: false
+      - key: SUPABASE_SERVICE_ROLE_KEY
+        sync: false
+      - key: DASHBOARD_TOKEN
+        sync: false

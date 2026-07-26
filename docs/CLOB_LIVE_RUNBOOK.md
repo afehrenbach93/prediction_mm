@@ -132,6 +132,30 @@ or set `CLOB_KILL=true` on the live host and restart if env is not polled-only (
 
 ---
 
+## Phone ops dashboard (Render `clob-ops`)
+
+Polymarket-styled portfolio view of the Supabase ledger (quotes, fills, PnL, kill).
+
+1. Blueprint service `clob-ops` in `render.yaml` (or create web service:
+   start `PYTHONPATH=. python dashboard/app.py`).
+2. Set env: `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`, `DASHBOARD_TOKEN`.
+3. Open on phone: `https://<clob-ops>.onrender.com/?token=<DASHBOARD_TOKEN>`
+4. Kill toggle writes `clob_control.kill` (same flag EC2/Render workers poll).
+
+Free web services sleep after idle — first open may take ~30s.
+
+## Phone ops dashboard (Render `clob-ops`)
+
+Polymarket-styled portfolio view of the Supabase ledger (quotes, fills, PnL, kill).
+
+1. Blueprint service `clob-ops` in `render.yaml` (start:
+   `PYTHONPATH=. python dashboard/app.py`).
+2. Set env: `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`, `DASHBOARD_TOKEN`.
+3. Open on phone: `https://<clob-ops>.onrender.com/?token=<DASHBOARD_TOKEN>`
+4. Kill toggle writes `clob_control.kill` (same flag EC2/Render workers poll).
+
+Free web services sleep after idle — first open may take ~30s.
+
 ## First-hour monitoring
 
 Watch live host logs for:
