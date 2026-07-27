@@ -2,4 +2,5 @@
 # Stdlib for US stack; CLOB trading uses official SDK.
 cryptography>=41.0
 py-clob-client-v2>=1.1.0
+polymarket-client>=0.1.0
 websocket-client>=1.6.0

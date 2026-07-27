@@ -1,20 +1,87 @@
 """
-Shadow-gated CLOB trading wrapper around py-clob-client-v2.
+Shadow-gated CLOB trading wrapper.
 
 CLOB_MODE=shadow (default): place/cancel are recorded locally; no authenticated
 mutations hit the exchange. Reads (books via public client) still work.
 
 Live requires BOTH CLOB_MODE=live AND ELIGIBILITY_CONFIRMED=true — otherwise
 construction and mutations stay shadow (P0 hard gate).
+
+Live execution prefers the official ``polymarket`` SecureClient (package
+``polymarket-client``) for deposit-wallet / POLY_1271 accounts. Set
+``CLOB_USE_SECURE_CLIENT=0`` to force legacy ``py-clob-client-v2``.
 """
 from __future__ import annotations
 
 import os
 import time
+from datetime import datetime, timezone
 from typing import Any
 
 from core.clobclient import ClobClient as PublicClobClient
 from core.eligibility import resolve_live_mode
+
+
+def _truthy(val: str | None) -> bool:
+    return (val or "").strip().lower() in ("1", "true", "yes", "on")
+
+
+def _use_secure_client() -> bool:
+    """Default on for signature_type=3; override with CLOB_USE_SECURE_CLIENT."""
+    explicit = os.getenv("CLOB_USE_SECURE_CLIENT")
+    if explicit is not None and explicit.strip() != "":
+        return _truthy(explicit)
+    return int(os.getenv("CLOB_SIGNATURE_TYPE", "0") or 0) == 3
+
+
+def _jsonable(obj: Any) -> Any:
+    """Convert Decimals / nested models so ledger JSON never blows up."""
+    try:
+        from decimal import Decimal as _Decimal
+    except ImportError:  # pragma: no cover
+        _Decimal = None  # type: ignore
+    if obj is None or isinstance(obj, (str, int, float, bool)):
+        return obj
+    if _Decimal is not None and isinstance(obj, _Decimal):
+        return float(obj)
+    if isinstance(obj, dict):
+        return {str(k): _jsonable(v) for k, v in obj.items()}
+    if isinstance(obj, (list, tuple)):
+        return [_jsonable(v) for v in obj]
+    if hasattr(obj, "model_dump"):
+        try:
+            return _jsonable(obj.model_dump(mode="json"))
+        except Exception:
+            try:
+                return _jsonable(obj.model_dump())
+            except Exception:
+                pass
+    if hasattr(obj, "dict"):
+        try:
+            return _jsonable(obj.dict())
+        except Exception:
+            pass
+    return str(obj)
+
+
+def _as_dict(obj: Any) -> dict:
+    if obj is None:
+        return {}
+    if isinstance(obj, dict):
+        dumped = _jsonable(obj)
+    else:
+        dumped = _jsonable(obj)
+        if not isinstance(dumped, dict):
+            out = {}
+            for k in ("order_id", "orderID", "id", "status", "ok", "trade_ids"):
+                if hasattr(obj, k):
+                    out[k] = _jsonable(getattr(obj, k))
+            dumped = out or {"resp": str(obj)}
+    if isinstance(dumped, dict):
+        if "order_id" in dumped and "orderID" not in dumped:
+            dumped["orderID"] = dumped["order_id"]
+        return dumped
+    return {"resp": str(obj)}
 
 
 class ClobTrader:
@@ -31,6 +98,8 @@ class ClobTrader:
         self.public = public or PublicClobClient()
         self.shadow_orders: list[dict] = []
         self._client = None
+        self._secure = None
+        self._backend = None  # "secure" | "legacy"
 
     @classmethod
     def from_env(cls) -> "ClobTrader":
@@ -48,12 +117,73 @@ class ClobTrader:
             return False
         return bool(self.live and allowed)
 
+    def _secure_client(self):
+        if not self._live_mutations_allowed():
+            raise RuntimeError(
+                self.refuse_reason
+                or "live client refused: ELIGIBILITY_CONFIRMED required with CLOB_MODE=live"
+            )
+        if self._secure is not None:
+            return self._secure
+        try:
+            from polymarket import SecureClient
+            from polymarket.auth import BuilderApiKey
+        except ImportError as e:
+            raise RuntimeError(
+                "polymarket-client required for deposit-wallet live ops: "
+                "pip install 'polymarket-client>=0.1.0'"
+            ) from e
+        pk = os.getenv("CLOB_PRIVATE_KEY") or os.getenv("PK") or ""
+        if not pk:
+            raise RuntimeError("CLOB_PRIVATE_KEY (or PK) missing")
+        funder = os.getenv("CLOB_FUNDER", "") or os.getenv("CLOB_FUNDER_ADDRESS", "")
+        if not funder:
+            raise RuntimeError("CLOB_FUNDER required for SecureClient live path")
+
+        kwargs: dict[str, Any] = {"private_key": pk, "wallet": funder}
+        bkey = os.getenv("POLYMARKET_BUILDER_API_KEY", "")
+        bsec = os.getenv("POLYMARKET_BUILDER_SECRET", "")
+        bpass = os.getenv("POLYMARKET_BUILDER_PASSPHRASE", "")
+        if bkey and bsec and bpass:
+            kwargs["api_key"] = BuilderApiKey(key=bkey, secret=bsec, passphrase=bpass)
+
+        # Let SecureClient derive/bind L2 creds for the deposit wallet.
+        # Passing pre-derived CLOB_* L2 keys can mismatch POLY_1271 binding.
+        self._secure = SecureClient.create(**kwargs)
+        self._backend = "secure"
+        self._refresh_secure_collateral()
+        print("[clob] live backend=SecureClient (polymarket-client)", flush=True)
+        return self._secure
+
+    def _refresh_secure_collateral(self) -> None:
+        """Force CLOB to re-index deposit-wallet collateral after funding."""
+        if self._secure is None:
+            return
+        try:
+            from polymarket._internal.actions import account as _account_actions
+            from polymarket._internal.wallet import signature_type_for
+
+            sig = signature_type_for(self._secure.wallet_type)
+            path, params = _account_actions.build_update_balance_allowance_request(
+                asset_type="COLLATERAL", token_id=None, signature_type=sig,
+            )
+            self._secure._ctx.secure_clob.get_bytes(path, params=params)
+            bal = self._secure.get_balance_allowance(asset_type="COLLATERAL")
+            print(
+                f"[clob] collateral refreshed balance_usd={bal.balance / 1e6:.2f}",
+                flush=True,
+            )
+        except Exception as e:
+            print(f"[clob] collateral refresh warning: {e}", flush=True)
+
     def _auth_client(self):
         if not self._live_mutations_allowed():
             raise RuntimeError(
                 self.refuse_reason
                 or "live client refused: ELIGIBILITY_CONFIRMED required with CLOB_MODE=live"
             )
+        if _use_secure_client():
+            return self._secure_client()
         if self._client is not None:
             return self._client
         try:
@@ -89,6 +219,8 @@ class ClobTrader:
         if "creds" not in kwargs:
             creds = self._client.create_or_derive_api_key()
             self._client.set_api_creds(creds)
+        self._backend = "legacy"
+        print("[clob] live backend=py-clob-client-v2", flush=True)
         return self._client
 
     def get_book(self, token_id: str):
@@ -114,6 +246,21 @@ class ClobTrader:
             rec["shadow"] = True
             self.shadow_orders.append(rec)
             return {"shadow": True, "orderID": f"shadow-{len(self.shadow_orders)}", **rec}
+
+        if _use_secure_client():
+            client = self._secure_client()
+            resp = client.place_limit_order(
+                token_id=str(token_id),
+                price=float(price),
+                size=float(size),
+                side=side.upper(),
+                post_only=bool(post_only),
+            )
+            out = _as_dict(resp)
+            if "orderID" not in out and out.get("order_id"):
+                out["orderID"] = out["order_id"]
+            return out
+
         from py_clob_client_v2 import OrderArgs, OrderType, PartialCreateOrderOptions, Side
         side_enum = Side.BUY if side.upper() == "BUY" else Side.SELL
         client = self._auth_client()
@@ -136,7 +283,10 @@ class ClobTrader:
         if not self._live_mutations_allowed():
             self.shadow_orders.append({"ts": time.time(), "shadow": True, "cancel_all": True})
             return {"shadow": True, "cancelled": "all"}
-        return self._auth_client().cancel_all()
+        client = self._auth_client()
+        if _use_secure_client():
+            return _as_dict(client.cancel_all())
+        return client.cancel_all()
 
     def cancel_market(self, token_id: str = "", condition_id: str = "") -> dict:
         if not self._live_mutations_allowed():
@@ -146,6 +296,14 @@ class ClobTrader:
             })
             return {"shadow": True, "cancelled": token_id or condition_id}
         client = self._auth_client()
+        if _use_secure_client():
+            try:
+                return _as_dict(client.cancel_market_orders(
+                    market=condition_id or None,
+                    token_id=token_id or None,
+                ))
+            except Exception:
+                return _as_dict(client.cancel_all())
         try:
             from py_clob_client_v2 import OrderMarketCancelParams
             params = OrderMarketCancelParams(
@@ -159,18 +317,105 @@ class ClobTrader:
     def get_open_orders(self) -> list:
         if not self._live_mutations_allowed():
             return [o for o in self.shadow_orders if o.get("side")]
-        return self._auth_client().get_open_orders() or []
+        client = self._auth_client()
+        if _use_secure_client():
+            out = []
+            n = 0
+            for item in client.list_open_orders().iter_items():
+                out.append(_as_dict(item))
+                n += 1
+                if n >= 500:
+                    break
+            return out
+        return client.get_open_orders() or []
 
     def get_trades(self) -> list:
         if not self._live_mutations_allowed():
             return []
-        return self._auth_client().get_trades() or []
+        client = self._auth_client()
+        if _use_secure_client():
+            out = []
+            n = 0
+            # Prefer account trades; fall back to list_trades if needed
+            try:
+                it = client.list_account_trades().iter_items()
+            except Exception:
+                it = client.list_trades().iter_items()
+            for item in it:
+                d = _as_dict(item)
+                # normalize common field aliases for runner/ledger
+                if "asset_id" not in d and d.get("token_id"):
+                    d["asset_id"] = d["token_id"]
+                if "token_id" not in d and d.get("asset_id"):
+                    d["token_id"] = d["asset_id"]
+                out.append(d)
+                n += 1
+                if n >= 500:
+                    break
+            return out
+        # Legacy client may still return Decimal-bearing dicts
+        return [_as_dict(t) if not isinstance(t, dict) else _jsonable(t)
+                for t in (client.get_trades() or [])]
+
+    def get_positions(self) -> tuple[dict[str, float], dict[str, float]] | None:
+        """Open positions from Data API.
+
+        Returns ``(sizes, marks)`` where marks are ``cur_price`` then ``avg_price``.
+        ``None`` = unavailable; ``({}, {})`` = flat.
+        """
+        if not self._live_mutations_allowed():
+            return {}, {}
+        if not _use_secure_client():
+            return None
+        try:
+            client = self._secure_client()
+            sizes: dict[str, float] = {}
+            marks: dict[str, float] = {}
+            n = 0
+            for item in client.list_positions().iter_items():
+                d = _as_dict(item)
+                tid = str(d.get("token_id") or d.get("asset") or "")
+                if not tid:
+                    continue
+                try:
+                    sz = float(d.get("size") or 0)
+                except (TypeError, ValueError):
+                    continue
+                if abs(sz) < 1e-12:
+                    continue
+                sizes[tid] = sizes.get(tid, 0.0) + sz
+                mark = None
+                for key in ("cur_price", "currPrice", "avg_price", "avgPrice"):
+                    raw = d.get(key)
+                    if raw is None or raw == "":
+                        continue
+                    try:
+                        mark = float(raw)
+                    except (TypeError, ValueError):
+                        continue
+                    if 0.0 < mark < 1.0:
+                        break
+                    mark = None
+                if mark is not None:
+                    marks[tid] = mark
+                n += 1
+                if n >= 200:
+                    break
+            return sizes, marks
+        except Exception as e:
+            print(f"[clob] get_positions failed: {e}", flush=True)
+            return None
 
     def get_earnings_today(self):
         if not self._live_mutations_allowed():
             return None
         client = self._auth_client()
         try:
-            return client.get_total_earnings_for_user_for_day()
+            if _use_secure_client():
+                day = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+                raw = client.get_total_earnings_for_user_for_day(date=day)
+            else:
+                raw = client.get_total_earnings_for_user_for_day()
+            return _jsonable(raw)
         except Exception as e:
             return {"_err": str(e)}
