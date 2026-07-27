@@ -1,43 +1,43 @@
-# CLOB pulse — 2026-07-26T16:05:50Z
+# CLOB pulse — 2026-07-27T02:09:24Z
 
 - Domain: `https://clob.polymarket.com`
 - Budget: $500
 - Snapshot days on disk: 3
-- Scored: 250  competed: 193  near-zero: 57
+- Scored: 250  competed: 223  near-zero: 27
 - Pilot universe: 0 (provisional: 0)
-- Top-20 competed avg yield: 15.2346%/day (gross)
+- Top-20 competed avg yield: 20.1885%/day (gross)
 
 ## Top competed
 
 | # | yield%/d | est$/d | rate | qual$ | market |
 |---|----------|--------|------|-------|--------|
-| 1 | 38.13 | 190.63 | 200 | 209 | Will "Choosin' Texas - Ella Langley" be the Billboard Ho |
-| 2 | 20.79 | 103.93 | 133 | 200 | Will Google be the third-best AI lab at the end of Augus |
-| 3 | 19.17 | 95.83 | 200 | 5051 | US announces halt in Iran offensive operations by July 3 |
-| 4 | 18.90 | 94.51 | 100 | 62 | US Government removes public access to a major Chinese A |
-| 5 | 17.48 | 87.38 | 100 | 66 | Will the highest score achieved by an Anthropic Claude m |
-| 6 | 15.73 | 78.64 | 92 | 55 | Will Republicans hold 50–52 Senate seats and 208–222 Hou |
-| 7 | 15.40 | 76.98 | 200 | 1618 | US announces halt in Iran offensive operations by August |
-| 8 | 14.98 | 74.91 | 300 | 3027 | US x Iran Effective Ceasefire by August 31? |
-| 9 | 13.62 | 68.09 | 89 | 147 | Will Trump and Netanyahu handshake last 6–10 seconds by  |
-| 10 | 12.77 | 63.84 | 122 | 956 | Will Gen.G Win VCT Pacific Stage 2 2026? |
+| 1 | 29.61 | 148.04 | 277 | 649 | Will Eva Bender win the next Hannover Region presidentia |
+| 2 | 27.31 | 136.55 | 216 | 231 | Will Frank Klingebiel win the next Salzgitter mayoral el |
+| 3 | 24.93 | 124.64 | 195 | 245 | Will Tobias Bey win the next Salzgitter mayoral election |
+| 4 | 19.84 | 99.22 | 100 | 116 | Another NATO Article 4 invocation by December 31, 2026? |
+| 5 | 19.83 | 99.15 | 100 | 129 | Will South Korea ETF (EWY) hit (HIGH) $167 Week of July  |
+| 6 | 19.81 | 99.03 | 100 | 81 | Will Airbnb, Inc. (ABNB) hit (LOW) $132 Week of July 27  |
+| 7 | 19.37 | 96.84 | 100 | 175 | Will South Korea ETF (EWY) hit (HIGH) $166 Week of July  |
+| 8 | 19.35 | 96.76 | 100 | 71 | Will Airbnb (ABNB) Q2 gross booking value be above $27.3 |
+| 9 | 19.29 | 96.45 | 100 | 188 | Will Opendoor Technologies Inc. (OPEN) hit (HIGH) $4.75  |
+| 10 | 19.20 | 96.01 | 100 | 79 | Will South Korea ETF (EWY) hit (LOW) $162 Week of July 2 |
 
 ## Near-zero (excluded from pilot)
 
-| 1 | 24.00 | 120.00 | Will Mohamed Salah join Al-Hilal? |
-| 2 | 20.00 | 100.00 | Will "Been By Now - Morgan Wallen" be the #2 US song thi |
-| 3 | 17.00 | 85.00 | Will Trump and Netanyahu handshake last 2–6 seconds by J |
-| 4 | 15.00 | 75.00 | Will Trump and Netanyahu only be photographed together b |
-| 5 | 14.40 | 72.00 | Will Xiaomi be the third-best Code Arena | WebDev AI lab |
-| 6 | 14.00 | 70.00 | Will "Spider-Man: Brand New Day" Opening Weekend Box Off |
-| 7 | 13.53 | 67.67 | Will Alibaba have the best Text-to-Image AI at the end o |
-| 8 | 13.40 | 67.00 | Will SpaceXAI be the third-best Code Arena | WebDev AI l |
-| 9 | 13.40 | 67.00 | Will "Spider-Man: Brand New Day" Opening Day Box Office  |
-| 10 | 13.00 | 65.00 | Will Trump and Netanyahu handshake last less than 2 seco |
+| 1 | 40.00 | 200.00 | Will CXMT’s closing IPO market cap be at least 3T yuan? |
+| 2 | 40.00 | 200.00 | Will CXMT’s closing IPO market cap be at least 3.5T yuan |
+| 3 | 38.40 | 192.00 | Will the U.S. weekly flu hospitalization rate per 100,00 |
+| 4 | 37.20 | 186.00 | Will the U.S. weekly flu hospitalization rate per 100,00 |
+| 5 | 22.20 | 111.00 | Will Trump's approval rating be between 38.5 and 38.9 on |
+| 6 | 22.20 | 111.00 | Will Trump's approval rating be between 39.0 and 39.4 on |
+| 7 | 22.00 | 110.00 | Will Karsten Schneider win the next Wolfsburg mayoral el |
+| 8 | 20.60 | 103.00 | Will Belit Onay win the next Hannover mayoral election? |
+| 9 | 20.00 | 100.00 | Will Airbnb, Inc. (ABNB) hit (LOW) $132 in July? |
+| 10 | 20.00 | 100.00 | Will CXMT’s closing IPO market cap be at least 2.5T yuan |
 
 ## Rewards: actual vs estimated
 
-- ts: `2026-07-26T16:05:50Z`
+- ts: `2026-07-27T02:09:24Z`
 - total actual: $0
 - total estimated: $0
 - ratio: n/a
