@@ -35,6 +35,7 @@
 | `scripts/clob_pulse.py` / `clob_reward_recon.py` | Pulse + actual vs est |
 | `scripts/clob_scale_gate.py` | Scale-up gate (Supabase) |
 | `poly_runner.py` | Parked US worker |
+| `dashboard/` | Phone ops UI (Polymarket-styled) → Render `clob-ops` |
 
 ## Incident Log
 
