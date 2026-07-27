@@ -37,8 +37,12 @@
 
   async function api(path, opts = {}) {
     const headers = { ...(opts.headers || {}) };
-    if (token) headers.Authorization = `Bearer ${token}`;
-    const url = token && !headers.Authorization ? `${path}?token=${encodeURIComponent(token)}` : path;
+    // Prefer query token — some Render edges 404 Bearer-only browser calls.
+    let url = path;
+    if (token) {
+      const join = path.includes("?") ? "&" : "?";
+      url = `${path}${join}token=${encodeURIComponent(token)}`;
+    }
     const res = await fetch(url, { ...opts, headers });
     if (res.status === 401) {
       showTokenGate();
