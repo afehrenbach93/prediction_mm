@@ -1,41 +1,43 @@
-# CLOB pulse — 2026-07-28T01:50:26Z
+# CLOB pulse — 2026-07-28T16:44:51Z
 
 - Domain: `https://clob.polymarket.com`
 - Budget: $500
 - Snapshot days on disk: 3
-- Scored: 250  competed: 242  near-zero: 8
+- Scored: 250  competed: 210  near-zero: 40
 - Pilot universe: 0 (provisional: 0)
-- Top-20 competed avg yield: 15.6796%/day (gross)
+- Top-20 competed avg yield: 16.058%/day (gross)
 
 ## Top competed
 
 | # | yield%/d | est$/d | rate | qual$ | market |
 |---|----------|--------|------|-------|--------|
-| 1 | 23.94 | 119.71 | 188 | 257 | Will the Washington Nationals hit the most home runs in  |
-| 2 | 22.80 | 114.00 | 115 | 69 | Will Pete Crow-Armstrong win the 2026 National League Ha |
-| 3 | 22.59 | 112.93 | 143 | 294 | Will Magomed Ankalaev fight Paulo Costa next? |
-| 4 | 18.02 | 90.12 | 112 | 72 | Will Matthew Stafford finish the 2026-27 NFL regular sea |
-| 5 | 17.09 | 85.45 | 112 | 189 | Will Connor Farrell win the 2026 PLL Face-Off Player of  |
-| 6 | 16.96 | 84.82 | 113 | 182 | Will Petey LaSalla win the 2026 PLL Face-Off Player of t |
-| 7 | 16.50 | 82.48 | 300 | 933 | US x Iran diplomatic meeting by August 7, 2026? |
-| 8 | 16.02 | 80.12 | 167 | 928 | Will the number of votes cast in the 2026 Clacton by-ele |
-| 9 | 15.79 | 78.94 | 248 | 1084 | Will Atlanta Braves win the 2026 NL East title? |
-| 10 | 15.70 | 78.49 | 245 | 556 | Will Lionel Messi win the 2026 MLS Golden Boot? |
+| 1 | 39.70 | 198.52 | 200 | 134 | Will Leavitt say "Illegal" or "Illegals" during the next |
+| 2 | 28.40 | 142.00 | 150 | 74 | Will NYC Mayor post 40-59 posts from July 31 to August 7 |
+| 3 | 19.14 | 95.68 | 200 | 473 | Will Leavitt say "Administration" 10+ times during the n |
+| 4 | 16.78 | 83.90 | 315 | 1283 | Will Max Holloway fight Justin Gaethje next? |
+| 5 | 16.64 | 83.19 | 200 | 374 | Will Leavitt say "Border" during the next White House Pr |
+| 6 | 16.42 | 82.08 | 269 | 578 | Will Michael Sowers win the 2026 PLL Attackman of the Ye |
+| 7 | 16.06 | 80.31 | 109 | 306 | Will Ethan Rall win the 2026 PLL Long Stick Midfielder o |
+| 8 | 15.49 | 77.44 | 81 | 52 | Will TJ Malone win the 2026 PLL Attackman of the Year? |
+| 9 | 14.97 | 74.86 | 200 | 739 | Will Leavitt say "Russia" or "Ukraine" during the next W |
+| 10 | 14.43 | 72.14 | 100 | 391 | Iran full airspace closure by August 15? |
 
 ## Near-zero (excluded from pilot)
 
-| 1 | 80.00 | 400.00 | Will Dylan Cease lead the MLB in ERA for the 2026 regula |
-| 2 | 39.60 | 198.00 | Will JJ Wetherholt win the 2026 NL Rookie of the Year aw |
-| 3 | 36.20 | 181.00 | Will Nico Hoerner lead the MLB in doubles for the 2026 r |
-| 4 | 29.40 | 147.00 | Will Manel Kape fight Joshua Van next? |
-| 5 | 28.20 | 141.00 | Will Emmet Carroll win the 2026 PLL Goalie of the Year? |
-| 6 | 25.40 | 127.00 | Will Mohamed Salah play in MLS next? |
-| 7 | 23.00 | 115.00 | Will Fernando Tatis Jr. win the 2026 National League Han |
-| 8 | 21.20 | 106.00 | Will Otto Lopez have the highest batting average in the  |
+| 1 | 26.80 | 134.00 | Will Chris Bates win the 2026 PLL Coach of the Year? |
+| 2 | 16.39 | 81.93 | Will Bill Tierney win the 2026 PLL Coach of the Year? |
+| 3 | 13.73 | 68.64 | Will Kenny Brower win the 2026 PLL Defensive Player of t |
+| 4 | 13.60 | 68.00 | Will Zelenskyy post 80-99 posts from July 31 to August 7 |
+| 5 | 13.59 | 67.93 | Will Matt Dunn win the 2026 PLL Defensive Player of the  |
+| 6 | 13.48 | 67.42 | Will Gavin Adler win the 2026 PLL Defensive Player of th |
+| 7 | 13.20 | 66.00 | Will the total domestic gross for The Odyssey be at leas |
+| 8 | 12.97 | 64.84 | Will Zach Currier win the 2026 PLL Midfielder of the Yea |
+| 9 | 12.59 | 62.97 | Will Ben Randall win the 2026 PLL Defensive Player of th |
+| 10 | 12.40 | 62.00 | Will "Boston - Stella Lefty" be the Billboard Hot 100 #2 |
 
 ## Rewards: actual vs estimated
 
-- ts: `2026-07-28T01:50:26Z`
+- ts: `2026-07-28T16:44:51Z`
 - total actual: $0
 - total estimated: $0
 - ratio: n/a
