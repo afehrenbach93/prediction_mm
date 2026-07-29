@@ -1,43 +1,43 @@
-# CLOB pulse — 2026-07-29T01:53:30Z
+# CLOB pulse — 2026-07-29T16:25:33Z
 
 - Domain: `https://clob.polymarket.com`
 - Budget: $500
 - Snapshot days on disk: 3
-- Scored: 250  competed: 200  near-zero: 50
+- Scored: 250  competed: 201  near-zero: 49
 - Pilot universe: 0 (provisional: 0)
-- Top-20 competed avg yield: 11.3782%/day (gross)
+- Top-20 competed avg yield: 16.3891%/day (gross)
 
 ## Top competed
 
 | # | yield%/d | est$/d | rate | qual$ | market |
 |---|----------|--------|------|-------|--------|
-| 1 | 25.68 | 128.39 | 200 | 548 | Israel x Iran ceasefire continues through August 31? |
-| 2 | 18.65 | 93.25 | 200 | 2148 | Iran full airspace closure by August 31? |
-| 3 | 16.75 | 83.77 | 88 | 64 | Will Zelenskyy post 80-99 posts from July 31 to August 7 |
-| 4 | 15.52 | 77.62 | 151 | 945 | Will Tom Cruise win Best Actor at the 99th Academy Award |
-| 5 | 13.35 | 66.74 | 78 | 143 | Will CZ post 20-39 posts from July 31 to August 7, 2026? |
-| 6 | 12.10 | 60.52 | 86 | 176 | Will CZ post 0-19 posts from July 31 to August 7, 2026? |
-| 7 | 10.76 | 53.81 | 159 | 1377 | Will Matt Damon win Best Actor at the 99th Academy Award |
-| 8 | 10.16 | 50.82 | 56 | 133 | Will NYC Mayor post 60-79 posts from July 31 to August 7 |
-| 9 | 9.80 | 49.00 | 109 | 974 | Will Khamenei post 0-4 posts from July 31 to August 7, 2 |
-| 10 | 9.78 | 48.92 | 50 | 76 | Will Marriott (MAR) Q2 worldwide RevPAR be above $137.5? |
+| 1 | 36.19 | 180.96 | 200 | 70 | Will Stripe acquire Paypal in 2026? |
+| 2 | 28.00 | 140.01 | 176 | 458 | Will Amanda Bell be the WI-06 Democratic nominee? |
+| 3 | 27.42 | 137.10 | 250 | 2228 | US x Iran Effective Ceasefire by August 31? |
+| 4 | 18.52 | 92.58 | 100 | 68 | Will LDPR win the next Chechnya Parliament elections? |
+| 5 | 18.14 | 90.72 | 106 | 75 | Will 3 Sanders endorsees win August 4 primaries? |
+| 6 | 17.62 | 88.10 | 200 | 1596 | Israel x Iran ceasefire continues through August 31? |
+| 7 | 16.97 | 84.84 | 220 | 544 | Will Haley Stevens win Macomb County in the Michigan Sen |
+| 8 | 15.71 | 78.57 | 131 | 175 | Will xiaohai Win EWC 2026 Street Fighter? |
+| 9 | 14.03 | 70.16 | 178 | 527 | Will Peggy Flanagan win the Minnesota Senate Democratic  |
+| 10 | 14.01 | 70.04 | 200 | 1132 | Will Marie Gluesenkamp Perez earn the most votes in the  |
 
 ## Near-zero (excluded from pilot)
 
-| 1 | 13.40 | 67.00 | Will Communists of Russia win the next Adygea Parliament |
-| 2 | 13.20 | 66.00 | Will "Boston - Stella Lefty" be the Billboard Hot 100 #2 |
-| 3 | 13.20 | 66.00 | Will "I Knew It, I Knew You - Taylor Swift" be the Billb |
-| 4 | 13.00 | 65.00 | Will Carson Carels win the 2026-27 Calder Trophy? |
-| 5 | 12.80 | 64.00 | Will "Drop Dead - Olivia Rodrigo" be the Billboard Hot 1 |
-| 6 | 10.80 | 54.00 | Will FURIA Win VCT AMER Stage 2 2026? |
-| 7 | 10.40 | 52.00 | Will Renate Reinsve win Best Actress at the 99th Academy |
-| 8 | 10.40 | 52.00 | Will Sandra Hüller win Best Actress at the 99th Academy  |
-| 9 | 10.00 | 50.00 | Will the next Google Gemini Pro model added to the Arena |
-| 10 | 10.00 | 50.00 | Will the next Google Gemini Pro model added to the Arena |
+| 1 | 24.20 | 121.00 | Will 4 Sanders endorsees win August 4 primaries? |
+| 2 | 19.58 | 97.88 | Will 2 Sanders endorsees win August 4 primaries? |
+| 3 | 17.60 | 88.00 | Will Mohamed Salah join Al-Ittihad? |
+| 4 | 16.00 | 80.00 | Will Axis launch a token by December 31, 2026? |
+| 5 | 16.00 | 80.00 | Will Axis launch a token by December 31, 2027? |
+| 6 | 16.00 | 80.00 | Will Axis launch a token by June 30, 2027? |
+| 7 | 15.49 | 77.43 | Will FaZe Clan Win EWC 2026 Rainbow Six Siege |
+| 8 | 15.00 | 75.00 | Will "The Odyssey" 3rd Weekend Box Office be less than 4 |
+| 9 | 14.80 | 74.00 | Will Francesca Hong win the Wisconsin Democratic Governo |
+| 10 | 14.80 | 74.00 | Will Francesca Hong win the Wisconsin Democratic Governo |
 
 ## Rewards: actual vs estimated
 
-- ts: `2026-07-29T01:53:31Z`
+- ts: `2026-07-29T16:25:33Z`
 - total actual: $0
 - total estimated: $0
 - ratio: n/a
