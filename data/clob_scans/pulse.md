@@ -1,43 +1,43 @@
-# CLOB pulse — 2026-07-30T01:45:41Z
+# CLOB pulse — 2026-07-30T16:39:50Z
 
 - Domain: `https://clob.polymarket.com`
 - Budget: $500
 - Snapshot days on disk: 3
-- Scored: 250  competed: 194  near-zero: 56
+- Scored: 250  competed: 179  near-zero: 71
 - Pilot universe: 0 (provisional: 0)
-- Top-20 competed avg yield: 13.0219%/day (gross)
+- Top-20 competed avg yield: 18.9773%/day (gross)
 
 ## Top competed
 
 | # | yield%/d | est$/d | rate | qual$ | market |
 |---|----------|--------|------|-------|--------|
-| 1 | 30.73 | 153.66 | 400 | 548 | Will the next Google Gemini Pro model be released by Aug |
-| 2 | 27.22 | 136.09 | 147 | 115 | Will "Hacks" win 4 or 5 awards at the Emmys? |
-| 3 | 16.45 | 82.25 | 91 | 195 | Will Twisted Minds Win EWC 2026 COD: Warzone? |
-| 4 | 15.65 | 78.26 | 80 | 84 | Will Axis launch a token by December 31, 2026? |
-| 5 | 14.75 | 73.73 | 135 | 372 | Will BetBoom Team win 1win Essence II? |
-| 6 | 13.30 | 66.49 | 400 | 6051 | Will the next Google Gemini Pro model be released by Aug |
-| 7 | 13.06 | 65.30 | 76 | 199 | Will ZETA DIVISION Win EWC 2026: Overwatch? |
-| 8 | 12.19 | 60.96 | 66 | 57 | Will White House post 180-199 posts from July 31 to Augu |
-| 9 | 10.89 | 54.45 | 100 | 535 | Will 4 Sanders endorsees win August 4 primaries? |
-| 10 | 10.64 | 53.20 | 66 | 171 | Will Virtus.Pro Win EWC 2026: Overwatch? |
+| 1 | 75.29 | 376.44 | 400 | 272 | Will Super Typhoon Dolphin hit Japan? |
+| 2 | 24.52 | 122.62 | 229 | 810 | Will the Fed increase interest rates by 25 bps after the |
+| 3 | 21.27 | 106.35 | 141 | 522 | Will the Fed increase interest rates by 25 bps after the |
+| 4 | 21.21 | 106.06 | 150 | 275 | Will shxrk + t3eny win the FNCS 2026 - Major 2 Europe Fi |
+| 5 | 20.36 | 101.81 | 107 | 97 | Will Team Falcons Win EWC 2026 COD: Warzone? |
+| 6 | 19.75 | 98.74 | 113 | 230 | Will "The Idaho Murders: College Nightmare" be the top g |
+| 7 | 17.87 | 89.36 | 200 | 1571 | Iran full airspace closure by August 31? |
+| 8 | 17.76 | 88.82 | 100 | 224 | Will "Spider-Man: Brand New Day" score at least 92 on th |
+| 9 | 16.79 | 83.93 | 124 | 280 | Will "A Toxic Love Story" be the #2 global Netflix movie |
+| 10 | 15.83 | 79.16 | 193 | 539 | Will Karchez Win the 2026 Soloq Challenge (Low Elo) |
 
 ## Near-zero (excluded from pilot)
 
-| 1 | 40.00 | 200.00 | Israel x Iran ceasefire continues through August 15? |
-| 2 | 34.80 | 174.00 | Will LGD Gaming win the 2026 Games of the Future tournam |
-| 3 | 30.20 | 151.00 | Will Francesca Hong win the Wisconsin Democratic Governo |
-| 4 | 20.00 | 100.00 | Will Russia enter Stinky by August 31? |
-| 5 | 20.00 | 100.00 | Will "Spider-Man: Brand New Day" score at least 94 on th |
-| 6 | 20.00 | 100.00 | Will Russia enter Stinky by September 30? |
-| 7 | 20.00 | 100.00 | Will "Spider-Man: Brand New Day" score at least 92 on th |
-| 8 | 20.00 | 100.00 | Will "Spider-Man: Brand New Day" score at least 91 on th |
-| 9 | 20.00 | 100.00 | Will "Spider-Man: Brand New Day" score at least 93 on th |
-| 10 | 20.00 | 100.00 | Will Russia enter Myrne by August 31, 2026? |
+| 1 | 32.00 | 160.00 | Will four or more people dissent the December Fed decisi |
+| 2 | 29.60 | 148.00 | Reserve Bank of Australia increases interest rates by 25 |
+| 3 | 28.80 | 144.00 | No change in Reserve Bank of Australia's interest rates  |
+| 4 | 24.20 | 121.00 | Will Stephen Curran win the 2026 North Vancouver—Capilan |
+| 5 | 23.80 | 119.00 | Will the US Trade Deficit be between $70 billion and $80 |
+| 6 | 21.20 | 106.00 | Will the US Trade Deficit be between $90 billion and $10 |
+| 7 | 20.00 | 100.00 | Will Russia enter Myrne by August 31, 2026? |
+| 8 | 20.00 | 100.00 | Will the next Google Gemini Pro model be released by Aug |
+| 9 | 19.20 | 96.00 | Will the US Trade Deficit be at least $100 billion in Ju |
+| 10 | 16.90 | 84.48 | Will EkkoTheNeeko Win the 2026 Soloq Challenge (High Elo |
 
 ## Rewards: actual vs estimated
 
-- ts: `2026-07-30T01:45:41Z`
+- ts: `2026-07-30T16:39:50Z`
 - total actual: $0
 - total estimated: $0
 - ratio: n/a
