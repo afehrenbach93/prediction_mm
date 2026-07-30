@@ -1,43 +1,43 @@
-# CLOB pulse — 2026-07-29T16:25:33Z
+# CLOB pulse — 2026-07-30T01:45:41Z
 
 - Domain: `https://clob.polymarket.com`
 - Budget: $500
 - Snapshot days on disk: 3
-- Scored: 250  competed: 201  near-zero: 49
+- Scored: 250  competed: 194  near-zero: 56
 - Pilot universe: 0 (provisional: 0)
-- Top-20 competed avg yield: 16.3891%/day (gross)
+- Top-20 competed avg yield: 13.0219%/day (gross)
 
 ## Top competed
 
 | # | yield%/d | est$/d | rate | qual$ | market |
 |---|----------|--------|------|-------|--------|
-| 1 | 36.19 | 180.96 | 200 | 70 | Will Stripe acquire Paypal in 2026? |
-| 2 | 28.00 | 140.01 | 176 | 458 | Will Amanda Bell be the WI-06 Democratic nominee? |
-| 3 | 27.42 | 137.10 | 250 | 2228 | US x Iran Effective Ceasefire by August 31? |
-| 4 | 18.52 | 92.58 | 100 | 68 | Will LDPR win the next Chechnya Parliament elections? |
-| 5 | 18.14 | 90.72 | 106 | 75 | Will 3 Sanders endorsees win August 4 primaries? |
-| 6 | 17.62 | 88.10 | 200 | 1596 | Israel x Iran ceasefire continues through August 31? |
-| 7 | 16.97 | 84.84 | 220 | 544 | Will Haley Stevens win Macomb County in the Michigan Sen |
-| 8 | 15.71 | 78.57 | 131 | 175 | Will xiaohai Win EWC 2026 Street Fighter? |
-| 9 | 14.03 | 70.16 | 178 | 527 | Will Peggy Flanagan win the Minnesota Senate Democratic  |
-| 10 | 14.01 | 70.04 | 200 | 1132 | Will Marie Gluesenkamp Perez earn the most votes in the  |
+| 1 | 30.73 | 153.66 | 400 | 548 | Will the next Google Gemini Pro model be released by Aug |
+| 2 | 27.22 | 136.09 | 147 | 115 | Will "Hacks" win 4 or 5 awards at the Emmys? |
+| 3 | 16.45 | 82.25 | 91 | 195 | Will Twisted Minds Win EWC 2026 COD: Warzone? |
+| 4 | 15.65 | 78.26 | 80 | 84 | Will Axis launch a token by December 31, 2026? |
+| 5 | 14.75 | 73.73 | 135 | 372 | Will BetBoom Team win 1win Essence II? |
+| 6 | 13.30 | 66.49 | 400 | 6051 | Will the next Google Gemini Pro model be released by Aug |
+| 7 | 13.06 | 65.30 | 76 | 199 | Will ZETA DIVISION Win EWC 2026: Overwatch? |
+| 8 | 12.19 | 60.96 | 66 | 57 | Will White House post 180-199 posts from July 31 to Augu |
+| 9 | 10.89 | 54.45 | 100 | 535 | Will 4 Sanders endorsees win August 4 primaries? |
+| 10 | 10.64 | 53.20 | 66 | 171 | Will Virtus.Pro Win EWC 2026: Overwatch? |
 
 ## Near-zero (excluded from pilot)
 
-| 1 | 24.20 | 121.00 | Will 4 Sanders endorsees win August 4 primaries? |
-| 2 | 19.58 | 97.88 | Will 2 Sanders endorsees win August 4 primaries? |
-| 3 | 17.60 | 88.00 | Will Mohamed Salah join Al-Ittihad? |
-| 4 | 16.00 | 80.00 | Will Axis launch a token by December 31, 2026? |
-| 5 | 16.00 | 80.00 | Will Axis launch a token by December 31, 2027? |
-| 6 | 16.00 | 80.00 | Will Axis launch a token by June 30, 2027? |
-| 7 | 15.49 | 77.43 | Will FaZe Clan Win EWC 2026 Rainbow Six Siege |
-| 8 | 15.00 | 75.00 | Will "The Odyssey" 3rd Weekend Box Office be less than 4 |
-| 9 | 14.80 | 74.00 | Will Francesca Hong win the Wisconsin Democratic Governo |
-| 10 | 14.80 | 74.00 | Will Francesca Hong win the Wisconsin Democratic Governo |
+| 1 | 40.00 | 200.00 | Israel x Iran ceasefire continues through August 15? |
+| 2 | 34.80 | 174.00 | Will LGD Gaming win the 2026 Games of the Future tournam |
+| 3 | 30.20 | 151.00 | Will Francesca Hong win the Wisconsin Democratic Governo |
+| 4 | 20.00 | 100.00 | Will Russia enter Stinky by August 31? |
+| 5 | 20.00 | 100.00 | Will "Spider-Man: Brand New Day" score at least 94 on th |
+| 6 | 20.00 | 100.00 | Will Russia enter Stinky by September 30? |
+| 7 | 20.00 | 100.00 | Will "Spider-Man: Brand New Day" score at least 92 on th |
+| 8 | 20.00 | 100.00 | Will "Spider-Man: Brand New Day" score at least 91 on th |
+| 9 | 20.00 | 100.00 | Will "Spider-Man: Brand New Day" score at least 93 on th |
+| 10 | 20.00 | 100.00 | Will Russia enter Myrne by August 31, 2026? |
 
 ## Rewards: actual vs estimated
 
-- ts: `2026-07-29T16:25:33Z`
+- ts: `2026-07-30T01:45:41Z`
 - total actual: $0
 - total estimated: $0
 - ratio: n/a
