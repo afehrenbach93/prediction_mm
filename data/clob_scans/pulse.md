@@ -1,37 +1,43 @@
-# CLOB pulse — 2026-07-31T02:03:18Z
+# CLOB pulse — 2026-07-31T16:48:50Z
 
 - Domain: `https://clob.polymarket.com`
 - Budget: $500
 - Snapshot days on disk: 3
-- Scored: 250  competed: 246  near-zero: 4
+- Scored: 250  competed: 180  near-zero: 70
 - Pilot universe: 0 (provisional: 0)
-- Top-20 competed avg yield: 22.2399%/day (gross)
+- Top-20 competed avg yield: 21.6144%/day (gross)
 
 ## Top competed
 
 | # | yield%/d | est$/d | rate | qual$ | market |
 |---|----------|--------|------|-------|--------|
-| 1 | 37.62 | 188.09 | 200 | 203 | Will Abdul El-Sayed win Macomb County in the Michigan Se |
-| 2 | 30.28 | 151.40 | 231 | 421 | Will the US Trade Deficit be between $70 billion and $80 |
-| 3 | 29.48 | 147.38 | 180 | 74 | Will Peterbot + Pollo win FNCS 2026 Major 2 NA Central |
-| 4 | 26.51 | 132.56 | 221 | 357 | Will Core CPI YoY be 2.4% in July? |
-| 5 | 25.35 | 126.74 | 400 | 727 | Situational Awareness raises new capital by August 31? |
-| 6 | 24.08 | 120.42 | 198 | 473 | Will ISM Services PMI be between 54.0 and 54.9 in July? |
-| 7 | 23.54 | 117.72 | 159 | 201 | Will Apple be the largest company in the world by market |
-| 8 | 23.12 | 115.61 | 300 | 776 | Situational Awareness Anthropic sale confirmed by August |
-| 9 | 23.02 | 115.09 | 196 | 405 | Will UK GDP growth in Q2 2026 be between 0.2% and 0.3%? |
-| 10 | 22.96 | 114.82 | 184 | 312 | Will Mexico’s 2026 Annual Inflation be between 3.50% and |
+| 1 | 64.16 | 320.80 | 400 | 1080 | Gianni Infantino out as FIFA President by December 31? |
+| 2 | 40.24 | 201.18 | 231 | 95 | Will Alphabet be the third-largest company in the world  |
+| 3 | 36.20 | 181.02 | 245 | 805 | Will NVIDIA be the largest company in the world by marke |
+| 4 | 34.72 | 173.60 | 184 | 285 | Will There be 7-9 Knife Kills at Blast Bounty 2026 Seaso |
+| 5 | 25.07 | 125.34 | 200 | 439 | Will Brazil's Q2 2026 GDP growth rate (QoQ) be between 0 |
+| 6 | 22.27 | 111.34 | 182 | 666 | Will Anthropic have the best AI Agent at the end of Augu |
+| 7 | 19.62 | 98.12 | 145 | 669 | Will White House post 200+ posts from July 28 to August  |
+| 8 | 18.53 | 92.63 | 100 | 80 | Will Russia capture Kostyantynivka by August 15? |
+| 9 | 16.87 | 84.36 | 128 | 472 | Will South Korea GDP growth in Q3 2026 be between 2.5% a |
+| 10 | 16.53 | 82.65 | 144 | 561 | Will the Eurozone's 2026 Annual Inflation be between 2.8 |
 
 ## Near-zero (excluded from pilot)
 
-| 1 | 58.40 | 292.00 | Will Amy Madigan be the #1 searched actor on Google this |
-| 2 | 49.25 | 246.24 | Will Emiliano Martinez stay at Aston Villa? |
-| 3 | 40.00 | 200.00 | Will Haley Stevens win Macomb County in the Michigan Sen |
-| 4 | 33.04 | 165.18 | Will Adam Murphy be the VA-09 Democratic nominee? |
+| 1 | 48.20 | 241.00 | Will Peterbot + Pollo win FNCS 2026 Major 2 NA Central |
+| 2 | 47.80 | 239.00 | Will Inde Navarrette win Best Actress at the 99th Academ |
+| 3 | 35.20 | 176.00 | Will Mohamed Salah join Al-Ittihad? |
+| 4 | 33.80 | 169.00 | Will Apple be the third-largest company in the world by  |
+| 5 | 32.60 | 163.00 | Will Alphabet be the second-largest company in the world |
+| 6 | 30.60 | 153.00 | Will UK GDP growth in Q2 2026 be between 0.4% and 0.5%? |
+| 7 | 28.20 | 141.00 | Will Bradley Whitford – “The Diplomat” win Emmys 2026: O |
+| 8 | 25.40 | 127.00 | Will NVIDIA be the largest company in the world by marke |
+| 9 | 23.20 | 116.00 | Will There be 10+ Knife Kills at Blast Bounty 2026 Seaso |
+| 10 | 22.80 | 114.00 | Will the Central Bank of Colombia increase the monetary  |
 
 ## Rewards: actual vs estimated
 
-- ts: `2026-07-31T02:03:18Z`
+- ts: `2026-07-31T16:48:50Z`
 - total actual: $0
 - total estimated: $0
 - ratio: n/a
