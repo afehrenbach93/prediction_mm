@@ -1,43 +1,37 @@
-# CLOB pulse — 2026-07-30T16:39:50Z
+# CLOB pulse — 2026-07-31T02:03:18Z
 
 - Domain: `https://clob.polymarket.com`
 - Budget: $500
 - Snapshot days on disk: 3
-- Scored: 250  competed: 179  near-zero: 71
+- Scored: 250  competed: 246  near-zero: 4
 - Pilot universe: 0 (provisional: 0)
-- Top-20 competed avg yield: 18.9773%/day (gross)
+- Top-20 competed avg yield: 22.2399%/day (gross)
 
 ## Top competed
 
 | # | yield%/d | est$/d | rate | qual$ | market |
 |---|----------|--------|------|-------|--------|
-| 1 | 75.29 | 376.44 | 400 | 272 | Will Super Typhoon Dolphin hit Japan? |
-| 2 | 24.52 | 122.62 | 229 | 810 | Will the Fed increase interest rates by 25 bps after the |
-| 3 | 21.27 | 106.35 | 141 | 522 | Will the Fed increase interest rates by 25 bps after the |
-| 4 | 21.21 | 106.06 | 150 | 275 | Will shxrk + t3eny win the FNCS 2026 - Major 2 Europe Fi |
-| 5 | 20.36 | 101.81 | 107 | 97 | Will Team Falcons Win EWC 2026 COD: Warzone? |
-| 6 | 19.75 | 98.74 | 113 | 230 | Will "The Idaho Murders: College Nightmare" be the top g |
-| 7 | 17.87 | 89.36 | 200 | 1571 | Iran full airspace closure by August 31? |
-| 8 | 17.76 | 88.82 | 100 | 224 | Will "Spider-Man: Brand New Day" score at least 92 on th |
-| 9 | 16.79 | 83.93 | 124 | 280 | Will "A Toxic Love Story" be the #2 global Netflix movie |
-| 10 | 15.83 | 79.16 | 193 | 539 | Will Karchez Win the 2026 Soloq Challenge (Low Elo) |
+| 1 | 37.62 | 188.09 | 200 | 203 | Will Abdul El-Sayed win Macomb County in the Michigan Se |
+| 2 | 30.28 | 151.40 | 231 | 421 | Will the US Trade Deficit be between $70 billion and $80 |
+| 3 | 29.48 | 147.38 | 180 | 74 | Will Peterbot + Pollo win FNCS 2026 Major 2 NA Central |
+| 4 | 26.51 | 132.56 | 221 | 357 | Will Core CPI YoY be 2.4% in July? |
+| 5 | 25.35 | 126.74 | 400 | 727 | Situational Awareness raises new capital by August 31? |
+| 6 | 24.08 | 120.42 | 198 | 473 | Will ISM Services PMI be between 54.0 and 54.9 in July? |
+| 7 | 23.54 | 117.72 | 159 | 201 | Will Apple be the largest company in the world by market |
+| 8 | 23.12 | 115.61 | 300 | 776 | Situational Awareness Anthropic sale confirmed by August |
+| 9 | 23.02 | 115.09 | 196 | 405 | Will UK GDP growth in Q2 2026 be between 0.2% and 0.3%? |
+| 10 | 22.96 | 114.82 | 184 | 312 | Will Mexico’s 2026 Annual Inflation be between 3.50% and |
 
 ## Near-zero (excluded from pilot)
 
-| 1 | 32.00 | 160.00 | Will four or more people dissent the December Fed decisi |
-| 2 | 29.60 | 148.00 | Reserve Bank of Australia increases interest rates by 25 |
-| 3 | 28.80 | 144.00 | No change in Reserve Bank of Australia's interest rates  |
-| 4 | 24.20 | 121.00 | Will Stephen Curran win the 2026 North Vancouver—Capilan |
-| 5 | 23.80 | 119.00 | Will the US Trade Deficit be between $70 billion and $80 |
-| 6 | 21.20 | 106.00 | Will the US Trade Deficit be between $90 billion and $10 |
-| 7 | 20.00 | 100.00 | Will Russia enter Myrne by August 31, 2026? |
-| 8 | 20.00 | 100.00 | Will the next Google Gemini Pro model be released by Aug |
-| 9 | 19.20 | 96.00 | Will the US Trade Deficit be at least $100 billion in Ju |
-| 10 | 16.90 | 84.48 | Will EkkoTheNeeko Win the 2026 Soloq Challenge (High Elo |
+| 1 | 58.40 | 292.00 | Will Amy Madigan be the #1 searched actor on Google this |
+| 2 | 49.25 | 246.24 | Will Emiliano Martinez stay at Aston Villa? |
+| 3 | 40.00 | 200.00 | Will Haley Stevens win Macomb County in the Michigan Sen |
+| 4 | 33.04 | 165.18 | Will Adam Murphy be the VA-09 Democratic nominee? |
 
 ## Rewards: actual vs estimated
 
-- ts: `2026-07-30T16:39:50Z`
+- ts: `2026-07-31T02:03:18Z`
 - total actual: $0
 - total estimated: $0
 - ratio: n/a
