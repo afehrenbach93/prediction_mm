@@ -69,31 +69,56 @@
 
   function renderChips(d) {
     const hb = d.heartbeat || {};
-    const quoteAge = hb.last_quote_ts ? (Date.now() - Date.parse(hb.last_quote_ts)) / 1000 : null;
-    const fresh = quoteAge != null && quoteAge < 120;
+    const streams = d.streams || {};
+    const liveAge = streams.live && streams.live.last_quote_ts
+      ? (Date.now() - Date.parse(streams.live.last_quote_ts)) / 1000
+      : null;
+    const shadowAge = streams.shadow && streams.shadow.last_quote_ts
+      ? (Date.now() - Date.parse(streams.shadow.last_quote_ts)) / 1000
+      : null;
+    const liveFresh = liveAge != null && liveAge < 180;
+    const shadowFresh = shadowAge != null && shadowAge < 180;
+    const liveHb = hb.live_runner_ts || hb.runner_ts;
+    const liveHbAge = liveHb ? (Date.now() - Date.parse(liveHb)) / 1000 : null;
     const chips = [
-      `<span class="chip ${d.mode === "live" ? "live" : "shadow"}"><span class="pulse"></span>${(d.mode || "unknown").toUpperCase()}</span>`,
+      `<span class="chip ${d.mode === "live" ? "live" : "shadow"}"><span class="pulse"></span>${(d.mode || "unknown").toUpperCase()} · ${(d.host || "?").toUpperCase()}</span>`,
+      `<span class="chip ${liveFresh ? "ok" : "warn"}">Live EC2 · ${liveFresh ? "quoting" : "quiet"} · ${ago(streams.live && streams.live.last_quote_ts)}</span>`,
+      `<span class="chip ${shadowFresh ? "ok" : "shadow"}">Shadow Render · ${shadowFresh ? "quoting" : "quiet"} · ${ago(streams.shadow && streams.shadow.last_quote_ts)}</span>`,
       `<span class="chip ${d.kill ? "bad" : "ok"}">${d.kill ? "KILL ON" : "KILL OFF"}</span>`,
-      `<span class="chip ${fresh ? "ok" : "warn"}">${fresh ? "Quoting" : "Quiet"} · ${ago(hb.last_quote_ts)}</span>`,
       `<span class="chip">Fills 24h · ${d.fills_live_count || 0} live / ${d.fills_sim_count || 0} sim</span>`,
     ];
+    if (liveHbAge != null) {
+      chips.push(`<span class="chip ${liveHbAge < 300 ? "ok" : "warn"}">Live heartbeat · ${ago(liveHb)}</span>`);
+    }
     if (!d.supabase) chips.push(`<span class="chip bad">No Supabase</span>`);
     $("status-chips").innerHTML = chips.join("");
   }
 
   function renderHero(d) {
+    const coll = d.collateral_usd;
     const t = d.today || {};
     const net = t.net != null ? Number(t.net) : null;
-    const est = t.est_gross != null ? Number(t.est_gross) : null;
-    $("hero-value").textContent = net != null ? fmtUsd(net) : fmtUsd(0);
-    let sub = "Today net vs ledger";
-    if (est != null) {
-      const cls = (net || 0) >= 0 ? "up" : "down";
-      sub = `<span class="${cls}">${fmtUsd(net || 0)}</span> net · est gross ${fmtUsd(est)}`;
-    } else if (!d.today) {
-      sub = "No daily PnL row yet for UTC today";
+    const rew = d.rewards_actual_today;
+    if (coll != null) {
+      $("hero-value").textContent = fmtUsd(coll);
+    } else {
+      $("hero-value").textContent = "—";
     }
-    $("hero-sub").innerHTML = sub;
+    const bits = [];
+    if (coll == null) {
+      bits.push("Collateral not reported yet (apply sql/0003 + restart live runner)");
+    } else {
+      bits.push(`Wallet collateral · host ${(d.host || "?").toUpperCase()}`);
+    }
+    if (rew != null) {
+      bits.push(`actual rewards today ${fmtUsd(rew)}`);
+    }
+    if (net != null) {
+      const cls = net >= 0 ? "up" : "down";
+      const note = t.note || "";
+      bits.push(`<span class="${cls}">${fmtUsd(net)}</span> ledger net (${note || "pnl"})`);
+    }
+    $("hero-sub").innerHTML = bits.join(" · ");
   }
 
   function renderKill(d) {
@@ -111,23 +136,20 @@
     $("kill-note").textContent = ts ? `${note} · ${ago(ts)}` : note;
   }
 
-  function renderMarkets(d) {
-    const list = $("markets-list");
-    const markets = d.markets || [];
-    $("markets-meta").textContent = `${markets.length} recently quoted`;
+  function marketRows(markets, emptyMsg) {
     if (!markets.length) {
-      list.innerHTML = `<div class="empty">No quotes in the last 6h. If EC2 live is up, check Supabase writes.</div>`;
-      return;
+      return `<div class="empty">${emptyMsg}</div>`;
     }
-    list.innerHTML = markets.map((m) => {
+    return markets.map((m) => {
       const mid = m.mid != null ? `${(Number(m.mid) * 100).toFixed(1)}¢` : "—";
       const sides = (m.sides || []).join("/");
       const href = m.slug ? `https://polymarket.com/event/${encodeURIComponent(m.slug)}` : "#";
+      const lane = m.shadow ? "shadow" : (m.mode || "live");
       return `
         <a class="row" href="${href}" target="_blank" rel="noopener">
           <div>
             <div class="row-title">${shortSlug(m.slug)}</div>
-            <div class="row-meta">${sides || "—"} · ${m.shadow ? "shadow" : (m.mode || "")} · ${ago(m.last_ts)}</div>
+            <div class="row-meta">${sides || "—"} · ${lane} · ${ago(m.last_ts)}</div>
           </div>
           <div class="row-right">
             <div class="price yes">${mid}</div>
@@ -137,9 +159,25 @@
     }).join("");
   }
 
+  function renderMarkets(d) {
+    const live = d.markets_live || [];
+    const shadow = d.markets_shadow || [];
+    $("markets-live-meta").textContent = `${live.length} markets · ${(d.streams && d.streams.live && ago(d.streams.live.last_quote_ts)) || "—"}`;
+    $("markets-shadow-meta").textContent = `${shadow.length} markets · ${(d.streams && d.streams.shadow && ago(d.streams.shadow.last_quote_ts)) || "—"}`;
+    $("markets-live-list").innerHTML = marketRows(
+      live,
+      "No live quotes in 6h. Check EC2 clob-runner + CLOB_MODE=live.",
+    );
+    $("markets-shadow-list").innerHTML = marketRows(
+      shadow,
+      "No shadow quotes in 6h (Render worker).",
+    );
+  }
+
   function renderFills(d) {
     const fills = d.fills_24h || [];
-    $("fills-meta").textContent = `${fills.length} rows`;
+    const raw = d.fills_raw_count != null ? d.fills_raw_count : fills.length;
+    $("fills-meta").textContent = `${fills.length} unique` + (raw > fills.length ? ` · ${raw} raw rows` : "");
     const list = $("fills-list");
     if (!fills.length) {
       list.innerHTML = `<div class="empty">No fills in 24h — rewards can still accrue on resting quotes.</div>`;
@@ -152,12 +190,12 @@
         <div class="row">
           <div>
             <div class="row-title">${(f.token_id || "").slice(0, 18)}…</div>
-            <div class="row-meta">${ago(f.ts)}${sim ? " · simulated" : " · live"}</div>
+            <div class="row-meta">${ago(f.ts)}${sim ? " · simulated / shadow" : " · live"} · ${(f.trade_id || "").slice(0, 10)}</div>
           </div>
           <div class="row-right">
             <div class="price ${side === "BUY" ? "yes" : "no"}">${fmtPct(f.price)}</div>
             <span class="badge ${side === "BUY" ? "buy" : "sell"}">${side || "?"} ${f.size != null ? Number(f.size).toFixed(1) : ""}</span>
-            ${sim ? `<span class="badge sim">sim</span>` : ""}
+            ${sim ? `<span class="badge sim">sim</span>` : `<span class="badge buy">live</span>`}
           </div>
         </div>`;
     }).join("");
@@ -173,14 +211,16 @@
     list.innerHTML = rows.map((r) => {
       const net = Number(r.net || 0);
       const cls = net >= 0 ? "yes" : "no";
+      const note = r.note || "—";
+      const trusted = note === "live_actual";
       const ratio = r.net_vs_gross != null
         ? `${(Number(r.net_vs_gross) * 100).toFixed(0)}% of est`
         : (r.est_gross ? `${fmtUsd(r.net)} / ${fmtUsd(r.est_gross)}` : "");
       return `
         <div class="row">
           <div>
-            <div class="row-title">${r.day}</div>
-            <div class="row-meta">${r.note || "—"} · ${ratio}</div>
+            <div class="row-title">${r.day}${trusted ? "" : " · provisional"}</div>
+            <div class="row-meta">${note} · ${ratio}</div>
           </div>
           <div class="row-right">
             <div class="price ${cls}">${fmtUsd(net)}</div>

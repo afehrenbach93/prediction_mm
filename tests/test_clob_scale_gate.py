@@ -3,7 +3,7 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from scripts.clob_scale_gate import evaluate, rows_from_csv
+from scripts.clob_scale_gate import evaluate, filter_live_actual, rows_from_csv
 
 
 class TestScaleGate(unittest.TestCase):
@@ -37,6 +37,16 @@ class TestScaleGate(unittest.TestCase):
             self.assertEqual(len(rows), 14)
             code, _ = evaluate(rows, 14, 0.5)
             self.assertEqual(code, 0)
+
+    def test_filter_live_actual(self):
+        rows = [
+            {"day": "2026-08-01", "note": "shadow_mtm", "net": 1, "est_gross": 10},
+            {"day": "2026-08-02", "note": "live_actual", "net": 6, "est_gross": 10},
+            {"day": "2026-08-03", "note": "live_stub", "net": 2, "est_gross": 10},
+        ]
+        live = filter_live_actual(rows)
+        self.assertEqual(len(live), 1)
+        self.assertEqual(live[0]["day"], "2026-08-02")
 
 
 if __name__ == "__main__":

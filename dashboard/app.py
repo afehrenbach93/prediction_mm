@@ -19,6 +19,8 @@ from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from typing import Any
 
+from core.clob_ledger import unique_fills_by_trade_id
+
 STATIC = Path(__file__).resolve().parent / "static"
 PORT = int(os.getenv("PORT", "10000"))
 TOKEN = (os.getenv("DASHBOARD_TOKEN") or "").strip()
@@ -81,6 +83,28 @@ def build_status() -> dict:
         kill = bool(kill_rows[0].get("kill"))
         kill_meta = kill_rows[0]
 
+    st_status, status_rows = _sb_req(
+        "GET", "clob_runner_status",
+        {
+            "select": "mode,host,collateral_usd,updated_at,note,payload_json",
+            "order": "updated_at.desc",
+            "limit": "10",
+        },
+    )
+    runners = status_rows if (st_status == 200 and isinstance(status_rows, list)) else []
+    runner_live = next(
+        (r for r in runners if (r.get("mode") or "").lower() == "live"
+         or (r.get("host") or "").lower() in ("ec2", "live")),
+        None,
+    )
+    runner_shadow = next(
+        (r for r in runners if (r.get("mode") or "").lower() == "shadow"
+         or (r.get("host") or "").lower() in ("render", "shadow")),
+        None,
+    )
+    # Prefer live heartbeat for collateral / primary mode; else newest row.
+    runner = runner_live or (runners[0] if runners else {})
+
     st_pnl, pnl_rows = _sb_req(
         "GET", "clob_daily_pnl",
         {"select": "*", "order": "day.desc", "limit": "14"},
@@ -95,10 +119,11 @@ def build_status() -> dict:
             "select": "ts,trade_id,token_id,side,price,size,simulated,mid_at_fill",
             "ts": f"gte.{since_24h}",
             "order": "ts.desc",
-            "limit": "80",
+            "limit": "200",
         },
     )
-    fills = fills if isinstance(fills, list) else []
+    fills_raw = fills if isinstance(fills, list) else []
+    fills = unique_fills_by_trade_id(fills_raw)
 
     since_6h = _iso_ago(6)
     st_quotes, quotes = _sb_req(
@@ -107,7 +132,7 @@ def build_status() -> dict:
             "select": "ts,slug,token_id,side,price,size,mid,mode,shadow",
             "ts": f"gte.{since_6h}",
             "order": "ts.desc",
-            "limit": "60",
+            "limit": "120",
         },
     )
     quotes = quotes if isinstance(quotes, list) else []
@@ -115,12 +140,23 @@ def build_status() -> dict:
     st_rew, rewards = _sb_req(
         "GET", "clob_rewards",
         {
-            "select": "ts,source,note,market_slug,amount_usd",
+            "select": "ts,source,note,market_slug,amount_usd,condition_id,dedupe_key",
             "order": "ts.desc",
-            "limit": "30",
+            "limit": "40",
         },
     )
     rewards = rewards if isinstance(rewards, list) else []
+    # If dedupe_key column missing (migration not applied), retry without it.
+    if st_rew and st_rew >= 400:
+        st_rew, rewards = _sb_req(
+            "GET", "clob_rewards",
+            {
+                "select": "ts,source,note,market_slug,amount_usd,condition_id",
+                "order": "ts.desc",
+                "limit": "40",
+            },
+        )
+        rewards = rewards if isinstance(rewards, list) else []
 
     st_pulse, pulse_rows = _sb_req(
         "GET", "clob_pulse_snapshots",
@@ -130,60 +166,130 @@ def build_status() -> dict:
     if st_pulse == 200 and isinstance(pulse_rows, list) and pulse_rows:
         pulse = pulse_rows[0]
 
-    live_quotes = [q for q in quotes if not q.get("shadow") and (q.get("mode") or "").lower() == "live"]
-    mode = "live" if live_quotes else (
-        "shadow" if quotes else "unknown"
-    )
+    live_quotes = [
+        q for q in quotes
+        if not q.get("shadow") and (q.get("mode") or "").lower() == "live"
+    ]
+    shadow_quotes = [q for q in quotes if q.get("shadow") or (q.get("mode") or "").lower() == "shadow"]
+
+    runner_mode = (runner.get("mode") or "").lower()
+    if runner_mode in ("live", "shadow"):
+        mode = runner_mode
+    else:
+        mode = "live" if live_quotes else ("shadow" if quotes else "unknown")
 
     last_quote = quotes[0]["ts"] if quotes else None
+    last_live_quote = live_quotes[0]["ts"] if live_quotes else None
+    last_shadow_quote = shadow_quotes[0]["ts"] if shadow_quotes else None
     last_fill = fills[0]["ts"] if fills else None
     live_fills = [f for f in fills if not f.get("simulated")]
     sim_fills = [f for f in fills if f.get("simulated")]
 
-    # Unique slugs recently quoted
-    markets: dict[str, dict] = {}
-    for q in quotes:
-        slug = q.get("slug") or q.get("token_id", "")[:16]
-        if slug not in markets:
-            markets[slug] = {
-                "slug": slug,
-                "last_ts": q.get("ts"),
-                "mid": q.get("mid"),
-                "mode": q.get("mode"),
-                "shadow": q.get("shadow"),
-                "sides": set(),
-                "last_price": q.get("price"),
-                "last_size": q.get("size"),
-            }
-        markets[slug]["sides"].add((q.get("side") or "").upper())
-    market_list = []
-    for m in markets.values():
-        market_list.append({
-            **{k: v for k, v in m.items() if k != "sides"},
-            "sides": sorted(m["sides"]),
-        })
+    actual_rewards = [r for r in rewards if (r.get("source") or "") == "actual"]
+    actual_today = sum(
+        float(r.get("amount_usd") or 0)
+        for r in actual_rewards
+        if (r.get("note") or "").endswith(day) or f":{day}" in (r.get("dedupe_key") or "")
+        or (r.get("note") or "").startswith(f"actual")
+    )
+    # Prefer total row if present to avoid double-count per-market + total.
+    total_rows = [
+        r for r in actual_rewards
+        if "total" in (r.get("dedupe_key") or "") or "total" in (r.get("note") or "")
+    ]
+    if total_rows:
+        try:
+            actual_today = float(total_rows[0].get("amount_usd") or 0)
+        except (TypeError, ValueError):
+            pass
+
+    # Unique slugs recently quoted — split live vs shadow
+    def _markets_from(qlist: list[dict]) -> list[dict]:
+        markets: dict[str, dict] = {}
+        for q in qlist:
+            slug = q.get("slug") or q.get("token_id", "")[:16]
+            if slug not in markets:
+                markets[slug] = {
+                    "slug": slug,
+                    "last_ts": q.get("ts"),
+                    "mid": q.get("mid"),
+                    "mode": q.get("mode"),
+                    "shadow": q.get("shadow"),
+                    "sides": set(),
+                    "last_price": q.get("price"),
+                    "last_size": q.get("size"),
+                }
+            markets[slug]["sides"].add((q.get("side") or "").upper())
+        out = []
+        for m in markets.values():
+            out.append({
+                **{k: v for k, v in m.items() if k != "sides"},
+                "sides": sorted(m["sides"]),
+            })
+        return out
+
+    live_markets = _markets_from(live_quotes)[:20]
+    shadow_markets = _markets_from(shadow_quotes)[:20]
+    market_list = _markets_from(quotes)[:20]
+
+    collateral = runner.get("collateral_usd")
+    try:
+        collateral = float(collateral) if collateral is not None else None
+    except (TypeError, ValueError):
+        collateral = None
 
     return {
         "ok": True,
         "ts": now.strftime("%Y-%m-%dT%H:%M:%SZ"),
         "supabase": bool(_sb()[0] and _sb()[1]),
         "mode": mode,
+        "host": runner.get("host") or ("ec2" if mode == "live" else "render"),
+        "collateral_usd": collateral,
+        "runner": runner,
+        "runners": {
+            "live": runner_live,
+            "shadow": runner_shadow,
+            "all": runners,
+        },
         "kill": kill,
         "kill_meta": kill_meta,
         "today": today_pnl,
         "pnl_history": pnl[:14],
-        "fills_24h": fills,
+        "fills_24h": fills[:80],
+        "fills_raw_count": len(fills_raw),
         "fills_live_count": len(live_fills),
         "fills_sim_count": len(sim_fills),
+        "fills_unique": True,
         "quotes_6h": quotes,
-        "markets": market_list[:20],
+        "markets": market_list,
+        "markets_live": live_markets,
+        "markets_shadow": shadow_markets,
         "rewards": rewards,
+        "rewards_actual_today": round(actual_today, 4) if actual_rewards else None,
         "pulse": pulse,
+        "streams": {
+            "live": {
+                "quotes": len(live_quotes),
+                "markets": len(live_markets),
+                "last_quote_ts": last_live_quote,
+                "host": "ec2",
+            },
+            "shadow": {
+                "quotes": len(shadow_quotes),
+                "markets": len(shadow_markets),
+                "last_quote_ts": last_shadow_quote,
+                "host": "render",
+            },
+        },
         "heartbeat": {
             "last_quote_ts": last_quote,
             "last_fill_ts": last_fill,
+            "runner_ts": runner.get("updated_at"),
+            "live_runner_ts": (runner_live or {}).get("updated_at"),
+            "shadow_runner_ts": (runner_shadow or {}).get("updated_at"),
             "quotes_ok": st_quotes == 200,
             "fills_ok": st_fills == 200,
+            "status_ok": st_status == 200,
         },
     }
 

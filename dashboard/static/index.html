@@ -22,7 +22,7 @@
 
   <main id="main">
     <section class="hero">
-      <p class="eyebrow">Portfolio value</p>
+      <p class="eyebrow">Collateral (wallet)</p>
       <h1 id="hero-value">—</h1>
       <p id="hero-sub" class="hero-sub">Loading ledger…</p>
       <div class="chips" id="status-chips"></div>
@@ -44,15 +44,20 @@
 
     <section id="panel-markets" class="panel active">
       <div class="section-head">
-        <h2>Open quoting</h2>
-        <span id="markets-meta" class="muted"></span>
+        <h2>Live · EC2</h2>
+        <span id="markets-live-meta" class="muted"></span>
       </div>
-      <div id="markets-list" class="list"></div>
+      <div id="markets-live-list" class="list"></div>
+      <div class="section-head">
+        <h2>Shadow · Render</h2>
+        <span id="markets-shadow-meta" class="muted"></span>
+      </div>
+      <div id="markets-shadow-list" class="list"></div>
     </section>
 
     <section id="panel-fills" class="panel">
       <div class="section-head">
-        <h2>Fills · 24h</h2>
+        <h2>Fills · 24h unique</h2>
         <span id="fills-meta" class="muted"></span>
       </div>
       <div id="fills-list" class="list"></div>
@@ -61,7 +66,7 @@
     <section id="panel-pnl" class="panel">
       <div class="section-head">
         <h2>Daily PnL</h2>
-        <span class="muted">scale gate source</span>
+        <span class="muted">scale gate · live_actual only</span>
       </div>
       <div id="pnl-list" class="list"></div>
     </section>

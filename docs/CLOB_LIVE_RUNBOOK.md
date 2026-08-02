@@ -110,7 +110,7 @@ Prefer `systemd`/tmux so the process survives SSH disconnect.
 - [ ] Wallet funded with **pilot-only** USDC on Polygon (dedicated wallet)
 - [ ] `CLOB_FUNDER` + `CLOB_SIGNATURE_TYPE=1` correct for Magic
 - [ ] Full L2 set: `CLOB_API_KEY` / `SECRET` / `PASS_PHRASE` + private key
-- [ ] Supabase schema applied (`sql/0002_clob_ledger.sql`); kill row `clob_control.kill=false`
+- [ ] Supabase schema applied (`sql/0002_clob_ledger.sql` + `sql/0003_ledger_truth.sql`); kill row `clob_control.kill=false`
 - [ ] `ELIGIBILITY_CONFIRMED=true` (operator ToS/access already asserted)
 - [ ] Micro-pilot caps unchanged until scale gate passes
 - [ ] Kill path tested in shadow: Supabase `clob_control.kill=true` or `CLOB_KILL=true`
@@ -136,25 +136,18 @@ or set `CLOB_KILL=true` on the live host and restart if env is not polled-only (
 
 Polymarket-styled portfolio view of the Supabase ledger (quotes, fills, PnL, kill).
 
-1. Blueprint service `clob-ops` in `render.yaml` (or create web service:
-   start `PYTHONPATH=. python dashboard/app.py`).
-2. Set env: `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`, `DASHBOARD_TOKEN`.
-3. Open on phone: `https://<clob-ops>.onrender.com/?token=<DASHBOARD_TOKEN>`
-4. Kill toggle writes `clob_control.kill` (same flag EC2/Render workers poll).
-
-Free web services sleep after idle — first open may take ~30s.
-
-## Phone ops dashboard (Render `clob-ops`)
-
-Polymarket-styled portfolio view of the Supabase ledger (quotes, fills, PnL, kill).
-
 1. Blueprint service `clob-ops` in `render.yaml` (start:
    `PYTHONPATH=. python dashboard/app.py`).
 2. Set env: `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`, `DASHBOARD_TOKEN`.
 3. Open on phone: `https://<clob-ops>.onrender.com/?token=<DASHBOARD_TOKEN>`
 4. Kill toggle writes `clob_control.kill` (same flag EC2/Render workers poll).
+5. Hero shows **wallet collateral** from `clob_runner_status` (written by EC2 live
+   runner). Markets tab splits **Live · EC2** vs **Shadow · Render**.
+6. Fills are unique by `trade_id`. Scale gate only trusts `note=live_actual` days.
 
 Free web services sleep after idle — first open may take ~30s.
+
+Optional on live host: `CLOB_HOST_LABEL=ec2` (default when `CLOB_MODE=live`).
 
 ## First-hour monitoring
 

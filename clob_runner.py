@@ -43,12 +43,18 @@ EXPOSURE_CAP = float(os.getenv("CLOB_EXPOSURE_CAP", str(BUDGET_PER * MAX_MARKETS
 MIN_HOURS = float(os.getenv("CLOB_MIN_HOURS_TO_END", "168"))
 PILOT_CSV = Path(os.getenv("CLOB_PILOT_CSV", "data/clob_scans/pilot_universe.csv"))
 EARNINGS_SECS = int(os.getenv("CLOB_EARNINGS_SECS", "3600"))
+STATUS_SECS = int(os.getenv("CLOB_STATUS_SECS", "120"))
 MID_MOVE_TICKS = float(os.getenv("CLOB_MID_MOVE_TICKS", "1"))
 MAX_REFRESH_SECS = float(os.getenv("CLOB_MAX_REFRESH_SECS", "2"))
 WS_ENABLED = os.getenv("CLOB_WS", "1").strip().lower() not in ("0", "false", "no")
 SHADOW_MAX_INV = float(os.getenv("CLOB_SHADOW_MAX_INVENTORY", "150"))
 SHADOW_MAX_FILL = float(os.getenv("CLOB_SHADOW_MAX_FILL", "5"))
 SHADOW_FILLS_PER_CYCLE = int(os.getenv("CLOB_SHADOW_FILLS_PER_CYCLE", "5"))
+# Dashboard host label: ec2 (live) vs render (shadow). Override with CLOB_HOST_LABEL.
+HOST_LABEL = (
+    os.getenv("CLOB_HOST_LABEL")
+    or ("ec2" if MODE == "live" else "render")
+)
 
 
 def log(msg: str):
@@ -347,6 +353,7 @@ def main():
     tripped = False
     standing_aside = False
     last_earnings = 0.0
+    last_status = 0.0
     idx = None
     cache = BookMidCache()
     ws_thread: MarketWsThread | None = None
@@ -399,8 +406,13 @@ def main():
                     f"slugs={[ (r.get('slug') or '')[:28] for r in pilot ]}")
 
             trades = trader.get_trades()
+            new_fills = 0
             for t in trades:
-                ledger.log_fill(t, simulated=False)
+                if ledger.log_fill(t, simulated=False):
+                    new_fills += 1
+            if new_fills:
+                log(f"fills: +{new_fills} new (unique trade_id; "
+                    f"seen={len(ledger.seen_trade_ids)})")
             # Live: prefer open positions API (trade netting misses maker side /
             # pagination). Shadow keeps sim inventory.
             pos_marks: dict[str, float] = {}
@@ -512,10 +524,87 @@ def main():
                         f"adverse={prior.get('avg_adverse_move')}")
 
             now = time.time()
+            if now - last_status >= STATUS_SECS:
+                coll = trader.get_collateral_usd() if trader.live else None
+                ledger.update_runner_status(
+                    mode="live" if trader.live else "shadow",
+                    host=HOST_LABEL,
+                    collateral_usd=coll,
+                    note="heartbeat",
+                    payload={
+                        "pilot_n": len(pilot),
+                        "orders": total,
+                        "tripped": tripped,
+                        "seen_fills": len(ledger.seen_trade_ids),
+                    },
+                )
+                if coll is not None:
+                    log(f"collateral=${coll:.2f} host={HOST_LABEL}")
+                last_status = now
+
             if now - last_earnings >= EARNINGS_SECS:
-                earn = trader.get_earnings_today()
-                if earn is not None:
-                    ledger.log_rewards(earn, note="daily_poll", source="estimate")
+                day = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+                rewards_usd = 0.0
+                if trader.live:
+                    # Authenticated CLOB earnings = actuals (not score estimates).
+                    per_mkt = trader.get_earnings_for_day(day)
+                    for a in per_mkt:
+                        try:
+                            amt = float(
+                                a.get("earnings") or a.get("amount_usd")
+                                or a.get("amount") or 0
+                            )
+                        except (TypeError, ValueError):
+                            amt = 0.0
+                        cid = str(a.get("condition_id") or "")
+                        ledger.log_rewards(
+                            a,
+                            note=f"actual_day:{day}",
+                            source="actual",
+                            amount_usd=amt,
+                            market_slug=str(
+                                a.get("market_slug") or a.get("slug") or ""
+                            ),
+                            condition_id=cid,
+                            dedupe_key=f"actual:{day}:{cid or 'row'}",
+                        )
+                    earn = trader.get_earnings_today()
+                    rewards_usd = ClobTrader.sum_earnings_usd(earn)
+                    if earn is not None and not (
+                        isinstance(earn, dict) and earn.get("_err")
+                    ):
+                        ledger.log_rewards(
+                            earn,
+                            note=f"actual_total:{day}",
+                            source="actual",
+                            amount_usd=rewards_usd,
+                            dedupe_key=f"actual:{day}:total",
+                        )
+                        log(f"rewards actual day={day} ${rewards_usd:.4f} "
+                            f"markets={len(per_mkt)}")
+                    elif isinstance(earn, dict) and earn.get("_err"):
+                        ledger.log_rewards(
+                            earn, note="earnings_poll_error", source="event",
+                        )
+                else:
+                    # Shadow: keep score-based estimate for scale-gate dry runs.
+                    est_payload = {
+                        "pilot": [
+                            {
+                                "slug": r.get("slug"),
+                                "avg_est_daily": r.get("avg_est_daily"),
+                            }
+                            for r in pilot
+                        ],
+                    }
+                    ledger.log_rewards(
+                        est_payload, note="shadow_estimate", source="estimate",
+                        amount_usd=sum(
+                            float(r.get("avg_est_daily") or 0) for r in pilot
+                        ),
+                        dedupe_key=f"estimate:{day}:shadow_pilot",
+                    )
+
                 est = sum(float(r.get("avg_est_daily") or 0) for r in pilot)
                 trading = 0.0
                 if not trader.live:
@@ -525,18 +614,19 @@ def main():
                         f"net=${s['net_pnl_today']} mtm=${s['mtm_pnl']} "
                         f"realized=${s['realized_pnl_today']} "
                         f"avg_adverse={s['avg_adverse_move']}")
-                else:
-                    trading = 0.0
                 ledger.log_daily_pnl(
-                    trading_pnl=trading, rewards_usd=0.0, est_gross=est,
-                    note="shadow_mtm" if not trader.live else "live_stub",
+                    trading_pnl=trading,
+                    rewards_usd=rewards_usd,
+                    est_gross=est,
+                    note="shadow_mtm" if not trader.live else "live_actual",
                 )
                 last_earnings = now
 
             log(f"cycle: {len(pilot)} mkts, {total} orders, "
                 f"shadow_log={len(trader.shadow_orders)} tripped={tripped} "
                 f"ws={'up' if cache.connected else 'down'} "
-                f"fills_today={shadow_state.fills_today if not trader.live else '-'}")
+                f"fills_today={shadow_state.fills_today if not trader.live else '-'} "
+                f"host={HOST_LABEL}")
         except Exception as e:
             log(f"loop error: {e}")
             try:
