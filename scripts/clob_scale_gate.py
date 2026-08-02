@@ -36,6 +36,16 @@ def rows_from_csv(path: Path) -> list[dict]:
         return list(csv.DictReader(f))
 
 
+def filter_live_actual(rows: list[dict]) -> list[dict]:
+    """Keep days noted as live_actual (post ledger-truth)."""
+    out = []
+    for r in rows:
+        note = str(r.get("note") or "").lower()
+        if note == "live_actual" or note.startswith("live_actual"):
+            out.append(r)
+    return out
+
+
 def evaluate(rows: list[dict], min_days: int, threshold: float) -> tuple[int, str]:
     by_day: dict[str, dict] = {}
     for r in rows:
@@ -75,6 +85,10 @@ def main():
     ap.add_argument("--threshold", type=float, default=0.50)
     ap.add_argument("--csv-only", action="store_true",
                     help="Skip Supabase (tests / offline)")
+    ap.add_argument(
+        "--allow-shadow", action="store_true",
+        help="Include shadow_mtm / live_stub days (default: live_actual only)",
+    )
     args = ap.parse_args()
 
     source = "supabase"
@@ -86,6 +100,19 @@ def main():
         print("FAIL: no pnl in Supabase clob_daily_pnl and no CSV fallback "
               f"at {args.pnl_csv}")
         return 2
+
+    if not args.allow_shadow:
+        live_rows = filter_live_actual(rows)
+        if live_rows:
+            rows = live_rows
+            source = f"{source}+live_actual"
+        else:
+            print(
+                "FAIL: no live_actual pnl days yet — scale gate needs ≥"
+                f"{args.min_days} days with note=live_actual "
+                "(use --allow-shadow only for dry runs)"
+            )
+            return 2
 
     print(f"source={source} rows={len(rows)}")
     code, msg = evaluate(rows, args.min_days, args.threshold)

@@ -63,7 +63,15 @@ class SupabaseClob:
     def upsert(self, table: str, row: dict, on_conflict: str) -> tuple[int, Any]:
         return self._req(
             "POST", table, row,
-            prefer=f"resolution=merge-duplicates,return=minimal",
+            prefer="resolution=merge-duplicates,return=minimal",
+            params={"on_conflict": on_conflict},
+        )
+
+    def insert_ignore(self, table: str, row: dict, on_conflict: str) -> tuple[int, Any]:
+        """Insert or skip on unique conflict (no overwrite of existing row)."""
+        return self._req(
+            "POST", table, row,
+            prefer="resolution=ignore-duplicates,return=minimal",
             params={"on_conflict": on_conflict},
         )
 

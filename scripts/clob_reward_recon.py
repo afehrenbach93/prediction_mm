@@ -1,9 +1,9 @@
 """
 Reward reconciliation: actual earned/paid vs estimated (deep-dive / handback P1.5).
 
-Pulls account rewards from CLOB/data API when live creds exist; stores rows in
-Supabase clob_rewards with source=actual. Compares actual ÷ estimated per market
-and alerts when ratio < 0.7.
+Pulls account rewards from authenticated CLOB when live creds exist; stores rows
+in Supabase clob_rewards with source=actual (deduped by day+condition). Compares
+actual ÷ estimated per market and alerts when ratio < 0.7.
 
 Wired into clob_pulse.py (section empty until live).
 
@@ -23,16 +23,20 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 from core.clob_ledger import ClobLedger
+from core.clobtrader import ClobTrader
 from core.supabase_clob import SupabaseClob
 
 DATA_API = "https://data-api.polymarket.com"
-CLOB_HOST = os.getenv("CLOB_HOST", "https://clob.polymarket.com")
 UA = "prediction-mm/clob-reward-recon"
 ALERT_RATIO = 0.7
 
 
 def _iso() -> str:
     return datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+
+
+def _day() -> str:
+    return datetime.now(timezone.utc).strftime("%Y-%m-%d")
 
 
 def _get(url: str) -> tuple[int, object]:
@@ -49,13 +53,41 @@ def _get(url: str) -> tuple[int, object]:
         return 0, {"_err": str(e)}
 
 
-def fetch_actual_rewards(address: str = "") -> list[dict]:
-    """Best-effort pull of earnings. Empty until live wallet configured."""
+def fetch_actuals_via_trader(day: str) -> list[dict]:
+    """Authenticated CLOB earnings (preferred). Empty when not live-eligible."""
+    try:
+        trader = ClobTrader.from_env()
+    except Exception:
+        return []
+    if not trader.live:
+        return []
+    rows = trader.get_earnings_for_day(day)
+    if rows:
+        return rows
+    # Fall back to total-only payload so recon still has a number.
+    total = trader.get_earnings_today()
+    if total is None:
+        return []
+    if isinstance(total, dict) and total.get("_err"):
+        return []
+    amt = ClobTrader.sum_earnings_usd(total)
+    if amt <= 0 and not total:
+        return []
+    return [{
+        "date": day,
+        "condition_id": "account",
+        "market_slug": "account",
+        "earnings": amt,
+        "_total_payload": total,
+    }]
+
+
+def fetch_actual_rewards_public(address: str = "") -> list[dict]:
+    """Best-effort public data-api pull (often empty; auth path preferred)."""
     addr = address or os.getenv("CLOB_FUNDER", "") or os.getenv("CLOB_ADDRESS", "")
     out: list[dict] = []
     if not addr:
         return out
-    # data-api activity / rewards endpoints vary; try common paths
     for path in (
         f"/v1/rewards?user={urllib.parse.quote(addr)}",
         f"/rewards?user={urllib.parse.quote(addr)}",
@@ -142,7 +174,7 @@ def reconcile(actuals: list[dict], estimates: list[dict],
         "alert_ratio": alert_ratio,
         "alerts": alerts,
         "markets": markets,
-        "note": "" if actuals else "empty until live — wire only",
+        "note": "" if actuals else "empty until live earnings available",
     }
 
 
@@ -172,23 +204,32 @@ def write_section_md(recon: dict) -> str:
 
 
 def run(alert_ratio: float = ALERT_RATIO, address: str = "",
-        out_md: Path | None = None) -> dict:
+        out_md: Path | None = None, day: str = "") -> dict:
     sb = SupabaseClob()
     ledger = ClobLedger(sb=sb)
-    actuals = fetch_actual_rewards(address)
+    day = day or _day()
+    actuals = fetch_actuals_via_trader(day)
+    source = "clob_auth"
+    if not actuals:
+        actuals = fetch_actual_rewards_public(address)
+        source = "data_api"
     for a in actuals:
         try:
             amt = float(a.get("amount_usd") or a.get("amount") or a.get("earnings") or 0)
         except (TypeError, ValueError):
             amt = None
+        cid = str(a.get("condition_id") or "")
         ledger.log_rewards(
-            a, note="reward_recon", source="actual",
+            a, note=f"reward_recon:{day}", source="actual",
             amount_usd=amt,
             market_slug=str(a.get("market_slug") or a.get("slug") or ""),
-            condition_id=str(a.get("condition_id") or ""),
+            condition_id=cid,
+            dedupe_key=f"actual:{day}:{cid or 'recon'}",
         )
     estimates = fetch_estimates_from_sb(sb)
     recon = reconcile(actuals, estimates, alert_ratio=alert_ratio)
+    recon["fetch_source"] = source
+    recon["day"] = day
     section = write_section_md(recon)
     if out_md is not None:
         out_md.parent.mkdir(parents=True, exist_ok=True)
@@ -209,17 +250,21 @@ def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--alert-ratio", type=float, default=ALERT_RATIO)
     ap.add_argument("--address", default="")
+    ap.add_argument("--day", default="")
     ap.add_argument("--out-md", default="data/clob_scans/pulse.md")
     ap.add_argument("--json-out", default="")
     args = ap.parse_args()
     recon = run(
         alert_ratio=args.alert_ratio,
         address=args.address,
+        day=args.day,
         out_md=Path(args.out_md) if args.out_md else None,
     )
     print(json.dumps({
         "ts": recon["ts"],
+        "day": recon.get("day"),
         "live": recon["live"],
+        "fetch_source": recon.get("fetch_source"),
         "total_actual": recon["total_actual"],
         "total_estimated": recon["total_estimated"],
         "ratio": recon["ratio"],

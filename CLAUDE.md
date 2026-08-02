@@ -39,6 +39,13 @@
 
 ## Incident Log
 
+### 2026-08-02 — Ledger truth (fills / rewards / collateral)
+Dashboard was untrustworthy: fills re-inserted every cycle, rewards had 0
+`actual` rows, hero showed shadow_mtm net not wallet. Fixed: trade_id dedupe
+(+ SQL unique), authenticated earnings → `source=actual`, `clob_runner_status`
+collateral heartbeat, Live/Shadow split in ops UI, scale gate defaults to
+`live_actual` only. Apply `sql/0003_ledger_truth.sql` in Supabase; restart EC2.
+
 ### 2026-07-25 — Live loop: Decimal not JSON serializable
 EC2 `clob-runner` stuck every ~30s logging fills/rewards: SecureClient payloads
 embed `Decimal`. Fixed: `_jsonable` in `clobtrader`, `json.dumps(..., default=str)`

@@ -406,16 +406,103 @@ class ClobTrader:
             print(f"[clob] get_positions failed: {e}", flush=True)
             return None
 
+    def get_collateral_usd(self) -> float | None:
+        """Deposit-wallet USDC/pUSD collateral (None if unavailable / shadow)."""
+        if not self._live_mutations_allowed():
+            return None
+        try:
+            client = self._auth_client()
+            if _use_secure_client():
+                bal = client.get_balance_allowance(asset_type="COLLATERAL")
+                # CLOB balances are 6-decimal fixed-point.
+                raw = float(getattr(bal, "balance", 0) or 0)
+                return raw / 1e6 if raw > 1e3 else raw
+            # Legacy py-clob-client-v2
+            if hasattr(client, "get_balance_allowance"):
+                from py_clob_client_v2.clob_types import AssetType, BalanceAllowanceParams
+                bal = client.get_balance_allowance(
+                    BalanceAllowanceParams(asset_type=AssetType.COLLATERAL)
+                )
+                raw = float((bal or {}).get("balance") or 0)
+                return raw / 1e6 if raw > 1e3 else raw
+        except Exception as e:
+            print(f"[clob] get_collateral_usd failed: {e}", flush=True)
+        return None
+
+    def get_earnings_for_day(self, day: str | None = None) -> list[dict]:
+        """Per-market actual earnings for a UTC day (authenticated CLOB)."""
+        if not self._live_mutations_allowed():
+            return []
+        day = day or datetime.now(timezone.utc).strftime("%Y-%m-%d")
+        client = self._auth_client()
+        out: list[dict] = []
+        try:
+            if _use_secure_client() and hasattr(client, "list_user_earnings_for_day"):
+                n = 0
+                for item in client.list_user_earnings_for_day(date=day).iter_items():
+                    d = _as_dict(item)
+                    d.setdefault("date", day)
+                    out.append(d)
+                    n += 1
+                    if n >= 500:
+                        break
+                return out
+            if hasattr(client, "get_earnings_for_user_for_day"):
+                raw = client.get_earnings_for_user_for_day(date=day)
+                rows = _jsonable(raw)
+                if isinstance(rows, dict):
+                    rows = rows.get("data") or rows.get("earnings") or []
+                if isinstance(rows, list):
+                    return [r if isinstance(r, dict) else {"earnings": r} for r in rows]
+        except Exception as e:
+            print(f"[clob] get_earnings_for_day failed: {e}", flush=True)
+        return out
+
     def get_earnings_today(self):
+        """Total actual earnings for UTC today (list/dict; may include ``_err``)."""
         if not self._live_mutations_allowed():
             return None
         client = self._auth_client()
+        day = datetime.now(timezone.utc).strftime("%Y-%m-%d")
         try:
             if _use_secure_client():
-                day = datetime.now(timezone.utc).strftime("%Y-%m-%d")
                 raw = client.get_total_earnings_for_user_for_day(date=day)
             else:
-                raw = client.get_total_earnings_for_user_for_day()
+                try:
+                    raw = client.get_total_earnings_for_user_for_day(date=day)
+                except TypeError:
+                    raw = client.get_total_earnings_for_user_for_day()
             return _jsonable(raw)
         except Exception as e:
             return {"_err": str(e)}
+
+    @staticmethod
+    def sum_earnings_usd(raw) -> float:
+        """Sum ``earnings`` fields from total/per-market reward payloads."""
+        if raw is None:
+            return 0.0
+        if isinstance(raw, dict) and raw.get("_err"):
+            return 0.0
+        rows = raw
+        if isinstance(raw, dict):
+            rows = raw.get("data") or raw.get("earnings") or [raw]
+        if not isinstance(rows, (list, tuple)):
+            rows = [rows]
+        total = 0.0
+        for r in rows:
+            if isinstance(r, dict):
+                try:
+                    total += float(
+                        r.get("earnings")
+                        or r.get("amount_usd")
+                        or r.get("amount")
+                        or 0
+                    )
+                except (TypeError, ValueError):
+                    pass
+            else:
+                try:
+                    total += float(getattr(r, "earnings", 0) or 0)
+                except (TypeError, ValueError):
+                    pass
+        return total
