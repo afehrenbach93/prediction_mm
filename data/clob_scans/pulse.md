@@ -1,46 +1,46 @@
-# CLOB pulse — 2026-08-02T02:01:45Z
+# CLOB pulse — 2026-08-02T16:04:15Z
 
 - Domain: `https://clob.polymarket.com`
 - Budget: $500
 - Snapshot days on disk: 3
-- Scored: 250  competed: 186  near-zero: 64
+- Scored: 250  competed: 205  near-zero: 45
 - Pilot universe: 0 (provisional: 0)
-- Top-20 competed avg yield: 14.6102%/day (gross)
+- Top-20 competed avg yield: 15.3009%/day (gross)
 
 ## Top competed
 
 | # | yield%/d | est$/d | rate | qual$ | market |
 |---|----------|--------|------|-------|--------|
-| 1 | 24.50 | 122.48 | 150 | 2323 | Foreign intervention in Gaza by December 31? |
-| 2 | 19.73 | 98.66 | 100 | 159 | Will Super Typhoon Dolphin hit Japan? |
-| 3 | 19.63 | 98.16 | 348 | 1780 | Will Donald Trump be the #1 searched person on Google in |
-| 4 | 17.26 | 86.32 | 100 | 727 | Will WTI Crude Oil (WTI) hit (LOW) $75 in August? |
-| 5 | 15.99 | 79.95 | 135 | 502 | Will Lucas Ribeiro win the Governor of Paraíba election? |
-| 6 | 14.68 | 73.40 | 100 | 651 | US x Iran diplomatic meeting by August 15, 2026? |
-| 7 | 14.40 | 71.98 | 130 | 363 | Will Twisted Minds Win EWC 2026: Overwatch? |
-| 8 | 13.94 | 69.69 | 72 | 107 | Will US GDP growth in Q3 2026 be between 1.0% and 1.5%? |
-| 9 | 13.92 | 69.62 | 78 | 188 | Will Zelenskyy post 80-99 posts from July 31 to August 7 |
-| 10 | 13.79 | 68.94 | 78 | 157 | Will US GDP growth in Q3 2026 be between 1.5% and 2.0%? |
+| 1 | 23.48 | 117.40 | 132 | 86 | Will Adrienn Laczó be the next President of Hungary? |
+| 2 | 20.32 | 101.58 | 167 | 568 | Will The Pitt be the #1 searched TV show on Google this  |
+| 3 | 19.02 | 95.09 | 112 | 264 | Will Google be the #2 AI lab at the end of August 2026? |
+| 4 | 17.34 | 86.69 | 100 | 741 | Will Super Typhoon Dolphin hit China? |
+| 5 | 17.16 | 85.82 | 208 | 752 | Will the median home value in San Francisco Metro be bet |
+| 6 | 17.05 | 85.25 | 97 | 102 | Will White House post 200+ posts from July 31 to August  |
+| 7 | 16.41 | 82.07 | 110 | 355 | Will Khamenei post 0-4 posts from July 31 to August 7, 2 |
+| 8 | 16.34 | 81.70 | 135 | 407 | Will Emiliano Martinez join Al-Hilal? |
+| 9 | 15.92 | 79.60 | 104 | 439 | Will NYC Mayor post 20-39 posts from July 31 to August 7 |
+| 10 | 15.20 | 75.98 | 80 | 144 | Will M80 Win EWC 2026 Rainbow Six Siege |
 
 ## Near-zero (excluded from pilot)
 
-| 1 | 43.80 | 219.00 | Will Brazil's Q2 2026 GDP growth rate (QoQ) be between 0 |
-| 2 | 35.40 | 177.00 | Will Francesca Hong win the Wisconsin Democratic Governo |
-| 3 | 32.40 | 162.00 | Will There be 10+ Knife Kills at Blast Bounty 2026 Seaso |
-| 4 | 30.00 | 150.00 | Foreign intervention in Gaza by September 30? |
-| 5 | 27.80 | 139.00 | Will Shaun Deeb win the 2026 WSOP Player of the Year? |
-| 6 | 27.60 | 138.00 | Will There be 7-9 Knife Kills at Blast Bounty 2026 Seaso |
-| 7 | 26.00 | 130.00 | Will Team Secret Win EWC 2026 Rainbow Six Siege |
-| 8 | 25.80 | 129.00 | Will William Foxen win the 2026 WSOP Player of the Year? |
-| 9 | 22.00 | 110.00 | Will Khamenei post 0-4 posts from July 31 to August 7, 2 |
-| 10 | 20.00 | 100.00 | Will Kirill Basin be the HI-02 Democratic nominee? |
+| 1 | 36.40 | 182.00 | Will ZETA DIVISION Win EWC 2026: Overwatch? |
+| 2 | 34.20 | 171.00 | Will Core CPI YoY be 2.5% in July? |
+| 3 | 33.40 | 167.00 | Will Stranger Things be the #1 searched TV show on Googl |
+| 4 | 25.40 | 127.00 | Will Anthropic have the best Code Arena | WebDev AI at t |
+| 5 | 23.60 | 118.00 | Will Twisted Minds Win EWC 2026: Overwatch? |
+| 6 | 22.34 | 111.72 | Will claude-opus-5-max be the best AI model on August 17 |
+| 7 | 20.00 | 100.00 | Will Trump speak to Mark Rutte in August? |
+| 8 | 18.90 | 94.51 | Will Rodina win the next Karelia Parliament elections? |
+| 9 | 18.80 | 94.00 | Will NYC Mayor post 40-59 posts from July 31 to August 7 |
+| 10 | 18.31 | 91.56 | Will the median home value in Austin Metro be between $4 |
 
 ## Rewards: actual vs estimated
 
-- ts: `2026-08-02T02:01:46Z`
+- ts: `2026-08-02T16:04:15Z`
 - total actual: $0
 - total estimated: $0
 - ratio: n/a
-- note: empty until live — wire only
+- note: empty until live earnings available
 
 _No alerts (or no live actuals yet)._

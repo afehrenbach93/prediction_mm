@@ -1,5 +1,5 @@
 {
-  "ts": "2026-08-02T02:01:46Z",
+  "ts": "2026-08-02T16:04:15Z",
   "live": false,
   "total_actual": 0,
   "total_estimated": 0,
@@ -7,5 +7,7 @@
   "alert_ratio": 0.7,
   "alerts": [],
   "markets": [],
-  "note": "empty until live \u2014 wire only"
+  "note": "empty until live earnings available",
+  "fetch_source": "data_api",
+  "day": "2026-08-02"
 }
