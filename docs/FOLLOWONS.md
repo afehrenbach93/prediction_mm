@@ -23,13 +23,13 @@ https://docs.polymarket.com/market-makers/liquidity-rewards
 - [x] `CLOB_FUNDER` / `CLOB_SIGNATURE_TYPE` set for proxy hygiene
 - [x] L2 keys on Render; Supabase ledger applied
 - [ ] **Live egress:** Render oregon is CLOB-geoblocked (US API close-only).
-      See `docs/CLOB_LIVE_RUNBOOK.md` — run live quoter from API-allowed region
+      See `CLOB_LIVE_RUNBOOK.md` — run live quoter from API-allowed region
       (docs hint: `eu-west-1` / Ireland); keep Render on shadow.
 
 ## §7.4 Quoting bot
 `PYTHONPATH=. python3 clob_runner.py` — Render stays **shadow** until egress fixed.
 Kill: `CLOB_KILL=true` or `clob_control.kill=true` in Supabase.
-Live runbook: `docs/CLOB_LIVE_RUNBOOK.md`.
+Live runbook: `CLOB_LIVE_RUNBOOK.md`.
 
 ## §7.5 Micro-pilot
 Defaults: `$75 × 3` competed, `MIN_HOURS_TO_END=168`, near-zero excluded.

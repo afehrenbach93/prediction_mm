@@ -61,4 +61,7 @@ core/clob_bookws.py            market websocket mids
 sql/0002_clob_ledger.sql       Supabase schema
 ```
 
-See `CLAUDE.md` / `FOLLOWONS.md` / `BUILD_REVIEW.md` / `docs/CLOB_LIVE_RUNBOOK.md`.
+All documentation is indexed in one place: [`docs/`](docs/README.md). Root-level
+`CLAUDE.md` (worklog/rules) and `AGENTS.md` (agent env notes) stay at the repo root
+because tooling loads them there; everything else lives under `docs/`
+(`FOLLOWONS.md`, `BUILD_REVIEW.md`, `CLOB_LIVE_RUNBOOK.md`).

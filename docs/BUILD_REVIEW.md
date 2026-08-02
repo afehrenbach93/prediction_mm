@@ -1,8 +1,8 @@
 # Build review — CLOB liquidity-reward stack
 
-**Share this file:** https://github.com/afehrenbach93/prediction_mm/blob/claude/prediction-mm-migration-p1-wja5v5/BUILD_REVIEW.md  
+**Share this file:** https://github.com/afehrenbach93/prediction_mm/blob/claude/prediction-mm-migration-p1-wja5v5/docs/BUILD_REVIEW.md  
 
-**Raw (plain text copy):** https://raw.githubusercontent.com/afehrenbach93/prediction_mm/claude/prediction-mm-migration-p1-wja5v5/BUILD_REVIEW.md  
+**Raw (plain text copy):** https://raw.githubusercontent.com/afehrenbach93/prediction_mm/claude/prediction-mm-migration-p1-wja5v5/docs/BUILD_REVIEW.md  
 
 **PR (merged):** https://github.com/afehrenbach93/prediction_mm/pull/111  
 **As of:** 2026-07-19  
