@@ -1,43 +1,43 @@
-# CLOB pulse — 2026-08-03T17:12:30Z
+# CLOB pulse — 2026-08-04T01:49:15Z
 
 - Domain: `https://clob.polymarket.com`
 - Budget: $500
 - Snapshot days on disk: 3
-- Scored: 250  competed: 202  near-zero: 48
+- Scored: 250  competed: 178  near-zero: 72
 - Pilot universe: 0 (provisional: 0)
-- Top-20 competed avg yield: 13.8226%/day (gross)
+- Top-20 competed avg yield: 13.4078%/day (gross)
 
 ## Top competed
 
 | # | yield%/d | est$/d | rate | qual$ | market |
 |---|----------|--------|------|-------|--------|
-| 1 | 26.05 | 130.25 | 133 | 70 | Will Gen.G Win VCT Pacific Stage 2 2026? |
-| 2 | 20.63 | 103.14 | 104 | 58 | Will "Petal" - Ariana Grande first week album sales be b |
-| 3 | 19.23 | 96.14 | 135 | 187 | Will claude-opus-5-max be the best AI model on August 17 |
-| 4 | 15.08 | 75.41 | 85 | 223 | Will Team Liquid win 1win Essence II? |
-| 5 | 14.97 | 74.84 | 83 | 100 | Will T1 Win KeSPA Cup 2026? |
-| 6 | 14.51 | 72.56 | 102 | 176 | Will White House post 200+ posts from July 31 to August  |
-| 7 | 14.30 | 71.52 | 128 | 406 | Will Paper Rex Win VCT Pacific Stage 2 2026? |
-| 8 | 13.95 | 69.76 | 75 | 89 | Will M80 Win EWC 2026 Rainbow Six Siege |
-| 9 | 13.64 | 68.22 | 115 | 335 | Will Rafael Leao stay at AC Milan? |
-| 10 | 13.28 | 66.40 | 154 | 1133 | Will LEVIATÁN Win VCT AMER Stage 2 2026? |
+| 1 | 22.72 | 113.60 | 116 | 97 | Will Team Liquid win 1win Essence II? |
+| 2 | 22.10 | 110.49 | 137 | 100 | Will Liquid Win the Stake Pulse Beat 1 tournament? |
+| 3 | 20.45 | 102.26 | 250 | 780 | US x Iran Effective Ceasefire by August 31? |
+| 4 | 18.85 | 94.26 | 98 | 195 | Will PlayTime win the 2026 Games of the Future tournamen |
+| 5 | 16.57 | 82.83 | 137 | 272 | Will Team Falcons win 1win Essence II? |
+| 6 | 16.47 | 82.36 | 180 | 1127 | Will Praggnanandhaa Rameshbabu Win the 2026 Saint Louis  |
+| 7 | 15.68 | 78.39 | 200 | 1397 | US x Iran diplomatic meeting by August 15, 2026? |
+| 8 | 13.75 | 68.76 | 113 | 457 | Will Anthropic have the best Math AI model at the end of |
+| 9 | 12.30 | 61.49 | 86 | 103 | Will Dusan Vlahovic join Tottenham? |
+| 10 | 11.97 | 59.84 | 77 | 181 | Will Moonshot be the third-best Code Arena | WebDev AI l |
 
 ## Near-zero (excluded from pilot)
 
-| 1 | 20.40 | 102.00 | Will Michael J Moncek win the 2026 WSOP Player of the Ye |
-| 2 | 20.00 | 100.00 | Will the next Google Gemini Pro model be released by Aug |
-| 3 | 20.00 | 100.00 | Will WTI Crude Oil (WTI) hit (HIGH) $85 in August? |
-| 4 | 19.55 | 97.74 | Will CPRF win the next Khanty-Mansi Autonomous Okrug Par |
-| 5 | 19.42 | 97.11 | Will CPRF win the next Chuvashia Parliament elections? |
-| 6 | 19.20 | 96.00 | Will "Petal" - Ariana Grande first week album sales be b |
-| 7 | 18.80 | 94.00 | Will Dusan Vlahovic join Al-Nassr? |
-| 8 | 18.60 | 93.00 | Will Team Falcons win 1win Essence II? |
-| 9 | 17.40 | 87.00 | Will Alibaba be the #2 AI lab at the end of August 2026? |
-| 10 | 17.00 | 85.00 | Will Peggy Flanagan win the Minnesota Senate Democratic  |
+| 1 | 25.40 | 127.00 | Will MrBeast's next video get between 20 and 25 million  |
+| 2 | 25.40 | 127.00 | Will MrBeast's next video get between 25 and 30 million  |
+| 3 | 25.20 | 126.00 | Will MrBeast's next video get between 30 and 35 million  |
+| 4 | 23.00 | 115.00 | Will Eduardo Camavinga join Manchester United? |
+| 5 | 22.45 | 112.26 | Will M80 Win EWC 2026 Rainbow Six Siege |
+| 6 | 19.20 | 96.00 | Will MrBeast's next video get less than 40 million views |
+| 7 | 19.20 | 96.00 | Will MrBeast's next video get between 70 and 80 million  |
+| 8 | 16.37 | 81.86 | Will Mohamed Salah join Al-Ittihad? |
+| 9 | 16.00 | 80.00 | Will Team Resilience win the 2026 Games of the Future to |
+| 10 | 15.40 | 77.00 | Will Leon Goretzka join Chicago Fire? |
 
 ## Rewards: actual vs estimated
 
-- ts: `2026-08-03T17:12:30Z`
+- ts: `2026-08-04T01:49:15Z`
 - total actual: $0
 - total estimated: $0
 - ratio: n/a
