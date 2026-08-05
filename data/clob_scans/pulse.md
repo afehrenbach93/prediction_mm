@@ -1,43 +1,43 @@
-# CLOB pulse — 2026-08-04T16:57:08Z
+# CLOB pulse — 2026-08-05T01:49:53Z
 
 - Domain: `https://clob.polymarket.com`
 - Budget: $500
 - Snapshot days on disk: 3
-- Scored: 250  competed: 185  near-zero: 65
+- Scored: 250  competed: 195  near-zero: 55
 - Pilot universe: 0 (provisional: 0)
-- Top-20 competed avg yield: 19.6033%/day (gross)
+- Top-20 competed avg yield: 33.9689%/day (gross)
 
 ## Top competed
 
 | # | yield%/d | est$/d | rate | qual$ | market |
 |---|----------|--------|------|-------|--------|
-| 1 | 74.01 | 370.03 | 400 | 51 | Will Casemiro attend Cristiano Ronaldo's wedding? |
-| 2 | 46.38 | 231.91 | 400 | 208 | Will Marcelo attend Cristiano Ronaldo's wedding? |
-| 3 | 21.31 | 106.55 | 115 | 135 | Will Khamenei post 0-4 posts from August 4 to August 11, |
-| 4 | 20.44 | 102.22 | 287 | 1215 | Will MrBeast's next video get between 25 and 30 million  |
-| 5 | 20.12 | 100.58 | 163 | 481 | Will PlayTime win the 2026 Games of the Future tournamen |
-| 6 | 19.35 | 96.76 | 135 | 361 | Will Bradley Barcola stay at Paris Saint-Germain? |
-| 7 | 18.85 | 94.23 | 96 | 153 | Will Ademola Adeleke win the 2026 Osun State gubernatori |
-| 8 | 17.73 | 88.63 | 200 | 1224 | US x Iran diplomatic meeting by August 15, 2026? |
-| 9 | 17.21 | 86.05 | 102 | 167 | Will CZ post 20-39 posts from August 4 to August 11, 202 |
-| 10 | 15.82 | 79.10 | 165 | 393 | Will Bradley Barcola join Liverpool? |
+| 1 | 376.42 | 1882.09 | 2065 | 269 | Will Lucas Jumalon Win the 2026 WSOP Main Event? |
+| 2 | 28.11 | 140.55 | 143 | 84 | Will LOUD Win the Shortest Game in CBLOL 2026 Split 2? |
+| 3 | 27.82 | 139.11 | 150 | 128 | Jeanine Pirro out as D.C. U.S. Attorney by December 31? |
+| 4 | 26.25 | 131.25 | 155 | 184 | Will T1 Win KeSPA Cup 2026? |
+| 5 | 18.23 | 91.16 | 144 | 429 | Will Yakult Brothers win the 2026 Games of the Future to |
+| 6 | 16.93 | 84.67 | 100 | 558 | Will the next Google Gemini Pro model be released by Aug |
+| 7 | 16.90 | 84.50 | 101 | 1583 | Will Shaun Deeb win the 2026 WSOP Player of the Year? |
+| 8 | 16.62 | 83.11 | 109 | 312 | Will Anthropic have the best AI model on LiveBench (Math |
+| 9 | 15.68 | 78.42 | 80 | 63 | Beezie FDV above $300M one day after launch? |
+| 10 | 15.00 | 74.99 | 117 | 501 | Will Nongshim RedForce Win KeSPA Cup 2026? |
 
 ## Near-zero (excluded from pilot)
 
-| 1 | 80.00 | 400.00 | Will Giorgio Chiellini attend Cristiano Ronaldo's weddin |
-| 2 | 80.00 | 400.00 | Will Karim Benzema attend Cristiano Ronaldo's wedding? |
-| 3 | 80.00 | 400.00 | Will Wayne Rooney attend Cristiano Ronaldo's wedding? |
-| 4 | 80.00 | 400.00 | Will Joao Felix attend Cristiano Ronaldo's wedding? |
-| 5 | 80.00 | 400.00 | Will Paulo Dybala attend Cristiano Ronaldo's wedding? |
-| 6 | 80.00 | 400.00 | Will Drake attend Cristiano Ronaldo's wedding? |
-| 7 | 80.00 | 400.00 | Will Leonardo Bonucci attend Cristiano Ronaldo's wedding |
-| 8 | 80.00 | 400.00 | Will Dana White attend Cristiano Ronaldo's wedding? |
-| 9 | 80.00 | 400.00 | Will Jose Mourinho attend Cristiano Ronaldo's wedding? |
-| 10 | 80.00 | 400.00 | Will Ricardo Quaresma attend Cristiano Ronaldo's wedding |
+| 1 | 29.75 | 148.75 | Jeanine Pirro out as D.C. U.S. Attorney by August 31? |
+| 2 | 23.60 | 118.00 | Will Dusan Vlahovic join Chelsea? |
+| 3 | 23.00 | 115.00 | Will Bradley Barcola stay at Paris Saint-Germain? |
+| 4 | 23.00 | 115.00 | Will Dusan Vlahovic join Al-Nassr? |
+| 5 | 22.80 | 114.00 | Will 9INE Win the Stake Pulse Beat 1 tournament? |
+| 6 | 20.60 | 103.00 | Will Praggnanandhaa Rameshbabu Win the 2026 Saint Louis  |
+| 7 | 19.40 | 97.00 | Will Anthropic have the best AI model on LiveBench (Math |
+| 8 | 17.60 | 88.00 | Will Ted Lasso be the #1 searched TV show on Google this |
+| 9 | 16.80 | 84.00 | Will Yariv Levin win the 2026 Likud party primary electi |
+| 10 | 16.60 | 83.00 | Will OpenAI have the best AI model on LiveBench (Mathema |
 
 ## Rewards: actual vs estimated
 
-- ts: `2026-08-04T16:57:08Z`
+- ts: `2026-08-05T01:49:53Z`
 - total actual: $0
 - total estimated: $0
 - ratio: n/a
