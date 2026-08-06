@@ -1,43 +1,43 @@
-# CLOB pulse — 2026-08-05T16:45:12Z
+# CLOB pulse — 2026-08-06T01:51:17Z
 
 - Domain: `https://clob.polymarket.com`
 - Budget: $500
 - Snapshot days on disk: 3
-- Scored: 250  competed: 198  near-zero: 52
+- Scored: 250  competed: 182  near-zero: 68
 - Pilot universe: 0 (provisional: 0)
-- Top-20 competed avg yield: 15.2934%/day (gross)
+- Top-20 competed avg yield: 15.9288%/day (gross)
 
 ## Top competed
 
 | # | yield%/d | est$/d | rate | qual$ | market |
 |---|----------|--------|------|-------|--------|
-| 1 | 29.47 | 147.35 | 168 | 101 | Will Paper Rex Win VCT Pacific Stage 2 2026? |
-| 2 | 23.64 | 118.18 | 150 | 283 | Jeanine Pirro out as D.C. U.S. Attorney by August 31? |
-| 3 | 22.23 | 111.17 | 116 | 417 | Will Shaun Deeb win the 2026 WSOP Player of the Year? |
-| 4 | 20.91 | 104.54 | 105 | 65 | Will Louis J. Crishock be the next High Representative f |
-| 5 | 19.82 | 99.10 | 111 | 70 | Will M80 Win EWC 2026 Rainbow Six Siege |
-| 6 | 19.73 | 98.63 | 150 | 332 | Will Betclic Win the Stake Pulse Beat 1 tournament? |
-| 7 | 16.14 | 80.72 | 96 | 56 | Will Team Falcons win 1win Essence II? |
-| 8 | 16.05 | 80.23 | 132 | 195 | Will Eduardo Camavinga stay at Real Madrid? |
-| 9 | 14.20 | 70.97 | 150 | 1442 | Will Liquid Win the Stake Pulse Beat 1 tournament? |
-| 10 | 13.50 | 67.48 | 106 | 317 | Will Meccha Chameleon win Best Independent Game at the 2 |
+| 1 | 29.10 | 145.51 | 215 | 289 | Will North America Win the WSOP Main Event |
+| 2 | 23.87 | 119.33 | 1232 | 4344 | Will Lucas Jumalon Win the 2026 WSOP Main Event? |
+| 3 | 22.35 | 111.74 | 162 | 700 | Will another city host the final of the 2030 FIFA World  |
+| 4 | 19.85 | 99.23 | 100 | 336 | Will the next Google Gemini Pro model be released by Aug |
+| 5 | 19.63 | 98.16 | 100 | 244 | Will Jake Auchincloss be the MA-04 Democratic nominee? |
+| 6 | 19.42 | 97.09 | 100 | 532 | Will Super Typhoon Dolphin hit Japan? |
+| 7 | 18.49 | 92.47 | 96 | 119 | Will M80 Win EWC 2026 Rainbow Six Siege |
+| 8 | 15.01 | 75.05 | 176 | 599 | Will Praggnanandhaa Rameshbabu Win the 2026 Saint Louis  |
+| 9 | 14.99 | 74.97 | 80 | 82 | StripChain FDV above $400M one day after launch? |
+| 10 | 14.15 | 70.77 | 99 | 478 | Will Madrid host the final of the 2030 FIFA World Cup? |
 
 ## Near-zero (excluded from pilot)
 
-| 1 | 46.00 | 230.00 | Will Control Resonant win Best Audio Design at the 2026  |
-| 2 | 42.40 | 212.00 | Will Resident Evil Requiem win Best Game Direction at th |
-| 3 | 28.00 | 140.00 | Will Jesse Jackson be the #1 searched passing on Google  |
-| 4 | 24.40 | 122.00 | Will the median home value in NYC be between $636,000 an |
-| 5 | 24.20 | 121.00 | Will Bradley Barcola stay at Paris Saint-Germain? |
-| 6 | 22.20 | 111.00 | Will Alfred Cannan be the next Chief Minister of the Isl |
-| 7 | 22.00 | 110.00 | Will Mariano Navone Win ATP Montreal |
-| 8 | 20.60 | 103.00 | Will Peggy Flanagan win the Minnesota Senate Democratic  |
-| 9 | 20.40 | 102.00 | Will OG win 1win Essence II? |
-| 10 | 20.20 | 101.00 | Will StepFun have the best AI model on LiveBench (Overal |
+| 1 | 43.00 | 215.00 | Will Tommy Paul Win ATP Montreal |
+| 2 | 21.40 | 107.00 | Will Mina the Hollower win Best Audio Design at the 2026 |
+| 3 | 20.00 | 100.00 | Will CPRF win the next Murmansk Oblast Parliament electi |
+| 4 | 20.00 | 100.00 | Will the next Google Gemini Pro model be released by Aug |
+| 5 | 20.00 | 100.00 | Will Alfredo Gaspar be the VP candidate of Flavio Bolson |
+| 6 | 20.00 | 100.00 | Will Russia capture Shevchenko by August 31? |
+| 7 | 20.00 | 100.00 | Will Russia capture Shevchenko by October 31? |
+| 8 | 20.00 | 100.00 | Will Russia enter Mykolaivka by December 31, 2026? |
+| 9 | 20.00 | 100.00 | Will "One Night Only" score at least 55 on the Rotten To |
+| 10 | 20.00 | 100.00 | Will "Super Troopers 3" score at least 35 on the Rotten  |
 
 ## Rewards: actual vs estimated
 
-- ts: `2026-08-05T16:45:12Z`
+- ts: `2026-08-06T01:51:17Z`
 - total actual: $0
 - total estimated: $0
 - ratio: n/a
