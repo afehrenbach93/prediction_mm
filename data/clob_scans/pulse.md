@@ -1,43 +1,43 @@
-# CLOB pulse — 2026-08-08T15:35:20Z
+# CLOB pulse — 2026-08-09T01:05:48Z
 
 - Domain: `https://clob.polymarket.com`
 - Budget: $500
 - Snapshot days on disk: 3
-- Scored: 250  competed: 199  near-zero: 51
+- Scored: 250  competed: 191  near-zero: 59
 - Pilot universe: 0 (provisional: 0)
-- Top-20 competed avg yield: 11.2833%/day (gross)
+- Top-20 competed avg yield: 14.9062%/day (gross)
 
 ## Top competed
 
 | # | yield%/d | est$/d | rate | qual$ | market |
 |---|----------|--------|------|-------|--------|
-| 1 | 15.74 | 78.70 | 90 | 119 | Will NYC Mayor post 40-59 posts from August 11 to August |
-| 2 | 15.08 | 75.41 | 95 | 144 | Will CZ post 20-39 posts from August 11 to August 18, 20 |
-| 3 | 14.94 | 74.71 | 105 | 180 | Will Alibaba be the third-best Math AI lab at the end of |
-| 4 | 14.26 | 71.30 | 92 | 131 | Will JOLTS Job Openings be between 7.3M and 7.4M in July |
-| 5 | 12.74 | 63.69 | 98 | 475 | Will NYC Mayor post 40-59 posts from August 7 to August  |
-| 6 | 11.94 | 59.70 | 80 | 332 | Will White House post 180-199 posts from August 7 to Aug |
-| 7 | 11.68 | 58.39 | 89 | 190 | Will Meta have the #3 AI model at the end of August 2026 |
-| 8 | 11.18 | 55.92 | 61 | 85 | Will Khamenei post 5-9 posts from August 11 to August 18 |
-| 9 | 10.95 | 54.74 | 81 | 211 | Will Donald Trump post 200+ Truth Social posts from Augu |
-| 10 | 10.33 | 51.65 | 105 | 305 | Will CZ post 0-19 posts from August 11 to August 18, 202 |
+| 1 | 23.93 | 119.65 | 123 | 311 | Will PAM win the next Moroccan legislative elections? |
+| 2 | 22.30 | 111.49 | 150 | 146 | Will Cloud9 Win the Shortest Game in LCS 2026 Summer Spl |
+| 3 | 20.33 | 101.63 | 274 | 903 | Will MrBeast's next video get between 60 and 70 million  |
+| 4 | 19.58 | 97.92 | 150 | 524 | US announces end of Iranian blockade by August 13, 2026? |
+| 5 | 17.09 | 85.46 | 134 | 1290 | Will LEVIATÁN Win VCT AMER Stage 2 2026? |
+| 6 | 17.03 | 85.14 | 120 | 287 | Will Moonshot be the second-best Chinese AI company at t |
+| 7 | 16.30 | 81.50 | 131 | 361 | Will Chris Bryant be the first to leave the Burnham cabi |
+| 8 | 15.90 | 79.48 | 96 | 163 | Will Team Liquid Win the Shortest Game in LCS 2026 Summe |
+| 9 | 15.07 | 75.33 | 171 | 610 | Will MrBeast's next video get between 50 and 60 million  |
+| 10 | 13.28 | 66.40 | 282 | 1698 | Will LØS Win the Shortest Game in CBLOL 2026 Split 2? |
 
 ## Near-zero (excluded from pilot)
 
-| 1 | 40.60 | 203.00 | Will TT Gaming Win the Shortest Game in LPL 2026 Split 3 |
-| 2 | 23.20 | 116.00 | Will JavierLoL Win the 2026 Soloq Challenge (High Elo) |
-| 3 | 20.60 | 103.00 | Will Brazil’s Annual Inflation in 2026 be between 5.00%  |
-| 4 | 20.00 | 100.00 | Will Joao Cancelo join Inter Milan? |
-| 5 | 20.00 | 100.00 | Will CPRF win the next Murmansk Oblast Parliament electi |
-| 6 | 19.80 | 99.00 | Will White House post 200+ posts from August 7 to August |
-| 7 | 17.80 | 89.00 | Will Z.ai be the third-best Chinese AI company at the en |
-| 8 | 17.80 | 89.00 | Will John Healey be the first to leave the Burnham cabin |
-| 9 | 17.80 | 89.00 | Will UMich Consumer Sentiment be between 55.0 and 57.9 i |
-| 10 | 17.40 | 87.00 | No change in Bank of Mexico’s interest rates after Novem |
+| 1 | 80.00 | 400.00 | Will Kai and Speed finish their Minecraft marathon by Au |
+| 2 | 80.00 | 400.00 | Will Kai and Speed finish their Minecraft marathon by Au |
+| 3 | 80.00 | 400.00 | Will Kai and Speed finish their Minecraft marathon by Au |
+| 4 | 80.00 | 400.00 | Will Kai and Speed finish their Minecraft marathon by Au |
+| 5 | 80.00 | 400.00 | Will Kai and Speed finish their Minecraft marathon by Au |
+| 6 | 80.00 | 400.00 | Will Kai and Speed finish their Minecraft marathon by Au |
+| 7 | 80.00 | 400.00 | Will Kai and Speed finish their Minecraft marathon by Au |
+| 8 | 23.80 | 119.00 | Will valve announce no hero as the new hero at The Inter |
+| 9 | 22.60 | 113.00 | Will Moonshot be the second-best Chinese AI company at t |
+| 10 | 21.80 | 109.00 | Will valve announce Arjun as the new hero at The Interna |
 
 ## Rewards: actual vs estimated
 
-- ts: `2026-08-08T15:35:20Z`
+- ts: `2026-08-09T01:05:48Z`
 - total actual: $0
 - total estimated: $0
 - ratio: n/a
