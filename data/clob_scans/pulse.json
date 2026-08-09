@@ -1,215 +1,215 @@
 {
-  "ts": "2026-08-09T01:05:48Z",
+  "ts": "2026-08-09T15:36:56Z",
   "domain": "https://clob.polymarket.com",
   "budget_usd": 500.0,
   "snapshot_days": 3,
   "scored_markets": 250,
-  "competed": 191,
-  "near_zero": 59,
+  "competed": 194,
+  "near_zero": 56,
   "pilot_universe": 0,
   "pilot_provisional": 0,
-  "top20_competed_avg_yield_pct": 14.9062,
+  "top20_competed_avg_yield_pct": 15.295,
   "top10_competed": [
-    {
-      "question": "Will PAM win the next Moroccan legislative elections?",
-      "slug": "will-pam-win-the-next-moroccan-legislative-elections-20260728174826234",
-      "daily_rate": 123.0,
-      "qual_notional": 311.32,
-      "est_daily": 119.6528,
-      "yield_pct": 23.9306,
-      "mid": "0.635",
-      "near_zero": false
-    },
-    {
-      "question": "Will Cloud9 Win the Shortest Game in LCS 2026 Summer Split?",
-      "slug": "will-cloud9-win-the-shortest-game-in-lcs-2026-summer-split-20260730153626252",
-      "daily_rate": 150.0,
-      "qual_notional": 145.59,
-      "est_daily": 111.4856,
-      "yield_pct": 22.2971,
-      "mid": "0.575",
-      "near_zero": false
-    },
-    {
-      "question": "Will MrBeast's next video get between 60 and 70 million views on week 1?",
-      "slug": "will-mrbeasts-next-video-get-between-60-and-70-million-views-on-week-1-20260803174147123",
-      "daily_rate": 274.0,
-      "qual_notional": 903.16,
-      "est_daily": 101.6297,
-      "yield_pct": 20.3259,
-      "mid": "0.495",
-      "near_zero": false
-    },
-    {
-      "question": "US announces end of Iranian blockade by August 13, 2026?",
-      "slug": "us-announces-end-of-iranian-blockade-by-august-13-2026",
-      "daily_rate": 150.0,
-      "qual_notional": 523.68,
-      "est_daily": 97.9151,
-      "yield_pct": 19.583,
-      "mid": "0.2",
-      "near_zero": false
-    },
-    {
-      "question": "Will LEVIAT\u00c1N Win VCT AMER Stage 2 2026?",
-      "slug": "will-leviatan-win-vct-amer-stage-2-2026-20260714211500959",
-      "daily_rate": 134.0,
-      "qual_notional": 1289.84,
-      "est_daily": 85.4561,
-      "yield_pct": 17.0912,
-      "mid": "0.43",
-      "near_zero": false
-    },
-    {
-      "question": "Will Moonshot be the second-best Chinese AI company at the end of September 2026",
-      "slug": "will-moonshot-be-the-second-best-chinese-ai-company-at-the-end-of-september-2026-20260722220234244",
-      "daily_rate": 120.0,
-      "qual_notional": 287.09,
-      "est_daily": 85.1426,
-      "yield_pct": 17.0285,
-      "mid": "0.66",
-      "near_zero": false
-    },
-    {
-      "question": "Will Chris Bryant be the first to leave the Burnham cabinet?",
-      "slug": "will-chris-bryant-be-the-first-to-leave-the-burnham-cabinet-20260803162204131",
-      "daily_rate": 131.0,
-      "qual_notional": 361.1,
-      "est_daily": 81.4988,
-      "yield_pct": 16.2998,
-      "mid": "0.2195",
-      "near_zero": false
-    },
-    {
-      "question": "Will Team Liquid Win the Shortest Game in LCS 2026 Summer Split?",
-      "slug": "will-team-liquid-win-the-shortest-game-in-lcs-2026-summer-split-20260730153626258",
-      "daily_rate": 96.0,
-      "qual_notional": 162.87,
-      "est_daily": 79.4808,
-      "yield_pct": 15.8962,
-      "mid": "0.25",
-      "near_zero": false
-    },
-    {
-      "question": "Will MrBeast's next video get between 50 and 60 million views on week 1?",
-      "slug": "will-mrbeasts-next-video-get-between-50-and-60-million-views-on-week-1-20260803174147122",
-      "daily_rate": 171.0,
-      "qual_notional": 610.37,
-      "est_daily": 75.3298,
-      "yield_pct": 15.066,
-      "mid": "0.325",
-      "near_zero": false
-    },
-    {
-      "question": "Will L\u00d8S Win the Shortest Game in CBLOL 2026 Split 2?",
-      "slug": "will-ls-win-the-shortest-game-in-cblol-2026-split-2-20260730154222560",
-      "daily_rate": 282.0,
-      "qual_notional": 1697.96,
-      "est_daily": 66.398,
-      "yield_pct": 13.2796,
-      "mid": "0.625",
-      "near_zero": false
-    }
-  ],
-  "top10_near_zero": [
     {
       "question": "Will Kai and Speed finish their Minecraft marathon by August 19?",
       "slug": "will-kai-and-speed-finish-their-minecraft-marathon-by-august-19-20260808192512603",
       "daily_rate": 400.0,
-      "qual_notional": 0.0,
-      "est_daily": 400.0,
-      "yield_pct": 80.0,
-      "mid": "0.5",
-      "near_zero": true
-    },
-    {
-      "question": "Will Kai and Speed finish their Minecraft marathon by August 20?",
-      "slug": "will-kai-and-speed-finish-their-minecraft-marathon-by-august-20-20260808192512604",
-      "daily_rate": 400.0,
-      "qual_notional": 0.0,
-      "est_daily": 400.0,
-      "yield_pct": 80.0,
-      "mid": "0.5",
-      "near_zero": true
-    },
-    {
-      "question": "Will Kai and Speed finish their Minecraft marathon by August 26?",
-      "slug": "will-kai-and-speed-finish-their-minecraft-marathon-by-august-26-20260808192512606",
-      "daily_rate": 400.0,
-      "qual_notional": 0.0,
-      "est_daily": 400.0,
-      "yield_pct": 80.0,
-      "mid": "0.52",
-      "near_zero": true
-    },
-    {
-      "question": "Will Kai and Speed finish their Minecraft marathon by August 14?",
-      "slug": "will-kai-and-speed-finish-their-minecraft-marathon-by-august-14-20260809003127366",
-      "daily_rate": 400.0,
-      "qual_notional": 0.0,
-      "est_daily": 400.0,
-      "yield_pct": 80.0,
-      "mid": "0.5",
-      "near_zero": true
-    },
-    {
-      "question": "Will Kai and Speed finish their Minecraft marathon by August 18?",
-      "slug": "will-kai-and-speed-finish-their-minecraft-marathon-by-august-18-20260808192512602",
-      "daily_rate": 400.0,
-      "qual_notional": 0.0,
-      "est_daily": 400.0,
-      "yield_pct": 80.0,
-      "mid": "0.515",
-      "near_zero": true
+      "qual_notional": 1358.31,
+      "est_daily": 187.2072,
+      "yield_pct": 37.4414,
+      "mid": "0.27",
+      "near_zero": false
     },
     {
       "question": "Will Kai and Speed finish their Minecraft marathon by August 21?",
       "slug": "will-kai-and-speed-finish-their-minecraft-marathon-by-august-21-20260808192512605",
       "daily_rate": 400.0,
-      "qual_notional": 0.0,
-      "est_daily": 400.0,
-      "yield_pct": 80.0,
+      "qual_notional": 943.58,
+      "est_daily": 145.7072,
+      "yield_pct": 29.1414,
+      "mid": "0.335",
+      "near_zero": false
+    },
+    {
+      "question": "Will Estral Esports Win Circuito Desafiante 2026 Split 2",
+      "slug": "will-estral-esports-win-circuito-desafiante-2026-split-2-20260727190556724",
+      "daily_rate": 157.0,
+      "qual_notional": 270.19,
+      "est_daily": 129.0813,
+      "yield_pct": 25.8163,
+      "mid": "0.515",
+      "near_zero": false
+    },
+    {
+      "question": "Will MrBeast's next video get between 70 and 80 million views on week 1?",
+      "slug": "will-mrbeasts-next-video-get-between-70-and-80-million-views-on-week-1-20260803174147124",
+      "daily_rate": 133.0,
+      "qual_notional": 321.87,
+      "est_daily": 95.6873,
+      "yield_pct": 19.1375,
+      "mid": "0.22",
+      "near_zero": false
+    },
+    {
+      "question": "Will Marcus Rashford stay at Manchester United?",
+      "slug": "will-marcus-rashford-stay-at-manchester-united-20260612223901167",
+      "daily_rate": 90.0,
+      "qual_notional": 164.79,
+      "est_daily": 86.128,
+      "yield_pct": 17.2256,
+      "mid": "0.9155",
+      "near_zero": false
+    },
+    {
+      "question": "Will JavierLoL Win the 2026 Soloq Challenge (High Elo)",
+      "slug": "will-javierlol-win-the-2026-soloq-challenge-high-elo-20260727164936167",
+      "daily_rate": 105.0,
+      "qual_notional": 250.9,
+      "est_daily": 73.6482,
+      "yield_pct": 14.7296,
+      "mid": "0.325",
+      "near_zero": false
+    },
+    {
+      "question": "Will LEVIAT\u00c1N Win VCT AMER Stage 2 2026?",
+      "slug": "will-leviatan-win-vct-amer-stage-2-2026-20260714211500959",
+      "daily_rate": 140.0,
+      "qual_notional": 400.23,
+      "est_daily": 70.9395,
+      "yield_pct": 14.1879,
+      "mid": "0.36",
+      "near_zero": false
+    },
+    {
+      "question": "Will Gen.G Win the Shortest Game in LCK 2026 Rounds 3-4?",
+      "slug": "will-genptg-win-the-shortest-game-in-lck-2026-rounds-3-4-20260730153731808",
+      "daily_rate": 174.0,
+      "qual_notional": 445.32,
+      "est_daily": 69.2527,
+      "yield_pct": 13.8505,
       "mid": "0.495",
+      "near_zero": false
+    },
+    {
+      "question": "US x Iran diplomatic meeting by August 31, 2026?",
+      "slug": "us-x-iran-diplomatic-meeting-by-august-31-2026-2",
+      "daily_rate": 200.0,
+      "qual_notional": 1556.5,
+      "est_daily": 67.3426,
+      "yield_pct": 13.4685,
+      "mid": "0.27",
+      "near_zero": false
+    },
+    {
+      "question": "Will 180-199 ships transit the Bab el-Mandeb Strait between August 10-August 16?",
+      "slug": "will-180-199-ships-transit-the-bab-el-mandeb-strait-between-august-10-august-16-1786098036058",
+      "daily_rate": 84.0,
+      "qual_notional": 195.0,
+      "est_daily": 62.823,
+      "yield_pct": 12.5646,
+      "mid": "0.385",
+      "near_zero": false
+    }
+  ],
+  "top10_near_zero": [
+    {
+      "question": "Will Canada's GDP growth rate MoM in June 2026 be between 0.2% and 0.3%?",
+      "slug": "will-canadas-gdp-growth-rate-mom-in-june-2026-be-between-0pt2-and-0pt3-20260803194416163",
+      "daily_rate": 107.0,
+      "qual_notional": 0.0,
+      "est_daily": 107.0,
+      "yield_pct": 21.4,
+      "mid": "0.36",
       "near_zero": true
     },
     {
-      "question": "Will Kai and Speed finish their Minecraft marathon by August 31?",
-      "slug": "will-kai-and-speed-finish-their-minecraft-marathon-by-august-31-20260808192512607",
-      "daily_rate": 400.0,
+      "question": "Will ChatGPT be #2 Free App in the US Apple App Store on August 14?",
+      "slug": "will-chatgpt-be-2-free-app-in-the-us-apple-app-store-on-august-14-20260807163611871",
+      "daily_rate": 75.0,
       "qual_notional": 0.0,
-      "est_daily": 400.0,
-      "yield_pct": 80.0,
+      "est_daily": 75.0,
+      "yield_pct": 15.0,
+      "mid": "0.64",
+      "near_zero": true
+    },
+    {
+      "question": "Will T1 Win the Shortest Game in LCK 2026 Rounds 3-4?",
+      "slug": "will-t1-win-the-shortest-game-in-lck-2026-rounds-3-4-20260730153731811",
+      "daily_rate": 67.0,
+      "qual_notional": 0.0,
+      "est_daily": 67.0,
+      "yield_pct": 13.4,
+      "mid": "0.225",
+      "near_zero": true
+    },
+    {
+      "question": "Will Alibaba be the second-best Code Arena | WebDev AI lab at the end of Septemb",
+      "slug": "will-alibaba-be-the-second-best-code-arena-webdev-ai-lab-at-the-end-of-september-2026-20260722215814735",
+      "daily_rate": 65.0,
+      "qual_notional": 0.0,
+      "est_daily": 65.0,
+      "yield_pct": 13.0,
+      "mid": "0.28",
+      "near_zero": true
+    },
+    {
+      "question": "Will Ted Cruz post 120-139 posts from August 7 to August 14, 2026?",
+      "slug": "ted-cruz-of-tweets-august-7-august-14-2026-120-139",
+      "daily_rate": 56.0,
+      "qual_notional": 0.0,
+      "est_daily": 56.0,
+      "yield_pct": 11.2,
+      "mid": "0.405",
+      "near_zero": true
+    },
+    {
+      "question": "Will Ryan Elijah be the FL-07 Republican nominee?",
+      "slug": "will-ryan-elijah-be-the-fl-07-republican-nominee-20260717204847812",
+      "daily_rate": 55.0,
+      "qual_notional": 0.0,
+      "est_daily": 55.0,
+      "yield_pct": 11.0,
+      "mid": "0.505",
+      "near_zero": true
+    },
+    {
+      "question": "Will SPD win 22-25 seats in the 2026 Mecklenburg-Vorpommern parliamentary electi",
+      "slug": "will-spd-win-22-25-seats-in-the-2026-mecklenburg-vorpommern-parliamentary-elections-20260805193138007",
+      "daily_rate": 55.0,
+      "qual_notional": 42.88,
+      "est_daily": 52.0052,
+      "yield_pct": 10.401,
+      "mid": "0.67",
+      "near_zero": true
+    },
+    {
+      "question": "Will 100 Thieves Win VCT AMER Stage 2 2026?",
+      "slug": "will-100-thieves-win-vct-amer-stage-2-2026-20260714211500963",
+      "daily_rate": 52.0,
+      "qual_notional": 0.0,
+      "est_daily": 52.0,
+      "yield_pct": 10.4,
+      "mid": "0.18",
+      "near_zero": true
+    },
+    {
+      "question": "Will \"Babydoll \u2013 Dominic Fike\" be the #2 song for 2026?",
+      "slug": "will-babydoll-dominic-fike-be-the-2-song-for-2026-20260729205328817",
+      "daily_rate": 52.0,
+      "qual_notional": 0.0,
+      "est_daily": 52.0,
+      "yield_pct": 10.4,
+      "mid": "0.415",
+      "near_zero": true
+    },
+    {
+      "question": "Will Gianni Infantino be out by August 24, 2026?",
+      "slug": "will-gianni-infantino-be-out-by-august-24-2026-20260731024258425",
+      "daily_rate": 50.0,
+      "qual_notional": 0.0,
+      "est_daily": 50.0,
+      "yield_pct": 10.0,
       "mid": "0.5",
-      "near_zero": true
-    },
-    {
-      "question": "Will valve announce no hero as the new hero at The International 2026?",
-      "slug": "will-valve-announce-no-hero-as-the-new-hero-at-the-international-2026-20260805195759852",
-      "daily_rate": 119.0,
-      "qual_notional": 0.0,
-      "est_daily": 119.0,
-      "yield_pct": 23.8,
-      "mid": "0.375",
-      "near_zero": true
-    },
-    {
-      "question": "Will Moonshot be the second-best Chinese AI company at the end of August 2026?",
-      "slug": "will-moonshot-be-the-second-best-chinese-ai-company-at-the-end-of-august-2026-20260720223339924",
-      "daily_rate": 113.0,
-      "qual_notional": 0.0,
-      "est_daily": 113.0,
-      "yield_pct": 22.6,
-      "mid": "0.465",
-      "near_zero": true
-    },
-    {
-      "question": "Will valve announce Arjun as the new hero at The International 2026?",
-      "slug": "will-valve-announce-arjun-as-the-new-hero-at-the-international-2026-20260805195759850",
-      "daily_rate": 109.0,
-      "qual_notional": 0.0,
-      "est_daily": 109.0,
-      "yield_pct": 21.8,
-      "mid": "0.32",
       "near_zero": true
     }
   ],
