@@ -1,43 +1,43 @@
-# CLOB pulse — 2026-08-11T01:06:38Z
+# CLOB pulse — 2026-08-11T16:03:52Z
 
 - Domain: `https://clob.polymarket.com`
 - Budget: $500
 - Snapshot days on disk: 3
-- Scored: 250  competed: 211  near-zero: 39
+- Scored: 250  competed: 183  near-zero: 67
 - Pilot universe: 0 (provisional: 0)
-- Top-20 competed avg yield: 12.7624%/day (gross)
+- Top-20 competed avg yield: 22.3656%/day (gross)
 
 ## Top competed
 
 | # | yield%/d | est$/d | rate | qual$ | market |
 |---|----------|--------|------|-------|--------|
-| 1 | 21.87 | 109.33 | 120 | 114 | Will MrBeast's next video get between 60 and 70 million  |
-| 2 | 19.41 | 97.03 | 213 | 522 | Will Team Vitality Win the Shortest Game in LEC 2026 Sum |
-| 3 | 18.61 | 93.05 | 99 | 230 | Will Google be the second-best Math AI lab at the end of |
-| 4 | 17.26 | 86.30 | 99 | 326 | Will Alibaba be the second-best Math AI lab at the end o |
-| 5 | 13.10 | 65.48 | 103 | 343 | Will Western Europe region win The International 2026? |
-| 6 | 12.49 | 62.43 | 63 | 141 | Will Enzo Fernandez join Manchester City? |
-| 7 | 12.26 | 61.32 | 108 | 232 | Will Alibaba be the third-best Math AI lab at the end of |
-| 8 | 12.15 | 60.76 | 186 | 1757 | Callum Turner announced as next James Bond? |
-| 9 | 11.75 | 58.76 | 100 | 523 | Will White House post 180-199 posts from August 11 to Au |
-| 10 | 11.50 | 57.50 | 98 | 968 | Will EkkoTheNeeko Win the 2026 Soloq Challenge (High Elo |
+| 1 | 152.76 | 763.78 | 1000 | 859 | Christopher Luxon out by September 30? |
+| 2 | 37.15 | 185.77 | 400 | 448 | SSI public model released by August 31, 2026? |
+| 3 | 35.16 | 175.78 | 500 | 1969 | Will Carlos Alcaraz Play in the U.S. Open? |
+| 4 | 23.62 | 118.09 | 400 | 762 | SSI public model released by October 31, 2026? |
+| 5 | 20.60 | 103.01 | 109 | 139 | Will Baidu be the third-best Chinese AI company at the e |
+| 6 | 19.63 | 98.15 | 130 | 227 | Will MrBeast's next video get between 80 and 90 million  |
+| 7 | 18.40 | 92.01 | 96 | 91 | Will USD be between 1.9M and 2.0M Iranian rials on Augus |
+| 8 | 14.60 | 72.97 | 113 | 424 | Will JavierLoL Win the 2026 Soloq Challenge (High Elo) |
+| 9 | 11.63 | 58.15 | 400 | 2448 | SSI public model released by September 30, 2026? |
+| 10 | 11.14 | 55.70 | 100 | 295 | Will "The Brink of War" score at least 70 on the Rotten  |
 
 ## Near-zero (excluded from pilot)
 
-| 1 | 80.00 | 400.00 | Will the next Grok model (4.6+) debut at a score of at l |
-| 2 | 25.80 | 129.00 | Will Counter-Strike 2 Win the 2026 Esports Game of the Y |
-| 3 | 20.00 | 100.00 | Will "THIS & THAT - Stray Kids" be the Billboard 200 #1  |
-| 4 | 17.40 | 87.00 | Will Ana Lilia Rivera Rivera win the 2027 Tlaxcala Gover |
-| 5 | 17.40 | 87.00 | Will Antonio Martín del Campo win the 2027 Aguascaliente |
-| 6 | 16.20 | 81.00 | Will Team Secret Win EWC 2026 Rainbow Six Siege |
-| 7 | 13.80 | 69.00 | Will There be 0 Knife Kills at CS2 EWC 2026? |
-| 8 | 13.29 | 66.43 | Will Google be the third-best Math AI lab at the end of  |
-| 9 | 11.40 | 57.00 | Will Oliver Tree be the #1 searched passing on Google th |
-| 10 | 11.20 | 56.00 | Will "Babydoll – Dominic Fike" be the #2 song for 2026? |
+| 1 | 43.82 | 219.10 | Will Ninjas in Pyjamas Win the Shortest Game in LPL 2026 |
+| 2 | 28.80 | 144.00 | Will Moonshot be the second-best Chinese AI company at t |
+| 3 | 23.20 | 116.00 | Will the Ornn A100 Index be between $1.00 and $1.25 on S |
+| 4 | 21.61 | 108.07 | Will NYC Mayor post 20-39 posts from August 11 to August |
+| 5 | 20.00 | 100.00 | Will New People win the next Altai Krai Parliament elect |
+| 6 | 20.00 | 100.00 | Will "The End of Oak Street" score at least 50 on the Ro |
+| 7 | 20.00 | 100.00 | Will "The End of Oak Street" score at least 60 on the Ro |
+| 8 | 20.00 | 100.00 | Will "The End of Oak Street" score at least 90 on the Ro |
+| 9 | 20.00 | 100.00 | Will "The End of Oak Street" score at least 70 on the Ro |
+| 10 | 20.00 | 100.00 | Will "The End of Oak Street" score at least 80 on the Ro |
 
 ## Rewards: actual vs estimated
 
-- ts: `2026-08-11T01:06:38Z`
+- ts: `2026-08-11T16:03:52Z`
 - total actual: $0
 - total estimated: $0
 - ratio: n/a
