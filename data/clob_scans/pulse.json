@@ -1,215 +1,215 @@
 {
-  "ts": "2026-08-11T16:03:52Z",
+  "ts": "2026-08-12T01:14:41Z",
   "domain": "https://clob.polymarket.com",
   "budget_usd": 500.0,
   "snapshot_days": 3,
   "scored_markets": 250,
-  "competed": 183,
-  "near_zero": 67,
+  "competed": 192,
+  "near_zero": 58,
   "pilot_universe": 0,
   "pilot_provisional": 0,
-  "top20_competed_avg_yield_pct": 22.3656,
+  "top20_competed_avg_yield_pct": 9.599,
   "top10_competed": [
     {
-      "question": "Christopher Luxon out by September 30?",
-      "slug": "christopher-luxon-out-by-september-30",
-      "daily_rate": 1000.0,
-      "qual_notional": 858.75,
-      "est_daily": 763.7808,
-      "yield_pct": 152.7562,
-      "mid": "0.465",
+      "question": "Will the Ornn A100 Index be between $0.75 and $1.00 on October 31, 2026?",
+      "slug": "will-the-ornn-a100-index-be-between-0pt75-and-1pt00-on-october-31-2026-20260811191114214",
+      "daily_rate": 85.0,
+      "qual_notional": 167.32,
+      "est_daily": 70.0823,
+      "yield_pct": 14.0165,
+      "mid": "0.375",
       "near_zero": false
     },
     {
-      "question": "SSI public model released by August 31, 2026?",
-      "slug": "ssi-public-model-released-by-august-31-2026-20260810094604189",
-      "daily_rate": 400.0,
-      "qual_notional": 447.71,
-      "est_daily": 185.7727,
-      "yield_pct": 37.1545,
-      "mid": "0.135",
+      "question": "Will EkkoTheNeeko Win the 2026 Soloq Challenge (High Elo)",
+      "slug": "will-ekkotheneeko-win-the-2026-soloq-challenge-high-elo-20260727164936160",
+      "daily_rate": 82.0,
+      "qual_notional": 215.42,
+      "est_daily": 59.315,
+      "yield_pct": 11.863,
+      "mid": "0.281",
       "near_zero": false
     },
     {
-      "question": "Will Carlos Alcaraz Play in the U.S. Open?",
-      "slug": "will-carlos-alcaraz-play-in-the-uptspt-open-20260805193315485",
-      "daily_rate": 500.0,
-      "qual_notional": 1969.0,
-      "est_daily": 175.7786,
-      "yield_pct": 35.1557,
-      "mid": "0.535",
+      "question": "Will Michael Carbonara be the FL-22 Republican nominee?",
+      "slug": "will-michael-carbonara-be-the-fl-22-republican-nominee-20260723181248784",
+      "daily_rate": 52.0,
+      "qual_notional": 82.94,
+      "est_daily": 50.6038,
+      "yield_pct": 10.1208,
+      "mid": "0.485",
       "near_zero": false
     },
     {
-      "question": "SSI public model released by October 31, 2026?",
-      "slug": "ssi-public-model-released-by-october-31-2026-20260810094604191",
-      "daily_rate": 400.0,
-      "qual_notional": 761.92,
-      "est_daily": 118.0855,
-      "yield_pct": 23.6171,
-      "mid": "0.345",
+      "question": "Will there be 3 or more North Korea tests in August 2026?",
+      "slug": "will-there-be-3-or-more-north-korea-tests-in-august-2026-20260731170800208",
+      "daily_rate": 103.0,
+      "qual_notional": 1614.79,
+      "est_daily": 50.1588,
+      "yield_pct": 10.0318,
+      "mid": "0.61",
       "near_zero": false
-    },
-    {
-      "question": "Will Baidu be the third-best Chinese AI company at the end of August 2026?",
-      "slug": "will-baidu-be-the-third-best-chinese-ai-company-at-the-end-of-august-2026-20260720224316848",
-      "daily_rate": 109.0,
-      "qual_notional": 139.16,
-      "est_daily": 103.0089,
-      "yield_pct": 20.6018,
-      "mid": "0.49",
-      "near_zero": false
-    },
-    {
-      "question": "Will MrBeast's next video get between 80 and 90 million views on week 1?",
-      "slug": "will-mrbeasts-next-video-get-between-80-and-90-million-views-on-week-1-20260803174147125",
-      "daily_rate": 130.0,
-      "qual_notional": 227.28,
-      "est_daily": 98.1503,
-      "yield_pct": 19.6301,
-      "mid": "0.1465",
-      "near_zero": false
-    },
-    {
-      "question": "Will USD be between 1.9M and 2.0M Iranian rials on August 31?",
-      "slug": "will-usd-be-between-1pt9m-and-2pt0m-iranian-rials-on-august-31-20260728205517249",
-      "daily_rate": 96.0,
-      "qual_notional": 90.76,
-      "est_daily": 92.0058,
-      "yield_pct": 18.4012,
-      "mid": "0.425",
-      "near_zero": false
-    },
-    {
-      "question": "Will JavierLoL Win the 2026 Soloq Challenge (High Elo)",
-      "slug": "will-javierlol-win-the-2026-soloq-challenge-high-elo-20260727164936167",
-      "daily_rate": 113.0,
-      "qual_notional": 424.28,
-      "est_daily": 72.9748,
-      "yield_pct": 14.595,
-      "mid": "0.355",
-      "near_zero": false
-    },
-    {
-      "question": "SSI public model released by September 30, 2026?",
-      "slug": "ssi-public-model-released-by-september-30-2026-20260810094604190",
-      "daily_rate": 400.0,
-      "qual_notional": 2447.71,
-      "est_daily": 58.1527,
-      "yield_pct": 11.6305,
-      "mid": "0.245",
-      "near_zero": false
-    },
-    {
-      "question": "Will \"The Brink of War\" score at least 70 on the Rotten Tomatoes Tomatometer?",
-      "slug": "will-the-brink-of-war-score-at-least-70-on-the-rotten-tomatoes-tomatometer-20260810195038380",
-      "daily_rate": 100.0,
-      "qual_notional": 295.15,
-      "est_daily": 55.6954,
-      "yield_pct": 11.1391,
-      "mid": "0.415",
-      "near_zero": false
-    }
-  ],
-  "top10_near_zero": [
-    {
-      "question": "Will Ninjas in Pyjamas Win the Shortest Game in LPL 2026 Split 3?",
-      "slug": "will-ninjas-in-pyjamas-win-the-shortest-game-in-lpl-2026-split-3-20260730154017398",
-      "daily_rate": 246.0,
-      "qual_notional": 39.23,
-      "est_daily": 219.0963,
-      "yield_pct": 43.8193,
-      "mid": "0.066",
-      "near_zero": true
-    },
-    {
-      "question": "Will Moonshot be the second-best Chinese AI company at the end of September 2026",
-      "slug": "will-moonshot-be-the-second-best-chinese-ai-company-at-the-end-of-september-2026-20260722220234244",
-      "daily_rate": 144.0,
-      "qual_notional": 0.0,
-      "est_daily": 144.0,
-      "yield_pct": 28.8,
-      "mid": "0.705",
-      "near_zero": true
-    },
-    {
-      "question": "Will the Ornn A100 Index be between $1.00 and $1.25 on September 30, 2026?",
-      "slug": "will-the-ornn-a100-index-be-between-1pt00-and-1pt25-on-september-30-2026-1785423806895",
-      "daily_rate": 116.0,
-      "qual_notional": 0.0,
-      "est_daily": 116.0,
-      "yield_pct": 23.2,
-      "mid": "0.69",
-      "near_zero": true
-    },
-    {
-      "question": "Will NYC Mayor post 20-39 posts from August 11 to August 18, 2026?",
-      "slug": "nyc-mayor-of-tweets-august-11-august-18-2026-20-39",
-      "daily_rate": 112.0,
-      "qual_notional": 23.0,
-      "est_daily": 108.072,
-      "yield_pct": 21.6144,
-      "mid": "0.575",
-      "near_zero": true
-    },
-    {
-      "question": "Will New People win the next Altai Krai Parliament elections?",
-      "slug": "will-new-people-win-the-next-altai-krai-parliament-elections-20260727165423127",
-      "daily_rate": 100.0,
-      "qual_notional": 0.0,
-      "est_daily": 100.0,
-      "yield_pct": 20.0,
-      "mid": "0.286",
-      "near_zero": true
-    },
-    {
-      "question": "Will \"The End of Oak Street\" score at least 50 on the Rotten Tomatoes Tomatomete",
-      "slug": "will-the-end-of-oak-street-score-at-least-50-on-the-rotten-tomatoes-tomatometer-20260810194028623",
-      "daily_rate": 100.0,
-      "qual_notional": 0.0,
-      "est_daily": 100.0,
-      "yield_pct": 20.0,
-      "mid": "0.77",
-      "near_zero": true
-    },
-    {
-      "question": "Will \"The End of Oak Street\" score at least 60 on the Rotten Tomatoes Tomatomete",
-      "slug": "will-the-end-of-oak-street-score-at-least-60-on-the-rotten-tomatoes-tomatometer-20260810194028624",
-      "daily_rate": 100.0,
-      "qual_notional": 0.0,
-      "est_daily": 100.0,
-      "yield_pct": 20.0,
-      "mid": "0.66",
-      "near_zero": true
-    },
-    {
-      "question": "Will \"The End of Oak Street\" score at least 90 on the Rotten Tomatoes Tomatomete",
-      "slug": "will-the-end-of-oak-street-score-at-least-90-on-the-rotten-tomatoes-tomatometer-20260810194028627",
-      "daily_rate": 100.0,
-      "qual_notional": 0.0,
-      "est_daily": 100.0,
-      "yield_pct": 20.0,
-      "mid": "0.475",
-      "near_zero": true
-    },
-    {
-      "question": "Will \"The End of Oak Street\" score at least 70 on the Rotten Tomatoes Tomatomete",
-      "slug": "will-the-end-of-oak-street-score-at-least-70-on-the-rotten-tomatoes-tomatometer-20260810194028625",
-      "daily_rate": 100.0,
-      "qual_notional": 0.0,
-      "est_daily": 100.0,
-      "yield_pct": 20.0,
-      "mid": "0.715",
-      "near_zero": true
     },
     {
       "question": "Will \"The End of Oak Street\" score at least 80 on the Rotten Tomatoes Tomatomete",
       "slug": "will-the-end-of-oak-street-score-at-least-80-on-the-rotten-tomatoes-tomatometer-20260810194028626",
       "daily_rate": 100.0,
+      "qual_notional": 297.61,
+      "est_daily": 49.6221,
+      "yield_pct": 9.9244,
+      "mid": "0.845",
+      "near_zero": false
+    },
+    {
+      "question": "Trump declassifies new UFO files by September 15?",
+      "slug": "trump-declassifies-new-ufo-files-by-september-15-20260810145949436",
+      "daily_rate": 50.0,
+      "qual_notional": 156.27,
+      "est_daily": 47.8991,
+      "yield_pct": 9.5798,
+      "mid": "0.83",
+      "near_zero": false
+    },
+    {
+      "question": "Will Kai or Speed be eliminated by drowning?",
+      "slug": "will-kai-or-speed-be-eliminated-by-drowning-20260811133957509",
+      "daily_rate": 50.0,
+      "qual_notional": 74.25,
+      "est_daily": 47.6428,
+      "yield_pct": 9.5286,
+      "mid": "0.33",
+      "near_zero": false
+    },
+    {
+      "question": "Will Kai or Speed be eliminated by magic?",
+      "slug": "will-kai-or-speed-be-eliminated-by-magic-20260811134248347",
+      "daily_rate": 50.0,
+      "qual_notional": 58.8,
+      "est_daily": 47.5165,
+      "yield_pct": 9.5033,
+      "mid": "0.49",
+      "near_zero": false
+    },
+    {
+      "question": "Will Group B be the group of the EWC CS2 2026 Champion?",
+      "slug": "will-group-b-be-the-group-of-the-ewc-cs2-2026-champion-20260810191935351",
+      "daily_rate": 49.0,
+      "qual_notional": 4168.76,
+      "est_daily": 47.1991,
+      "yield_pct": 9.4398,
+      "mid": "0.1655",
+      "near_zero": false
+    },
+    {
+      "question": "Will the Ornn B200 Index be at least $6.50 on October 31, 2026?",
+      "slug": "will-the-ornn-b200-index-be-at-least-6pt50-on-october-31-2026-20260811191113943",
+      "daily_rate": 53.0,
+      "qual_notional": 164.59,
+      "est_daily": 47.0043,
+      "yield_pct": 9.4009,
+      "mid": "0.315",
+      "near_zero": false
+    }
+  ],
+  "top10_near_zero": [
+    {
+      "question": "Will Alibaba be the second-best Math AI lab at the end of August 2026?",
+      "slug": "will-alibaba-be-the-second-best-math-ai-lab-at-the-end-of-august-2026-20260720225207700",
+      "daily_rate": 121.0,
+      "qual_notional": 0.0,
+      "est_daily": 121.0,
+      "yield_pct": 24.2,
+      "mid": "0.578",
+      "near_zero": true
+    },
+    {
+      "question": "Will Russia enter Hannivka by August 31, 2026?",
+      "slug": "will-russia-enter-hannivka-by-august-31-2026-20260811165006763",
+      "daily_rate": 100.0,
       "qual_notional": 0.0,
       "est_daily": 100.0,
       "yield_pct": 20.0,
-      "mid": "0.495",
+      "mid": "0.36",
+      "near_zero": true
+    },
+    {
+      "question": "Will Elif Eralp be the next Governing Mayor of Berlin?",
+      "slug": "will-elif-eralp-be-the-next-governing-mayor-of-berlin-1786117615446",
+      "daily_rate": 98.0,
+      "qual_notional": 46.35,
+      "est_daily": 98.0,
+      "yield_pct": 19.6,
+      "mid": "0.515",
+      "near_zero": true
+    },
+    {
+      "question": "Will the median home value in the DC Metro be between $524,000 and $530,000 on S",
+      "slug": "will-the-median-home-value-in-the-dc-metro-be-between-524000-and-530000-on-september-30-20260630181851945",
+      "daily_rate": 97.0,
+      "qual_notional": 0.0,
+      "est_daily": 97.0,
+      "yield_pct": 19.4,
+      "mid": "0.335",
+      "near_zero": true
+    },
+    {
+      "question": "Will Ron & KatieB Win Jynxzi's R6 2v2 Tournament?",
+      "slug": "will-ron-katieb-win-jynxzis-r6-2v2-tournament-20260810214119440",
+      "daily_rate": 89.0,
+      "qual_notional": 0.0,
+      "est_daily": 89.0,
+      "yield_pct": 17.8,
+      "mid": "0.16",
+      "near_zero": true
+    },
+    {
+      "question": "Will the Ornn H100 Index be between $2.50 and $2.75 on October 31, 2026?",
+      "slug": "will-the-ornn-h100-index-be-between-2pt50-and-2pt75-on-october-31-2026-20260811191113146",
+      "daily_rate": 89.0,
+      "qual_notional": 0.0,
+      "est_daily": 89.0,
+      "yield_pct": 17.8,
+      "mid": "0.51",
+      "near_zero": true
+    },
+    {
+      "question": "Will the Ornn H200 Index be less than $3.50 on October 31, 2026?",
+      "slug": "will-the-ornn-h200-index-be-less-than-3pt50-on-october-31-2026-20260811191113612",
+      "daily_rate": 88.0,
+      "qual_notional": 0.0,
+      "est_daily": 88.0,
+      "yield_pct": 17.6,
+      "mid": "0.28",
+      "near_zero": true
+    },
+    {
+      "question": "Will Alibaba be the second-best Code Arena | WebDev AI lab at the end of Septemb",
+      "slug": "will-alibaba-be-the-second-best-code-arena-webdev-ai-lab-at-the-end-of-september-2026-20260722215814735",
+      "daily_rate": 87.0,
+      "qual_notional": 0.0,
+      "est_daily": 87.0,
+      "yield_pct": 17.4,
+      "mid": "0.4",
+      "near_zero": true
+    },
+    {
+      "question": "Will Brazil\u2019s Annual Inflation in 2026 be between 4.50% and 4.99%?",
+      "slug": "will-brazils-annual-inflation-in-2026-be-between-4pt50-and-4pt99",
+      "daily_rate": 84.0,
+      "qual_notional": 0.0,
+      "est_daily": 84.0,
+      "yield_pct": 16.8,
+      "mid": "0.321",
+      "near_zero": true
+    },
+    {
+      "question": "Will the Ornn A100 Index be between $1.00 and $1.25 on October 31, 2026?",
+      "slug": "will-the-ornn-a100-index-be-between-1pt00-and-1pt25-on-october-31-2026-20260811191114215",
+      "daily_rate": 82.0,
+      "qual_notional": 0.0,
+      "est_daily": 82.0,
+      "yield_pct": 16.4,
+      "mid": "0.365",
       "near_zero": true
     }
   ],
@@ -219,7 +219,7 @@
     "day_csvs": [
       "2026-07-19.csv",
       "2026-07-20.csv",
-      "2026-08-11.csv"
+      "2026-08-12.csv"
     ]
   }
 }
