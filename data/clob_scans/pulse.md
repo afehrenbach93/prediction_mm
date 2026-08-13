@@ -1,43 +1,43 @@
-# CLOB pulse — 2026-08-12T16:02:32Z
+# CLOB pulse — 2026-08-13T01:16:03Z
 
 - Domain: `https://clob.polymarket.com`
 - Budget: $500
 - Snapshot days on disk: 3
-- Scored: 250  competed: 203  near-zero: 47
+- Scored: 250  competed: 208  near-zero: 42
 - Pilot universe: 0 (provisional: 0)
-- Top-20 competed avg yield: 14.7222%/day (gross)
+- Top-20 competed avg yield: 14.5443%/day (gross)
 
 ## Top competed
 
 | # | yield%/d | est$/d | rate | qual$ | market |
 |---|----------|--------|------|-------|--------|
-| 1 | 25.75 | 128.77 | 181 | 520 | Will James Fishback win 10–15% of votes in the Florida R |
-| 2 | 19.13 | 95.66 | 97 | 87 | Will JOLTS Job Openings be between 7.3M and 7.4M in July |
-| 3 | 19.13 | 95.65 | 100 | 156 | Will the next Google Gemini Pro model be released by Aug |
-| 4 | 18.07 | 90.33 | 194 | 709 | Will Michael Kirwan be the FL-04 Democratic nominee? |
-| 5 | 16.84 | 84.20 | 160 | 557 | Will James Fishback win less than 10% of votes in the Fl |
-| 6 | 15.92 | 79.61 | 200 | 907 | Will Ronnie Murchinson-Rivera be the FL-06 Democratic no |
-| 7 | 15.57 | 77.86 | 200 | 966 | Will Kai and Speed beat the Minecraft challenge by Augus |
-| 8 | 14.78 | 73.92 | 189 | 769 | Will James Fishback finish second in the Florida Republi |
-| 9 | 14.51 | 72.57 | 247 | 1000 | Will Benjamin Netanyahu be the next leader out before 20 |
-| 10 | 13.80 | 69.02 | 129 | 427 | Will no listed leader be out before 2027? |
+| 1 | 30.93 | 154.67 | 212 | 201 | Will FaZe Clan Win EWC 2026 Rainbow Six Siege |
+| 2 | 30.01 | 150.03 | 152 | 105 | Will Ben Shelton Win ATP Montreal |
+| 3 | 21.32 | 106.60 | 109 | 92 | Will annual inflation be 3.4% in August? |
+| 4 | 19.47 | 97.35 | 151 | 253 | Will Nic Zateslo be the FL-02 Democratic nominee? |
+| 5 | 16.14 | 80.69 | 142 | 290 | Will Jynxzi Win the 2026 Esports Content Creator of the  |
+| 6 | 15.85 | 79.24 | 92 | 76 | Will Brandon Nakashima Win ATP Montreal |
+| 7 | 13.45 | 67.25 | 70 | 200 | Will Jack Grealish stay at Manchester City? |
+| 8 | 12.89 | 64.43 | 134 | 714 | Will valve announce Arjun as the new hero at The Interna |
+| 9 | 12.35 | 61.76 | 76 | 241 | Will Toyohito Ikeda win the 2026 Kagawa gubernatorial el |
+| 10 | 12.00 | 60.01 | 100 | 581 | Will the next Google Gemini Pro model be released by Aug |
 
 ## Near-zero (excluded from pilot)
 
-| 1 | 26.40 | 132.00 | Will Jynxzi Win the 2026 Esports Content Creator of the  |
-| 2 | 22.60 | 113.00 | Will the median home value in Los Angeles Metro be less  |
-| 3 | 20.20 | 101.00 | Will Core PCE MoM be 0.2% in July? |
-| 4 | 20.00 | 100.00 | Will New People win the next Chuvashia Parliament electi |
-| 5 | 20.00 | 100.00 | Will Yabloko win the next Kaliningrad Oblast Parliament  |
-| 6 | 20.00 | 100.00 | Will CPRF win the next Khanty-Mansi Autonomous Okrug Par |
-| 7 | 20.00 | 100.00 | Will Russia enter Hannivka by August 31, 2026? |
-| 8 | 18.57 | 92.86 | Will Group A be the group of the EWC CS2 2026 Champion? |
-| 9 | 17.80 | 89.00 | Will Ana Lilia Rivera Rivera win the 2027 Tlaxcala Gover |
-| 10 | 17.00 | 85.00 | Will Group D be the group of the EWC CS2 2026 Champion? |
+| 1 | 22.00 | 110.00 | Will the median home value in Los Angeles Metro be less  |
+| 2 | 22.00 | 110.00 | Will Ron & KatieB Win Jynxzi's R6 2v2 Tournament? |
+| 3 | 19.60 | 98.00 | Will Zelenskyy post 60-79 posts from August 14 to August |
+| 4 | 17.20 | 86.00 | Will EkkoTheNeeko Win the 2026 Soloq Challenge (High Elo |
+| 5 | 16.84 | 84.20 | Will Karmine Corp Win the 2026 Esports Content Group of  |
+| 6 | 16.20 | 81.00 | Will There be 10+ Knife Kills at CS2 EWC 2026? |
+| 7 | 15.80 | 79.00 | Will Ana Lilia Rivera Rivera win the 2027 Tlaxcala Gover |
+| 8 | 15.60 | 78.00 | Will Z.ai be the third-best Chinese AI company at the en |
+| 9 | 15.20 | 76.00 | Will the Republican Party win the AZ-08 House seat? |
+| 10 | 13.40 | 67.00 | Will CZ post 0-19 posts from August 11 to August 18, 202 |
 
 ## Rewards: actual vs estimated
 
-- ts: `2026-08-12T16:02:32Z`
+- ts: `2026-08-13T01:16:03Z`
 - total actual: $0
 - total estimated: $0
 - ratio: n/a
