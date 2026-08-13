@@ -1,43 +1,43 @@
-# CLOB pulse — 2026-08-13T01:16:03Z
+# CLOB pulse — 2026-08-13T16:02:27Z
 
 - Domain: `https://clob.polymarket.com`
 - Budget: $500
 - Snapshot days on disk: 3
-- Scored: 250  competed: 208  near-zero: 42
+- Scored: 250  competed: 178  near-zero: 72
 - Pilot universe: 0 (provisional: 0)
-- Top-20 competed avg yield: 14.5443%/day (gross)
+- Top-20 competed avg yield: 15.0208%/day (gross)
 
 ## Top competed
 
 | # | yield%/d | est$/d | rate | qual$ | market |
 |---|----------|--------|------|-------|--------|
-| 1 | 30.93 | 154.67 | 212 | 201 | Will FaZe Clan Win EWC 2026 Rainbow Six Siege |
-| 2 | 30.01 | 150.03 | 152 | 105 | Will Ben Shelton Win ATP Montreal |
-| 3 | 21.32 | 106.60 | 109 | 92 | Will annual inflation be 3.4% in August? |
-| 4 | 19.47 | 97.35 | 151 | 253 | Will Nic Zateslo be the FL-02 Democratic nominee? |
-| 5 | 16.14 | 80.69 | 142 | 290 | Will Jynxzi Win the 2026 Esports Content Creator of the  |
-| 6 | 15.85 | 79.24 | 92 | 76 | Will Brandon Nakashima Win ATP Montreal |
-| 7 | 13.45 | 67.25 | 70 | 200 | Will Jack Grealish stay at Manchester City? |
-| 8 | 12.89 | 64.43 | 134 | 714 | Will valve announce Arjun as the new hero at The Interna |
-| 9 | 12.35 | 61.76 | 76 | 241 | Will Toyohito Ikeda win the 2026 Kagawa gubernatorial el |
-| 10 | 12.00 | 60.01 | 100 | 581 | Will the next Google Gemini Pro model be released by Aug |
+| 1 | 31.83 | 159.14 | 185 | 288 | Will iShowSpeed Win the 2026 Streamer of the Year Award? |
+| 2 | 28.08 | 140.41 | 141 | 256 | Will Beatriz Mojica Morga win the 2027 Guerrero Governor |
+| 3 | 21.48 | 107.38 | 116 | 101 | Will Mobile Legends: Bang Bang Win the 2026 Esports Mobi |
+| 4 | 18.96 | 94.79 | 100 | 546 | Will WTI Crude Oil (WTI) hit (HIGH) $85 in August? |
+| 5 | 17.41 | 87.07 | 100 | 701 | Will the next Google Gemini Pro model be released by Aug |
+| 6 | 15.00 | 75.02 | 98 | 239 | Will Mexico’s 2026 Annual Inflation be between 3.50% and |
+| 7 | 14.65 | 73.23 | 113 | 252 | Will Anthropic have the best AI model on LiveBench (Codi |
+| 8 | 13.36 | 66.80 | 67 | 52 | Will Lyntris' market cap be at least $4B at market close |
+| 9 | 13.06 | 65.30 | 78 | 76 | Will Honor of Kings Win the 2026 Esports Mobile Game of  |
+| 10 | 12.91 | 64.56 | 100 | 105 | Will "PAW Patrol: The Dino Movie" score at least 84 on t |
 
 ## Near-zero (excluded from pilot)
 
-| 1 | 22.00 | 110.00 | Will the median home value in Los Angeles Metro be less  |
-| 2 | 22.00 | 110.00 | Will Ron & KatieB Win Jynxzi's R6 2v2 Tournament? |
-| 3 | 19.60 | 98.00 | Will Zelenskyy post 60-79 posts from August 14 to August |
-| 4 | 17.20 | 86.00 | Will EkkoTheNeeko Win the 2026 Soloq Challenge (High Elo |
-| 5 | 16.84 | 84.20 | Will Karmine Corp Win the 2026 Esports Content Group of  |
-| 6 | 16.20 | 81.00 | Will There be 10+ Knife Kills at CS2 EWC 2026? |
-| 7 | 15.80 | 79.00 | Will Ana Lilia Rivera Rivera win the 2027 Tlaxcala Gover |
-| 8 | 15.60 | 78.00 | Will Z.ai be the third-best Chinese AI company at the en |
-| 9 | 15.20 | 76.00 | Will the Republican Party win the AZ-08 House seat? |
-| 10 | 13.40 | 67.00 | Will CZ post 0-19 posts from August 11 to August 18, 202 |
+| 1 | 78.54 | 392.69 | Will the next Google Gemini Flash model added to the Are |
+| 2 | 35.80 | 179.00 | Will OpenAI have the best Text-to-Image AI at the end of |
+| 3 | 30.00 | 150.00 | Will Dire Win More Games at Dota The International 2026? |
+| 4 | 30.00 | 150.00 | Will Radiant Win More Games at Dota The International 20 |
+| 5 | 24.00 | 120.00 | Will valve announce Arjun as the new hero at The Interna |
+| 6 | 20.00 | 100.00 | Will Ukraine re-enter Uspenivka by September 30? |
+| 7 | 20.00 | 100.00 | Will "The End of Oak Street" score at least 86 on the Ro |
+| 8 | 20.00 | 100.00 | Will "The End of Oak Street" score at least 82 on the Ro |
+| 9 | 20.00 | 100.00 | Will Ukraine re-enter Obratne or Temyrivka by September  |
+| 10 | 20.00 | 99.99 | Will "The End of Oak Street" score at least 88 on the Ro |
 
 ## Rewards: actual vs estimated
 
-- ts: `2026-08-13T01:16:03Z`
+- ts: `2026-08-13T16:02:27Z`
 - total actual: $0
 - total estimated: $0
 - ratio: n/a
