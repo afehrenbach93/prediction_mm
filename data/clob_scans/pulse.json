@@ -1,165 +1,145 @@
 {
-  "ts": "2026-08-13T16:02:27Z",
+  "ts": "2026-08-14T01:15:11Z",
   "domain": "https://clob.polymarket.com",
   "budget_usd": 500.0,
   "snapshot_days": 3,
   "scored_markets": 250,
-  "competed": 178,
-  "near_zero": 72,
+  "competed": 170,
+  "near_zero": 80,
   "pilot_universe": 0,
   "pilot_provisional": 0,
-  "top20_competed_avg_yield_pct": 15.0208,
+  "top20_competed_avg_yield_pct": 17.9905,
   "top10_competed": [
     {
-      "question": "Will iShowSpeed Win the 2026 Streamer of the Year Award?",
-      "slug": "will-ishowspeed-win-the-2026-streamer-of-the-year-award-20260806165104115",
-      "daily_rate": 185.0,
-      "qual_notional": 287.65,
-      "est_daily": 159.1442,
-      "yield_pct": 31.8288,
-      "mid": "0.465",
-      "near_zero": false
-    },
-    {
-      "question": "Will Beatriz Mojica Morga win the 2027 Guerrero Governor Election?",
-      "slug": "will-beatriz-mojica-morga-win-the-2027-guerrero-governor-election-20260803173852824",
-      "daily_rate": 141.0,
-      "qual_notional": 255.51,
-      "est_daily": 140.406,
-      "yield_pct": 28.0812,
-      "mid": "0.429",
-      "near_zero": false
-    },
-    {
-      "question": "Will Mobile Legends: Bang Bang Win the 2026 Esports Mobile Game of the Year Awar",
-      "slug": "will-mobile-legends-bang-bang-win-the-2026-esports-mobile-game-of-the-year-award-20260806164529016",
-      "daily_rate": 116.0,
-      "qual_notional": 100.59,
-      "est_daily": 107.3772,
-      "yield_pct": 21.4754,
-      "mid": "0.45",
-      "near_zero": false
-    },
-    {
-      "question": "Will WTI Crude Oil (WTI) hit (HIGH) $85 in August?",
-      "slug": "will-wti-reach-85-in-august-2026",
-      "daily_rate": 100.0,
-      "qual_notional": 546.05,
-      "est_daily": 94.7927,
-      "yield_pct": 18.9585,
-      "mid": "0.675",
-      "near_zero": false
-    },
-    {
-      "question": "Will the next Google Gemini Pro model be released by August 31, 2026?",
-      "slug": "will-the-next-google-gemini-pro-model-be-released-by-august-31-2026-339",
-      "daily_rate": 100.0,
-      "qual_notional": 700.65,
-      "est_daily": 87.0659,
-      "yield_pct": 17.4132,
-      "mid": "0.346",
-      "near_zero": false
-    },
-    {
-      "question": "Will Mexico\u2019s 2026 Annual Inflation be between 3.50% and 3.99%?",
-      "slug": "will-mexicos-2026-annual-inflation-be-between-3pt50-and-3pt99",
-      "daily_rate": 98.0,
-      "qual_notional": 238.58,
-      "est_daily": 75.02,
-      "yield_pct": 15.004,
-      "mid": "0.3505",
-      "near_zero": false
-    },
-    {
-      "question": "Will Anthropic have the best AI model on LiveBench (Coding) at the end of Octobe",
-      "slug": "will-anthropic-have-the-best-ai-model-on-livebench-coding-at-the-end-of-october-2026-20260811194842807",
-      "daily_rate": 113.0,
-      "qual_notional": 251.68,
-      "est_daily": 73.2281,
-      "yield_pct": 14.6456,
-      "mid": "0.56",
-      "near_zero": false
-    },
-    {
-      "question": "Will Lyntris' market cap be at least $4B at market close on IPO day?",
-      "slug": "will-lyntris-market-cap-be-at-least-4b-at-market-close-on-ipo-day-20260812162942945",
-      "daily_rate": 67.0,
-      "qual_notional": 51.8,
-      "est_daily": 66.8047,
-      "yield_pct": 13.3609,
-      "mid": "0.37",
-      "near_zero": false
-    },
-    {
-      "question": "Will Honor of Kings Win the 2026 Esports Mobile Game of the Year Award?",
-      "slug": "will-honor-of-kings-win-the-2026-esports-mobile-game-of-the-year-award-20260806164529017",
-      "daily_rate": 78.0,
-      "qual_notional": 75.58,
-      "est_daily": 65.3046,
-      "yield_pct": 13.0609,
-      "mid": "0.32",
-      "near_zero": false
-    },
-    {
-      "question": "Will \"PAW Patrol: The Dino Movie\" score at least 84 on the Rotten Tomatoes Tomat",
-      "slug": "will-paw-patrol-the-dino-movie-score-at-least-84-on-the-rotten-tomatoes-tomatometer",
-      "daily_rate": 100.0,
-      "qual_notional": 105.11,
-      "est_daily": 64.5556,
-      "yield_pct": 12.9111,
-      "mid": "0.525",
-      "near_zero": false
-    }
-  ],
-  "top10_near_zero": [
-    {
       "question": "Will the next Google Gemini Flash model added to the Arena Leaderboard debut at ",
-      "slug": "will-the-next-google-gemini-flash-model-added-to-the-arena-leaderboard-debut-at-a-score-of-at-least-1495",
+      "slug": "will-the-next-google-gemini-flash-model-added-to-the-arena-leaderboard-debut-at-a-score-of-at-least-1490",
       "daily_rate": 400.0,
-      "qual_notional": 29.66,
-      "est_daily": 392.6928,
-      "yield_pct": 78.5386,
-      "mid": "0.3",
-      "near_zero": true
-    },
-    {
-      "question": "Will OpenAI have the best Text-to-Image AI at the end of October 2026?",
-      "slug": "will-openai-have-the-best-text-to-image-ai-at-the-end-of-october-2026-20260811194840617",
-      "daily_rate": 179.0,
-      "qual_notional": 0.0,
-      "est_daily": 179.0,
-      "yield_pct": 35.8,
-      "mid": "0.69",
-      "near_zero": true
+      "qual_notional": 562.07,
+      "est_daily": 168.6632,
+      "yield_pct": 33.7326,
+      "mid": "0.795",
+      "near_zero": false
     },
     {
       "question": "Will Dire Win More Games at Dota The International 2026?",
       "slug": "will-dire-win-more-games-at-dota-the-international-2026-20260811191704247",
       "daily_rate": 150.0,
-      "qual_notional": 0.0,
-      "est_daily": 150.0,
-      "yield_pct": 30.0,
-      "mid": "0.495",
-      "near_zero": true
+      "qual_notional": 289.38,
+      "est_daily": 145.3537,
+      "yield_pct": 29.0707,
+      "mid": "0.265",
+      "near_zero": false
     },
     {
-      "question": "Will Radiant Win More Games at Dota The International 2026?",
-      "slug": "will-radiant-win-more-games-at-dota-the-international-2026-20260811191704246",
+      "question": "Will Nigel Farage win 70\u201380% of votes in the Clacton parliamentary by-election?",
+      "slug": "will-nigel-farage-win-7080-of-votes-in-the-clacton-parliamentary-by-election-20260708151424125",
+      "daily_rate": 222.0,
+      "qual_notional": 737.87,
+      "est_daily": 122.4241,
+      "yield_pct": 24.4848,
+      "mid": "0.563",
+      "near_zero": false
+    },
+    {
+      "question": "Will Mobile Legends: Bang Bang Win the 2026 Esports Mobile Game of the Year Awar",
+      "slug": "will-mobile-legends-bang-bang-win-the-2026-esports-mobile-game-of-the-year-award-20260806164529016",
       "daily_rate": 150.0,
-      "qual_notional": 0.0,
-      "est_daily": 150.0,
-      "yield_pct": 30.0,
-      "mid": "0.495",
-      "near_zero": true
+      "qual_notional": 220.81,
+      "est_daily": 114.2092,
+      "yield_pct": 22.8418,
+      "mid": "0.635",
+      "near_zero": false
+    },
+    {
+      "question": "Will OpenAI\u2019s Astra model debut on the Arena Leaderboard at a score of at least ",
+      "slug": "will-openais-astra-model-debut-on-the-arena-leaderboard-at-a-score-of-at-least-1480",
+      "daily_rate": 400.0,
+      "qual_notional": 1451.66,
+      "est_daily": 112.86,
+      "yield_pct": 22.572,
+      "mid": "0.75",
+      "near_zero": false
+    },
+    {
+      "question": "Will OpenAI\u2019s Astra model debut on the Arena Leaderboard at a score of at least ",
+      "slug": "will-openais-astra-model-debut-on-the-arena-leaderboard-at-a-score-of-at-least-1490",
+      "daily_rate": 400.0,
+      "qual_notional": 799.95,
+      "est_daily": 107.8979,
+      "yield_pct": 21.5796,
+      "mid": "0.55",
+      "near_zero": false
+    },
+    {
+      "question": "Will Honor of Kings Win the 2026 Esports Mobile Game of the Year Award?",
+      "slug": "will-honor-of-kings-win-the-2026-esports-mobile-game-of-the-year-award-20260806164529017",
+      "daily_rate": 145.0,
+      "qual_notional": 129.02,
+      "est_daily": 96.1731,
+      "yield_pct": 19.2346,
+      "mid": "0.352",
+      "near_zero": false
     },
     {
       "question": "Will valve announce Arjun as the new hero at The International 2026?",
       "slug": "will-valve-announce-arjun-as-the-new-hero-at-the-international-2026-20260805195759850",
-      "daily_rate": 120.0,
+      "daily_rate": 117.0,
+      "qual_notional": 159.1,
+      "est_daily": 91.5515,
+      "yield_pct": 18.3103,
+      "mid": "0.33",
+      "near_zero": false
+    },
+    {
+      "question": "Will There be 7-9 Knife Kills at CS2 EWC 2026?",
+      "slug": "will-there-be-7-9-knife-kills-at-cs2-ewc-2026-20260810173804715",
+      "daily_rate": 122.0,
+      "qual_notional": 429.27,
+      "est_daily": 83.4732,
+      "yield_pct": 16.6946,
+      "mid": "0.365",
+      "near_zero": false
+    },
+    {
+      "question": "Will DN SOOPers Win KeSPA Cup 2026?",
+      "slug": "will-dn-soopers-win-kespa-cup-2026-20260713163611197",
+      "daily_rate": 122.0,
+      "qual_notional": 152.78,
+      "est_daily": 79.4771,
+      "yield_pct": 15.8954,
+      "mid": "0.381",
+      "near_zero": false
+    }
+  ],
+  "top10_near_zero": [
+    {
+      "question": "Will OpenAI have the best Text-to-Image AI at the end of October 2026?",
+      "slug": "will-openai-have-the-best-text-to-image-ai-at-the-end-of-october-2026-20260811194840617",
+      "daily_rate": 194.0,
       "qual_notional": 0.0,
-      "est_daily": 120.0,
-      "yield_pct": 24.0,
-      "mid": "0.39",
+      "est_daily": 194.0,
+      "yield_pct": 38.8,
+      "mid": "0.65",
+      "near_zero": true
+    },
+    {
+      "question": "Will Thursday be the most viewed day of The Five for the week of August 3 - Augu",
+      "slug": "will-thursday-be-the-most-viewed-day-of-the-five-for-the-week-of-august-3-august-9-1786055790452",
+      "daily_rate": 200.0,
+      "qual_notional": 20.77,
+      "est_daily": 193.9428,
+      "yield_pct": 38.7886,
+      "mid": "0.022",
+      "near_zero": true
+    },
+    {
+      "question": "Bank of Japan increases interest rates by 25 bps after the October 2026 meeting?",
+      "slug": "bank-of-japan-increases-interest-rates-by-25-bps-after-the-october-2026-meeting-20260731151539218",
+      "daily_rate": 102.0,
+      "qual_notional": 0.0,
+      "est_daily": 102.0,
+      "yield_pct": 20.4,
+      "mid": "0.34",
       "near_zero": true
     },
     {
@@ -169,47 +149,67 @@
       "qual_notional": 0.0,
       "est_daily": 100.0,
       "yield_pct": 20.0,
-      "mid": "0.525",
-      "near_zero": true
-    },
-    {
-      "question": "Will \"The End of Oak Street\" score at least 86 on the Rotten Tomatoes Tomatomete",
-      "slug": "will-the-end-of-oak-street-score-at-least-86-on-the-rotten-tomatoes-tomatometer",
-      "daily_rate": 100.0,
-      "qual_notional": 0.0,
-      "est_daily": 100.0,
-      "yield_pct": 20.0,
-      "mid": "0.145",
-      "near_zero": true
-    },
-    {
-      "question": "Will \"The End of Oak Street\" score at least 82 on the Rotten Tomatoes Tomatomete",
-      "slug": "will-the-end-of-oak-street-score-at-least-82-on-the-rotten-tomatoes-tomatometer",
-      "daily_rate": 100.0,
-      "qual_notional": 0.0,
-      "est_daily": 100.0,
-      "yield_pct": 20.0,
-      "mid": "0.545",
+      "mid": "0.285",
       "near_zero": true
     },
     {
       "question": "Will Ukraine re-enter Obratne or Temyrivka by September 30?",
       "slug": "will-ukraine-re-enter-obratne-or-temyrivka-by-september-30",
       "daily_rate": 100.0,
-      "qual_notional": 0.0,
-      "est_daily": 100.0,
-      "yield_pct": 20.0,
-      "mid": "0.51",
+      "qual_notional": 18.5,
+      "est_daily": 93.4528,
+      "yield_pct": 18.6906,
+      "mid": "0.185",
       "near_zero": true
     },
     {
-      "question": "Will \"The End of Oak Street\" score at least 88 on the Rotten Tomatoes Tomatomete",
-      "slug": "will-the-end-of-oak-street-score-at-least-88-on-the-rotten-tomatoes-tomatometer",
-      "daily_rate": 100.0,
-      "qual_notional": 40.18,
-      "est_daily": 99.9867,
-      "yield_pct": 19.9973,
-      "mid": "0.07",
+      "question": "Will DarkZero Win EWC 2026 Rainbow Six Siege",
+      "slug": "will-darkzero-win-ewc-2026-rainbow-six-siege-20260727192210266",
+      "daily_rate": 85.0,
+      "qual_notional": 0.0,
+      "est_daily": 85.0,
+      "yield_pct": 17.0,
+      "mid": "0.2655",
+      "near_zero": true
+    },
+    {
+      "question": "Will Cruz P\u00e9rez Cu\u00e9llar win the 2027 Chihuahua Governor Election?",
+      "slug": "will-cruz-perez-cuellar-win-the-2027-chihuahua-governor-election-20260803173851746",
+      "daily_rate": 83.0,
+      "qual_notional": 0.0,
+      "est_daily": 83.0,
+      "yield_pct": 16.6,
+      "mid": "0.35",
+      "near_zero": true
+    },
+    {
+      "question": "Will the Ornn H100 Index be between $2.75 and $3.00 on October 31, 2026?",
+      "slug": "will-the-ornn-h100-index-be-between-2pt75-and-3pt00-on-october-31-2026-20260811191113147",
+      "daily_rate": 74.0,
+      "qual_notional": 0.0,
+      "est_daily": 74.0,
+      "yield_pct": 14.8,
+      "mid": "0.26",
+      "near_zero": true
+    },
+    {
+      "question": "Will TacticalRab Win the 2026 Esports Content Creator of the Year Award?",
+      "slug": "will-tacticalrab-win-the-2026-esports-content-creator-of-the-year-award-20260806165628001",
+      "daily_rate": 74.0,
+      "qual_notional": 0.0,
+      "est_daily": 74.0,
+      "yield_pct": 14.799999999999999,
+      "mid": "0.23",
+      "near_zero": true
+    },
+    {
+      "question": "Will Ezequiel Bullaude (Santos Laguna) record the most assists in the 2027 Liga ",
+      "slug": "will-ezequiel-bullaude-santos-laguna-record-the-most-assists-in-the-2027-liga-mx-clausura-20260729194614829",
+      "daily_rate": 68.0,
+      "qual_notional": 32.8,
+      "est_daily": 67.4364,
+      "yield_pct": 13.4873,
+      "mid": "0.046",
       "near_zero": true
     }
   ],
@@ -219,7 +219,7 @@
     "day_csvs": [
       "2026-07-19.csv",
       "2026-07-20.csv",
-      "2026-08-13.csv"
+      "2026-08-14.csv"
     ]
   }
 }
