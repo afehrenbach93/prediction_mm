@@ -1,43 +1,43 @@
-# CLOB pulse — 2026-08-14T15:56:39Z
+# CLOB pulse — 2026-08-15T00:46:41Z
 
 - Domain: `https://clob.polymarket.com`
 - Budget: $500
 - Snapshot days on disk: 3
-- Scored: 250  competed: 188  near-zero: 62
+- Scored: 250  competed: 212  near-zero: 38
 - Pilot universe: 0 (provisional: 0)
-- Top-20 competed avg yield: 21.0763%/day (gross)
+- Top-20 competed avg yield: 15.2136%/day (gross)
 
 ## Top competed
 
 | # | yield%/d | est$/d | rate | qual$ | market |
 |---|----------|--------|------|-------|--------|
-| 1 | 46.59 | 232.96 | 400 | 315 | Will OpenAI’s Astra model debut on the Arena Leaderboard |
-| 2 | 44.63 | 223.15 | 283 | 362 | Jack Lowden announced as next James Bond? |
-| 3 | 28.76 | 143.78 | 179 | 126 | Will There be 4-6 Knife Kills at CS2 EWC 2026? |
-| 4 | 22.31 | 111.54 | 161 | 217 | Will iShowSpeed Win the 2026 Streamer of the Year Award? |
-| 5 | 21.44 | 107.20 | 113 | 145 | Will Radiant Win More Games at Dota The International 20 |
-| 6 | 19.75 | 98.73 | 128 | 84 | Will Denny Tamaki win the 2026 Okinawa gubernatorial ele |
-| 7 | 19.57 | 97.85 | 114 | 54 | Will Chang San-cheng win the next Taoyuan Mayor election |
-| 8 | 19.17 | 95.86 | 184 | 685 | Will Jynxzi Win the 2026 Esports Content Creator of the  |
-| 9 | 18.73 | 93.67 | 95 | 83 | Will Google be the second-best Math AI lab at the end of |
-| 10 | 18.36 | 91.81 | 119 | 149 | Will Hsieh Kuo-liang win the next Keelung Mayor election |
+| 1 | 30.78 | 153.89 | 400 | 731 | Will a hurricane make landfall in Hawaii before 2027? |
+| 2 | 23.75 | 118.75 | 400 | 598 | Tesla and SpaceX merger officially announced by June 30, |
+| 3 | 21.95 | 109.74 | 165 | 181 | Will valve announce no hero as the new hero at The Inter |
+| 4 | 19.92 | 99.61 | 100 | 63 | Will Hsu Hsin-ying win the next Hsinchu County Magistrat |
+| 5 | 19.27 | 96.37 | 400 | 673 | Will Tropical Storm Lala make landfall in Hawaii as a hu |
+| 6 | 19.05 | 95.27 | 142 | 160 | Will There be 10+ Knife Kills at CS2 EWC 2026? |
+| 7 | 18.70 | 93.48 | 118 | 419 | Will Chen Ting-fei win the next Tainan Mayor election? |
+| 8 | 16.99 | 84.97 | 109 | 102 | Will valve announce Arjun as the new hero at The Interna |
+| 9 | 14.53 | 72.67 | 74 | 91 | Will Alibaba be the third-best Code Arena | WebDev AI la |
+| 10 | 13.10 | 65.49 | 100 | 179 | Mega Dragonite ex Price Up/Down on August 31? |
 
 ## Near-zero (excluded from pilot)
 
-| 1 | 37.40 | 187.00 | Will Dire Win More Games at Dota The International 2026? |
-| 2 | 27.00 | 135.00 | Will Group C be the group of the EWC CS2 2026 Champion? |
-| 3 | 22.40 | 112.00 | Will Anthropic have the best AI model on LiveBench (Over |
-| 4 | 22.40 | 112.00 | Will Wang Chung-ming win the next Lienchiang County Magi |
-| 5 | 20.60 | 103.00 | Will UMich Consumer Sentiment be between 49.0 and 51.9 i |
-| 6 | 20.60 | 103.00 | Will Lin Kuo-chang win the next Yilan County Magistrate  |
-| 7 | 19.20 | 96.00 | Will the median home value in Los Angeles Metro be less  |
-| 8 | 17.20 | 86.00 | Will Wu Hsiu-hua win the next Taitung County Magistrate  |
-| 9 | 16.80 | 84.00 | Will the 10-year Japanese government bond yield on the l |
-| 10 | 16.20 | 81.00 | Will Google have the best Text-to-Video AI at the end of |
+| 1 | 36.60 | 183.00 | Will Radiant Win More Games at Dota The International 20 |
+| 2 | 25.72 | 128.59 | Will There be 4-6 Knife Kills at CS2 EWC 2026? |
+| 3 | 24.60 | 123.00 | Will Lai Jui-lung win the next Kaohsiung Mayor election? |
+| 4 | 23.60 | 118.00 | Will EkkoTheNeeko Win the 2026 Soloq Challenge (High Elo |
+| 5 | 23.60 | 118.00 | Will CZ post 0-19 posts from August 14 to August 21, 202 |
+| 6 | 20.00 | 100.00 | Will Dire Win More Games at Dota The International 2026? |
+| 7 | 18.80 | 94.00 | Will Ted Cruz post 120-139 posts from August 14 to Augus |
+| 8 | 17.80 | 89.00 | Will Åsa Johansson be the next Regional Board Chair of R |
+| 9 | 17.18 | 85.89 | Will Angela Murray be evicted in Big Brother season 28 ( |
+| 10 | 16.56 | 82.82 | Will Cheng Chao-fang win the next Hsinchu County Magistr |
 
 ## Rewards: actual vs estimated
 
-- ts: `2026-08-14T15:56:39Z`
+- ts: `2026-08-15T00:46:41Z`
 - total actual: $0
 - total estimated: $0
 - ratio: n/a
