@@ -1,43 +1,43 @@
-# CLOB pulse — 2026-08-16T00:50:24Z
+# CLOB pulse — 2026-08-16T15:26:50Z
 
 - Domain: `https://clob.polymarket.com`
 - Budget: $500
 - Snapshot days on disk: 3
-- Scored: 250  competed: 187  near-zero: 63
+- Scored: 250  competed: 176  near-zero: 74
 - Pilot universe: 0 (provisional: 0)
-- Top-20 competed avg yield: 12.954%/day (gross)
+- Top-20 competed avg yield: 11.7044%/day (gross)
 
 ## Top competed
 
 | # | yield%/d | est$/d | rate | qual$ | market |
 |---|----------|--------|------|-------|--------|
-| 1 | 44.59 | 222.93 | 289 | 147 | Will MrBeast Gaming's next video get between 10 and 12 m |
-| 2 | 30.69 | 153.45 | 186 | 242 | Jack Lowden announced as next James Bond? |
-| 3 | 18.16 | 90.79 | 99 | 109 | Will Gen.G Win the Shortest Game in LCK 2026 Rounds 3-4? |
-| 4 | 17.01 | 85.04 | 170 | 300 | Will Hanwha Life Win the Shortest Game in LCK 2026 Round |
-| 5 | 11.74 | 58.69 | 94 | 442 | Will Anthropic have the best Code Arena | WebDev AI at t |
-| 6 | 10.63 | 53.17 | 58 | 85 | Will the most viewed episode of Jesse Watters Primetime  |
-| 7 | 10.46 | 52.29 | 92 | 340 | Will OpenAI have the best AI Agent at the end of October |
-| 8 | 9.93 | 49.66 | 50 | 129 | Will OpenAI’s Astra model debut with a Humanity’s Last E |
-| 9 | 9.64 | 48.19 | 50 | 54 | Next Google Gemini Flash Model (3.8+) released by August |
-| 10 | 9.60 | 48.01 | 110 | 983 | Will LOS Win CBLOL 2026 Split 2 |
+| 1 | 28.14 | 140.69 | 158 | 160 | Will There be 10+ Knife Kills at CS2 EWC 2026? |
+| 2 | 21.28 | 106.40 | 142 | 229 | Will There be 7-9 Knife Kills at CS2 EWC 2026? |
+| 3 | 17.94 | 89.72 | 123 | 96 | Will Counter-Strike 2 Win the 2026 Esports Game of the Y |
+| 4 | 12.57 | 62.84 | 109 | 392 | Will NYC Mayor post 20-39 posts from August 14 to August |
+| 5 | 12.15 | 60.74 | 104 | 150 | Will Z.ai be the third-best Chinese AI company at the en |
+| 6 | 11.94 | 59.70 | 188 | 719 | Will Team Secret Whales Win LCP 2026 Split 3? |
+| 7 | 11.20 | 56.00 | 90 | 324 | Will Ko Chih-en win the next Kaohsiung Mayor election? |
+| 8 | 10.92 | 54.62 | 59 | 67 | Will CTBC Flying Oyster Win LCP 2026 Split 3? |
+| 9 | 10.48 | 52.39 | 55 | 73 | Will no Atlantic hurricane form in August 2026? |
+| 10 | 9.73 | 48.66 | 150 | 1273 | Will Western Europe region win The International 2026? |
 
 ## Near-zero (excluded from pilot)
 
-| 1 | 33.39 | 166.96 | Will MrBeast Gaming's next video get between 12 and 14 m |
-| 2 | 24.60 | 123.00 | Will There be 7-9 Knife Kills at CS2 EWC 2026? |
-| 3 | 22.17 | 110.83 | Will Caedrel Win the 2026 Esports Content Creator of the |
-| 4 | 13.20 | 66.00 | Will Ron Cannan win the 2026 Kelowna mayoral election? |
-| 5 | 13.00 | 65.00 | Will the U.S. weekly flu hospitalization rate per 100,00 |
-| 6 | 13.00 | 65.00 | Will Saturday be the most viewed day of ABC World News T |
-| 7 | 12.20 | 61.00 | Will Moonshot be the third-best AI Agent Lab at the end  |
-| 8 | 12.00 | 60.00 | Will Databricks have the greatest valuation growth in Au |
-| 9 | 11.15 | 55.73 | Will 180-199 ships transit the Bab el-Mandeb Strait betw |
-| 10 | 10.60 | 53.00 | Will Enzo Fernandez stay at Chelsea? |
+| 1 | 18.00 | 90.00 | Will C have the shallowest hero pool at the Internationa |
+| 2 | 17.80 | 89.00 | Will another team have the shallowest hero pool at the I |
+| 3 | 17.20 | 86.00 | Will the Ornn A100 Index be between $0.75 and $1.00 on A |
+| 4 | 17.20 | 86.00 | Will NYC Mayor post 40-59 posts from August 14 to August |
+| 5 | 16.60 | 83.00 | Will the Ornn H100 Index be between $2.50 and $2.75 on A |
+| 6 | 16.60 | 83.00 | Will a dozen eggs cost between $2.10–$2.20 in August? |
+| 7 | 16.40 | 82.00 | Will Ted Cruz post 140-159 posts from August 14 to Augus |
+| 8 | 16.40 | 82.00 | Will Anthropic have the best Code Arena | WebDev AI at t |
+| 9 | 15.80 | 79.00 | Will 180-199 ships transit the Bab el-Mandeb Strait betw |
+| 10 | 15.20 | 76.00 | Will the U.S. weekly flu hospitalization rate per 100,00 |
 
 ## Rewards: actual vs estimated
 
-- ts: `2026-08-16T00:50:24Z`
+- ts: `2026-08-16T15:26:50Z`
 - total actual: $0
 - total estimated: $0
 - ratio: n/a
