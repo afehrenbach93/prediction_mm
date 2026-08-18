@@ -1,43 +1,43 @@
-# CLOB pulse — 2026-08-18T00:45:58Z
+# CLOB pulse — 2026-08-18T15:36:51Z
 
 - Domain: `https://clob.polymarket.com`
 - Budget: $500
 - Snapshot days on disk: 3
-- Scored: 250  competed: 183  near-zero: 67
+- Scored: 250  competed: 195  near-zero: 55
 - Pilot universe: 0 (provisional: 0)
-- Top-20 competed avg yield: 16.1529%/day (gross)
+- Top-20 competed avg yield: 18.2448%/day (gross)
 
 ## Top competed
 
 | # | yield%/d | est$/d | rate | qual$ | market |
 |---|----------|--------|------|-------|--------|
-| 1 | 29.86 | 149.32 | 160 | 254 | Will Google be the second-best Math AI lab at the end of |
-| 2 | 19.91 | 99.55 | 100 | 158 | Will "The Dog Stars" score at least 50 on the Rotten Tom |
-| 3 | 18.77 | 93.83 | 200 | 365 | Will Tencent be removed from Chinese Military Companies  |
-| 4 | 18.45 | 92.27 | 142 | 255 | Will Sol1xd Win the 2026 Soloq Challenge (High Elo) |
-| 5 | 18.42 | 92.09 | 100 | 127 | Will "Mutiny" score at least 80 on the Rotten Tomatoes T |
-| 6 | 17.29 | 86.44 | 92 | 111 | Will Amir Ohana win the 2026 Likud party primary electio |
-| 7 | 16.55 | 82.73 | 200 | 1002 | Will Flavio Bolsonaro win the most votes in the next Bra |
-| 8 | 15.93 | 79.67 | 100 | 109 | Will "Buddy" score at least 85 on the Rotten Tomatoes To |
-| 9 | 15.61 | 78.03 | 100 | 194 | Will "Insidious: Out of the Further" score at least 35 o |
-| 10 | 15.34 | 76.68 | 100 | 71 | Will "Mutiny" score at least 85 on the Rotten Tomatoes T |
+| 1 | 31.94 | 159.71 | 192 | 225 | Will valve announce no hero as the new hero at The Inter |
+| 2 | 26.95 | 134.73 | 148 | 130 | Will JavierLoL Win the 2026 Soloq Challenge (High Elo) |
+| 3 | 21.37 | 106.85 | 152 | 106 | Will Sol1xd Win the 2026 Soloq Challenge (High Elo) |
+| 4 | 20.50 | 102.50 | 200 | 435 | Will Donald Trump attend a US x Iran diplomatic meeting  |
+| 5 | 19.25 | 96.26 | 100 | 259 | Will Warsh say "AI" or "Artificial Intelligence" 3+ time |
+| 6 | 18.97 | 94.87 | 100 | 51 | Will Warsh say "Challenge" during Jackson Hole speech on |
+| 7 | 18.23 | 91.13 | 100 | 98 | Will Warsh say "2008" or "Financial Crisis" during Jacks |
+| 8 | 18.07 | 90.36 | 100 | 227 | Will Warsh say "Bank" or "Asset" 10+ times during Jackso |
+| 9 | 17.17 | 85.87 | 89 | 55 | Will Allyson win the 2026 Rio Grande do Norte gubernator |
+| 10 | 17.09 | 85.45 | 200 | 546 | Will Badr bin Hamad Al Busaidi attend a US x Iran diplom |
 
 ## Near-zero (excluded from pilot)
 
-| 1 | 40.00 | 200.00 | US x Iran diplomatic meeting by December 31, 2026? |
-| 2 | 40.00 | 200.00 | Will Lula win the most votes in the next Brazil presiden |
-| 3 | 30.00 | 150.00 | Will Ana Lilia Rivera Rivera win the 2027 Tlaxcala Gover |
-| 4 | 26.00 | 130.00 | Will Google have the best Text-to-Video AI at the end of |
-| 5 | 21.00 | 105.00 | Will Eli Cohen win the 2026 Likud party primary election |
-| 6 | 20.80 | 104.00 | Will Marcos Rogério win the 2026 Rondônia gubernatorial  |
-| 7 | 20.60 | 103.00 | Will AlimentaChino Win the 2026 Soloq Challenge (Low Elo |
-| 8 | 20.00 | 100.00 | Will "Coyote vs Acme" score at least 92 on the Rotten To |
-| 9 | 20.00 | 100.00 | Will "The Dog Stars" score at least 60 on the Rotten Tom |
-| 10 | 20.00 | 100.00 | Will "The Dog Stars" score at least 75 on the Rotten Tom |
+| 1 | 34.00 | 170.00 | Will Roseana Sarney win the most votes in the 2026 Maran |
+| 2 | 28.80 | 144.00 | Will Anthropic have the best AI model on LiveBench (Codi |
+| 3 | 24.40 | 122.00 | Will PPI YoY be 5.1% or more in August? |
+| 4 | 20.20 | 101.00 | Will Team Vitality Win VCT EMEA Stage 2 2026? |
+| 5 | 20.00 | 100.00 | Will Warsh say "Task Force" 5+ times during Jackson Hole |
+| 6 | 20.00 | 100.00 | Will Warsh say "Regime" during Jackson Hole speech on Au |
+| 7 | 20.00 | 100.00 | Will Warsh say "Integrity" during Jackson Hole speech on |
+| 8 | 20.00 | 100.00 | Will Warsh say "Good Morning" during Jackson Hole speech |
+| 9 | 19.79 | 98.93 | Will Warsh say "Good Day" during Jackson Hole speech on  |
+| 10 | 19.20 | 96.00 | Will there be no next Google Gemini Pro model release by |
 
 ## Rewards: actual vs estimated
 
-- ts: `2026-08-18T00:45:58Z`
+- ts: `2026-08-18T15:36:51Z`
 - total actual: $0
 - total estimated: $0
 - ratio: n/a
