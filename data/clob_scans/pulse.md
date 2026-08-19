@@ -1,43 +1,43 @@
-# CLOB pulse — 2026-08-18T15:36:51Z
+# CLOB pulse — 2026-08-19T00:46:49Z
 
 - Domain: `https://clob.polymarket.com`
 - Budget: $500
 - Snapshot days on disk: 3
 - Scored: 250  competed: 195  near-zero: 55
 - Pilot universe: 0 (provisional: 0)
-- Top-20 competed avg yield: 18.2448%/day (gross)
+- Top-20 competed avg yield: 15.3188%/day (gross)
 
 ## Top competed
 
 | # | yield%/d | est$/d | rate | qual$ | market |
 |---|----------|--------|------|-------|--------|
-| 1 | 31.94 | 159.71 | 192 | 225 | Will valve announce no hero as the new hero at The Inter |
-| 2 | 26.95 | 134.73 | 148 | 130 | Will JavierLoL Win the 2026 Soloq Challenge (High Elo) |
-| 3 | 21.37 | 106.85 | 152 | 106 | Will Sol1xd Win the 2026 Soloq Challenge (High Elo) |
-| 4 | 20.50 | 102.50 | 200 | 435 | Will Donald Trump attend a US x Iran diplomatic meeting  |
-| 5 | 19.25 | 96.26 | 100 | 259 | Will Warsh say "AI" or "Artificial Intelligence" 3+ time |
-| 6 | 18.97 | 94.87 | 100 | 51 | Will Warsh say "Challenge" during Jackson Hole speech on |
-| 7 | 18.23 | 91.13 | 100 | 98 | Will Warsh say "2008" or "Financial Crisis" during Jacks |
-| 8 | 18.07 | 90.36 | 100 | 227 | Will Warsh say "Bank" or "Asset" 10+ times during Jackso |
-| 9 | 17.17 | 85.87 | 89 | 55 | Will Allyson win the 2026 Rio Grande do Norte gubernator |
-| 10 | 17.09 | 85.45 | 200 | 546 | Will Badr bin Hamad Al Busaidi attend a US x Iran diplom |
+| 1 | 23.18 | 115.92 | 143 | 427 | Will Mauro Mendes win the most votes in the 2026 Mato Gr |
+| 2 | 21.29 | 106.45 | 135 | 344 | Will Google have the best Text-to-Video AI at the end of |
+| 3 | 18.81 | 94.07 | 100 | 52 | Will "Spa Weekend" score at least 50 on the Rotten Tomat |
+| 4 | 17.74 | 88.71 | 200 | 607 | US announces end of Iranian blockade by September 14, 20 |
+| 5 | 17.11 | 85.53 | 100 | 135 | Will Warsh say "Prediction" or "Predictive" during Jacks |
+| 6 | 16.84 | 84.22 | 136 | 441 | Will valve announce Arjun as the new hero at The Interna |
+| 7 | 16.11 | 80.54 | 162 | 749 | Will NightBirds Win Hitpoint Masters 2026 Summer |
+| 8 | 15.86 | 79.31 | 100 | 174 | Will Warsh say "Stable" 5+ times during Jackson Hole spe |
+| 9 | 15.27 | 76.35 | 100 | 127 | Will "Primetime" score at least 87 on the Rotten Tomatoe |
+| 10 | 14.63 | 73.15 | 104 | 190 | Will the Ornn RTX 5090 Index be between $0.50 and $0.55  |
 
 ## Near-zero (excluded from pilot)
 
-| 1 | 34.00 | 170.00 | Will Roseana Sarney win the most votes in the 2026 Maran |
-| 2 | 28.80 | 144.00 | Will Anthropic have the best AI model on LiveBench (Codi |
-| 3 | 24.40 | 122.00 | Will PPI YoY be 5.1% or more in August? |
-| 4 | 20.20 | 101.00 | Will Team Vitality Win VCT EMEA Stage 2 2026? |
-| 5 | 20.00 | 100.00 | Will Warsh say "Task Force" 5+ times during Jackson Hole |
+| 1 | 40.00 | 200.00 | US-Iran Hormuz Agreement by September 15? |
+| 2 | 24.20 | 121.00 | Will valve announce no hero as the new hero at The Inter |
+| 3 | 23.40 | 117.00 | Will Moonshot be the second-best AI Agent Lab at the end |
+| 4 | 20.00 | 100.00 | Will Warsh say "Challenge" during Jackson Hole speech on |
+| 5 | 20.00 | 100.00 | Will Warsh say "CapEx" or "Capital Expenditure" during J |
 | 6 | 20.00 | 100.00 | Will Warsh say "Regime" during Jackson Hole speech on Au |
 | 7 | 20.00 | 100.00 | Will Warsh say "Integrity" during Jackson Hole speech on |
-| 8 | 20.00 | 100.00 | Will Warsh say "Good Morning" during Jackson Hole speech |
-| 9 | 19.79 | 98.93 | Will Warsh say "Good Day" during Jackson Hole speech on  |
-| 10 | 19.20 | 96.00 | Will there be no next Google Gemini Pro model release by |
+| 8 | 20.00 | 100.00 | Will Warsh’s remarks not air? |
+| 9 | 20.00 | 100.00 | Will "The Magic Faraway Tree" score at least 85 on the R |
+| 10 | 20.00 | 100.00 | Will "Spa Weekend" score at least 40 on the Rotten Tomat |
 
 ## Rewards: actual vs estimated
 
-- ts: `2026-08-18T15:36:51Z`
+- ts: `2026-08-19T00:46:49Z`
 - total actual: $0
 - total estimated: $0
 - ratio: n/a
