@@ -1,43 +1,43 @@
-# CLOB pulse — 2026-08-19T00:46:49Z
+# CLOB pulse — 2026-08-19T15:36:28Z
 
 - Domain: `https://clob.polymarket.com`
 - Budget: $500
 - Snapshot days on disk: 3
-- Scored: 250  competed: 195  near-zero: 55
+- Scored: 250  competed: 220  near-zero: 30
 - Pilot universe: 0 (provisional: 0)
-- Top-20 competed avg yield: 15.3188%/day (gross)
+- Top-20 competed avg yield: 16.5434%/day (gross)
 
 ## Top competed
 
 | # | yield%/d | est$/d | rate | qual$ | market |
 |---|----------|--------|------|-------|--------|
-| 1 | 23.18 | 115.92 | 143 | 427 | Will Mauro Mendes win the most votes in the 2026 Mato Gr |
-| 2 | 21.29 | 106.45 | 135 | 344 | Will Google have the best Text-to-Video AI at the end of |
-| 3 | 18.81 | 94.07 | 100 | 52 | Will "Spa Weekend" score at least 50 on the Rotten Tomat |
-| 4 | 17.74 | 88.71 | 200 | 607 | US announces end of Iranian blockade by September 14, 20 |
-| 5 | 17.11 | 85.53 | 100 | 135 | Will Warsh say "Prediction" or "Predictive" during Jacks |
-| 6 | 16.84 | 84.22 | 136 | 441 | Will valve announce Arjun as the new hero at The Interna |
-| 7 | 16.11 | 80.54 | 162 | 749 | Will NightBirds Win Hitpoint Masters 2026 Summer |
-| 8 | 15.86 | 79.31 | 100 | 174 | Will Warsh say "Stable" 5+ times during Jackson Hole spe |
-| 9 | 15.27 | 76.35 | 100 | 127 | Will "Primetime" score at least 87 on the Rotten Tomatoe |
-| 10 | 14.63 | 73.15 | 104 | 190 | Will the Ornn RTX 5090 Index be between $0.50 and $0.55  |
+| 1 | 25.59 | 127.94 | 150 | 306 | Will JavierLoL Win the 2026 Soloq Challenge (High Elo) |
+| 2 | 21.02 | 105.11 | 172 | 492 | Will NightBirds Win Hitpoint Masters 2026 Summer |
+| 3 | 18.73 | 93.66 | 123 | 701 | Will William Foxen win the 2026 WSOP Player of the Year? |
+| 4 | 18.15 | 90.75 | 150 | 274 | Will Sol1xd Win the 2026 Soloq Challenge (High Elo) |
+| 5 | 18.00 | 89.98 | 138 | 301 | Will valve announce no hero as the new hero at The Inter |
+| 6 | 17.14 | 85.71 | 105 | 136 | Will Gustavo Gayer win the second-most votes in the 2026 |
+| 7 | 17.10 | 85.48 | 121 | 261 | Will Z.ai be the third-best Chinese AI company at the en |
+| 8 | 17.08 | 85.38 | 103 | 224 | Will Moonshot be the second-best Code Arena | WebDev AI  |
+| 9 | 16.66 | 83.32 | 97 | 129 | Will Alina Habba be the next White House Press Secretary |
+| 10 | 16.11 | 80.54 | 132 | 312 | Will UK annual GDP growth in 2026 be between 1% and 2%? |
 
 ## Near-zero (excluded from pilot)
 
-| 1 | 40.00 | 200.00 | US-Iran Hormuz Agreement by September 15? |
-| 2 | 24.20 | 121.00 | Will valve announce no hero as the new hero at The Inter |
-| 3 | 23.40 | 117.00 | Will Moonshot be the second-best AI Agent Lab at the end |
-| 4 | 20.00 | 100.00 | Will Warsh say "Challenge" during Jackson Hole speech on |
-| 5 | 20.00 | 100.00 | Will Warsh say "CapEx" or "Capital Expenditure" during J |
-| 6 | 20.00 | 100.00 | Will Warsh say "Regime" during Jackson Hole speech on Au |
-| 7 | 20.00 | 100.00 | Will Warsh say "Integrity" during Jackson Hole speech on |
-| 8 | 20.00 | 100.00 | Will Warsh’s remarks not air? |
-| 9 | 20.00 | 100.00 | Will "The Magic Faraway Tree" score at least 85 on the R |
-| 10 | 20.00 | 100.00 | Will "Spa Weekend" score at least 40 on the Rotten Tomat |
+| 1 | 34.60 | 173.00 | Will Group C be the group of the EWC CS2 2026 Champion? |
+| 2 | 27.20 | 136.00 | Will Professora Dorinha win the 2026 Tocantins gubernato |
+| 3 | 23.00 | 115.00 | Will Alibaba be the third-best Math AI lab at the end of |
+| 4 | 21.60 | 108.00 | Will valve announce Any different hero as the new hero a |
+| 5 | 21.00 | 105.00 | Will Michelle Bolsonaro win the most votes in the 2026 F |
+| 6 | 20.00 | 100.00 | Will Cilliers Brink be the next mayor of Tshwane? |
+| 7 | 18.00 | 90.00 | Will there be no next Google Gemini Pro model release by |
+| 8 | 16.40 | 82.00 | Will Marília Campos win the most votes in the 2026 Minas |
+| 9 | 15.80 | 79.00 | Will Deltan Dallagnol win the most votes in the 2026 Par |
+| 10 | 15.60 | 78.00 | Will Werner Pretorius be the next mayor of Mangaung? |
 
 ## Rewards: actual vs estimated
 
-- ts: `2026-08-19T00:46:49Z`
+- ts: `2026-08-19T15:36:28Z`
 - total actual: $0
 - total estimated: $0
 - ratio: n/a
