@@ -1,43 +1,43 @@
-# CLOB pulse — 2026-08-20T15:38:36Z
+# CLOB pulse — 2026-08-21T00:51:42Z
 
 - Domain: `https://clob.polymarket.com`
 - Budget: $500
 - Snapshot days on disk: 3
-- Scored: 250  competed: 196  near-zero: 54
+- Scored: 250  competed: 194  near-zero: 56
 - Pilot universe: 0 (provisional: 0)
-- Top-20 competed avg yield: 18.981%/day (gross)
+- Top-20 competed avg yield: 16.7625%/day (gross)
 
 ## Top competed
 
 | # | yield%/d | est$/d | rate | qual$ | market |
 |---|----------|--------|------|-------|--------|
-| 1 | 37.12 | 185.58 | 193 | 112 | Will Team Yandex have the widest hero pool at the Intern |
-| 2 | 31.16 | 155.78 | 163 | 151 | Will Group C be the group of the EWC CS2 2026 Champion? |
-| 3 | 30.51 | 152.54 | 159 | 83 | Will Western Europe region win The International 2026? |
-| 4 | 25.52 | 127.58 | 198 | 330 | Will Stephen Lynch be the Democratic nominee for MA-08? |
-| 5 | 20.67 | 103.35 | 113 | 104 | Will Karmine Corp Win VCT EMEA Stage 2 2026? |
-| 6 | 18.54 | 92.68 | 115 | 58 | Will Dire Win More Games at Dota The International 2026? |
-| 7 | 18.43 | 92.16 | 141 | 405 | Will Eastern Europe & CIS region win The International 2 |
-| 8 | 18.23 | 91.14 | 100 | 192 | Will Warsh say "Task Force" 5+ times during Jackson Hole |
-| 9 | 17.98 | 89.90 | 124 | 224 | Will Princess Faku be the next mayor of Buffalo City? |
-| 10 | 17.28 | 86.41 | 100 | 304 | Will Warsh say "Challenge" during Jackson Hole speech on |
+| 1 | 27.26 | 136.30 | 146 | 104 | Will Nkosindiphile Xhakaza be the next mayor of Ekurhule |
+| 2 | 25.50 | 127.48 | 146 | 184 | Will Scott Jennings be the next White House Press Secret |
+| 3 | 23.49 | 117.47 | 179 | 787 | Will NightBirds Win Hitpoint Masters 2026 Summer |
+| 4 | 20.30 | 101.51 | 121 | 195 | Will Miguel Gerardo Cueva Celi win the next Piura mayora |
+| 5 | 18.41 | 92.05 | 93 | 71 | Will the Sweden Democrats (SD) win the third most seats  |
+| 6 | 18.07 | 90.33 | 150 | 386 | Will Cilliers Brink be the next mayor of Tshwane? |
+| 7 | 17.19 | 85.95 | 90 | 52 | Will Valmir de Francisquinho win the 2026 Sergipe gubern |
+| 8 | 16.78 | 83.89 | 157 | 391 | Will There be 7-9 Knife Kills at CS2 EWC 2026? |
+| 9 | 16.72 | 83.61 | 97 | 63 | Will Mailza Assis win the 2026 Acre gubernatorial electi |
+| 10 | 15.55 | 77.76 | 103 | 274 | Will Alan Rick win the 2026 Acre gubernatorial election? |
 
 ## Near-zero (excluded from pilot)
 
-| 1 | 36.60 | 183.00 | Will There be 7-9 Knife Kills at CS2 EWC 2026? |
-| 2 | 31.00 | 155.00 | Will valve announce no hero as the new hero at The Inter |
-| 3 | 23.00 | 115.00 | Will Argentina's monthly inflation in August 2026 be bet |
-| 4 | 22.20 | 111.00 | Will claude-opus-5-high be the best AI model on August 3 |
-| 5 | 21.80 | 109.00 | Will MLSTP win the most seats in the 2026 São Tomé and P |
-| 6 | 21.33 | 106.66 | Will Iron Wing have the widest hero pool at the Internat |
-| 7 | 20.00 | 100.00 | Will Matt Orlando win the 2026 Chandler mayoral election |
-| 8 | 20.00 | 100.00 | Will Warsh say "Prediction" or "Predictive" during Jacks |
-| 9 | 20.00 | 100.00 | Will Warsh say "CapEx" or "Capital Expenditure" during J |
-| 10 | 20.00 | 100.00 | Will Warsh say "Independent" or "Independence" during Ja |
+| 1 | 41.20 | 206.00 | Will Alan Campbell be the first to leave the Burnham cab |
+| 2 | 39.80 | 198.99 | Will Ideogram have the best Text-to-Image AI at the end  |
+| 3 | 31.40 | 157.00 | Will Weverton Rocha win the second-most votes in the 202 |
+| 4 | 27.80 | 139.00 | Will Marcio Bittar win the most votes in the 2026 Acre S |
+| 5 | 25.40 | 127.00 | Will Mirana Be the Most Picked Hero at The International |
+| 6 | 24.40 | 122.00 | Will Vicentinho Júnior win the 2026 Tocantins gubernator |
+| 7 | 22.80 | 114.00 | Will Hoodwink Be the Most Picked Hero at The Internation |
+| 8 | 22.80 | 114.00 | Will Cid Gomes win the most votes in the 2026 Ceará Sena |
+| 9 | 20.20 | 101.00 | Will Fatima Shaban win the 2026 Scarborough Southwest pr |
+| 10 | 20.00 | 100.00 | Will Matt Orlando win the 2026 Chandler mayoral election |
 
 ## Rewards: actual vs estimated
 
-- ts: `2026-08-20T15:38:36Z`
+- ts: `2026-08-21T00:51:42Z`
 - total actual: $0
 - total estimated: $0
 - ratio: n/a
