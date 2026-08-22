@@ -1,43 +1,43 @@
-# CLOB pulse — 2026-08-22T00:46:38Z
+# CLOB pulse — 2026-08-22T15:26:31Z
 
 - Domain: `https://clob.polymarket.com`
 - Budget: $500
 - Snapshot days on disk: 3
-- Scored: 250  competed: 206  near-zero: 44
+- Scored: 250  competed: 208  near-zero: 42
 - Pilot universe: 0 (provisional: 0)
-- Top-20 competed avg yield: 17.6817%/day (gross)
+- Top-20 competed avg yield: 18.2588%/day (gross)
 
 ## Top competed
 
 | # | yield%/d | est$/d | rate | qual$ | market |
 |---|----------|--------|------|-------|--------|
-| 1 | 33.73 | 168.65 | 200 | 128 | Will the GTA 6 extended look be at least 25 minutes long |
-| 2 | 24.66 | 123.28 | 162 | 78 | Will Rosa María Bayardo Cabrera win the 2027 Colima Gove |
-| 3 | 23.41 | 117.06 | 122 | 154 | Will Google have the best Text-to-Video AI at the end of |
-| 4 | 19.94 | 99.72 | 100 | 85 | Will Namadi Umar Alhaji win the 2027 Jigawa State gubern |
-| 5 | 17.99 | 89.94 | 138 | 125 | Will David Morales be the Democratic nominee for Mayor o |
-| 6 | 17.63 | 88.15 | 123 | 151 | Will Carlos Viana win the second-most votes in the 2026  |
-| 7 | 17.31 | 86.56 | 133 | 548 | Will Nwifuru Francis Ogbonna win the 2027 Ebonyi State g |
-| 8 | 17.15 | 85.73 | 108 | 86 | Will Mustapha Gubio win the 2027 Borno State gubernatori |
-| 9 | 16.83 | 84.17 | 100 | 68 | Will Taylor Brown be evicted in Big Brother season 28 (W |
-| 10 | 16.22 | 81.08 | 112 | 171 | Will Filipe Barros win the second-most votes in the 2026 |
+| 1 | 36.78 | 183.91 | 200 | 54 | Will the GTA 6 extended look be at least 25 minutes long |
+| 2 | 24.86 | 124.32 | 126 | 95 | Will Mohammed Umaru Bago win the 2027 Niger State gubern |
+| 3 | 24.34 | 121.70 | 148 | 270 | Will Hoodwink Be the Most Picked Hero at The Internation |
+| 4 | 22.81 | 114.07 | 152 | 461 | Will Mirana Be the Most Picked Hero at The International |
+| 5 | 21.90 | 109.48 | 130 | 191 | Will Obafemi Hamzat win the 2027 Lagos State gubernatori |
+| 6 | 21.83 | 109.17 | 139 | 127 | Will FUT Esports Win VCT EMEA Stage 2 2026? |
+| 7 | 19.60 | 98.01 | 123 | 162 | Will CTBC Flying Oyster Win LCP 2026 Split 3? |
+| 8 | 18.57 | 92.85 | 100 | 56 | Will claude-opus-5-max be the best AI model on August 31 |
+| 9 | 16.99 | 84.93 | 153 | 752 | Will Scott Jennings be the next White House Press Secret |
+| 10 | 15.32 | 76.59 | 93 | 254 | Will Helio Bolsonaro win the second-most votes in the 20 |
 
 ## Near-zero (excluded from pilot)
 
-| 1 | 52.40 | 262.00 | Will Brett Smiley be the Democratic nominee for Mayor of |
-| 2 | 24.20 | 121.00 | Will Jamilu Isyaku Gwamna win the 2027 Gombe State guber |
-| 3 | 22.80 | 114.00 | Will Agbu Kefas win the 2027 Taraba State gubernatorial  |
-| 4 | 21.40 | 107.00 | Will Mutfwang Caleb Manasseh win the 2027 Plateau State  |
-| 5 | 20.60 | 103.00 | Will Donald Trump post 200+ Truth Social posts from Augu |
-| 6 | 20.00 | 100.00 | Will Mustapha Sule Lamido win the 2027 Jigawa State gube |
-| 7 | 20.00 | 100.00 | Will Yash Patel be evicted in Big Brother season 28 (Wee |
-| 8 | 18.60 | 93.00 | Will Team Yandex have the widest hero pool at the Intern |
-| 9 | 18.37 | 91.86 | Will Sulaiman Bolakale Kawu win the 2027 Kwara State gub |
-| 10 | 17.80 | 89.00 | Will Muhammad Bello Dalhatu win the 2027 Kano State gube |
+| 1 | 60.00 | 300.00 | Will Team Spirit have the widest hero pool at the Intern |
+| 2 | 36.40 | 182.00 | Will Gregory Nthatisi be the next mayor of Mangaung? |
+| 3 | 35.52 | 177.58 | Will valve announce no hero as the new hero at The Inter |
+| 4 | 33.00 | 165.00 | Will Group A be the group of the EWC CS2 2026 Champion? |
+| 5 | 25.20 | 126.00 | Will Way Win the LEC 2026 Summer Split MVP? |
+| 6 | 22.14 | 110.69 | Will Karmine Corp Win VCT EMEA Stage 2 2026? |
+| 7 | 22.00 | 110.00 | Will Argentina's monthly inflation in August 2026 be bet |
+| 8 | 20.00 | 100.00 | Will the Ornn H100 Index be between $2.75 and $3.00 on A |
+| 9 | 20.00 | 100.00 | Will claude-opus-5-high be the best AI model on August 3 |
+| 10 | 19.40 | 97.00 | Will valve announce Arjun as the new hero at The Interna |
 
 ## Rewards: actual vs estimated
 
-- ts: `2026-08-22T00:46:38Z`
+- ts: `2026-08-22T15:26:31Z`
 - total actual: $0
 - total estimated: $0
 - ratio: n/a
