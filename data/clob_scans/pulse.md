@@ -1,43 +1,43 @@
-# CLOB pulse — 2026-08-21T15:38:45Z
+# CLOB pulse — 2026-08-22T00:46:38Z
 
 - Domain: `https://clob.polymarket.com`
 - Budget: $500
 - Snapshot days on disk: 3
-- Scored: 250  competed: 191  near-zero: 59
+- Scored: 250  competed: 206  near-zero: 44
 - Pilot universe: 0 (provisional: 0)
-- Top-20 competed avg yield: 16.3161%/day (gross)
+- Top-20 competed avg yield: 17.6817%/day (gross)
 
 ## Top competed
 
 | # | yield%/d | est$/d | rate | qual$ | market |
 |---|----------|--------|------|-------|--------|
-| 1 | 26.16 | 130.78 | 153 | 84 | Will Hoodwink Be the Most Picked Hero at The Internation |
-| 2 | 23.77 | 118.86 | 147 | 161 | Will Mirana Be the Most Picked Hero at The International |
-| 3 | 20.25 | 101.26 | 105 | 52 | Will Dr. Fernando Máximo win the most votes in the 2026  |
-| 4 | 19.28 | 96.40 | 122 | 283 | Will Delegado André David win the most votes in the 2026 |
-| 5 | 18.42 | 92.09 | 110 | 99 | Will Brazil's Q2 2026 GDP growth rate (QoQ) be between 0 |
-| 6 | 17.52 | 87.62 | 90 | 104 | Will Anthropic's IPO valuation be between $1.75T and $2. |
-| 7 | 17.09 | 85.46 | 235 | 457 | Will David Morales be the Democratic nominee for Mayor o |
-| 8 | 17.04 | 85.19 | 105 | 105 | Will Lula win the most votes in the next Brazil presiden |
-| 9 | 15.04 | 75.18 | 167 | 655 | Will Eastern Europe & CIS region win The International 2 |
-| 10 | 14.87 | 74.36 | 99 | 116 | Will Google be the third-best Math AI lab at the end of  |
+| 1 | 33.73 | 168.65 | 200 | 128 | Will the GTA 6 extended look be at least 25 minutes long |
+| 2 | 24.66 | 123.28 | 162 | 78 | Will Rosa María Bayardo Cabrera win the 2027 Colima Gove |
+| 3 | 23.41 | 117.06 | 122 | 154 | Will Google have the best Text-to-Video AI at the end of |
+| 4 | 19.94 | 99.72 | 100 | 85 | Will Namadi Umar Alhaji win the 2027 Jigawa State gubern |
+| 5 | 17.99 | 89.94 | 138 | 125 | Will David Morales be the Democratic nominee for Mayor o |
+| 6 | 17.63 | 88.15 | 123 | 151 | Will Carlos Viana win the second-most votes in the 2026  |
+| 7 | 17.31 | 86.56 | 133 | 548 | Will Nwifuru Francis Ogbonna win the 2027 Ebonyi State g |
+| 8 | 17.15 | 85.73 | 108 | 86 | Will Mustapha Gubio win the 2027 Borno State gubernatori |
+| 9 | 16.83 | 84.17 | 100 | 68 | Will Taylor Brown be evicted in Big Brother season 28 (W |
+| 10 | 16.22 | 81.08 | 112 | 171 | Will Filipe Barros win the second-most votes in the 2026 |
 
 ## Near-zero (excluded from pilot)
 
-| 1 | 40.00 | 200.00 | GTA VI released by November 30? |
-| 2 | 40.00 | 200.00 | GTA VI released by September 30? |
-| 3 | 38.40 | 192.00 | Will There be 7-9 Knife Kills at CS2 EWC 2026? |
-| 4 | 37.40 | 186.98 | Will Dire Win More Games at Dota The International 2026? |
-| 5 | 25.59 | 127.94 | Will Western Europe region win The International 2026? |
-| 6 | 22.20 | 111.00 | Will Khathutshelo Rasilingwane be the next mayor of Ekur |
-| 7 | 21.60 | 108.00 | Will There be 10+ Knife Kills at CS2 EWC 2026? |
-| 8 | 21.60 | 108.00 | Will Moonshot be the second-best AI Agent Lab at the end |
-| 9 | 21.40 | 107.00 | Will Radiant Win More Games at Dota The International 20 |
-| 10 | 20.20 | 101.00 | Will Keith Hoffmann be the Rhode Island Attorney General |
+| 1 | 52.40 | 262.00 | Will Brett Smiley be the Democratic nominee for Mayor of |
+| 2 | 24.20 | 121.00 | Will Jamilu Isyaku Gwamna win the 2027 Gombe State guber |
+| 3 | 22.80 | 114.00 | Will Agbu Kefas win the 2027 Taraba State gubernatorial  |
+| 4 | 21.40 | 107.00 | Will Mutfwang Caleb Manasseh win the 2027 Plateau State  |
+| 5 | 20.60 | 103.00 | Will Donald Trump post 200+ Truth Social posts from Augu |
+| 6 | 20.00 | 100.00 | Will Mustapha Sule Lamido win the 2027 Jigawa State gube |
+| 7 | 20.00 | 100.00 | Will Yash Patel be evicted in Big Brother season 28 (Wee |
+| 8 | 18.60 | 93.00 | Will Team Yandex have the widest hero pool at the Intern |
+| 9 | 18.37 | 91.86 | Will Sulaiman Bolakale Kawu win the 2027 Kwara State gub |
+| 10 | 17.80 | 89.00 | Will Muhammad Bello Dalhatu win the 2027 Kano State gube |
 
 ## Rewards: actual vs estimated
 
-- ts: `2026-08-21T15:38:45Z`
+- ts: `2026-08-22T00:46:38Z`
 - total actual: $0
 - total estimated: $0
 - ratio: n/a
