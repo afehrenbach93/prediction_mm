@@ -1,43 +1,43 @@
-# CLOB pulse — 2026-08-24T00:49:08Z
+# CLOB pulse — 2026-08-24T15:44:45Z
 
 - Domain: `https://clob.polymarket.com`
 - Budget: $500
 - Snapshot days on disk: 3
-- Scored: 250  competed: 212  near-zero: 38
+- Scored: 250  competed: 216  near-zero: 34
 - Pilot universe: 0 (provisional: 0)
-- Top-20 competed avg yield: 15.5498%/day (gross)
+- Top-20 competed avg yield: 12.1122%/day (gross)
 
 ## Top competed
 
 | # | yield%/d | est$/d | rate | qual$ | market |
 |---|----------|--------|------|-------|--------|
-| 1 | 24.99 | 124.94 | 163 | 579 | Will MrBeast's next video get between 70 and 80 million  |
-| 2 | 24.28 | 121.41 | 200 | 449 | Will Brett Smiley be the Democratic nominee for Mayor of |
-| 3 | 21.93 | 109.64 | 200 | 642 | Will David Morales be the Democratic nominee for Mayor o |
-| 4 | 18.69 | 93.45 | 112 | 280 | Will Karmine Corp Win the Shortest Game in LEC 2026 Summ |
-| 5 | 18.66 | 93.29 | 94 | 118 | Will "Hazel Eyes" - Sam Smith first week album sales be  |
-| 6 | 16.97 | 84.86 | 117 | 344 | Will Dr. Fernando Máximo win the most votes in the 2026  |
-| 7 | 16.42 | 82.08 | 88 | 109 | Will Wilson Lima win the second-most votes in the 2026 A |
-| 8 | 15.99 | 79.96 | 100 | 166 | Will MrBeast's next video get between 60 and 70 million  |
-| 9 | 15.57 | 77.86 | 94 | 242 | Will Renan win the second-most votes in the 2026 Alagoas |
-| 10 | 15.52 | 77.60 | 79 | 111 | Will a dozen eggs cost between $2.10–$2.20 in August? |
+| 1 | 19.12 | 95.58 | 142 | 492 | Will MrBeast's next video get between 60 and 70 million  |
+| 2 | 15.89 | 79.46 | 98 | 145 | Will Isa Ali Ibrahim Pantami win the 2027 Gombe State gu |
+| 3 | 15.13 | 75.64 | 122 | 147 | Will Leila do Vôlei win the second-most votes in the 202 |
+| 4 | 13.85 | 69.25 | 113 | 312 | Will Manuela D'Ávila win the most votes in the 2026 Rio  |
+| 5 | 13.60 | 67.98 | 88 | 275 | Will Marcelo Castro win the most votes in the 2026 Piauí |
+| 6 | 13.11 | 65.56 | 111 | 148 | Will Janaina Riva win the second-most votes in the 2026  |
+| 7 | 12.80 | 64.02 | 87 | 99 | Will Humberto Costa win the second-most votes in the 202 |
+| 8 | 12.07 | 60.33 | 63 | 319 | Will Donald Trump post 200+ Truth Social posts from Augu |
+| 9 | 11.78 | 58.90 | 90 | 308 | Will Humberto Costa win the most votes in the 2026 Perna |
+| 10 | 11.42 | 57.10 | 87 | 258 | Will Marcel Van Hattem win the most votes in the 2026 Ri |
 
 ## Near-zero (excluded from pilot)
 
-| 1 | 25.63 | 128.15 | Will Moonshot be the second-best Code Arena | WebDev AI  |
-| 2 | 21.00 | 105.00 | Will the median home value in NYC be between $663,000 an |
-| 3 | 20.80 | 104.00 | Will Carol de Toni win the most votes in the 2026 Santa  |
-| 4 | 20.80 | 104.00 | Will Anthropic's IPO valuation be between $2.00T and $2. |
-| 5 | 20.10 | 100.48 | Will Ciro Nogueira win the most votes in the 2026 Piauí  |
-| 6 | 17.00 | 85.00 | Will no Atlantic hurricane form in August 2026? |
-| 7 | 16.80 | 84.00 | Will Democrats win exactly 48 House seats in California  |
-| 8 | 16.40 | 82.00 | Will Isidro Flores Sosa win the next Arequipa mayoral el |
-| 9 | 16.00 | 80.00 | Will Marcelo Castro win the most votes in the 2026 Piauí |
-| 10 | 15.20 | 76.00 | Will Edin Forto be the next Chairman of the Council of M |
+| 1 | 40.00 | 200.00 | Will the next Google Gemini Pro model be released by Oct |
+| 2 | 27.80 | 139.00 | Will the Eurozone's 2026 Annual Inflation be at least 3. |
+| 3 | 22.40 | 112.00 | Will Meta be the #3 AI Lab at the end of October 2026 (S |
+| 4 | 21.80 | 109.00 | Will Sharafadeen Abiodun Alli win the 2027 Oyo State gub |
+| 5 | 21.65 | 108.27 | Will the median home value in NYC be at least $689,000 o |
+| 6 | 19.20 | 96.00 | Will Dr. Fernando Máximo win the most votes in the 2026  |
+| 7 | 17.60 | 88.00 | Will Renan win the most votes in the 2026 Alagoas Senate |
+| 8 | 17.00 | 85.00 | Will Yakubu Adamu win the 2027 Bauchi State gubernatoria |
+| 9 | 15.60 | 78.00 | Will Renan win the second-most votes in the 2026 Alagoas |
+| 10 | 15.20 | 76.00 | Will Katherine LaNasa – “The Pitt” win Emmys 2026: Outst |
 
 ## Rewards: actual vs estimated
 
-- ts: `2026-08-24T00:49:08Z`
+- ts: `2026-08-24T15:44:46Z`
 - total actual: $0
 - total estimated: $0
 - ratio: n/a
