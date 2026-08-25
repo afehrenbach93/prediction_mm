@@ -1,43 +1,43 @@
-# CLOB pulse — 2026-08-24T15:44:45Z
+# CLOB pulse — 2026-08-25T00:49:09Z
 
 - Domain: `https://clob.polymarket.com`
 - Budget: $500
 - Snapshot days on disk: 3
-- Scored: 250  competed: 216  near-zero: 34
+- Scored: 250  competed: 211  near-zero: 39
 - Pilot universe: 0 (provisional: 0)
-- Top-20 competed avg yield: 12.1122%/day (gross)
+- Top-20 competed avg yield: 19.387%/day (gross)
 
 ## Top competed
 
 | # | yield%/d | est$/d | rate | qual$ | market |
 |---|----------|--------|------|-------|--------|
-| 1 | 19.12 | 95.58 | 142 | 492 | Will MrBeast's next video get between 60 and 70 million  |
-| 2 | 15.89 | 79.46 | 98 | 145 | Will Isa Ali Ibrahim Pantami win the 2027 Gombe State gu |
-| 3 | 15.13 | 75.64 | 122 | 147 | Will Leila do Vôlei win the second-most votes in the 202 |
-| 4 | 13.85 | 69.25 | 113 | 312 | Will Manuela D'Ávila win the most votes in the 2026 Rio  |
-| 5 | 13.60 | 67.98 | 88 | 275 | Will Marcelo Castro win the most votes in the 2026 Piauí |
-| 6 | 13.11 | 65.56 | 111 | 148 | Will Janaina Riva win the second-most votes in the 2026  |
-| 7 | 12.80 | 64.02 | 87 | 99 | Will Humberto Costa win the second-most votes in the 202 |
-| 8 | 12.07 | 60.33 | 63 | 319 | Will Donald Trump post 200+ Truth Social posts from Augu |
-| 9 | 11.78 | 58.90 | 90 | 308 | Will Humberto Costa win the most votes in the 2026 Perna |
-| 10 | 11.42 | 57.10 | 87 | 258 | Will Marcel Van Hattem win the most votes in the 2026 Ri |
+| 1 | 50.45 | 252.26 | 255 | 124 | Will the next Prime Minister of Romania be an Independen |
+| 2 | 26.70 | 133.49 | 250 | 358 | Will Julian Alvarez join Arsenal? |
+| 3 | 26.06 | 130.32 | 154 | 746 | Will MrBeast's next video get between 70 and 80 million  |
+| 4 | 23.77 | 118.84 | 200 | 528 | Will Julian Alvarez stay at Atletico Madrid? |
+| 5 | 23.33 | 116.66 | 146 | 231 | Will MrBeast's next video get between 60 and 70 million  |
+| 6 | 22.07 | 110.33 | 174 | 223 | Will Jaques Wagner win the second-most votes in the 2026 |
+| 7 | 20.10 | 100.51 | 200 | 368 | Next Mythos-Class Model released by August 31, 2026? |
+| 8 | 18.70 | 93.52 | 100 | 123 | Will Umaru Dikko Radda win the 2027 Katsina State gubern |
+| 9 | 17.42 | 87.08 | 100 | 65 | Will "Idiots" score at least 75 on the Rotten Tomatoes T |
+| 10 | 16.21 | 81.04 | 98 | 96 | Will Yakubu Adamu win the 2027 Bauchi State gubernatoria |
 
 ## Near-zero (excluded from pilot)
 
-| 1 | 40.00 | 200.00 | Will the next Google Gemini Pro model be released by Oct |
-| 2 | 27.80 | 139.00 | Will the Eurozone's 2026 Annual Inflation be at least 3. |
-| 3 | 22.40 | 112.00 | Will Meta be the #3 AI Lab at the end of October 2026 (S |
-| 4 | 21.80 | 109.00 | Will Sharafadeen Abiodun Alli win the 2027 Oyo State gub |
-| 5 | 21.65 | 108.27 | Will the median home value in NYC be at least $689,000 o |
-| 6 | 19.20 | 96.00 | Will Dr. Fernando Máximo win the most votes in the 2026  |
-| 7 | 17.60 | 88.00 | Will Renan win the most votes in the 2026 Alagoas Senate |
-| 8 | 17.00 | 85.00 | Will Yakubu Adamu win the 2027 Bauchi State gubernatoria |
-| 9 | 15.60 | 78.00 | Will Renan win the second-most votes in the 2026 Alagoas |
-| 10 | 15.20 | 76.00 | Will Katherine LaNasa – “The Pitt” win Emmys 2026: Outst |
+| 1 | 40.00 | 200.00 | Next Mythos-Class Model released by September 9, 2026? |
+| 2 | 38.80 | 194.00 | Will Alex Norris be the first to leave the Burnham cabin |
+| 3 | 22.43 | 112.13 | Will Arthur Jarvis win the 2027 Cross River State gubern |
+| 4 | 21.60 | 108.00 | Will OpenAI be the second-best AI Agent Lab at the end o |
+| 5 | 21.20 | 106.00 | Will Moonshot be the second-best Chinese AI company at t |
+| 6 | 20.00 | 100.00 | 151 Ultra-Premium Collection Price Over/Under $933.63 on |
+| 7 | 20.00 | 100.00 | Ascended Heroes Elite Trainer Box Price Over/Under $168. |
+| 8 | 20.00 | 100.00 | Phantasmal Flames Booster Box Price Over/Under $393.19 o |
+| 9 | 20.00 | 100.00 | Pikachu ex Price Over/Under $1,059.87 on September 30? |
+| 10 | 20.00 | 100.00 | Will Russia capture Dobropillia by October 31, 2026? |
 
 ## Rewards: actual vs estimated
 
-- ts: `2026-08-24T15:44:46Z`
+- ts: `2026-08-25T00:49:09Z`
 - total actual: $0
 - total estimated: $0
 - ratio: n/a
