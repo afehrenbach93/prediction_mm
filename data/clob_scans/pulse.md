@@ -1,43 +1,43 @@
-# CLOB pulse — 2026-08-26T00:50:11Z
+# CLOB pulse — 2026-08-26T16:22:09Z
 
 - Domain: `https://clob.polymarket.com`
 - Budget: $500
 - Snapshot days on disk: 3
-- Scored: 250  competed: 208  near-zero: 42
+- Scored: 250  competed: 239  near-zero: 11
 - Pilot universe: 0 (provisional: 0)
-- Top-20 competed avg yield: 13.9508%/day (gross)
+- Top-20 competed avg yield: 14.6072%/day (gross)
 
 ## Top competed
 
 | # | yield%/d | est$/d | rate | qual$ | market |
 |---|----------|--------|------|-------|--------|
-| 1 | 21.29 | 106.43 | 200 | 1724 | US announces end of Iranian blockade by September 14, 20 |
-| 2 | 19.34 | 96.69 | 97 | 73 | Will Joel Rowswell win the 2026 Sault Ste. Marie mayoral |
-| 3 | 18.73 | 93.63 | 250 | 617 | Will Julian Alvarez join Arsenal? |
-| 4 | 17.04 | 85.18 | 200 | 1946 | Will Julian Alvarez stay at Atletico Madrid? |
-| 5 | 15.08 | 75.38 | 80 | 51 | Umia FDV above $8M one day after launch? |
-| 6 | 14.92 | 74.62 | 80 | 80 | Umia FDV above $18M one day after launch? |
-| 7 | 14.12 | 70.60 | 80 | 82 | Umia listed on Coinbase within 30 days of TGE? |
-| 8 | 13.57 | 67.86 | 121 | 608 | Will Eurozone GDP growth in Q3 2026 be between 0.8% and  |
-| 9 | 13.36 | 66.78 | 70 | 241 | US-Iran Hormuz Agreement by September 15? |
-| 10 | 12.85 | 64.27 | 87 | 168 | Will Carlos Bolsonaro win the most votes in the 2026 San |
+| 1 | 24.09 | 120.44 | 150 | 88 | Will Imelda Castro Castro win the 2027 Sinaloa Governor  |
+| 2 | 19.55 | 97.76 | 100 | 60 | Will "The Dog Stars" score at least 36 on the Rotten Tom |
+| 3 | 19.28 | 96.40 | 100 | 391 | Next Mythos-Class Model released by September 9, 2026? |
+| 4 | 18.18 | 90.88 | 95 | 75 | Will Thulani Shongwe be the next mayor of Ekurhuleni? |
+| 5 | 17.79 | 88.94 | 118 | 103 | Will Josh Morgan win the 2026 London mayoral election? |
+| 6 | 16.77 | 83.86 | 100 | 75 | Will Russia enter Moskovka by September 30? |
+| 7 | 14.77 | 73.87 | 96 | 89 | Will the Ornn RTX 5090 Index be between $0.50 and $0.55  |
+| 8 | 14.65 | 73.24 | 144 | 1012 | Will Karmine Corp Win VCT EMEA Stage 2 2026? |
+| 9 | 14.12 | 70.60 | 150 | 356 | Will Matthew Shoemaker win the 2026 Sault Ste. Marie may |
+| 10 | 13.66 | 68.31 | 86 | 122 | Will Zac de Vries win the 2026 Saanich mayoral election? |
 
 ## Near-zero (excluded from pilot)
 
-| 1 | 48.40 | 242.00 | Will Heidi Alexander be the first to leave the Burnham c |
-| 2 | 33.80 | 169.00 | Will Google have the best Text-to-Video AI at the end of |
-| 3 | 27.46 | 137.29 | Will 100 Thieves Win the 2026 Esports Content Group of t |
-| 4 | 22.20 | 111.00 | Will Salihu Danladi win the 2027 Kwara State gubernatori |
-| 5 | 20.20 | 101.00 | Will Lucas Barreto win the second-most votes in the 2026 |
-| 6 | 17.80 | 89.00 | Will Sulaiman Bolakale Kawu win the 2027 Kwara State gub |
-| 7 | 16.60 | 83.00 | Will Mexico GDP growth in Q3 2026 be between 1.0% and 1. |
-| 8 | 16.00 | 80.00 | Umia FDV above $12M one day after launch? |
-| 9 | 15.00 | 75.00 | Will Alphabet’s market capitalization be between $3.50T  |
-| 10 | 14.80 | 74.00 | Will Meta be the #3 AI Lab at the end of October 2026 (S |
+| 1 | 50.00 | 250.00 | Will Julian Alvarez join Arsenal? |
+| 2 | 40.00 | 200.00 | Will Julian Alvarez stay at Atletico Madrid? |
+| 3 | 12.00 | 60.00 | Will Emiliano Martinez join Chelsea? |
+| 4 | 11.60 | 58.00 | Will Antonio Astiazarán Gutiérrez win the 2027 Sonora Go |
+| 5 | 11.40 | 57.00 | Will the most viewed episode of The Five for the week of |
+| 6 | 11.20 | 56.00 | Will Mario Colberth Reyna Rodríguez win the next Trujill |
+| 7 | 10.80 | 54.00 | Will Leon Goretzka join Al-Ittihad? |
+| 8 | 10.80 | 54.00 | Will ISM Manufacturing PMI be between 54.0 and 54.9 in A |
+| 9 | 10.77 | 53.86 | Will NYC Mayor post 20-39 posts from August 25 to Septem |
+| 10 | 10.60 | 53.00 | Will Mexico GDP growth in Q3 2026 be between 1.0% and 1. |
 
 ## Rewards: actual vs estimated
 
-- ts: `2026-08-26T00:50:11Z`
+- ts: `2026-08-26T16:22:09Z`
 - total actual: $0
 - total estimated: $0
 - ratio: n/a
