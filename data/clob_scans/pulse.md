@@ -1,43 +1,43 @@
-# CLOB pulse — 2026-08-25T15:49:36Z
+# CLOB pulse — 2026-08-26T00:50:11Z
 
 - Domain: `https://clob.polymarket.com`
 - Budget: $500
 - Snapshot days on disk: 3
 - Scored: 250  competed: 208  near-zero: 42
 - Pilot universe: 0 (provisional: 0)
-- Top-20 competed avg yield: 14.1444%/day (gross)
+- Top-20 competed avg yield: 13.9508%/day (gross)
 
 ## Top competed
 
 | # | yield%/d | est$/d | rate | qual$ | market |
 |---|----------|--------|------|-------|--------|
-| 1 | 21.59 | 107.97 | 250 | 1001 | Will Julian Alvarez join Arsenal? |
-| 2 | 19.50 | 97.51 | 143 | 426 | Will MrBeast's next video get between 70 and 80 million  |
-| 3 | 17.77 | 88.86 | 90 | 126 | Will Sulaiman Bolakale Kawu win the 2027 Kwara State gub |
-| 4 | 17.49 | 87.43 | 110 | 422 | Will Salihu Danladi win the 2027 Kwara State gubernatori |
-| 5 | 17.06 | 85.31 | 100 | 106 | Will "Idiots" score at least 65 on the Rotten Tomatoes T |
-| 6 | 14.80 | 74.02 | 100 | 486 | Will "Finding Emily" score at least 92 on the Rotten Tom |
-| 7 | 14.14 | 70.68 | 200 | 2746 | US announces end of Iranian blockade by September 14, 20 |
-| 8 | 13.99 | 69.93 | 157 | 1017 | Will MrBeast's next video get between 60 and 70 million  |
-| 9 | 13.71 | 68.56 | 100 | 313 | Will Abdullahi Sharif win the 2027 Yobe State gubernator |
-| 10 | 13.68 | 68.39 | 100 | 662 | Next Mythos-Class Model released by August 31, 2026? |
+| 1 | 21.29 | 106.43 | 200 | 1724 | US announces end of Iranian blockade by September 14, 20 |
+| 2 | 19.34 | 96.69 | 97 | 73 | Will Joel Rowswell win the 2026 Sault Ste. Marie mayoral |
+| 3 | 18.73 | 93.63 | 250 | 617 | Will Julian Alvarez join Arsenal? |
+| 4 | 17.04 | 85.18 | 200 | 1946 | Will Julian Alvarez stay at Atletico Madrid? |
+| 5 | 15.08 | 75.38 | 80 | 51 | Umia FDV above $8M one day after launch? |
+| 6 | 14.92 | 74.62 | 80 | 80 | Umia FDV above $18M one day after launch? |
+| 7 | 14.12 | 70.60 | 80 | 82 | Umia listed on Coinbase within 30 days of TGE? |
+| 8 | 13.57 | 67.86 | 121 | 608 | Will Eurozone GDP growth in Q3 2026 be between 0.8% and  |
+| 9 | 13.36 | 66.78 | 70 | 241 | US-Iran Hormuz Agreement by September 15? |
+| 10 | 12.85 | 64.27 | 87 | 168 | Will Carlos Bolsonaro win the most votes in the 2026 San |
 
 ## Near-zero (excluded from pilot)
 
-| 1 | 20.20 | 101.00 | Will Abimbola Adekanmbi win the 2027 Oyo State gubernato |
-| 2 | 19.20 | 96.00 | Will Zac de Vries win the 2026 Saanich mayoral election? |
-| 3 | 17.20 | 86.00 | Will Emiliano Martinez stay at Aston Villa? |
-| 4 | 15.80 | 79.00 | Will Isa Ali Ibrahim Pantami win the 2027 Gombe State gu |
-| 5 | 15.40 | 77.00 | Will Michael Aondoakaa win the 2027 Benue State gubernat |
-| 6 | 14.60 | 73.00 | Will Josh Morgan win the 2026 London mayoral election? |
-| 7 | 14.40 | 72.00 | Will Maurice Vunobolki win the 2027 Adamawa State gubern |
-| 8 | 13.80 | 69.00 | Will Reid Hamer-Jackson win the 2026 Kamloops mayoral el |
-| 9 | 13.75 | 68.74 | Will Capitão Wagner win the second-most votes in the 202 |
-| 10 | 12.04 | 60.22 | Will Eurozone GDP growth in Q3 2026 be between 0.4% and  |
+| 1 | 48.40 | 242.00 | Will Heidi Alexander be the first to leave the Burnham c |
+| 2 | 33.80 | 169.00 | Will Google have the best Text-to-Video AI at the end of |
+| 3 | 27.46 | 137.29 | Will 100 Thieves Win the 2026 Esports Content Group of t |
+| 4 | 22.20 | 111.00 | Will Salihu Danladi win the 2027 Kwara State gubernatori |
+| 5 | 20.20 | 101.00 | Will Lucas Barreto win the second-most votes in the 2026 |
+| 6 | 17.80 | 89.00 | Will Sulaiman Bolakale Kawu win the 2027 Kwara State gub |
+| 7 | 16.60 | 83.00 | Will Mexico GDP growth in Q3 2026 be between 1.0% and 1. |
+| 8 | 16.00 | 80.00 | Umia FDV above $12M one day after launch? |
+| 9 | 15.00 | 75.00 | Will Alphabet’s market capitalization be between $3.50T  |
+| 10 | 14.80 | 74.00 | Will Meta be the #3 AI Lab at the end of October 2026 (S |
 
 ## Rewards: actual vs estimated
 
-- ts: `2026-08-25T15:49:36Z`
+- ts: `2026-08-26T00:50:11Z`
 - total actual: $0
 - total estimated: $0
 - ratio: n/a
