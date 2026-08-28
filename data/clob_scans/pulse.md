@@ -1,43 +1,43 @@
-# CLOB pulse — 2026-08-27T06:23:14Z
+# CLOB pulse — 2026-08-28T00:19:17Z
 
 - Domain: `https://clob.polymarket.com`
 - Budget: $500
 - Snapshot days on disk: 3
-- Scored: 250  competed: 204  near-zero: 46
+- Scored: 250  competed: 170  near-zero: 80
 - Pilot universe: 0 (provisional: 0)
-- Top-20 competed avg yield: 15.523%/day (gross)
+- Top-20 competed avg yield: 12.624%/day (gross)
 
 ## Top competed
 
 | # | yield%/d | est$/d | rate | qual$ | market |
 |---|----------|--------|------|-------|--------|
-| 1 | 23.34 | 116.72 | 154 | 184 | Will Jan Liggett win the 2026 Cambridge mayoral election |
-| 2 | 19.26 | 96.29 | 100 | 116 | Will Trump speak to Elon Musk in September? |
-| 3 | 18.00 | 89.99 | 95 | 95 | Will Mailza Assis win the 2026 Acre gubernatorial electi |
-| 4 | 17.79 | 88.96 | 400 | 1844 | Iran-Oman Hormuz Agreement by August 31? |
-| 5 | 17.39 | 86.95 | 160 | 374 | Will Ulises Mejía Haro win the 2027 Zacatecas Governor E |
-| 6 | 16.84 | 84.19 | 150 | 918 | Will Bryan Paterson win the 2026 Kingston mayoral electi |
-| 7 | 16.18 | 80.88 | 100 | 64 | Will Trump meet with Elon Musk in September 2026? |
-| 8 | 15.92 | 79.58 | 132 | 294 | Will Martin Ritsma win the 2026 Stratford mayoral electi |
-| 9 | 15.88 | 79.38 | 120 | 414 | Will Z.ai be the second-best Chinese AI company at the e |
-| 10 | 15.80 | 79.02 | 105 | 189 | Will Alan Rick win the 2026 Acre gubernatorial election? |
+| 1 | 29.87 | 149.35 | 200 | 547 | US-Canada diplomatic agreement to lower tariffs by Septe |
+| 2 | 23.36 | 116.80 | 250 | 687 | Will Julian Alvarez join Arsenal? |
+| 3 | 16.72 | 83.61 | 111 | 103 | Will Ismael Burgueño Ruiz win the 2027 Baja California G |
+| 4 | 15.36 | 76.81 | 150 | 330 | Will Moonshot be the second-best Chinese AI company at t |
+| 5 | 13.44 | 67.22 | 76 | 289 | Will the most viewed episode of The Five for the week of |
+| 6 | 12.11 | 60.57 | 91 | 366 | Will Moonshot be the third-best Code Arena | WebDev AI l |
+| 7 | 12.02 | 60.10 | 64 | 752 | Will Marcio Bittar win the second-most votes in the 2026 |
+| 8 | 11.84 | 59.18 | 200 | 834 | Will Julian Alvarez stay at Atletico Madrid? |
+| 9 | 11.05 | 55.23 | 122 | 493 | Will Rob Burton win the 2026 Oakville mayoral election? |
+| 10 | 10.89 | 54.44 | 80 | 385 | Another GTA VI trailer released by September 30? |
 
 ## Near-zero (excluded from pilot)
 
-| 1 | 31.20 | 156.00 | Will Karmine Corp Win VCT EMEA Stage 2 2026? |
-| 2 | 23.00 | 115.00 | Will there be between 25 and 29 average daily transits o |
-| 3 | 20.20 | 101.00 | Will there be fewer than 1 North Korea test in September |
-| 4 | 20.00 | 100.00 | Will "The Dog Stars" score at least 38 on the Rotten Tom |
-| 5 | 20.00 | 100.00 | Will "The Dog Stars" score at least 40 on the Rotten Tom |
-| 6 | 20.00 | 100.00 | Will Trump speak to Maria Corina Machado in September? |
-| 7 | 20.00 | 100.00 | Will Trump speak to Luiz Inácio Lula da Silva in Septemb |
-| 8 | 16.00 | 80.00 | Will Mexico GDP growth in Q3 2026 be between 1.5% and 2. |
-| 9 | 15.60 | 78.00 | Will Nongshim RedForce Win VCT Pacific Stage 2 2026? |
-| 10 | 15.00 | 75.00 | Will "Wildchild" - Alex Warren first week album sales be |
+| 1 | 40.00 | 200.00 | US-Canada diplomatic agreement to lower tariffs by Octob |
+| 2 | 20.60 | 103.00 | Will the Ornn RTX 5090 Index be between $0.50 and $0.55  |
+| 3 | 19.20 | 96.00 | Will Nicoletti win the second-most votes in the 2026 Ror |
+| 4 | 17.78 | 88.92 | Will Julieta Ramírez Padilla win the 2027 Baja Californi |
+| 5 | 14.80 | 74.00 | Will Otaviano Pivetta win the 2026 Mato Grosso gubernato |
+| 6 | 14.60 | 73.00 | Will Daniel Fontaine win the 2026 New Westminster mayora |
+| 7 | 14.00 | 70.00 | Will Robert Ritz win the 2026 Stratford mayoral election |
+| 8 | 14.00 | 70.00 | Will Anthropic have the greatest valuation growth in Aug |
+| 9 | 13.60 | 68.00 | Will the Bank of Korea hold at the November 2026 meeting |
+| 10 | 12.20 | 61.00 | Will Waldo Fernández González win the 2027 Nuevo León Go |
 
 ## Rewards: actual vs estimated
 
-- ts: `2026-08-27T06:23:14Z`
+- ts: `2026-08-28T00:19:17Z`
 - total actual: $0
 - total estimated: $0
 - ratio: n/a
