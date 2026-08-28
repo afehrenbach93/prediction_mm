@@ -1,43 +1,43 @@
-# CLOB pulse — 2026-08-28T00:19:17Z
+# CLOB pulse — 2026-08-28T08:15:14Z
 
 - Domain: `https://clob.polymarket.com`
 - Budget: $500
 - Snapshot days on disk: 3
-- Scored: 250  competed: 170  near-zero: 80
+- Scored: 250  competed: 172  near-zero: 78
 - Pilot universe: 0 (provisional: 0)
-- Top-20 competed avg yield: 12.624%/day (gross)
+- Top-20 competed avg yield: 16.147%/day (gross)
 
 ## Top competed
 
 | # | yield%/d | est$/d | rate | qual$ | market |
 |---|----------|--------|------|-------|--------|
-| 1 | 29.87 | 149.35 | 200 | 547 | US-Canada diplomatic agreement to lower tariffs by Septe |
-| 2 | 23.36 | 116.80 | 250 | 687 | Will Julian Alvarez join Arsenal? |
-| 3 | 16.72 | 83.61 | 111 | 103 | Will Ismael Burgueño Ruiz win the 2027 Baja California G |
-| 4 | 15.36 | 76.81 | 150 | 330 | Will Moonshot be the second-best Chinese AI company at t |
-| 5 | 13.44 | 67.22 | 76 | 289 | Will the most viewed episode of The Five for the week of |
-| 6 | 12.11 | 60.57 | 91 | 366 | Will Moonshot be the third-best Code Arena | WebDev AI l |
-| 7 | 12.02 | 60.10 | 64 | 752 | Will Marcio Bittar win the second-most votes in the 2026 |
-| 8 | 11.84 | 59.18 | 200 | 834 | Will Julian Alvarez stay at Atletico Madrid? |
-| 9 | 11.05 | 55.23 | 122 | 493 | Will Rob Burton win the 2026 Oakville mayoral election? |
-| 10 | 10.89 | 54.44 | 80 | 385 | Another GTA VI trailer released by September 30? |
+| 1 | 37.91 | 189.55 | 200 | 416 | Iran-Oman Hormuz Agreement by September 30? |
+| 2 | 25.64 | 128.20 | 500 | 3013 | Google Maps renames Lake Ontario to "Lake America" by Se |
+| 3 | 25.61 | 128.03 | 143 | 488 | Will Jynxzi Win the 2026 Esports Content Creator of the  |
+| 4 | 23.08 | 115.41 | 250 | 717 | Will Julian Alvarez join Arsenal? |
+| 5 | 20.12 | 100.62 | 101 | 70 | Will Mohammed Abdullahi Abubakar win the 2027 Bauchi Sta |
+| 6 | 19.03 | 95.16 | 100 | 90 | Will Retief Odendaal be the next mayor of Nelson Mandela |
+| 7 | 18.46 | 92.32 | 116 | 102 | Will Janaina Riva win the second-most votes in the 2026  |
+| 8 | 14.49 | 72.47 | 86 | 115 | Will the PCQ win 14-16 seats in the National Assembly of |
+| 9 | 14.44 | 72.19 | 137 | 206 | Will Ulises Mejía Haro win the 2027 Zacatecas Governor E |
+| 10 | 13.82 | 69.10 | 71 | 76 | Will Alexandre Curi win the second-most votes in the 202 |
 
 ## Near-zero (excluded from pilot)
 
-| 1 | 40.00 | 200.00 | US-Canada diplomatic agreement to lower tariffs by Octob |
-| 2 | 20.60 | 103.00 | Will the Ornn RTX 5090 Index be between $0.50 and $0.55  |
-| 3 | 19.20 | 96.00 | Will Nicoletti win the second-most votes in the 2026 Ror |
-| 4 | 17.78 | 88.92 | Will Julieta Ramírez Padilla win the 2027 Baja Californi |
-| 5 | 14.80 | 74.00 | Will Otaviano Pivetta win the 2026 Mato Grosso gubernato |
-| 6 | 14.60 | 73.00 | Will Daniel Fontaine win the 2026 New Westminster mayora |
-| 7 | 14.00 | 70.00 | Will Robert Ritz win the 2026 Stratford mayoral election |
-| 8 | 14.00 | 70.00 | Will Anthropic have the greatest valuation growth in Aug |
-| 9 | 13.60 | 68.00 | Will the Bank of Korea hold at the November 2026 meeting |
-| 10 | 12.20 | 61.00 | Will Waldo Fernández González win the 2027 Nuevo León Go |
+| 1 | 26.00 | 130.00 | Will Ana Lilia Rivera Rivera win the 2027 Tlaxcala Gover |
+| 2 | 20.00 | 100.00 | Will Republican Senate incumbents not win in exactly thr |
+| 3 | 18.60 | 93.00 | Will the Bank of Korea hold at the October 2026 meeting? |
+| 4 | 15.27 | 76.34 | Will Daniel Fontaine win the 2026 New Westminster mayora |
+| 5 | 14.19 | 70.93 | Will the highest temperature during Burning Man 2026 be  |
+| 6 | 14.00 | 70.00 | Will Jesse Lonis win the 2026 WSOP Player of the Year? |
+| 7 | 14.00 | 70.00 | Will "Danny Go!: Season 2" be the top global Netflix sho |
+| 8 | 13.80 | 69.00 | Will Anthropic have the greatest valuation growth in Aug |
+| 9 | 13.60 | 68.00 | Will ISM Services PMI be between 52.0 and 52.9 in August |
+| 10 | 13.60 | 68.00 | Will "Danny Go!: Season 2" be the top US Netflix show th |
 
 ## Rewards: actual vs estimated
 
-- ts: `2026-08-28T00:19:17Z`
+- ts: `2026-08-28T08:15:14Z`
 - total actual: $0
 - total estimated: $0
 - ratio: n/a
