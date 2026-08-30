@@ -1,43 +1,43 @@
-# CLOB pulse — 2026-08-30T02:47:10Z
+# CLOB pulse — 2026-08-30T18:31:19Z
 
 - Domain: `https://clob.polymarket.com`
 - Budget: $500
 - Snapshot days on disk: 3
-- Scored: 250  competed: 173  near-zero: 77
+- Scored: 250  competed: 169  near-zero: 81
 - Pilot universe: 0 (provisional: 0)
-- Top-20 competed avg yield: 9.6684%/day (gross)
+- Top-20 competed avg yield: 11.9258%/day (gross)
 
 ## Top competed
 
 | # | yield%/d | est$/d | rate | qual$ | market |
 |---|----------|--------|------|-------|--------|
-| 1 | 19.50 | 97.52 | 117 | 132 | Will Luis Donaldo Colosio Riojas win the 2027 Nuevo León |
-| 2 | 18.97 | 94.85 | 126 | 298 | Will Flavio Bolsonaro win the most votes in the next Bra |
-| 3 | 12.78 | 63.91 | 400 | 14212 | Google Maps renames Lake Ontario to "Lake America" by Se |
-| 4 | 11.52 | 57.59 | 78 | 146 | Will Kari Gares win the 2026 Vernon mayoral election? |
-| 5 | 10.92 | 54.60 | 74 | 294 | Will 190-209 ships transit the Bab el-Mandeb Strait betw |
-| 6 | 10.34 | 51.68 | 69 | 161 | Will Vander Loubet win the second-most votes in the 2026 |
-| 7 | 9.48 | 47.39 | 116 | 541 | Will Capitão Contar win the second-most votes in the 202 |
-| 8 | 9.01 | 45.06 | 50 | 131 | Will Team Falcons Make a Roster Change by December 31? |
-| 9 | 8.70 | 43.52 | 50 | 129 | Will Trump say "Barack Hussein Obama" this week? |
-| 10 | 8.17 | 40.85 | 68 | 205 | Will Texas Tech Red Raiders Win the 2026 Big 12 Champion |
+| 1 | 31.15 | 155.73 | 500 | 3101 | Will Grand Theft Auto VI Extended Look get between 20 an |
+| 2 | 23.11 | 115.55 | 116 | 85 | Will Leanne Caron win the 2026 Guelph mayoral election? |
+| 3 | 19.77 | 98.84 | 104 | 159 | Will Lula win the most votes in the next Brazil presiden |
+| 4 | 12.56 | 62.82 | 500 | 5779 | Will Grand Theft Auto VI Extended Look get less than 20  |
+| 5 | 12.06 | 60.29 | 126 | 311 | Will Meta be the #2 AI lab at the end of September 2026? |
+| 6 | 11.25 | 56.24 | 60 | 121 | Will Emmanuel David Ombugadu win the 2027 Nasarawa State |
+| 7 | 11.03 | 55.15 | 60 | 302 | Will Khamenei post 0-4 posts from September 1 to Septemb |
+| 8 | 10.00 | 50.00 | 100 | 1225 | US-Canada diplomatic agreement to lower tariffs by Decem |
+| 9 | 9.84 | 49.19 | 84 | 228 | Will Ken Yee Chew win the 2026 Guelph mayoral election? |
+| 10 | 9.70 | 48.49 | 59 | 138 | Will Anthropic's IPO valuation be between $2.00T and $2. |
 
 ## Near-zero (excluded from pilot)
 
-| 1 | 31.80 | 159.00 | Will Caliste Win the LEC 2026 Summer Split MVP? |
-| 2 | 28.20 | 141.00 | Will Jackies Win the LEC 2026 Summer Split MVP? |
-| 3 | 20.00 | 100.00 | Will A Just Russia win the next Chechnya Parliament elec |
-| 4 | 20.00 | 100.00 | Will Andrea Kaiser win the 2026 Niagara-on-the-Lake mayo |
-| 5 | 18.80 | 94.00 | Will ZooMaa Win the 2026 Esports Content Creator of the  |
-| 6 | 18.40 | 92.00 | Will Moe Comuzzi win the 2026 Thunder Bay mayoral electi |
-| 7 | 16.80 | 84.00 | Will the Ornn H200 Index be between $4.00 and $4.50 on S |
-| 8 | 16.40 | 82.00 | Will NYC Mayor post 20-39 posts from August 28 to Septem |
-| 9 | 16.20 | 81.00 | Will the US lose more than 50k jobs in August? |
-| 10 | 16.00 | 80.00 | Will Saša Magazinović be the next Chairman of the Counci |
+| 1 | 31.40 | 157.00 | Will Karmine Corp Win VCT EMEA Stage 2 2026? |
+| 2 | 28.60 | 143.00 | Will Team Liquid Win VCT EMEA Stage 2 2026? |
+| 3 | 27.44 | 137.19 | Will Dorothy McCabe win the 2026 Waterloo mayoral electi |
+| 4 | 23.20 | 116.00 | Reserve Bank of Australia increases interest rates by 25 |
+| 5 | 21.60 | 108.00 | Will Google be the second-best Math AI lab at the end of |
+| 6 | 18.60 | 92.99 | Will Flavio Bolsonaro win the most votes in the next Bra |
+| 7 | 16.80 | 84.00 | No change in Reserve Bank of Australia's interest rates  |
+| 8 | 14.60 | 73.00 | Will the most viewed episode of Jesse Watters Primetime  |
+| 9 | 14.00 | 70.00 | Will the most viewed episode of The Five for the week of |
+| 10 | 13.60 | 68.00 | Will "Earrings - Malcolm Todd" be the #2 US song this we |
 
 ## Rewards: actual vs estimated
 
-- ts: `2026-08-30T02:47:10Z`
+- ts: `2026-08-30T18:31:19Z`
 - total actual: $0
 - total estimated: $0
 - ratio: n/a
