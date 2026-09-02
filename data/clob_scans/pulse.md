@@ -1,43 +1,43 @@
-# CLOB pulse — 2026-09-02T02:12:58Z
+# CLOB pulse — 2026-09-02T18:30:23Z
 
 - Domain: `https://clob.polymarket.com`
 - Budget: $500
 - Snapshot days on disk: 3
-- Scored: 250  competed: 174  near-zero: 76
+- Scored: 250  competed: 176  near-zero: 74
 - Pilot universe: 0 (provisional: 0)
-- Top-20 competed avg yield: 17.629%/day (gross)
+- Top-20 competed avg yield: 15.4526%/day (gross)
 
 ## Top competed
 
 | # | yield%/d | est$/d | rate | qual$ | market |
 |---|----------|--------|------|-------|--------|
-| 1 | 27.89 | 139.44 | 500 | 1210 | Lacy and Marlon beat gaming challenge by September 6, 20 |
-| 2 | 25.72 | 128.61 | 200 | 164 | Will the next Mythos-Class model debut with a Humanity's |
-| 3 | 24.95 | 124.76 | 200 | 472 | Will the next Mythos-Class model debut with a Humanity's |
-| 4 | 22.47 | 112.34 | 140 | 153 | Will Capitão Alberto Neto win the second-most votes in t |
-| 5 | 20.57 | 102.86 | 200 | 249 | Will OpenAI's Astra model debut as #1? (Text Arena) |
-| 6 | 20.39 | 101.94 | 141 | 417 | Will Roman Zarzycký be the next Mayor of Plzeň? |
-| 7 | 18.99 | 94.94 | 102 | 343 | Will OpenAI have the best AI model on LiveBench (Mathema |
-| 8 | 18.01 | 90.06 | 98 | 130 | Will Anthropic have the best AI model on LiveBench (Math |
-| 9 | 17.36 | 86.78 | 102 | 151 | Will Branislav Becík win the 2026 Nitra Region gubernato |
-| 10 | 17.32 | 86.60 | 187 | 392 | Will Héctor Santana García win the 2027 Nayarit Governor |
+| 1 | 32.47 | 162.36 | 470 | 1505 | Will Lacy and Marlon have between 50 and 99 Warzone deat |
+| 2 | 26.12 | 130.62 | 200 | 147 | Will the next Mythos-Class model debut as #1? (Text Aren |
+| 3 | 19.93 | 99.65 | 200 | 938 | Alexandre de Moraes out as Brazil Supreme Court Justice? |
+| 4 | 19.58 | 97.91 | 107 | 171 | Will Tito-Dante Marimpietri win the 2026 Oshawa mayoral  |
+| 5 | 18.10 | 90.51 | 120 | 206 | Will Centre Party (C) win between 7% and 9% of all valid |
+| 6 | 16.37 | 81.83 | 318 | 1169 | Will Lacy and Marlon have fewer than 50 Warzone deaths d |
+| 7 | 16.04 | 80.19 | 91 | 127 | Will Zenaide Maia win the second-most votes in the 2026  |
+| 8 | 15.72 | 78.61 | 200 | 829 | US x Iran Effective Ceasefire by September 18? |
+| 9 | 15.57 | 77.84 | 127 | 486 | Will Hong Kong have less than 275mm of precipitation in  |
+| 10 | 15.44 | 77.22 | 167 | 576 | Will Lacy and Marlon have between 100 and 149 Warzone de |
 
 ## Near-zero (excluded from pilot)
 
-| 1 | 94.72 | 473.62 | Will Lacy and Marlon have fewer than 100 Fortnite deaths |
-| 2 | 58.80 | 294.00 | Will Lacy and Marlon have between 100 and 199 Fortnite d |
-| 3 | 57.80 | 289.00 | Will OpenAI’s Astra model be released between August 31  |
-| 4 | 40.00 | 200.00 | Will the next Mythos-Class model debut as #1? (Text Aren |
-| 5 | 40.00 | 200.00 | US x Iran Effective Ceasefire by September 11? |
-| 6 | 40.00 | 200.00 | US x Iran Effective Ceasefire by September 18? |
-| 7 | 40.00 | 200.00 | US x Iran Effective Ceasefire by September 30? |
-| 8 | 34.27 | 171.36 | Will Lacy and Marlon have between 200 and 299 Fortnite d |
-| 9 | 34.20 | 171.00 | Will Eric Opah win the 2027 Abia State gubernatorial ele |
-| 10 | 23.60 | 118.00 | Will a dozen eggs cost between $2.20–$2.30 in August? |
+| 1 | 25.20 | 126.00 | Will Shailene Woodley – “Paradise” win Emmys 2026: Outst |
+| 2 | 18.00 | 90.00 | Will Étienne Grandmont win the next Taschereau Quebec Na |
+| 3 | 15.20 | 76.00 | Will Linke win 30-34 seats in the 2026 Berlin state elec |
+| 4 | 15.20 | 76.00 | Will Seattle have less than 1 inch of precipitation in S |
+| 5 | 13.80 | 69.00 | Will Andrew Feinstein win the Holborn and St Pancras by- |
+| 6 | 13.78 | 68.88 | Will Aaron Kupin win the 2026 WSOP Player of the Year? |
+| 7 | 13.40 | 67.00 | Will Miroslava Ferancová be the next Mayor of Olomouc? |
+| 8 | 12.80 | 64.00 | Will Steve Hilton win Fresno County in the California go |
+| 9 | 12.40 | 62.00 | Will Juan Brunetta (Tigres UANL) be the top goalscorer o |
+| 10 | 12.20 | 61.00 | Will the Liberal Democratic Party of Russia (LDPR) win f |
 
 ## Rewards: actual vs estimated
 
-- ts: `2026-09-02T02:12:58Z`
+- ts: `2026-09-02T18:30:23Z`
 - total actual: $0
 - total estimated: $0
 - ratio: n/a
