@@ -1,43 +1,43 @@
-# CLOB pulse — 2026-09-01T18:17:20Z
+# CLOB pulse — 2026-09-02T02:12:58Z
 
 - Domain: `https://clob.polymarket.com`
 - Budget: $500
 - Snapshot days on disk: 3
-- Scored: 250  competed: 192  near-zero: 58
+- Scored: 250  competed: 174  near-zero: 76
 - Pilot universe: 0 (provisional: 0)
-- Top-20 competed avg yield: 15.8945%/day (gross)
+- Top-20 competed avg yield: 17.629%/day (gross)
 
 ## Top competed
 
 | # | yield%/d | est$/d | rate | qual$ | market |
 |---|----------|--------|------|-------|--------|
-| 1 | 39.44 | 197.21 | 200 | 83 | Will the next Mythos-Class model debut with a Humanity's |
-| 2 | 26.33 | 131.64 | 200 | 98 | Will the next Gemini Flash model (3.8+) debut as #1? (Te |
-| 3 | 19.95 | 99.77 | 132 | 176 | Will Peter Fiabáne win the 2026 Žilina mayoral election? |
-| 4 | 19.48 | 97.42 | 102 | 62 | Will Google be the second-best Math AI lab at the end of |
-| 5 | 18.46 | 92.30 | 118 | 122 | Will Tomáš Portlík be the next Mayor of Prague? |
-| 6 | 17.58 | 87.92 | 113 | 325 | Will PUBG Mobile Win the 2026 Esports Mobile Game of the |
-| 7 | 17.49 | 87.43 | 100 | 197 | Will George Harvie win the 2026 Delta mayoral election? |
-| 8 | 16.60 | 82.99 | 200 | 617 | Will it rain during the Italian Grand Prix? |
-| 9 | 15.55 | 77.76 | 86 | 103 | Will Marián Porvažník win the 2026 Košice Region guberna |
-| 10 | 15.37 | 76.87 | 125 | 247 | Will Ana Lilia Rivera Rivera win the 2027 Tlaxcala Gover |
+| 1 | 27.89 | 139.44 | 500 | 1210 | Lacy and Marlon beat gaming challenge by September 6, 20 |
+| 2 | 25.72 | 128.61 | 200 | 164 | Will the next Mythos-Class model debut with a Humanity's |
+| 3 | 24.95 | 124.76 | 200 | 472 | Will the next Mythos-Class model debut with a Humanity's |
+| 4 | 22.47 | 112.34 | 140 | 153 | Will Capitão Alberto Neto win the second-most votes in t |
+| 5 | 20.57 | 102.86 | 200 | 249 | Will OpenAI's Astra model debut as #1? (Text Arena) |
+| 6 | 20.39 | 101.94 | 141 | 417 | Will Roman Zarzycký be the next Mayor of Plzeň? |
+| 7 | 18.99 | 94.94 | 102 | 343 | Will OpenAI have the best AI model on LiveBench (Mathema |
+| 8 | 18.01 | 90.06 | 98 | 130 | Will Anthropic have the best AI model on LiveBench (Math |
+| 9 | 17.36 | 86.78 | 102 | 151 | Will Branislav Becík win the 2026 Nitra Region gubernato |
+| 10 | 17.32 | 86.60 | 187 | 392 | Will Héctor Santana García win the 2027 Nayarit Governor |
 
 ## Near-zero (excluded from pilot)
 
-| 1 | 40.00 | 200.00 | Will the next Mythos-Class model debut as #1? (Text Aren |
-| 2 | 40.00 | 200.00 | Will OpenAI's Astra model debut as #1? (Text Arena) |
-| 3 | 40.00 | 200.00 | Will the next Mythos-Class model debut with a Humanity's |
-| 4 | 40.00 | 200.00 | Will the next Mythos-Class model debut with a Humanity's |
-| 5 | 29.80 | 149.00 | Will MrBeast Gaming's next video get less than 38 millio |
-| 6 | 28.80 | 144.00 | Will OpenAI’s Astra model be released between August 31  |
-| 7 | 28.80 | 144.00 | Will OpenAI’s Astra model be released between September  |
-| 8 | 26.20 | 131.00 | Will Zac de Vries win the 2026 Saanich mayoral election? |
-| 9 | 25.40 | 127.00 | Will MrBeast Gaming's next video get between 38 and 40 m |
-| 10 | 24.80 | 124.00 | Will Branislav Becík win the 2026 Nitra Region gubernato |
+| 1 | 94.72 | 473.62 | Will Lacy and Marlon have fewer than 100 Fortnite deaths |
+| 2 | 58.80 | 294.00 | Will Lacy and Marlon have between 100 and 199 Fortnite d |
+| 3 | 57.80 | 289.00 | Will OpenAI’s Astra model be released between August 31  |
+| 4 | 40.00 | 200.00 | Will the next Mythos-Class model debut as #1? (Text Aren |
+| 5 | 40.00 | 200.00 | US x Iran Effective Ceasefire by September 11? |
+| 6 | 40.00 | 200.00 | US x Iran Effective Ceasefire by September 18? |
+| 7 | 40.00 | 200.00 | US x Iran Effective Ceasefire by September 30? |
+| 8 | 34.27 | 171.36 | Will Lacy and Marlon have between 200 and 299 Fortnite d |
+| 9 | 34.20 | 171.00 | Will Eric Opah win the 2027 Abia State gubernatorial ele |
+| 10 | 23.60 | 118.00 | Will a dozen eggs cost between $2.20–$2.30 in August? |
 
 ## Rewards: actual vs estimated
 
-- ts: `2026-09-01T18:17:20Z`
+- ts: `2026-09-02T02:12:58Z`
 - total actual: $0
 - total estimated: $0
 - ratio: n/a
