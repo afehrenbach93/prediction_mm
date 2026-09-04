@@ -1,5 +1,5 @@
 {
-  "ts": "2026-09-03T18:26:00Z",
+  "ts": "2026-09-04T02:15:23Z",
   "live": false,
   "total_actual": 0,
   "total_estimated": 0,
@@ -9,5 +9,5 @@
   "markets": [],
   "note": "empty until live earnings available",
   "fetch_source": "data_api",
-  "day": "2026-09-03"
+  "day": "2026-09-04"
 }

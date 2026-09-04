@@ -1,155 +1,175 @@
 {
-  "ts": "2026-09-03T18:26:00Z",
+  "ts": "2026-09-04T02:15:23Z",
   "domain": "https://clob.polymarket.com",
   "budget_usd": 500.0,
   "snapshot_days": 3,
   "scored_markets": 250,
-  "competed": 204,
-  "near_zero": 46,
+  "competed": 188,
+  "near_zero": 62,
   "pilot_universe": 0,
   "pilot_provisional": 0,
-  "top20_competed_avg_yield_pct": 20.9682,
+  "top20_competed_avg_yield_pct": 30.8052,
   "top10_competed": [
     {
-      "question": "Will Lacy and Marlon have between 50 and 99 Warzone deaths during the marathon?",
-      "slug": "will-lacy-and-marlon-have-between-50-and-99-warzone-deaths-during-the-marathon",
-      "daily_rate": 268.0,
-      "qual_notional": 58.31,
-      "est_daily": 256.8143,
-      "yield_pct": 51.3629,
-      "mid": "0.49",
+      "question": "Will OpenAI have the best AI model at the end of September 2026?",
+      "slug": "will-openai-have-the-best-ai-model-at-the-end-of-september-2026-20260717143137058",
+      "daily_rate": 459.0,
+      "qual_notional": 495.58,
+      "est_daily": 334.182,
+      "yield_pct": 66.8364,
+      "mid": "0.228",
       "near_zero": false
     },
     {
-      "question": "US x Iran Effective Ceasefire by September 7?",
-      "slug": "us-x-iran-effective-ceasefire-by-september-7",
+      "question": "Will OpenAI's Astra model be released on September 8, 2026?",
+      "slug": "will-openais-astra-model-be-released-on-september-8-2026",
+      "daily_rate": 533.0,
+      "qual_notional": 146.01,
+      "est_daily": 316.4245,
+      "yield_pct": 63.2849,
+      "mid": "0.171",
+      "near_zero": false
+    },
+    {
+      "question": "Will OpenAI's Astra model debut as #1? (Text Arena)",
+      "slug": "will-openais-astra-model-debut-as-1-text-arena-20260901081919669",
+      "daily_rate": 300.0,
+      "qual_notional": 61.7,
+      "est_daily": 255.7841,
+      "yield_pct": 51.1568,
+      "mid": "0.1555",
+      "near_zero": false
+    },
+    {
+      "question": "Will Lacy or Marlon die to a zombie?",
+      "slug": "will-lacy-or-marlon-die-to-zombie",
       "daily_rate": 200.0,
-      "qual_notional": 327.09,
-      "est_daily": 194.2359,
-      "yield_pct": 38.8472,
-      "mid": "0.42",
+      "qual_notional": 124.2,
+      "est_daily": 185.5342,
+      "yield_pct": 37.1068,
+      "mid": "0.27",
       "near_zero": false
     },
     {
-      "question": "Will Lacy and Marlon have fewer than 50 Warzone deaths during the marathon?",
-      "slug": "will-lacy-and-marlon-have-fewer-than-50-warzone-deaths-during-the-marathon",
-      "daily_rate": 208.0,
-      "qual_notional": 97.63,
-      "est_daily": 185.3058,
-      "yield_pct": 37.0612,
-      "mid": "0.4",
-      "near_zero": false
-    },
-    {
-      "question": "Will Lacy and Marlon have 100 or more Fortnite deaths during the marathon?",
-      "slug": "will-lacy-and-marlon-have-100-or-more-fortnite-deaths-during-the-marathon",
-      "daily_rate": 191.0,
-      "qual_notional": 264.42,
-      "est_daily": 147.5137,
-      "yield_pct": 29.5027,
+      "question": "Will OpenAI\u2019s Astra model debut on the Arena Leaderboard at a score of at least ",
+      "slug": "will-openais-astra-model-debut-on-the-arena-leaderboard-at-a-score-of-at-least-1510",
+      "daily_rate": 200.0,
+      "qual_notional": 312.57,
+      "est_daily": 177.6472,
+      "yield_pct": 35.5294,
       "mid": "0.26",
       "near_zero": false
     },
     {
-      "question": "Will Navdeep Bains win the 2026 Ontario Liberal Party leadership election?",
-      "slug": "will-navdeep-bains-win-the-2026-ontario-liberal-party-leadership-election",
-      "daily_rate": 124.0,
-      "qual_notional": 189.05,
-      "est_daily": 111.5638,
-      "yield_pct": 22.3128,
-      "mid": "0.58",
-      "near_zero": false
-    },
-    {
-      "question": "Will Ana Lilia Rivera Rivera win the 2027 Tlaxcala Governor Election?",
-      "slug": "will-ana-lilia-rivera-rivera-win-the-2027-tlaxcala-governor-election-20260803173858358",
-      "daily_rate": 133.0,
-      "qual_notional": 258.84,
-      "est_daily": 111.0532,
-      "yield_pct": 22.2106,
-      "mid": "0.547",
-      "near_zero": false
-    },
-    {
-      "question": "Will Lorenia Valles Sampedro win the 2027 Sonora Governor Election?",
-      "slug": "will-lorenia-valles-sampedro-win-the-2027-sonora-governor-election-20260803173857684",
-      "daily_rate": 106.0,
-      "qual_notional": 350.71,
-      "est_daily": 94.3128,
-      "yield_pct": 18.8626,
-      "mid": "0.465",
-      "near_zero": false
-    },
-    {
-      "question": "Will Lacy and Marlon have between 40 and 49 Fortnite deaths during the marathon?",
-      "slug": "will-lacy-and-marlon-have-between-40-and-49-fortnite-deaths-during-the-marathon",
-      "daily_rate": 100.0,
-      "qual_notional": 55.8,
-      "est_daily": 92.7317,
-      "yield_pct": 18.5463,
-      "mid": "0.155",
-      "near_zero": false
-    },
-    {
-      "question": "Will Lacy and Marlon have between 50 and 59 Fortnite deaths during the marathon?",
-      "slug": "will-lacy-and-marlon-have-between-50-and-59-fortnite-deaths-during-the-marathon",
-      "daily_rate": 109.0,
-      "qual_notional": 147.3,
-      "est_daily": 89.1513,
-      "yield_pct": 17.8303,
-      "mid": "0.165",
-      "near_zero": false
-    },
-    {
-      "question": "Lacy and Marlon beat gaming challenge by September 6, 2026, 11:59 PM ET?",
-      "slug": "lacy-and-marlon-beat-gaming-challenge-by-september-6-2026-1159-pm-et",
-      "daily_rate": 300.0,
-      "qual_notional": 2440.02,
-      "est_daily": 88.047,
-      "yield_pct": 17.6094,
-      "mid": "0.57",
-      "near_zero": false
-    }
-  ],
-  "top10_near_zero": [
-    {
-      "question": "Will the next Sonnet model debut at a score of at least 1470 by December 31, 202",
-      "slug": "will-the-next-sonnet-model-debut-at-a-score-of-at-least-1470-by-december-31-2026",
+      "question": "Will OpenAI\u2019s Astra model debut on the Arena Leaderboard at a score of at least ",
+      "slug": "will-openais-astra-model-debut-on-the-arena-leaderboard-at-a-score-of-at-least-1480",
       "daily_rate": 200.0,
-      "qual_notional": 0.0,
-      "est_daily": 200.0,
-      "yield_pct": 40.0,
-      "mid": "0.435",
-      "near_zero": true
+      "qual_notional": 572.91,
+      "est_daily": 168.3585,
+      "yield_pct": 33.6717,
+      "mid": "0.775",
+      "near_zero": false
+    },
+    {
+      "question": "Will Bekim Sejdiu be the next President of Kosovo?",
+      "slug": "will-bekim-sejdiu-be-the-next-president-of-kosovo",
+      "daily_rate": 194.0,
+      "qual_notional": 103.74,
+      "est_daily": 159.9273,
+      "yield_pct": 31.9855,
+      "mid": "0.38",
+      "near_zero": false
+    },
+    {
+      "question": "Will OpenAI\u2019s Astra model debut on the Arena Leaderboard at a score of at least ",
+      "slug": "will-openais-astra-model-debut-on-the-arena-leaderboard-at-a-score-of-at-least-1500",
+      "daily_rate": 200.0,
+      "qual_notional": 447.6,
+      "est_daily": 146.2087,
+      "yield_pct": 29.2417,
+      "mid": "0.4",
+      "near_zero": false
     },
     {
       "question": "Will the next Sonnet model debut at a score of at least 1480 by December 31, 202",
       "slug": "will-the-next-sonnet-model-debut-at-a-score-of-at-least-1480-by-december-31-2026",
       "daily_rate": 200.0,
-      "qual_notional": 0.0,
-      "est_daily": 200.0,
-      "yield_pct": 40.0,
-      "mid": "0.435",
-      "near_zero": true
+      "qual_notional": 150.88,
+      "est_daily": 144.9846,
+      "yield_pct": 28.9969,
+      "mid": "0.425",
+      "near_zero": false
     },
     {
-      "question": "Will the next Sonnet model debut at a score of at least 1490 by December 31, 202",
-      "slug": "will-the-next-sonnet-model-debut-at-a-score-of-at-least-1490-by-december-31-2026",
+      "question": "Will Brett Whiteley win the next Latrobe mayoral election?",
+      "slug": "will-brett-whiteley-win-the-2026-latrobe-mayoral-election",
       "daily_rate": 200.0,
-      "qual_notional": 0.0,
-      "est_daily": 200.0,
-      "yield_pct": 40.0,
+      "qual_notional": 101.18,
+      "est_daily": 139.5877,
+      "yield_pct": 27.9175,
       "mid": "0.155",
+      "near_zero": false
+    }
+  ],
+  "top10_near_zero": [
+    {
+      "question": "Will Lacy and Marlon have fewer than 50 Warzone deaths during the marathon?",
+      "slug": "will-lacy-and-marlon-have-fewer-than-50-warzone-deaths-during-the-marathon",
+      "daily_rate": 327.0,
+      "qual_notional": 0.0,
+      "est_daily": 327.0,
+      "yield_pct": 65.4,
+      "mid": "0.405",
       "near_zero": true
     },
     {
-      "question": "Will the next Sonnet model debut at a score of at least 1500 by December 31, 202",
-      "slug": "will-the-next-sonnet-model-debut-at-a-score-of-at-least-1500-by-december-31-2026",
+      "question": "Will OpenAI's Astra model be released on September 9, 2026?",
+      "slug": "will-openais-astra-model-be-released-on-september-9-2026",
+      "daily_rate": 287.0,
+      "qual_notional": 0.0,
+      "est_daily": 287.0,
+      "yield_pct": 57.4,
+      "mid": "0.113",
+      "near_zero": true
+    },
+    {
+      "question": "Will Lacy and Marlon have between 40 and 49 Fortnite deaths during the marathon?",
+      "slug": "will-lacy-and-marlon-have-between-40-and-49-fortnite-deaths-during-the-marathon",
+      "daily_rate": 286.0,
+      "qual_notional": 0.0,
+      "est_daily": 286.0,
+      "yield_pct": 57.2,
+      "mid": "0.225",
+      "near_zero": true
+    },
+    {
+      "question": "Will Lacy and Marlon have fewer than 2 Minecraft deaths during the marathon?",
+      "slug": "will-lacy-and-marlon-have-fewer-than-2-minecraft-deaths-during-the-marathon",
+      "daily_rate": 250.0,
+      "qual_notional": 19.86,
+      "est_daily": 238.4709,
+      "yield_pct": 47.6942,
+      "mid": "0.0055",
+      "near_zero": true
+    },
+    {
+      "question": "Lacy and Marlon beat gaming challenge by September 7, 2026, 11:59 PM ET?",
+      "slug": "lacy-and-marlon-beat-gaming-challenge-by-september-7-2026-1159-pm-et",
       "daily_rate": 200.0,
       "qual_notional": 0.0,
       "est_daily": 200.0,
       "yield_pct": 40.0,
-      "mid": "0.17",
+      "mid": "0.69",
+      "near_zero": true
+    },
+    {
+      "question": "Will Lacy or Marlon die to a skeleton?",
+      "slug": "will-lacy-or-marlon-die-to-skeleton",
+      "daily_rate": 200.0,
+      "qual_notional": 0.0,
+      "est_daily": 200.0,
+      "yield_pct": 40.0,
+      "mid": "0.49",
       "near_zero": true
     },
     {
@@ -159,57 +179,37 @@
       "qual_notional": 0.0,
       "est_daily": 200.0,
       "yield_pct": 40.0,
-      "mid": "0.48",
-      "near_zero": true
-    },
-    {
-      "question": "Will Anthropic have the best AI model at the end of October 2026?",
-      "slug": "will-anthropic-have-the-best-ai-model-at-the-end-of-october-2026-20260811194841118",
-      "daily_rate": 116.0,
-      "qual_notional": 0.0,
-      "est_daily": 116.0,
-      "yield_pct": 23.2,
-      "mid": "0.505",
-      "near_zero": true
-    },
-    {
-      "question": "Will United Russia win the next Samara Oblast Parliament elections?",
-      "slug": "will-united-russia-win-the-next-samara-oblast-parliament-elections-20260727165845158",
-      "daily_rate": 100.0,
-      "qual_notional": 0.0,
-      "est_daily": 100.0,
-      "yield_pct": 20.0,
-      "mid": "0.7525",
-      "near_zero": true
-    },
-    {
-      "question": "Will \"By Any Means\" score at least 60 on the Rotten Tomatoes Tomatometer?",
-      "slug": "will-by-any-means-score-at-least-60-on-the-rotten-tomatoes-tomatometer",
-      "daily_rate": 100.0,
-      "qual_notional": 0.0,
-      "est_daily": 100.0,
-      "yield_pct": 20.0,
-      "mid": "0.625",
-      "near_zero": true
-    },
-    {
-      "question": "Will \"By Any Means\" score at least 70 on the Rotten Tomatoes Tomatometer?",
-      "slug": "will-by-any-means-score-at-least-70-on-the-rotten-tomatoes-tomatometer",
-      "daily_rate": 100.0,
-      "qual_notional": 0.0,
-      "est_daily": 100.0,
-      "yield_pct": 20.0,
       "mid": "0.5",
       "near_zero": true
     },
     {
-      "question": "Will \"By Any Means\" score at least 75 on the Rotten Tomatoes Tomatometer?",
-      "slug": "will-by-any-means-score-at-least-75-on-the-rotten-tomatoes-tomatometer",
-      "daily_rate": 100.0,
+      "question": "Will Lacy or Marlon die to a creeper again?",
+      "slug": "will-lacy-or-marlon-die-to-a-creeper-again",
+      "daily_rate": 200.0,
       "qual_notional": 0.0,
-      "est_daily": 100.0,
-      "yield_pct": 20.0,
-      "mid": "0.495",
+      "est_daily": 200.0,
+      "yield_pct": 40.0,
+      "mid": "0.215",
+      "near_zero": true
+    },
+    {
+      "question": "Lindsay Clancy convicted of manslaughter?",
+      "slug": "lindsay-clancy-convicted-of-manslaughter",
+      "daily_rate": 200.0,
+      "qual_notional": 0.0,
+      "est_daily": 200.0,
+      "yield_pct": 40.0,
+      "mid": "0.265",
+      "near_zero": true
+    },
+    {
+      "question": "Will Lacy and Marlon have between 2 and 3 Minecraft deaths during the marathon?",
+      "slug": "will-lacy-and-marlon-have-between-2-and-3-minecraft-deaths-during-the-marathon",
+      "daily_rate": 157.0,
+      "qual_notional": 0.0,
+      "est_daily": 157.0,
+      "yield_pct": 31.4,
+      "mid": "0.48",
       "near_zero": true
     }
   ],
@@ -219,7 +219,7 @@
     "day_csvs": [
       "2026-07-19.csv",
       "2026-07-20.csv",
-      "2026-09-03.csv"
+      "2026-09-04.csv"
     ]
   }
 }
