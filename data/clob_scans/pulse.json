@@ -1,113 +1,113 @@
 {
-  "ts": "2026-09-04T18:13:01Z",
+  "ts": "2026-09-05T02:15:53Z",
   "domain": "https://clob.polymarket.com",
   "budget_usd": 500.0,
   "snapshot_days": 3,
   "scored_markets": 250,
-  "competed": 210,
-  "near_zero": 40,
+  "competed": 225,
+  "near_zero": 25,
   "pilot_universe": 0,
   "pilot_provisional": 0,
-  "top20_competed_avg_yield_pct": 26.2765,
+  "top20_competed_avg_yield_pct": 19.27,
   "top10_competed": [
     {
-      "question": "Fetterman out by December 31, 2026?",
-      "slug": "fetterman-out-before-2027",
-      "daily_rate": 300.0,
-      "qual_notional": 98.29,
-      "est_daily": 254.5804,
-      "yield_pct": 50.9161,
-      "mid": "0.167",
-      "near_zero": false
-    },
-    {
-      "question": "Fetterman out by September 30, 2026?",
-      "slug": "fetterman-out-by-september-30-2026",
-      "daily_rate": 300.0,
-      "qual_notional": 66.76,
-      "est_daily": 215.5325,
-      "yield_pct": 43.1065,
-      "mid": "0.155",
-      "near_zero": false
-    },
-    {
-      "question": "Will OpenAI's Astra model debut as #1? (Text Arena)",
-      "slug": "will-openais-astra-model-debut-as-1-text-arena-20260901081919669",
-      "daily_rate": 200.0,
-      "qual_notional": 296.23,
-      "est_daily": 168.8101,
-      "yield_pct": 33.762,
-      "mid": "0.156",
-      "near_zero": false
-    },
-    {
-      "question": "Will OpenAI\u2019s Astra model debut on the Arena Leaderboard at a score of at least ",
-      "slug": "will-openais-astra-model-debut-on-the-arena-leaderboard-at-a-score-of-at-least-1480",
-      "daily_rate": 200.0,
-      "qual_notional": 280.06,
-      "est_daily": 167.7991,
-      "yield_pct": 33.5598,
-      "mid": "0.67",
-      "near_zero": false
-    },
-    {
-      "question": "Will OpenAI\u2019s Astra model debut on the Arena Leaderboard at a score of at least ",
-      "slug": "will-openais-astra-model-debut-on-the-arena-leaderboard-at-a-score-of-at-least-1500",
-      "daily_rate": 200.0,
-      "qual_notional": 285.72,
-      "est_daily": 163.4145,
-      "yield_pct": 32.6829,
-      "mid": "0.235",
-      "near_zero": false
-    },
-    {
-      "question": "Will OpenAI's Astra model be released on September 9, 2026?",
-      "slug": "will-openais-astra-model-be-released-on-september-9-2026",
-      "daily_rate": 769.0,
-      "qual_notional": 1531.72,
-      "est_daily": 150.1808,
-      "yield_pct": 30.0362,
-      "mid": "0.2455",
-      "near_zero": false
-    },
-    {
-      "question": "Will OpenAI's Astra model be released on September 8, 2026?",
-      "slug": "will-openais-astra-model-be-released-on-september-8-2026",
-      "daily_rate": 385.0,
-      "qual_notional": 499.8,
-      "est_daily": 139.4079,
-      "yield_pct": 27.8816,
-      "mid": "0.149",
-      "near_zero": false
-    },
-    {
-      "question": "Will OpenAI's valuation hit (LOW) $875B by September 30?",
-      "slug": "will-openais-valuation-hit-low-875b-by-september-30-20260829011000016",
-      "daily_rate": 200.0,
-      "qual_notional": 110.76,
-      "est_daily": 138.0045,
-      "yield_pct": 27.6009,
-      "mid": "0.165",
-      "near_zero": false
-    },
-    {
-      "question": "Will MOUZ Win the BLAST Open Porto 2026?",
-      "slug": "will-mouz-win-the-blast-open-porto-2026-20260806201117427",
-      "daily_rate": 188.0,
-      "qual_notional": 437.94,
-      "est_daily": 132.0381,
-      "yield_pct": 26.4076,
-      "mid": "0.18",
+      "question": "Lindsay Clancy convicted of murder by December 31, 2027?",
+      "slug": "lindsay-clancy-convicted-of-murder-by-december-31-2027",
+      "daily_rate": 500.0,
+      "qual_notional": 1693.87,
+      "est_daily": 250.5915,
+      "yield_pct": 50.1183,
+      "mid": "0.23",
       "near_zero": false
     },
     {
       "question": "Will Lacy or Marlon die to a creeper again?",
       "slug": "will-lacy-or-marlon-die-to-a-creeper-again-03",
       "daily_rate": 200.0,
-      "qual_notional": 713.06,
-      "est_daily": 111.7771,
-      "yield_pct": 22.3554,
-      "mid": "0.49",
+      "qual_notional": 71.1,
+      "est_daily": 181.8394,
+      "yield_pct": 36.3679,
+      "mid": "0.395",
+      "near_zero": false
+    },
+    {
+      "question": "Will Lacy and Marlon have between 2 and 3 Minecraft deaths during the marathon?",
+      "slug": "will-lacy-and-marlon-have-between-2-and-3-minecraft-deaths-during-the-marathon",
+      "daily_rate": 181.0,
+      "qual_notional": 113.47,
+      "est_daily": 136.0463,
+      "yield_pct": 27.2093,
+      "mid": "0.255",
+      "near_zero": false
+    },
+    {
+      "question": "Will OpenAI's Astra model debut as #1? (Text Arena)",
+      "slug": "will-openais-astra-model-debut-as-1-text-arena-20260901081919669",
+      "daily_rate": 200.0,
+      "qual_notional": 351.09,
+      "est_daily": 116.5296,
+      "yield_pct": 23.3059,
+      "mid": "0.136",
+      "near_zero": false
+    },
+    {
+      "question": "Will Lacy and Marlon have between 50 and 99 Warzone deaths during the marathon?",
+      "slug": "will-lacy-and-marlon-have-between-50-and-99-warzone-deaths-during-the-marathon",
+      "daily_rate": 303.0,
+      "qual_notional": 604.75,
+      "est_daily": 110.9435,
+      "yield_pct": 22.1887,
+      "mid": "0.58",
+      "near_zero": false
+    },
+    {
+      "question": "Fetterman out by December 31, 2026?",
+      "slug": "fetterman-out-before-2027",
+      "daily_rate": 300.0,
+      "qual_notional": 1057.57,
+      "est_daily": 110.7184,
+      "yield_pct": 22.1437,
+      "mid": "0.108",
+      "near_zero": false
+    },
+    {
+      "question": "Will Anthropic have the #1 AI model at the end of September 2026?",
+      "slug": "will-anthropic-have-the-1-ai-model-at-the-end-of-september-2026-20260717144218348",
+      "daily_rate": 132.0,
+      "qual_notional": 119.91,
+      "est_daily": 109.1074,
+      "yield_pct": 21.8215,
+      "mid": "0.565",
+      "near_zero": false
+    },
+    {
+      "question": "Will OpenAI\u2019s Astra model debut on the Arena Leaderboard at a score of at least ",
+      "slug": "will-openais-astra-model-debut-on-the-arena-leaderboard-at-a-score-of-at-least-1500",
+      "daily_rate": 200.0,
+      "qual_notional": 458.48,
+      "est_daily": 103.9572,
+      "yield_pct": 20.7914,
+      "mid": "0.255",
+      "near_zero": false
+    },
+    {
+      "question": "Will OpenAI\u2019s Astra model debut on the Arena Leaderboard at a score of at least ",
+      "slug": "will-openais-astra-model-debut-on-the-arena-leaderboard-at-a-score-of-at-least-1480",
+      "daily_rate": 200.0,
+      "qual_notional": 1394.95,
+      "est_daily": 88.4887,
+      "yield_pct": 17.6977,
+      "mid": "0.685",
+      "near_zero": false
+    },
+    {
+      "question": "Will the first announced price of the foldable iPhone be at least $2,400?",
+      "slug": "will-the-first-announced-price-of-the-foldable-iphone-be-at-least-2400",
+      "daily_rate": 200.0,
+      "qual_notional": 656.5,
+      "est_daily": 79.0939,
+      "yield_pct": 15.8188,
+      "mid": "0.135",
       "near_zero": false
     }
   ],
@@ -119,97 +119,97 @@
       "qual_notional": 0.0,
       "est_daily": 200.0,
       "yield_pct": 40.0,
-      "mid": "0.505",
+      "mid": "0.605",
       "near_zero": true
     },
     {
-      "question": "Will OpenAI's valuation hit (HIGH) $925B by September 30?",
-      "slug": "will-openais-valuation-hit-high-925b-by-september-30-20260829011000015",
+      "question": "Will Drake release a new album by December 31?",
+      "slug": "will-drake-release-a-new-album-by-december-31",
       "daily_rate": 200.0,
       "qual_notional": 0.0,
       "est_daily": 200.0,
       "yield_pct": 40.0,
-      "mid": "0.68",
+      "mid": "0.325",
       "near_zero": true
     },
     {
-      "question": "GPT-7 released by December 31, 2027?",
-      "slug": "gpt-7-released-by-december-31-2027",
-      "daily_rate": 200.0,
-      "qual_notional": 0.0,
-      "est_daily": 200.0,
-      "yield_pct": 40.0,
-      "mid": "0.595",
+      "question": "Will Lacy and Marlon have between 50 and 59 Fortnite deaths during the marathon?",
+      "slug": "will-lacy-and-marlon-have-between-50-and-59-fortnite-deaths-during-the-marathon",
+      "daily_rate": 137.0,
+      "qual_notional": 17.14,
+      "est_daily": 136.8773,
+      "yield_pct": 27.3755,
+      "mid": "0.16",
       "near_zero": true
     },
     {
-      "question": "GPT-7 released by June 30, 2027?",
-      "slug": "gpt-7-released-by-june-30-2027",
-      "daily_rate": 200.0,
-      "qual_notional": 45.33,
-      "est_daily": 185.2621,
-      "yield_pct": 37.0524,
-      "mid": "0.17",
-      "near_zero": true
-    },
-    {
-      "question": "Will Ibrahim Abba Gana win the 2027 Borno State gubernatorial election?",
-      "slug": "will-ibrahim-abba-gana-win-the-2027-borno-state-gubernatorial-election",
-      "daily_rate": 135.0,
-      "qual_notional": 0.0,
-      "est_daily": 135.0,
-      "yield_pct": 27.0,
-      "mid": "0.1815",
-      "near_zero": true
-    },
-    {
-      "question": "Will Lacy and Marlon have between 4 and 5 Minecraft deaths during the marathon?",
-      "slug": "will-lacy-and-marlon-have-between-4-and-5-minecraft-deaths-during-the-marathon",
-      "daily_rate": 130.0,
-      "qual_notional": 0.0,
-      "est_daily": 130.0,
-      "yield_pct": 26.0,
-      "mid": "0.285",
-      "near_zero": true
-    },
-    {
-      "question": "Will Stephanie Cameron win the next Meander Valley mayoral election?",
-      "slug": "will-stephanie-cameron-win-the-next-meander-valley-mayoral-election",
+      "question": "Will Anthropic have the best AI model on LiveBench (Mathematics) at the end of S",
+      "slug": "will-anthropic-have-the-best-ai-model-on-livebench-mathematics-at-the-end-of-september-2026-20260728165020632",
       "daily_rate": 133.0,
-      "qual_notional": 41.82,
-      "est_daily": 122.262,
-      "yield_pct": 24.4524,
-      "mid": "0.41",
-      "near_zero": true
-    },
-    {
-      "question": "Will Vaiofuaiupolu Chris Faaofo win the Vaimauga 3 by-election?",
-      "slug": "will-vaiofuaiupolu-chris-faaofo-win-the-vaimauga-3-by-election",
-      "daily_rate": 106.0,
       "qual_notional": 0.0,
-      "est_daily": 106.0,
-      "yield_pct": 21.2,
-      "mid": "0.375",
+      "est_daily": 133.0,
+      "yield_pct": 26.6,
+      "mid": "0.64",
       "near_zero": true
     },
     {
-      "question": "Will any other model be the best AI model on September 21, 2026?",
-      "slug": "will-any-other-model-be-the-best-ai-model-on-september-21-2026",
-      "daily_rate": 105.0,
+      "question": "Will Rob Burton win the 2026 Oakville mayoral election?",
+      "slug": "will-rob-burton-win-the-2026-oakville-mayoral-election",
+      "daily_rate": 123.0,
       "qual_notional": 0.0,
-      "est_daily": 105.0,
-      "yield_pct": 21.0,
-      "mid": "0.54",
+      "est_daily": 123.0,
+      "yield_pct": 24.6,
+      "mid": "0.635",
       "near_zero": true
     },
     {
-      "question": "Will CPRF win the next Kaliningrad Oblast Parliament elections?",
-      "slug": "will-cprf-win-the-next-kaliningrad-oblast-parliament-elections-20260727165546620",
+      "question": "Will Flavio Bolsonaro win the most votes in the next Brazil presidential electio",
+      "slug": "will-flavio-bolsonaro-win-the-most-votes-in-the-next-brazil-presidential-election-from-amazonas",
+      "daily_rate": 113.0,
+      "qual_notional": 0.0,
+      "est_daily": 113.0,
+      "yield_pct": 22.6,
+      "mid": "0.51",
+      "near_zero": true
+    },
+    {
+      "question": "Will Centre Party (C) win between 7% and 9% of all valid votes?",
+      "slug": "will-centre-party-c-win-between-7-and-9-of-all-valid-votes-20260812172636463",
+      "daily_rate": 111.0,
+      "qual_notional": 0.0,
+      "est_daily": 111.0,
+      "yield_pct": 22.2,
+      "mid": "0.405",
+      "near_zero": true
+    },
+    {
+      "question": "Will claude-fable-5.1-max be the best AI model on September 14, 2026?",
+      "slug": "will-claude-fable-5pt1-max-be-the-best-ai-model-on-september-14-2026",
+      "daily_rate": 104.0,
+      "qual_notional": 0.0,
+      "est_daily": 104.0,
+      "yield_pct": 20.8,
+      "mid": "0.65",
+      "near_zero": true
+    },
+    {
+      "question": "Claude 6 released by December 31, 2027?",
+      "slug": "claude-6-released-by-december-31-2027",
       "daily_rate": 100.0,
       "qual_notional": 0.0,
       "est_daily": 100.0,
       "yield_pct": 20.0,
-      "mid": "0.0895",
+      "mid": "0.735",
+      "near_zero": true
+    },
+    {
+      "question": "Will Angela Murray be evicted in Big Brother season 28 (Week 9)?",
+      "slug": "will-angela-murray-be-evicted-in-big-brother-season-28-week-9",
+      "daily_rate": 100.0,
+      "qual_notional": 0.0,
+      "est_daily": 100.0,
+      "yield_pct": 20.0,
+      "mid": "0.495",
       "near_zero": true
     }
   ],
@@ -219,7 +219,7 @@
     "day_csvs": [
       "2026-07-19.csv",
       "2026-07-20.csv",
-      "2026-09-04.csv"
+      "2026-09-05.csv"
     ]
   }
 }
