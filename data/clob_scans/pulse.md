@@ -1,43 +1,43 @@
-# CLOB pulse — 2026-09-05T17:14:12Z
+# CLOB pulse — 2026-09-06T02:11:35Z
 
 - Domain: `https://clob.polymarket.com`
 - Budget: $500
 - Snapshot days on disk: 3
-- Scored: 250  competed: 232  near-zero: 18
+- Scored: 250  competed: 213  near-zero: 37
 - Pilot universe: 0 (provisional: 0)
-- Top-20 competed avg yield: 23.1951%/day (gross)
+- Top-20 competed avg yield: 20.4117%/day (gross)
 
 ## Top competed
 
 | # | yield%/d | est$/d | rate | qual$ | market |
 |---|----------|--------|------|-------|--------|
-| 1 | 39.48 | 197.41 | 200 | 216 | Will OpenAI’s Astra model debut on the Arena Leaderboard |
-| 2 | 38.55 | 192.77 | 507 | 3859 | Will Spirit Win the BLAST Open Porto 2026? |
-| 3 | 37.16 | 185.82 | 189 | 53 | Will Liang Wen-tao win the next Kinmen County Magistrate |
-| 4 | 34.98 | 174.89 | 200 | 258 | Will Lacy or Marlon die to a skeleton again? |
-| 5 | 34.35 | 171.74 | 200 | 86 | Will OpenAI’s Astra model debut on the Arena Leaderboard |
-| 6 | 33.34 | 166.71 | 324 | 13843 | Will Vitality Win the BLAST Open Porto 2026? |
-| 7 | 27.70 | 138.51 | 200 | 352 | Will OpenAI's Astra model debut as #1? (Text Arena) |
-| 8 | 22.99 | 114.95 | 135 | 276 | Will Caliste Win the LEC 2026 Summer Split MVP? |
-| 9 | 21.53 | 107.64 | 187 | 503 | Will Lacy and Marlon have between 100 and 149 Warzone de |
-| 10 | 18.29 | 91.44 | 152 | 224 | Will Lacy and Marlon have between 60 and 69 Fortnite dea |
+| 1 | 51.60 | 257.99 | 500 | 682 | Will Lacy and Marlon beat the gaming challenge by Septem |
+| 2 | 36.69 | 183.47 | 200 | 201 | Will OpenAI's Astra model debut as #1? (Text Arena) |
+| 3 | 33.11 | 165.55 | 200 | 209 | Will OpenAI’s Astra model debut on the Arena Leaderboard |
+| 4 | 27.78 | 138.90 | 203 | 134 | Will Lacy and Marlon have between 50 and 99 Warzone deat |
+| 5 | 24.60 | 122.99 | 300 | 1705 | OpenAI announces it has achieved AGI before 2027? |
+| 6 | 23.11 | 115.54 | 133 | 73 | Will Ana Lilia Rivera Rivera win the 2027 Tlaxcala Gover |
+| 7 | 22.69 | 113.43 | 144 | 112 | Will Yike Win the LEC 2026 Summer Split MVP? |
+| 8 | 20.73 | 103.65 | 191 | 235 | Will Lacy and Marlon have between 6 and 7 Minecraft deat |
+| 9 | 19.40 | 97.02 | 100 | 330 | Will WTI Crude Oil (WTI) hit (LOW) $85 in September? |
+| 10 | 17.88 | 89.42 | 200 | 355 | Will Lacy or Marlon die to a skeleton again? |
 
 ## Near-zero (excluded from pilot)
 
-| 1 | 40.00 | 200.00 | Will OpenAI’s Astra model debut on the Arena Leaderboard |
-| 2 | 26.60 | 133.00 | Will Seattle have less than 1 inch of precipitation in S |
-| 3 | 23.33 | 116.63 | Will Enrico Schult be the next Minister-President of Mec |
-| 4 | 20.00 | 100.00 | Does a card sell for more than Logan’s record $16,492,00 |
-| 5 | 17.80 | 89.00 | Will Moe Comuzzi win the 2026 Thunder Bay mayoral electi |
-| 6 | 17.00 | 85.00 | Will the median home value in NYC be between $636,000 an |
-| 7 | 16.60 | 83.00 | Will GentleMates Win the 2026 Esports Content Group of t |
-| 8 | 12.58 | 62.88 | Will Manuela D'Ávila win the second-most votes in the 20 |
-| 9 | 11.00 | 55.00 | Will Republicans sweep the New Hampshire Senate and Gove |
-| 10 | 10.80 | 54.00 | Will Valorant Win the 2026 Esports Game of the Year Awar |
+| 1 | 59.66 | 298.28 | Will Dignitas Win the Shortest Game in LCS 2026 Summer S |
+| 2 | 40.00 | 200.00 | Will OpenAI’s Astra model debut on the Arena Leaderboard |
+| 3 | 29.00 | 145.00 | Will Google be the second-best Math AI lab at the end of |
+| 4 | 23.80 | 119.00 | Will Stephanie Cameron win the next Meander Valley mayor |
+| 5 | 21.00 | 105.00 | Will Denis Bećirović be the next Chairman of the Council |
+| 6 | 20.40 | 102.00 | Will Jack Crompton win the 2026 Whistler mayoral electio |
+| 7 | 19.95 | 99.77 | Does a card sell for more than Logan’s record $16,492,00 |
+| 8 | 19.60 | 98.00 | Will Brandon Smith win the 2026 Whistler mayoral electio |
+| 9 | 18.20 | 91.00 | Will OpenAI be the third-best AI lab at the end of Septe |
+| 10 | 17.40 | 87.00 | Will OpenAI be the second-best AI lab at the end of Sept |
 
 ## Rewards: actual vs estimated
 
-- ts: `2026-09-05T17:14:12Z`
+- ts: `2026-09-06T02:11:35Z`
 - total actual: $0
 - total estimated: $0
 - ratio: n/a
