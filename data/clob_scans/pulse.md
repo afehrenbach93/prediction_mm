@@ -1,43 +1,43 @@
-# CLOB pulse — 2026-09-08T02:21:01Z
+# CLOB pulse — 2026-09-08T18:25:35Z
 
 - Domain: `https://clob.polymarket.com`
 - Budget: $500
 - Snapshot days on disk: 3
-- Scored: 250  competed: 207  near-zero: 43
+- Scored: 250  competed: 203  near-zero: 47
 - Pilot universe: 0 (provisional: 0)
-- Top-20 competed avg yield: 15.6334%/day (gross)
+- Top-20 competed avg yield: 13.7307%/day (gross)
 
 ## Top competed
 
 | # | yield%/d | est$/d | rate | qual$ | market |
 |---|----------|--------|------|-------|--------|
-| 1 | 29.89 | 149.45 | 1000 | 5854 | LAPTOP FDV above $500M one day after launch? |
-| 2 | 26.06 | 130.29 | 400 | 1785 | LAPTOP FDV above $250M one day after launch? |
-| 3 | 22.71 | 113.54 | 200 | 539 | Will OpenAI’s Astra model debut on the Arena Leaderboard |
-| 4 | 17.85 | 89.26 | 100 | 82 | Will LAPTOP flip TRUMP by December 31, 2026? |
-| 5 | 16.45 | 82.26 | 100 | 131 | Will Donald Trump post about $LAPTOP by September 30? |
-| 6 | 16.39 | 81.97 | 100 | 100 | Will Changpeng Zhao (CZ) post about $LAPTOP by September |
-| 7 | 16.37 | 81.84 | 200 | 391 | Will OpenAI’s Astra model debut on the Arena Leaderboard |
-| 8 | 16.19 | 80.94 | 200 | 721 | Will OpenAI’s Astra model debut on the Arena Leaderboard |
-| 9 | 15.49 | 77.44 | 105 | 290 | Will the median home value in NYC be between $636,000 an |
-| 10 | 15.03 | 75.13 | 200 | 502 | Will OpenAI’s Astra model debut on the Arena Leaderboard |
+| 1 | 17.78 | 88.91 | 200 | 1136 | Will OpenAI’s Astra model debut on the Arena Leaderboard |
+| 2 | 16.80 | 84.02 | 100 | 112 | Will Donald Trump Jr. post about $LAPTOP by September 30 |
+| 3 | 16.55 | 82.75 | 100 | 66 | Will Jim Lee win the 2026 Oshawa mayoral election? |
+| 4 | 16.41 | 82.05 | 100 | 85 | Will "By Any Means" score at least 52 on the Rotten Toma |
+| 5 | 15.25 | 76.26 | 100 | 363 | Will LAPTOP flip TRUMP by December 31, 2027? |
+| 6 | 14.99 | 74.93 | 200 | 639 | Will OpenAI’s Astra model debut on the Arena Leaderboard |
+| 7 | 14.61 | 73.05 | 100 | 122 | Will "By Any Means" score at least 50 on the Rotten Toma |
+| 8 | 14.37 | 71.85 | 100 | 82 | Will "By Any Means" score at least 54 on the Rotten Toma |
+| 9 | 13.99 | 69.97 | 100 | 193 | Will Elon Musk post about $LAPTOP by September 30? |
+| 10 | 13.57 | 67.86 | 70 | 594 | Gemini 4.0 released by September 30, 2026? |
 
 ## Near-zero (excluded from pilot)
 
-| 1 | 27.80 | 139.00 | Will Seoul have less than 75mm of precipitation in Septe |
-| 2 | 24.40 | 122.00 | Will Teeny Brumby win the next Burnie mayoral election? |
-| 3 | 22.60 | 113.00 | Will Elon tweet 1400 or more times in September 2026? |
-| 4 | 21.00 | 105.00 | Will Alexandre Curi win the second-most votes in the 202 |
-| 5 | 20.00 | 100.00 | LAPTOP listed on Binance within 30 days of TGE? |
-| 6 | 20.00 | 100.00 | LAPTOP listed on Bybit within 30 days of TGE? |
+| 1 | 72.80 | 364.00 | Jack Lowden announced as next James Bond? |
+| 2 | 40.00 | 200.00 | Will the next Google Gemini Pro model be released by Oct |
+| 3 | 24.40 | 122.00 | Will Cid Gomes win the most votes in the 2026 Ceará Sena |
+| 4 | 20.00 | 100.00 | LAPTOP listed on Binance within 30 days of TGE? |
+| 5 | 20.00 | 100.00 | LAPTOP listed on Bybit within 30 days of TGE? |
+| 6 | 20.00 | 100.00 | LAPTOP listed on Kraken within 30 days of TGE? |
 | 7 | 20.00 | 100.00 | LAPTOP listed on Coinbase within 30 days of TGE? |
-| 8 | 20.00 | 100.00 | LAPTOP listed on Kraken within 30 days of TGE? |
-| 9 | 20.00 | 100.00 | LAPTOP listed on OKX within 30 days of TGE? |
-| 10 | 20.00 | 100.00 | LAPTOP listed on Upbit within 30 days of TGE? |
+| 8 | 20.00 | 100.00 | Will Eric Trump post about $LAPTOP by September 30? |
+| 9 | 20.00 | 100.00 | Will Changpeng Zhao (CZ) post about $LAPTOP by September |
+| 10 | 20.00 | 100.00 | LAPTOP airdrop to $TRUMP holders by September 30? |
 
 ## Rewards: actual vs estimated
 
-- ts: `2026-09-08T02:21:01Z`
+- ts: `2026-09-08T18:25:35Z`
 - total actual: $0
 - total estimated: $0
 - ratio: n/a
