@@ -1,43 +1,43 @@
-# CLOB pulse — 2026-09-07T19:03:47Z
+# CLOB pulse — 2026-09-08T02:21:01Z
 
 - Domain: `https://clob.polymarket.com`
 - Budget: $500
 - Snapshot days on disk: 3
-- Scored: 250  competed: 206  near-zero: 44
+- Scored: 250  competed: 207  near-zero: 43
 - Pilot universe: 0 (provisional: 0)
-- Top-20 competed avg yield: 15.9102%/day (gross)
+- Top-20 competed avg yield: 15.6334%/day (gross)
 
 ## Top competed
 
 | # | yield%/d | est$/d | rate | qual$ | market |
 |---|----------|--------|------|-------|--------|
-| 1 | 34.86 | 174.31 | 200 | 157 | Will OpenAI’s Astra model debut on the Arena Leaderboard |
-| 2 | 21.83 | 109.15 | 140 | 226 | Will Teeny Brumby win the next Burnie mayoral election? |
-| 3 | 21.30 | 106.52 | 165 | 271 | Will MrBeast's next video get between 70 and 80 million  |
-| 4 | 20.39 | 101.95 | 200 | 353 | Will OpenAI’s Astra model debut on the Arena Leaderboard |
-| 5 | 19.21 | 96.04 | 100 | 77 | LAPTOP FDV above $1B one day after launch? |
-| 6 | 17.33 | 86.65 | 103 | 87 | Will the median home value in the Chicago Metro be betwe |
-| 7 | 15.38 | 76.91 | 200 | 767 | Will OpenAI's Astra model debut as #1? (Text Arena) |
-| 8 | 15.33 | 76.63 | 462 | 2096 | Will OpenAI have the best AI model at the end of Septemb |
-| 9 | 14.12 | 70.60 | 92 | 150 | Will Grecia Quiroz win the 2027 Michoacán Governor Elect |
-| 10 | 13.95 | 69.76 | 96 | 109 | Will Eugenio Segura Vázquez win the 2027 Quintana Roo Go |
+| 1 | 29.89 | 149.45 | 1000 | 5854 | LAPTOP FDV above $500M one day after launch? |
+| 2 | 26.06 | 130.29 | 400 | 1785 | LAPTOP FDV above $250M one day after launch? |
+| 3 | 22.71 | 113.54 | 200 | 539 | Will OpenAI’s Astra model debut on the Arena Leaderboard |
+| 4 | 17.85 | 89.26 | 100 | 82 | Will LAPTOP flip TRUMP by December 31, 2026? |
+| 5 | 16.45 | 82.26 | 100 | 131 | Will Donald Trump post about $LAPTOP by September 30? |
+| 6 | 16.39 | 81.97 | 100 | 100 | Will Changpeng Zhao (CZ) post about $LAPTOP by September |
+| 7 | 16.37 | 81.84 | 200 | 391 | Will OpenAI’s Astra model debut on the Arena Leaderboard |
+| 8 | 16.19 | 80.94 | 200 | 721 | Will OpenAI’s Astra model debut on the Arena Leaderboard |
+| 9 | 15.49 | 77.44 | 105 | 290 | Will the median home value in NYC be between $636,000 an |
+| 10 | 15.03 | 75.13 | 200 | 502 | Will OpenAI’s Astra model debut on the Arena Leaderboard |
 
 ## Near-zero (excluded from pilot)
 
-| 1 | 40.00 | 200.00 | Trump renames New Mexico to New America by December 31,  |
-| 2 | 29.34 | 146.68 | Will Magnus Carlsen Win the 2026 Esports Personality of  |
-| 3 | 28.60 | 143.00 | Will William Foxen win the 2026 WSOP Player of the Year? |
-| 4 | 26.20 | 131.00 | Will Seattle have less than 1 inch of precipitation in S |
-| 5 | 24.41 | 122.07 | Will Donald Trump post 200+ Truth Social posts from Sept |
-| 6 | 22.00 | 110.00 | Will Karmine Corp Win the 2026 Esports Content Group of  |
-| 7 | 20.00 | 100.00 | LAPTOP FDV above $25M one day after launch? |
-| 8 | 20.00 | 100.00 | LAPTOP FDV above $50M one day after launch? |
-| 9 | 20.00 | 100.00 | LAPTOP FDV above $250M one day after launch? |
-| 10 | 20.00 | 100.00 | LAPTOP FDV above $100M one day after launch? |
+| 1 | 27.80 | 139.00 | Will Seoul have less than 75mm of precipitation in Septe |
+| 2 | 24.40 | 122.00 | Will Teeny Brumby win the next Burnie mayoral election? |
+| 3 | 22.60 | 113.00 | Will Elon tweet 1400 or more times in September 2026? |
+| 4 | 21.00 | 105.00 | Will Alexandre Curi win the second-most votes in the 202 |
+| 5 | 20.00 | 100.00 | LAPTOP listed on Binance within 30 days of TGE? |
+| 6 | 20.00 | 100.00 | LAPTOP listed on Bybit within 30 days of TGE? |
+| 7 | 20.00 | 100.00 | LAPTOP listed on Coinbase within 30 days of TGE? |
+| 8 | 20.00 | 100.00 | LAPTOP listed on Kraken within 30 days of TGE? |
+| 9 | 20.00 | 100.00 | LAPTOP listed on OKX within 30 days of TGE? |
+| 10 | 20.00 | 100.00 | LAPTOP listed on Upbit within 30 days of TGE? |
 
 ## Rewards: actual vs estimated
 
-- ts: `2026-09-07T19:03:47Z`
+- ts: `2026-09-08T02:21:01Z`
 - total actual: $0
 - total estimated: $0
 - ratio: n/a
