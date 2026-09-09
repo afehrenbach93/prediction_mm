@@ -1,43 +1,43 @@
-# CLOB pulse — 2026-09-08T18:25:35Z
+# CLOB pulse — 2026-09-09T02:23:51Z
 
 - Domain: `https://clob.polymarket.com`
 - Budget: $500
 - Snapshot days on disk: 3
-- Scored: 250  competed: 203  near-zero: 47
+- Scored: 250  competed: 208  near-zero: 42
 - Pilot universe: 0 (provisional: 0)
-- Top-20 competed avg yield: 13.7307%/day (gross)
+- Top-20 competed avg yield: 19.6737%/day (gross)
 
 ## Top competed
 
 | # | yield%/d | est$/d | rate | qual$ | market |
 |---|----------|--------|------|-------|--------|
-| 1 | 17.78 | 88.91 | 200 | 1136 | Will OpenAI’s Astra model debut on the Arena Leaderboard |
-| 2 | 16.80 | 84.02 | 100 | 112 | Will Donald Trump Jr. post about $LAPTOP by September 30 |
-| 3 | 16.55 | 82.75 | 100 | 66 | Will Jim Lee win the 2026 Oshawa mayoral election? |
-| 4 | 16.41 | 82.05 | 100 | 85 | Will "By Any Means" score at least 52 on the Rotten Toma |
-| 5 | 15.25 | 76.26 | 100 | 363 | Will LAPTOP flip TRUMP by December 31, 2027? |
-| 6 | 14.99 | 74.93 | 200 | 639 | Will OpenAI’s Astra model debut on the Arena Leaderboard |
-| 7 | 14.61 | 73.05 | 100 | 122 | Will "By Any Means" score at least 50 on the Rotten Toma |
-| 8 | 14.37 | 71.85 | 100 | 82 | Will "By Any Means" score at least 54 on the Rotten Toma |
-| 9 | 13.99 | 69.97 | 100 | 193 | Will Elon Musk post about $LAPTOP by September 30? |
-| 10 | 13.57 | 67.86 | 70 | 594 | Gemini 4.0 released by September 30, 2026? |
+| 1 | 42.83 | 214.14 | 500 | 1841 | LAPTOP FDV above $250M one day after launch? |
+| 2 | 33.30 | 166.52 | 270 | 404 | Jack Lowden announced as next James Bond? |
+| 3 | 29.09 | 145.46 | 200 | 175 | Will an AI lab announce another Millennium Prize solutio |
+| 4 | 26.31 | 131.57 | 200 | 207 | Will the next Google Gemini Pro model be released by Oct |
+| 5 | 20.48 | 102.38 | 112 | 127 | Will Carlos Torres Piña win the 2027 Michoacán Governor  |
+| 6 | 20.24 | 101.21 | 200 | 537 | Will an AI lab announce another Millennium Prize solutio |
+| 7 | 19.66 | 98.32 | 107 | 131 | Will Teeny Brumby win the next Burnie mayoral election? |
+| 8 | 18.28 | 91.41 | 100 | 69 | Will LAPTOP flip TRUMP by December 31, 2027? |
+| 9 | 18.15 | 90.74 | 97 | 146 | Will Matthew Garwood win the next Launceston mayoral ele |
+| 10 | 17.61 | 88.04 | 100 | 111 | Will Changpeng Zhao (CZ) post about $LAPTOP by September |
 
 ## Near-zero (excluded from pilot)
 
-| 1 | 72.80 | 364.00 | Jack Lowden announced as next James Bond? |
-| 2 | 40.00 | 200.00 | Will the next Google Gemini Pro model be released by Oct |
-| 3 | 24.40 | 122.00 | Will Cid Gomes win the most votes in the 2026 Ceará Sena |
+| 1 | 32.20 | 161.00 | Will Elizabeth Roy win the 2026 Whitby mayoral election? |
+| 2 | 24.40 | 122.00 | Will Nonu Lemauga Laulu William Mauia win the Vaimauga 3 |
+| 3 | 20.00 | 100.00 | LAPTOP listed on Bybit within 30 days of TGE? |
 | 4 | 20.00 | 100.00 | LAPTOP listed on Binance within 30 days of TGE? |
-| 5 | 20.00 | 100.00 | LAPTOP listed on Bybit within 30 days of TGE? |
-| 6 | 20.00 | 100.00 | LAPTOP listed on Kraken within 30 days of TGE? |
-| 7 | 20.00 | 100.00 | LAPTOP listed on Coinbase within 30 days of TGE? |
-| 8 | 20.00 | 100.00 | Will Eric Trump post about $LAPTOP by September 30? |
-| 9 | 20.00 | 100.00 | Will Changpeng Zhao (CZ) post about $LAPTOP by September |
-| 10 | 20.00 | 100.00 | LAPTOP airdrop to $TRUMP holders by September 30? |
+| 5 | 20.00 | 100.00 | LAPTOP listed on OKX within 30 days of TGE? |
+| 6 | 20.00 | 100.00 | Will Donald Trump post about $LAPTOP by September 30? |
+| 7 | 20.00 | 100.00 | Will Elon Musk post about $LAPTOP by September 30? |
+| 8 | 20.00 | 100.00 | LAPTOP airdrop to $TRUMP holders by September 30? |
+| 9 | 20.00 | 100.00 | Will "Fall 2: Deadpoint" score at least 56 on the Rotten |
+| 10 | 20.00 | 100.00 | Will "Fall 2: Deadpoint" score at least 52 on the Rotten |
 
 ## Rewards: actual vs estimated
 
-- ts: `2026-09-08T18:25:35Z`
+- ts: `2026-09-09T02:23:51Z`
 - total actual: $0
 - total estimated: $0
 - ratio: n/a
