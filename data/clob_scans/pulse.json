@@ -1,215 +1,215 @@
 {
-  "ts": "2026-09-12T17:43:31Z",
+  "ts": "2026-09-13T02:23:52Z",
   "domain": "https://clob.polymarket.com",
   "budget_usd": 500.0,
   "snapshot_days": 3,
   "scored_markets": 250,
-  "competed": 184,
-  "near_zero": 66,
+  "competed": 165,
+  "near_zero": 85,
   "pilot_universe": 0,
   "pilot_provisional": 0,
-  "top20_competed_avg_yield_pct": 14.8315,
+  "top20_competed_avg_yield_pct": 8.1399,
   "top10_competed": [
     {
-      "question": "Will Caliste Win the LEC 2026 Summer Split MVP?",
-      "slug": "will-caliste-win-the-lec-2026-summer-split-mvp-20260805200738295",
-      "daily_rate": 218.0,
-      "qual_notional": 231.09,
-      "est_daily": 204.4354,
-      "yield_pct": 40.8871,
-      "mid": "0.6455",
-      "near_zero": false
-    },
-    {
-      "question": "Will One Nation win the third-most seats in the next Victorian state election?",
-      "slug": "will-one-nation-win-the-third-most-seats-in-the-next-victorian-state-election",
-      "daily_rate": 94.0,
-      "qual_notional": 152.13,
-      "est_daily": 90.1554,
-      "yield_pct": 18.0311,
-      "mid": "0.6",
-      "near_zero": false
-    },
-    {
-      "question": "Will Werner Pretorius be the next mayor of Mangaung?",
-      "slug": "will-werner-pretorius-be-the-next-mayor-of-mangaung",
-      "daily_rate": 113.0,
-      "qual_notional": 112.75,
-      "est_daily": 86.4656,
-      "yield_pct": 17.2931,
-      "mid": "0.23",
-      "near_zero": false
-    },
-    {
-      "question": "Will Google be the third-best AI lab at the end of September 2026?",
-      "slug": "will-google-be-the-third-best-ai-lab-at-the-end-of-september-2026-20260722221654814",
+      "question": "Will US GDP growth in 2026 be between 2.0% and 2.5%?",
+      "slug": "will-us-gdp-growth-in-2026-be-between-2pt0-and-2pt5",
       "daily_rate": 115.0,
-      "qual_notional": 602.82,
-      "est_daily": 85.3307,
-      "yield_pct": 17.0661,
-      "mid": "0.495",
-      "near_zero": false
-    },
-    {
-      "question": "Will monthly inflation increase by 0.4% in September?",
-      "slug": "will-monthly-inflation-increase-by-0pt4-in-september-2026",
-      "daily_rate": 90.0,
-      "qual_notional": 66.0,
-      "est_daily": 84.9951,
-      "yield_pct": 16.999,
-      "mid": "0.33",
-      "near_zero": false
-    },
-    {
-      "question": "Will Marcio Bittar win the second-most votes in the 2026 Acre Senate election?",
-      "slug": "will-marcio-bittar-win-the-second-most-votes-in-the-2026-acre-senate-election",
-      "daily_rate": 97.0,
-      "qual_notional": 278.23,
-      "est_daily": 78.0305,
-      "yield_pct": 15.6061,
-      "mid": "0.322",
-      "near_zero": false
-    },
-    {
-      "question": "Will OpenAI be the third-best Math AI lab at the end of September 2026?",
-      "slug": "will-openai-be-the-third-best-math-ai-lab-at-the-end-of-september-2026-20260722221057135",
-      "daily_rate": 77.0,
-      "qual_notional": 72.12,
-      "est_daily": 76.1442,
-      "yield_pct": 15.2288,
-      "mid": "0.298",
-      "near_zero": false
-    },
-    {
-      "question": "Will Craig Hodge win the 2026 Coquitlam mayoral election?",
-      "slug": "will-craig-hodge-win-the-2026-coquitlam-mayoral-election",
-      "daily_rate": 104.0,
-      "qual_notional": 178.79,
-      "est_daily": 73.4189,
-      "yield_pct": 14.6838,
-      "mid": "0.525",
-      "near_zero": false
-    },
-    {
-      "question": "Will Styvenson Valentim win the most votes in the 2026 Rio Grande do Norte Senat",
-      "slug": "will-styvenson-valentim-win-the-most-votes-in-the-2026-rio-grande-do-norte-senate-election",
-      "daily_rate": 151.0,
-      "qual_notional": 242.87,
-      "est_daily": 68.7632,
-      "yield_pct": 13.7526,
-      "mid": "0.745",
+      "qual_notional": 273.07,
+      "est_daily": 54.8863,
+      "yield_pct": 10.9773,
+      "mid": "0.535",
       "near_zero": false
     },
     {
       "question": "Will Yike Win the LEC 2026 Summer Split MVP?",
       "slug": "will-yike-win-the-lec-2026-summer-split-mvp-20260805200738298",
-      "daily_rate": 82.0,
-      "qual_notional": 140.37,
-      "est_daily": 64.1789,
-      "yield_pct": 12.8358,
-      "mid": "0.27",
+      "daily_rate": 92.0,
+      "qual_notional": 664.28,
+      "est_daily": 46.351,
+      "yield_pct": 9.2702,
+      "mid": "0.1965",
+      "near_zero": false
+    },
+    {
+      "question": "Will Holtec Nuclear's market cap be between $9B and $10B at market close on IPO ",
+      "slug": "will-holtec-nuclears-market-cap-be-between-9b-and-10b-at-market-close-on-ipo-day",
+      "daily_rate": 54.0,
+      "qual_notional": 192.94,
+      "est_daily": 45.8855,
+      "yield_pct": 9.1771,
+      "mid": "0.245",
+      "near_zero": false
+    },
+    {
+      "question": "Will \"Earrings \u2013 Malcom Todd\" be the #2 song in the US for 2026?",
+      "slug": "will-earrings-malcom-todd-be-the-2-song-in-the-us-for-2026-20260729205600301",
+      "daily_rate": 57.0,
+      "qual_notional": 178.25,
+      "est_daily": 45.4393,
+      "yield_pct": 9.0879,
+      "mid": "0.575",
+      "near_zero": false
+    },
+    {
+      "question": "Will the highest score achieved by a SpaceXAI Grok model on Humanity\u2019s Last Exam",
+      "slug": "will-the-highest-score-achieved-by-a-spacexai-grok-model-on-humanitys-last-exam-in-2026-be-60-or-higher-20260723191456653",
+      "daily_rate": 50.0,
+      "qual_notional": 76.72,
+      "est_daily": 44.0869,
+      "yield_pct": 8.8174,
+      "mid": "0.14",
+      "near_zero": false
+    },
+    {
+      "question": "Will Argentina's monthly inflation in September 2026 be between 1.9% and 2.1%?",
+      "slug": "will-argentinas-monthly-inflation-in-september-2026-be-between-1pt9-and-2pt1",
+      "daily_rate": 94.0,
+      "qual_notional": 270.91,
+      "est_daily": 42.6591,
+      "yield_pct": 8.5318,
+      "mid": "0.425",
+      "near_zero": false
+    },
+    {
+      "question": "Will the next Google Gemini Pro model added to the Arena Leaderboard debut at a ",
+      "slug": "will-the-next-google-gemini-pro-model-added-to-the-arena-leaderboard-debut-at-a-score-of-at-least-1490",
+      "daily_rate": 50.0,
+      "qual_notional": 416.61,
+      "est_daily": 41.2968,
+      "yield_pct": 8.2594,
+      "mid": "0.81",
+      "near_zero": false
+    },
+    {
+      "question": "Will Holtec Nuclear's market cap be between $10B and $11B at market close on IPO",
+      "slug": "will-holtec-nuclears-market-cap-be-between-10b-and-11b-at-market-close-on-ipo-day",
+      "daily_rate": 65.0,
+      "qual_notional": 244.47,
+      "est_daily": 40.7697,
+      "yield_pct": 8.1539,
+      "mid": "0.29",
+      "near_zero": false
+    },
+    {
+      "question": "Will Difa\u00e2 El Jadida be relegated from the 2026-27 Morocco Botola Pro?",
+      "slug": "will-difaa-el-jadida-be-relegated-from-morocco-botola-pro-2026-27",
+      "daily_rate": 50.0,
+      "qual_notional": 93.96,
+      "est_daily": 39.5904,
+      "yield_pct": 7.9181,
+      "mid": "0.18",
+      "near_zero": false
+    },
+    {
+      "question": "Will CODM Mekn\u00e8s be relegated from the 2026-27 Morocco Botola Pro?",
+      "slug": "will-codm-meknes-be-relegated-from-morocco-botola-pro-2026-27",
+      "daily_rate": 50.0,
+      "qual_notional": 86.24,
+      "est_daily": 39.4891,
+      "yield_pct": 7.8978,
+      "mid": "0.22",
       "near_zero": false
     }
   ],
   "top10_near_zero": [
     {
-      "question": "Will FURIA Win CBLOL 2026 Split 2",
-      "slug": "will-furia-win-cblol-2026-split-2-20260703174223683",
-      "daily_rate": 152.0,
+      "question": "Will Caliste Win the LEC 2026 Summer Split MVP?",
+      "slug": "will-caliste-win-the-lec-2026-summer-split-mvp-20260805200738295",
+      "daily_rate": 208.0,
       "qual_notional": 0.0,
-      "est_daily": 152.0,
-      "yield_pct": 30.4,
-      "mid": "0.555",
+      "est_daily": 208.0,
+      "yield_pct": 41.6,
+      "mid": "0.398",
       "near_zero": true
     },
     {
-      "question": "Will Cheryl Fuller win the next Central Coast mayoral election?",
-      "slug": "will-cheryl-fuller-win-the-2026-central-coast-mayoral-election",
-      "daily_rate": 132.0,
+      "question": "No change in Reserve Bank of Australia's interest rates at the November 2026 mee",
+      "slug": "no-change-in-reserve-bank-of-australia-s-interest-rates-at-the-november-2026-meeting-1786388202571",
+      "daily_rate": 133.0,
       "qual_notional": 0.0,
-      "est_daily": 132.0,
-      "yield_pct": 26.4,
-      "mid": "0.565",
+      "est_daily": 133.0,
+      "yield_pct": 26.6,
+      "mid": "0.55",
       "near_zero": true
     },
     {
       "question": "Will Japan's core-core CPI increase by between 2.0 and 2.4% in 2026?",
       "slug": "will-japans-core-core-cpi-increase-by-between-2pt0-and-2pt4-in-2026-20260617223730871",
-      "daily_rate": 128.0,
-      "qual_notional": 0.0,
-      "est_daily": 128.0,
-      "yield_pct": 25.6,
-      "mid": "0.475",
-      "near_zero": true
-    },
-    {
-      "question": "Will NattyNatt Win the ADC Race 2026?",
-      "slug": "will-nattynatt-win-the-adc-race-2026-20260911",
-      "daily_rate": 128.0,
-      "qual_notional": 0.0,
-      "est_daily": 128.0,
-      "yield_pct": 25.6,
-      "mid": "0.4",
-      "near_zero": true
-    },
-    {
-      "question": "Will Anthropic have the best Math AI model at the end of October 2026?",
-      "slug": "will-anthropic-have-the-best-math-ai-model-at-the-end-of-october-2026-20260811194841006",
-      "daily_rate": 126.0,
-      "qual_notional": 0.0,
-      "est_daily": 126.0,
-      "yield_pct": 25.2,
-      "mid": "0.455",
-      "near_zero": true
-    },
-    {
-      "question": "Will Andris Kulbergs be the next Prime Minister of Latvia?",
-      "slug": "will-andris-kulbergs-be-the-next-prime-minister-of-latvia",
-      "daily_rate": 118.0,
-      "qual_notional": 0.0,
-      "est_daily": 118.0,
-      "yield_pct": 23.6,
-      "mid": "0.68",
-      "near_zero": true
-    },
-    {
-      "question": "Will Malakai Matafonuafo'ou 'Ofa ki Wakawaka Koloamatangi win the Tongatapu 2 by",
-      "slug": "will-malakai-matafonuafoou-ofa-ki-wakawaka-koloamatangi-win-the-tongatapu-2-by-election",
-      "daily_rate": 107.0,
-      "qual_notional": 0.0,
-      "est_daily": 107.0,
-      "yield_pct": 21.4,
-      "mid": "0.37",
-      "near_zero": true
-    },
-    {
-      "question": "Will 'Aminiasi Tonga Pau'u Tangimana win the Ongo Niua 17 by-election?",
-      "slug": "will-aminiasi-tonga-pauu-tangimana-win-the-ongo-niua-17-by-election",
       "daily_rate": 106.0,
-      "qual_notional": 39.2,
-      "est_daily": 105.8628,
-      "yield_pct": 21.1726,
-      "mid": "0.49",
+      "qual_notional": 0.0,
+      "est_daily": 106.0,
+      "yield_pct": 21.2,
+      "mid": "0.58",
       "near_zero": true
     },
     {
-      "question": "Will PAM win the next Moroccan legislative elections?",
-      "slug": "will-pam-win-the-next-moroccan-legislative-elections-20260728174826234",
-      "daily_rate": 105.0,
+      "question": "Will Google have the best Image-to-Video AI at the end of October 2026?",
+      "slug": "will-google-have-the-best-image-to-video-ai-at-the-end-of-october-2026",
+      "daily_rate": 72.0,
       "qual_notional": 0.0,
-      "est_daily": 105.0,
-      "yield_pct": 21.0,
-      "mid": "0.56",
+      "est_daily": 72.0,
+      "yield_pct": 14.4,
+      "mid": "0.295",
       "near_zero": true
     },
     {
-      "question": "Will LOS Win CBLOL 2026 Split 2",
-      "slug": "will-los-win-cblol-2026-split-2-20260703174223689",
-      "daily_rate": 100.0,
+      "question": "Will US GDP growth in 2026 be between 1.5% and 2.0%?",
+      "slug": "will-us-gdp-growth-in-2026-be-between-1pt5-and-2pt0",
+      "daily_rate": 68.0,
+      "qual_notional": 46.18,
+      "est_daily": 67.7073,
+      "yield_pct": 13.5415,
+      "mid": "0.282",
+      "near_zero": true
+    },
+    {
+      "question": "Will 25-29 ships transit the Strait of Hormuz between September 14-September 20?",
+      "slug": "will-25-29-ships-transit-the-strait-of-hormuz-between-september-14-september-20",
+      "daily_rate": 66.0,
       "qual_notional": 0.0,
-      "est_daily": 100.0,
-      "yield_pct": 20.0,
-      "mid": "0.3155",
+      "est_daily": 66.0,
+      "yield_pct": 13.2,
+      "mid": "0.375",
+      "near_zero": true
+    },
+    {
+      "question": "Will the next Google Gemini Pro model be released between October 12 and October",
+      "slug": "will-the-next-google-gemini-pro-model-be-released-between-october-12-and-october-18-2026",
+      "daily_rate": 65.0,
+      "qual_notional": 44.4,
+      "est_daily": 60.205,
+      "yield_pct": 12.041,
+      "mid": "0.24",
+      "near_zero": true
+    },
+    {
+      "question": "Will NYC have between 3 and 4 inches of precipitation in September?",
+      "slug": "will-nyc-have-between-3-and-4-inches-of-precipitation-in-september",
+      "daily_rate": 60.0,
+      "qual_notional": 0.0,
+      "est_daily": 60.0,
+      "yield_pct": 12.0,
+      "mid": "0.19",
+      "near_zero": true
+    },
+    {
+      "question": "Will Meta\u2019s market capitalization be between $1.50T and $1.75T at the end of Sep",
+      "slug": "will-metas-market-capitalization-be-between-1pt50t-and-1pt75t-at-the-end-of-september-2026-20260804175220781",
+      "daily_rate": 57.0,
+      "qual_notional": 0.0,
+      "est_daily": 57.0,
+      "yield_pct": 11.4,
+      "mid": "0.6425",
+      "near_zero": true
+    },
+    {
+      "question": "Will Nikita Klepov win the 2026-27 Calder Trophy?",
+      "slug": "will-nikita-klepov-win-the-2026-27-calder-trophy-20260624213344010",
+      "daily_rate": 54.0,
+      "qual_notional": 0.0,
+      "est_daily": 54.0,
+      "yield_pct": 10.8,
+      "mid": "0.338",
       "near_zero": true
     }
   ],
@@ -219,7 +219,7 @@
     "day_csvs": [
       "2026-07-19.csv",
       "2026-07-20.csv",
-      "2026-09-12.csv"
+      "2026-09-13.csv"
     ]
   }
 }
