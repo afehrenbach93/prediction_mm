@@ -1,43 +1,43 @@
-# CLOB pulse — 2026-09-13T18:01:09Z
+# CLOB pulse — 2026-09-14T02:41:08Z
 
 - Domain: `https://clob.polymarket.com`
 - Budget: $500
 - Snapshot days on disk: 3
-- Scored: 250  competed: 198  near-zero: 52
+- Scored: 250  competed: 201  near-zero: 49
 - Pilot universe: 0 (provisional: 0)
-- Top-20 competed avg yield: 11.1828%/day (gross)
+- Top-20 competed avg yield: 20.2636%/day (gross)
 
 ## Top competed
 
 | # | yield%/d | est$/d | rate | qual$ | market |
 |---|----------|--------|------|-------|--------|
-| 1 | 19.29 | 96.46 | 122 | 373 | Will UMich Consumer Sentiment be between 46.0 and 48.9 i |
-| 2 | 16.85 | 84.25 | 95 | 72 | Will MrBeast Gaming's next video get between 35 and 40 m |
-| 3 | 14.79 | 73.95 | 100 | 304 | Will WTI Crude Oil (WTI) hit (LOW) $85 in September? |
-| 4 | 13.61 | 68.05 | 108 | 297 | Will a dozen eggs cost between $2.20 and $2.30 in Septem |
-| 5 | 13.17 | 65.86 | 68 | 55 | Will "Westside Whimsy - Jhené Aiko" be the Billboard 200 |
-| 6 | 10.98 | 54.92 | 121 | 591 | Will Google be the second-best AI lab at the end of Sept |
-| 7 | 10.81 | 54.07 | 63 | 137 | Will the Ornn H200 Index be between $4.00 and $4.50 on S |
-| 8 | 10.41 | 52.03 | 95 | 451 | Will Z.ai be the third-best Math AI lab at the end of Se |
-| 9 | 9.97 | 49.84 | 50 | 55 | Will the highest score achieved by a Moonshot Kimi model |
-| 10 | 9.86 | 49.28 | 50 | 91 | Will Radnički Niš be relegated from the 2026-27 Serbian  |
+| 1 | 45.40 | 226.98 | 500 | 4484 | Clarity Act (H.R.3633) signed into law in 2026? |
+| 2 | 34.52 | 172.60 | 200 | 82 | Will the Moderate Party (M) be in the next Swedish gover |
+| 3 | 31.75 | 158.76 | 200 | 69 | Will the Sweden Democrats (SD) be in the next Swedish go |
+| 4 | 31.57 | 157.86 | 200 | 128 | Will the Christian Democrats (KD) be in the next Swedish |
+| 5 | 27.90 | 139.51 | 150 | 95 | Will Japan's core-core CPI increase by between 2.0 and 2 |
+| 6 | 23.68 | 118.39 | 121 | 101 | Will MrBeast Gaming's next video get between 45 and 50 m |
+| 7 | 23.58 | 117.90 | 121 | 94 | Will PPI YoY be 5.9% or more in September? |
+| 8 | 21.60 | 108.02 | 170 | 1140 | Will OpenAI have the best Image Edit AI at the end of Oc |
+| 9 | 18.43 | 92.15 | 100 | 781 | Saudi Oil Pipeline (East-West) restarts by September 30? |
+| 10 | 18.36 | 91.79 | 96 | 54 | Will Google have the best Image-to-Video AI at the end o |
 
 ## Near-zero (excluded from pilot)
 
-| 1 | 60.80 | 304.00 | Will MrBeast Gaming's next video get between 40 and 45 m |
-| 2 | 28.40 | 142.00 | Will OpenAI have the best Image Edit AI at the end of Oc |
-| 3 | 14.80 | 74.00 | Will MrBeast Gaming's next video get between 45 and 50 m |
-| 4 | 12.98 | 64.88 | Will Will Anderson Jr. win the 2026 NFL Defensive Player |
-| 5 | 11.80 | 59.00 | Will Jynxzi Win the 2026 Esports Content Creator of the  |
-| 6 | 10.40 | 52.00 | Will NYC have between 3 and 4 inches of precipitation in |
-| 7 | 10.00 | 50.00 | Will Avengers: Secret Wars be delayed? |
-| 8 | 10.00 | 50.00 | Will Konyaspor be relegated from the 2026-27 Süper Lig? |
-| 9 | 10.00 | 50.00 | Will Yunnan Yukun be relegated from the 2026 Chinese Sup |
-| 10 | 10.00 | 50.00 | Will Dalian Yingbo be relegated from the 2026 Chinese Su |
+| 1 | 51.80 | 259.00 | Will MrBeast Gaming's next video get between 40 and 45 m |
+| 2 | 39.32 | 196.60 | Will the Liberals (L) be in the next Swedish government? |
+| 3 | 20.00 | 100.00 | Will UMich Consumer Sentiment be between 46.0 and 48.9 i |
+| 4 | 18.40 | 92.00 | Will the median home value in the US be less than $419,0 |
+| 5 | 15.31 | 76.56 | Will Jeremiyah Love win the 2026 NFL Offensive Rookie of |
+| 6 | 13.00 | 65.00 | Will Democrats win exactly 3 House seats in Nevada in th |
+| 7 | 12.40 | 62.00 | Will NYC Mayor post 20-39 posts from September 11 to Sep |
+| 8 | 11.81 | 59.03 | Will MrBeast Gaming's next video get between 35 and 40 m |
+| 9 | 11.40 | 57.00 | Will 25-29 ships transit the Strait of Hormuz between Se |
+| 10 | 11.00 | 55.00 | Will NYC have between 3 and 4 inches of precipitation in |
 
 ## Rewards: actual vs estimated
 
-- ts: `2026-09-13T18:01:09Z`
+- ts: `2026-09-14T02:41:08Z`
 - total actual: $0
 - total estimated: $0
 - ratio: n/a
