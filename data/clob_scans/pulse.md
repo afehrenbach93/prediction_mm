@@ -1,43 +1,43 @@
-# CLOB pulse — 2026-09-14T02:41:08Z
+# CLOB pulse — 2026-09-14T19:46:52Z
 
 - Domain: `https://clob.polymarket.com`
 - Budget: $500
 - Snapshot days on disk: 3
-- Scored: 250  competed: 201  near-zero: 49
+- Scored: 250  competed: 218  near-zero: 32
 - Pilot universe: 0 (provisional: 0)
-- Top-20 competed avg yield: 20.2636%/day (gross)
+- Top-20 competed avg yield: 25.7396%/day (gross)
 
 ## Top competed
 
 | # | yield%/d | est$/d | rate | qual$ | market |
 |---|----------|--------|------|-------|--------|
-| 1 | 45.40 | 226.98 | 500 | 4484 | Clarity Act (H.R.3633) signed into law in 2026? |
-| 2 | 34.52 | 172.60 | 200 | 82 | Will the Moderate Party (M) be in the next Swedish gover |
-| 3 | 31.75 | 158.76 | 200 | 69 | Will the Sweden Democrats (SD) be in the next Swedish go |
-| 4 | 31.57 | 157.86 | 200 | 128 | Will the Christian Democrats (KD) be in the next Swedish |
-| 5 | 27.90 | 139.51 | 150 | 95 | Will Japan's core-core CPI increase by between 2.0 and 2 |
-| 6 | 23.68 | 118.39 | 121 | 101 | Will MrBeast Gaming's next video get between 45 and 50 m |
-| 7 | 23.58 | 117.90 | 121 | 94 | Will PPI YoY be 5.9% or more in September? |
-| 8 | 21.60 | 108.02 | 170 | 1140 | Will OpenAI have the best Image Edit AI at the end of Oc |
-| 9 | 18.43 | 92.15 | 100 | 781 | Saudi Oil Pipeline (East-West) restarts by September 30? |
-| 10 | 18.36 | 91.79 | 96 | 54 | Will Google have the best Image-to-Video AI at the end o |
+| 1 | 39.26 | 196.28 | 200 | 108 | Will Andy Kim vote "Yea" on the Clarity Act? |
+| 2 | 37.70 | 188.49 | 200 | 77 | Will Jacky Rosen vote "Yea" on the Clarity Act? |
+| 3 | 37.54 | 187.71 | 212 | 122 | Will NightBirds Win Hitpoint Masters 2026 Summer |
+| 4 | 36.60 | 183.00 | 200 | 98 | Will Thom Tillis vote "Yea" on the Clarity Act? |
+| 5 | 35.64 | 178.21 | 200 | 76 | Will Catherine Cortez Masto vote "Yea" on the Clarity Ac |
+| 6 | 35.51 | 177.57 | 200 | 107 | Will over 58 Senators vote for the Clarity Act? |
+| 7 | 30.48 | 152.41 | 200 | 244 | Will over 66 Senators vote for the Clarity Act? |
+| 8 | 28.70 | 143.48 | 200 | 286 | Will over 55 Senators vote for the Clarity Act? |
+| 9 | 25.27 | 126.36 | 200 | 257 | Will over 50 Senators vote for the Clarity Act? |
+| 10 | 24.74 | 123.69 | 200 | 219 | Will Alex Padilla vote "Yea" on the Clarity Act? |
 
 ## Near-zero (excluded from pilot)
 
-| 1 | 51.80 | 259.00 | Will MrBeast Gaming's next video get between 40 and 45 m |
-| 2 | 39.32 | 196.60 | Will the Liberals (L) be in the next Swedish government? |
-| 3 | 20.00 | 100.00 | Will UMich Consumer Sentiment be between 46.0 and 48.9 i |
-| 4 | 18.40 | 92.00 | Will the median home value in the US be less than $419,0 |
-| 5 | 15.31 | 76.56 | Will Jeremiyah Love win the 2026 NFL Offensive Rookie of |
-| 6 | 13.00 | 65.00 | Will Democrats win exactly 3 House seats in Nevada in th |
-| 7 | 12.40 | 62.00 | Will NYC Mayor post 20-39 posts from September 11 to Sep |
-| 8 | 11.81 | 59.03 | Will MrBeast Gaming's next video get between 35 and 40 m |
-| 9 | 11.40 | 57.00 | Will 25-29 ships transit the Strait of Hormuz between Se |
-| 10 | 11.00 | 55.00 | Will NYC have between 3 and 4 inches of precipitation in |
+| 1 | 40.00 | 200.00 | Crypto Market Structure legislation becomes law in 2026? |
+| 2 | 40.00 | 200.00 | Will Kirsten Gillibrand vote "Yea" on the Clarity Act? |
+| 3 | 40.00 | 200.00 | Will John Fetterman vote "Yea" on the Clarity Act? |
+| 4 | 40.00 | 200.00 | Will over 64 Senators vote for the Clarity Act? |
+| 5 | 38.89 | 194.47 | Will Raphael Warnock vote "Yea" on the Clarity Act? |
+| 6 | 38.51 | 192.57 | Will Mike Lee vote "Yea" on the Clarity Act? |
+| 7 | 24.60 | 123.00 | Will fewer than 170 ships transit the Bab el-Mandeb Stra |
+| 8 | 20.60 | 103.00 | Will the Ornn B200 Index be between $6.50 and $7.00 on S |
+| 9 | 19.40 | 97.00 | Will Japan Q3 GDP growth (annualized) be between 0.8% an |
+| 10 | 15.00 | 75.00 | Will Z.ai be the third-best Math AI lab at the end of Se |
 
 ## Rewards: actual vs estimated
 
-- ts: `2026-09-14T02:41:08Z`
+- ts: `2026-09-14T19:46:52Z`
 - total actual: $0
 - total estimated: $0
 - ratio: n/a
