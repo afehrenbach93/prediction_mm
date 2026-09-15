@@ -1,43 +1,43 @@
-# CLOB pulse — 2026-09-14T19:46:52Z
+# CLOB pulse — 2026-09-15T02:44:14Z
 
 - Domain: `https://clob.polymarket.com`
 - Budget: $500
 - Snapshot days on disk: 3
-- Scored: 250  competed: 218  near-zero: 32
+- Scored: 250  competed: 198  near-zero: 52
 - Pilot universe: 0 (provisional: 0)
-- Top-20 competed avg yield: 25.7396%/day (gross)
+- Top-20 competed avg yield: 24.8479%/day (gross)
 
 ## Top competed
 
 | # | yield%/d | est$/d | rate | qual$ | market |
 |---|----------|--------|------|-------|--------|
-| 1 | 39.26 | 196.28 | 200 | 108 | Will Andy Kim vote "Yea" on the Clarity Act? |
-| 2 | 37.70 | 188.49 | 200 | 77 | Will Jacky Rosen vote "Yea" on the Clarity Act? |
-| 3 | 37.54 | 187.71 | 212 | 122 | Will NightBirds Win Hitpoint Masters 2026 Summer |
-| 4 | 36.60 | 183.00 | 200 | 98 | Will Thom Tillis vote "Yea" on the Clarity Act? |
-| 5 | 35.64 | 178.21 | 200 | 76 | Will Catherine Cortez Masto vote "Yea" on the Clarity Ac |
-| 6 | 35.51 | 177.57 | 200 | 107 | Will over 58 Senators vote for the Clarity Act? |
-| 7 | 30.48 | 152.41 | 200 | 244 | Will over 66 Senators vote for the Clarity Act? |
-| 8 | 28.70 | 143.48 | 200 | 286 | Will over 55 Senators vote for the Clarity Act? |
-| 9 | 25.27 | 126.36 | 200 | 257 | Will over 50 Senators vote for the Clarity Act? |
-| 10 | 24.74 | 123.69 | 200 | 219 | Will Alex Padilla vote "Yea" on the Clarity Act? |
+| 1 | 43.89 | 219.46 | 266 | 351 | Will MrBeast Gaming's next video get between 40 and 45 m |
+| 2 | 39.49 | 197.45 | 200 | 57 | Will over 50 Senators vote for the Clarity Act? |
+| 3 | 37.23 | 186.15 | 200 | 217 | Will over 55 Senators vote for the Clarity Act? |
+| 4 | 36.17 | 180.87 | 200 | 82 | Alibaba matches Anthropic's evaluator commitment by Octo |
+| 5 | 35.29 | 176.47 | 200 | 106 | Mistral matches Anthropic's evaluator commitment by Octo |
+| 6 | 35.01 | 175.04 | 200 | 99 | Amazon matches Anthropic's evaluator commitment by Octob |
+| 7 | 31.71 | 158.54 | 200 | 162 | Will over 60 Senators vote for the Clarity Act? |
+| 8 | 27.81 | 139.03 | 200 | 142 | Will Mark Warner vote "Yea" on the Clarity Act? |
+| 9 | 25.65 | 128.26 | 200 | 294 | Microsoft matches Anthropic's evaluator commitment by Oc |
+| 10 | 24.94 | 124.70 | 200 | 185 | Crypto Market Structure legislation becomes law in 2026? |
 
 ## Near-zero (excluded from pilot)
 
-| 1 | 40.00 | 200.00 | Crypto Market Structure legislation becomes law in 2026? |
-| 2 | 40.00 | 200.00 | Will Kirsten Gillibrand vote "Yea" on the Clarity Act? |
-| 3 | 40.00 | 200.00 | Will John Fetterman vote "Yea" on the Clarity Act? |
-| 4 | 40.00 | 200.00 | Will over 64 Senators vote for the Clarity Act? |
-| 5 | 38.89 | 194.47 | Will Raphael Warnock vote "Yea" on the Clarity Act? |
-| 6 | 38.51 | 192.57 | Will Mike Lee vote "Yea" on the Clarity Act? |
-| 7 | 24.60 | 123.00 | Will fewer than 170 ships transit the Bab el-Mandeb Stra |
-| 8 | 20.60 | 103.00 | Will the Ornn B200 Index be between $6.50 and $7.00 on S |
-| 9 | 19.40 | 97.00 | Will Japan Q3 GDP growth (annualized) be between 0.8% an |
-| 10 | 15.00 | 75.00 | Will Z.ai be the third-best Math AI lab at the end of Se |
+| 1 | 42.65 | 213.25 | Will MrBeast Gaming's next video get between 45 and 50 m |
+| 2 | 40.00 | 200.00 | Google matches Anthropic's evaluator commitment by Octob |
+| 3 | 40.00 | 200.00 | Sam Altman signs the Pacing the Frontier statement by Se |
+| 4 | 40.00 | 200.00 | SpaceXAI matches Anthropic's evaluator commitment by Oct |
+| 5 | 40.00 | 200.00 | Elon Musk signs the Pacing the Frontier statement by Sep |
+| 6 | 39.60 | 198.01 | Meta matches Anthropic's evaluator commitment by October |
+| 7 | 30.00 | 150.00 | Will CITA Kaizen Win Hitpoint Masters 2026 Summer |
+| 8 | 30.00 | 150.00 | Will NightBirds Win Hitpoint Masters 2026 Summer |
+| 9 | 22.00 | 110.00 | Will Z.ai be the third-best Math AI lab at the end of Se |
+| 10 | 20.00 | 100.00 | Will WTI Crude Oil (WTI) hit (LOW) $90 in September? |
 
 ## Rewards: actual vs estimated
 
-- ts: `2026-09-14T19:46:52Z`
+- ts: `2026-09-15T02:44:14Z`
 - total actual: $0
 - total estimated: $0
 - ratio: n/a
