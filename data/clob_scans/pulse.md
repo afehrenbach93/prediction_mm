@@ -1,43 +1,43 @@
-# CLOB pulse — 2026-09-16T18:46:48Z
+# CLOB pulse — 2026-09-17T02:43:00Z
 
 - Domain: `https://clob.polymarket.com`
 - Budget: $500
 - Snapshot days on disk: 3
-- Scored: 250  competed: 197  near-zero: 53
+- Scored: 250  competed: 227  near-zero: 23
 - Pilot universe: 0 (provisional: 0)
-- Top-20 competed avg yield: 34.7718%/day (gross)
+- Top-20 competed avg yield: 10.7913%/day (gross)
 
 ## Top competed
 
 | # | yield%/d | est$/d | rate | qual$ | market |
 |---|----------|--------|------|-------|--------|
-| 1 | 233.77 | 1168.85 | 3000 | 2068 | Another Fed rate hike in 2026? |
-| 2 | 99.74 | 498.68 | 5000 | 8210 | Will the Fed increase interest rates by 25 bps after the |
-| 3 | 58.11 | 290.57 | 324 | 275 | Will the opposition parties win by 3–4 seats in the 2026 |
-| 4 | 46.59 | 232.94 | 256 | 258 | Will MrBeast Gaming's next video get between 40 and 45 m |
-| 5 | 44.02 | 220.09 | 5000 | 13192 | Will there be no change in Fed interest rates after the  |
-| 6 | 42.99 | 214.93 | 244 | 144 | Will MrBeast Gaming's next video get between 45 and 50 m |
-| 7 | 24.80 | 124.01 | 200 | 557 | Saudi Oil Pipeline (East-West) restarts by September 22? |
-| 8 | 14.47 | 72.35 | 100 | 2196 | Will WTI Crude Oil (WTI) hit (LOW) $90 in September? |
-| 9 | 13.38 | 66.89 | 81 | 189 | Will Seattle have between 1 and 1.5 inches of precipitat |
-| 10 | 13.34 | 66.71 | 95 | 240 | Will the median home value in the US be less than $419,0 |
+| 1 | 19.25 | 96.27 | 100 | 97 | Will "Resident Evil" score at least 94 on the Rotten Tom |
+| 2 | 16.26 | 81.28 | 100 | 277 | Will "Resident Evil" score at least 96 on the Rotten Tom |
+| 3 | 15.90 | 79.52 | 100 | 115 | Will "The Weight" score at least 92 on the Rotten Tomato |
+| 4 | 14.17 | 70.83 | 150 | 3476 | Will Xi Jinping visit US by September 24? |
+| 5 | 13.06 | 65.32 | 200 | 1162 | Saudi Oil Pipeline (East-West) restarts by September 22? |
+| 6 | 12.87 | 64.34 | 100 | 415 | Will WTI Crude Oil (WTI) hit (LOW) $90 in September? |
+| 7 | 9.86 | 49.28 | 50 | 81 | Will Coinbase Global, Inc. (COIN) hit (LOW) $140 in Sept |
+| 8 | 9.80 | 49.01 | 50 | 231 | Will Robinhood Markets, Inc. (HOOD) hit (HIGH) $110 in S |
+| 9 | 9.65 | 48.23 | 50 | 126 | Will Hayden Patriquin qualify for the 2027 PPA Tour Fina |
+| 10 | 9.49 | 47.46 | 50 | 367 | Will South Korea ETF (EWY) hit (HIGH) $188 in September? |
 
 ## Near-zero (excluded from pilot)
 
-| 1 | 40.00 | 200.00 | Saudi Oil Pipeline (East-West) restarts by October 31? |
-| 2 | 35.14 | 175.71 | Will the opposition parties win by 1–2 seats in the 2026 |
-| 3 | 16.60 | 83.00 | Will Mexico GDP growth in Q3 2026 be between 1.5% and 2. |
-| 4 | 13.60 | 68.00 | Will Seattle have less than 1 inch of precipitation in S |
-| 5 | 13.20 | 66.00 | Will Flávio Bolsonaro win 39% or more of the valid vote  |
-| 6 | 10.40 | 52.00 | Will the median home value in Miami be between $1,161,00 |
-| 7 | 10.00 | 50.00 | Will Harry Styles perform at the 2027 Big Game halftime  |
-| 8 | 10.00 | 50.00 | Republicans favored to win the Senate on Nate Silver's B |
-| 9 | 10.00 | 50.00 | Republicans favored to win the Senate on Nate Silver's B |
-| 10 | 10.00 | 50.00 | Republicans favored to win the Senate on Nate Silver's B |
+| 1 | 20.00 | 100.00 | Will the 10-year Treasury yield hit 5.2% before 2027? |
+| 2 | 12.60 | 63.00 | Will Bad Bunny be the #2 searched person on Google this  |
+| 3 | 10.00 | 50.00 | Will the highest score achieved by an Anthropic Claude m |
+| 4 | 10.00 | 50.00 | Republicans favored to win the Senate on Nate Silver's B |
+| 5 | 10.00 | 50.00 | Republicans favored to win the Senate on Nate Silver's B |
+| 6 | 10.00 | 50.00 | Next Grok Model (4.7+) released by September 18, 2026? |
+| 7 | 10.00 | 50.00 | Massachusetts passes jungle primary ballot measure? |
+| 8 | 10.00 | 50.00 | Will Jim Jordan run for Republican House Leader? |
+| 9 | 10.00 | 50.00 | Will "Alien" be said during the first Joe Rogan Experien |
+| 10 | 10.00 | 50.00 | Will "SpaceX" be said during the first Joe Rogan Experie |
 
 ## Rewards: actual vs estimated
 
-- ts: `2026-09-16T18:46:48Z`
+- ts: `2026-09-17T02:43:00Z`
 - total actual: $0
 - total estimated: $0
 - ratio: n/a
