@@ -1,43 +1,43 @@
-# CLOB pulse — 2026-09-17T18:53:51Z
+# CLOB pulse — 2026-09-18T02:30:14Z
 
 - Domain: `https://clob.polymarket.com`
 - Budget: $500
 - Snapshot days on disk: 3
-- Scored: 250  competed: 211  near-zero: 39
+- Scored: 250  competed: 228  near-zero: 22
 - Pilot universe: 0 (provisional: 0)
-- Top-20 competed avg yield: 11.8336%/day (gross)
+- Top-20 competed avg yield: 21.2497%/day (gross)
 
 ## Top competed
 
 | # | yield%/d | est$/d | rate | qual$ | market |
 |---|----------|--------|------|-------|--------|
-| 1 | 49.18 | 245.90 | 333 | 568 | Will Siegfried Mureșan be the next Prime Minister of Rom |
-| 2 | 33.59 | 167.97 | 174 | 195 | Will Google be the second-best Math AI lab at the end of |
-| 3 | 10.25 | 51.25 | 100 | 483 | US x Iran diplomatic meeting by September 30, 2026? |
-| 4 | 10.01 | 50.05 | 59 | 175 | Will Miloš Vučević win the next Serbia presidential elec |
-| 5 | 10.00 | 49.99 | 50 | 67 | Will the 10-year Treasury yield hit 5.10% in September? |
-| 6 | 9.94 | 49.69 | 50 | 133 | Will Coinbase Global, Inc. (COIN) hit (HIGH) $175 in Sep |
-| 7 | 9.79 | 48.94 | 50 | 55 | Will the 30-year Treasury yield dip below 5.00% before 2 |
-| 8 | 9.53 | 47.67 | 50 | 54 | Houthi military action against Mecca by October 31, 2026 |
-| 9 | 9.32 | 46.58 | 50 | 106 | Saudi Arabia military action against Yemen on September  |
-| 10 | 8.48 | 42.40 | 50 | 456 | Saudi Arabia military action against Yemen on September  |
+| 1 | 38.23 | 191.17 | 200 | 151 | Will any state enact a data center moratorium by Decembe |
+| 2 | 31.10 | 155.48 | 200 | 153 | Will Moonshot AI be added to the Chinese Military Compan |
+| 3 | 29.53 | 147.66 | 1000 | 2243 | Will Anthropic announce bankruptcy by December 31, 2028? |
+| 4 | 28.83 | 144.13 | 1000 | 2826 | Will CoreWeave announce bankruptcy by December 31, 2029? |
+| 5 | 22.58 | 112.88 | 1000 | 2340 | Will NuScale announce bankruptcy by December 31, 2028? |
+| 6 | 22.36 | 111.82 | 1000 | 2478 | Will OpenAI announce bankruptcy by December 31, 2028? |
+| 7 | 21.69 | 108.43 | 1000 | 1787 | Will CoreWeave announce bankruptcy by December 31, 2027? |
+| 8 | 21.65 | 108.26 | 1000 | 2244 | Will CoreWeave announce bankruptcy by December 31, 2028? |
+| 9 | 20.30 | 101.49 | 107 | 228 | Will Japan's core-core CPI increase by between 2.0 and 2 |
+| 10 | 19.43 | 97.17 | 100 | 74 | Will Trump say "Nuclear" 5+ times during his remarks at  |
 
 ## Near-zero (excluded from pilot)
 
-| 1 | 40.00 | 200.00 | Will the Democratic Union of Hungarians in Romania (UDMR |
-| 2 | 40.00 | 200.00 | Will the Social Democratic Party (PSD) be included in th |
-| 3 | 40.00 | 200.00 | Will the Save Romania Union (USR) be included in the nex |
-| 4 | 40.00 | 200.00 | Will any state enact a data center moratorium by Decembe |
-| 5 | 40.00 | 200.00 | Will the next Prime Minister of Romania be appointed by  |
-| 6 | 40.00 | 200.00 | Romanian PM Bolojan out by September 30? |
-| 7 | 37.22 | 186.12 | Will Google be the second-best AI lab at the end of Sept |
-| 8 | 33.80 | 169.00 | Will MrBeast's next video get between 80 and 90 million  |
-| 9 | 22.80 | 114.00 | Will the median home value in the DC Metro be between $5 |
-| 10 | 22.00 | 110.00 | Will MrBeast's next video get between 50 and 60 million  |
+| 1 | 50.60 | 253.00 | Will MrBeast's next video get between 70 and 80 million  |
+| 2 | 40.00 | 200.00 | Will the Save Romania Union (USR) be included in the nex |
+| 3 | 40.00 | 200.00 | Will the next Prime Minister of Romania be appointed by  |
+| 4 | 23.80 | 119.00 | Will Ella Langley win Entertainer of the Year at the 202 |
+| 5 | 21.80 | 109.00 | Will Miloš Vučević win the next Serbia presidential elec |
+| 6 | 21.80 | 109.00 | Will “A Song To Sing” by Miranda Lambert and Chris Stapl |
+| 7 | 20.00 | 100.00 | Will Kyle Schwarber hit the most home runs during the 20 |
+| 8 | 20.00 | 100.00 | Will Trump say "Failing Country" or "Failing Nation" dur |
+| 9 | 20.00 | 100.00 | Will Trump say "Board of Peace" during his remarks at th |
+| 10 | 20.00 | 100.00 | Will Trump say "Moon" or "NASA" during his remarks at th |
 
 ## Rewards: actual vs estimated
 
-- ts: `2026-09-17T18:53:51Z`
+- ts: `2026-09-18T02:30:14Z`
 - total actual: $0
 - total estimated: $0
 - ratio: n/a
