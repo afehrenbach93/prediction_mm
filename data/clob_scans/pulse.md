@@ -1,43 +1,43 @@
-# CLOB pulse — 2026-09-19T02:30:00Z
+# CLOB pulse — 2026-09-19T17:52:48Z
 
 - Domain: `https://clob.polymarket.com`
 - Budget: $500
 - Snapshot days on disk: 3
-- Scored: 250  competed: 215  near-zero: 35
+- Scored: 250  competed: 223  near-zero: 27
 - Pilot universe: 0 (provisional: 0)
-- Top-20 competed avg yield: 15.2419%/day (gross)
+- Top-20 competed avg yield: 17.1522%/day (gross)
 
 ## Top competed
 
 | # | yield%/d | est$/d | rate | qual$ | market |
 |---|----------|--------|------|-------|--------|
-| 1 | 33.46 | 167.32 | 200 | 57 | Denmark snap election called by December 31? |
-| 2 | 29.13 | 145.67 | 1000 | 9024 | Trump x Greenland deal signed by September 23? |
-| 3 | 23.71 | 118.57 | 119 | 62 | Will Prodigy SEG Win the 2026 Esports Supporting Service |
-| 4 | 20.23 | 101.13 | 200 | 504 | Will Trump visit Greenland by October 31? |
-| 5 | 18.97 | 94.85 | 95 | 171 | Will Liquipedia Win the 2026 Esports Supporting Service  |
-| 6 | 18.44 | 92.18 | 94 | 53 | Will “The Cure” by Olivia Rodrigo win Best Alternative a |
-| 7 | 17.58 | 87.90 | 100 | 150 | Will Guillermo Rodriguez be eliminated in week 2 of Danc |
-| 8 | 12.88 | 64.41 | 120 | 1244 | Will Seoul have less than 75mm of precipitation in Septe |
-| 9 | 12.54 | 62.72 | 75 | 325 | Will EFG Win the 2026 Esports Tournament Organiser of th |
-| 10 | 11.64 | 58.21 | 79 | 89 | Will The Red Clay Strays win Vocal Group of the Year at  |
+| 1 | 52.57 | 262.87 | 300 | 529 | Will Anthropic IPO by November 15, 2026? |
+| 2 | 33.36 | 166.79 | 400 | 646 | EU country expels Russian ambassador by December 31? |
+| 3 | 23.60 | 118.01 | 300 | 2312 | Will Anthropic IPO by December 15, 2026? |
+| 4 | 18.73 | 93.66 | 95 | 74 | Will a dozen eggs cost between $2.20 and $2.30 in Septem |
+| 5 | 18.55 | 92.77 | 104 | 315 | Will the median home value in the Chicago Metro be betwe |
+| 6 | 18.50 | 92.48 | 200 | 730 | Saudi Oil Pipeline (East-West) restarts by September 22? |
+| 7 | 17.45 | 87.25 | 114 | 381 | Will the Bank of Brazil make no change to the target for |
+| 8 | 16.40 | 81.98 | 300 | 1153 | Will Anthropic IPO by November 30, 2026? |
+| 9 | 16.24 | 81.18 | 247 | 3506 | Will Ilija Srdanović be the next prime minister of Serbi |
+| 10 | 14.40 | 72.00 | 89 | 371 | Will the median home value in the Chicago Metro be betwe |
 
 ## Near-zero (excluded from pilot)
 
-| 1 | 40.00 | 200.00 | Will the Save Romania Union (USR) be included in the nex |
-| 2 | 40.00 | 200.00 | Will Trump meet with Mette Frederiksen by September 30,  |
-| 3 | 40.00 | 200.00 | Will the Greenland agreement text be released by Septemb |
-| 4 | 40.00 | 200.00 | Will Trump meet with Mette Frederiksen by December 31, 2 |
-| 5 | 40.00 | 200.00 | Anthropic lab leak by December 31, 2026? |
-| 6 | 40.00 | 200.00 | Will the Greenland agreement text be released by Septemb |
-| 7 | 40.00 | 200.00 | Anthropic lab leak by June 30, 2027? |
-| 8 | 21.40 | 107.00 | Will the median home value in the US be less than $419,0 |
-| 9 | 20.00 | 100.00 | Will WTI Crude Oil (WTI) hit (HIGH) $105 in September? |
-| 10 | 19.20 | 96.00 | Will “I Just Might” by Bruno Mars win Best R&B at the 20 |
+| 1 | 40.00 | 200.00 | Will Trump meet with Mette Frederiksen by September 30,  |
+| 2 | 40.00 | 200.00 | Will Trump meet with Mette Frederiksen by December 31, 2 |
+| 3 | 31.00 | 155.00 | Will MrBeast's next video get less than 50 million views |
+| 4 | 29.60 | 148.00 | Will MrBeast's next video get between 50 and 60 million  |
+| 5 | 25.60 | 128.00 | Will “Dandelion” by Ella Langley win Album of the Year a |
+| 6 | 22.80 | 114.00 | Will Ella Langley win Female Vocalist of the Year at the |
+| 7 | 20.20 | 101.00 | Will OpenAI have the best Code Arena | WebDev AI at the  |
+| 8 | 20.00 | 100.00 | Will Argentina's monthly inflation in September 2026 be  |
+| 9 | 19.80 | 99.00 | Will Anthropic have the best Code Arena | WebDev AI at t |
+| 10 | 18.60 | 93.00 | Will Argentina's monthly inflation in September 2026 be  |
 
 ## Rewards: actual vs estimated
 
-- ts: `2026-09-19T02:30:00Z`
+- ts: `2026-09-19T17:52:48Z`
 - total actual: $0
 - total estimated: $0
 - ratio: n/a
