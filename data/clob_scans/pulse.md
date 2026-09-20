@@ -1,43 +1,43 @@
-# CLOB pulse — 2026-09-20T02:40:44Z
+# CLOB pulse — 2026-09-20T18:09:08Z
 
 - Domain: `https://clob.polymarket.com`
 - Budget: $500
 - Snapshot days on disk: 3
-- Scored: 250  competed: 227  near-zero: 23
+- Scored: 250  competed: 232  near-zero: 18
 - Pilot universe: 0 (provisional: 0)
-- Top-20 competed avg yield: 18.7891%/day (gross)
+- Top-20 competed avg yield: 12.7697%/day (gross)
 
 ## Top competed
 
 | # | yield%/d | est$/d | rate | qual$ | market |
 |---|----------|--------|------|-------|--------|
-| 1 | 95.89 | 479.45 | 500 | 486 | US x Iran ceasefire continues through October 31? |
-| 2 | 24.70 | 123.52 | 155 | 70 | Will MrBeast's next video get between 60 and 70 million  |
-| 3 | 22.44 | 112.20 | 200 | 357 | Will Lauren Boebert resign by October 31, 2026? |
-| 4 | 20.58 | 102.88 | 121 | 184 | Will London have less than 30mm of precipitation in Sept |
-| 5 | 20.49 | 102.46 | 300 | 2959 | Will Anthropic IPO by November 15, 2026? |
-| 6 | 18.31 | 91.53 | 200 | 604 | Lauren Boebert admits to sex with staffer before midterm |
-| 7 | 16.90 | 84.48 | 100 | 8218 | Will WTI Crude Oil (WTI) hit (LOW) $90 in September? |
-| 8 | 15.67 | 78.35 | 114 | 166 | Will Coinbase be first to list tokenized stocks in the U |
-| 9 | 14.74 | 73.69 | 82 | 155 | Will UK annual inflation be between 3.4% and 3.6% in Sep |
-| 10 | 14.70 | 73.52 | 100 | 188 | Will Todd Achilles win the Idaho Senate race in 2026? |
+| 1 | 22.77 | 113.86 | 148 | 1018 | Will MrBeast's next video get between 60 and 70 million  |
+| 2 | 19.52 | 97.59 | 152 | 360 | Will MrBeast's next video get between 70 and 80 million  |
+| 3 | 17.59 | 87.94 | 300 | 1790 | US x Iran diplomatic meeting by September 30, 2026? |
+| 4 | 17.55 | 87.74 | 176 | 474 | Will there be between 25 and 29 average daily transits o |
+| 5 | 17.47 | 87.36 | 100 | 701 | Israel military action against Yemen by September 30? |
+| 6 | 15.91 | 79.57 | 200 | 560 | Will Saudi airspace be closed by December 31? |
+| 7 | 14.09 | 70.44 | 300 | 2210 | Will Anthropic IPO by November 30, 2026? |
+| 8 | 13.81 | 69.04 | 300 | 1424 | Will Anthropic IPO by November 15, 2026? |
+| 9 | 12.14 | 60.69 | 153 | 674 | Will Red Bull Win the 2026 Esports Commercial Partner of |
+| 10 | 11.90 | 59.48 | 100 | 1140 | Will OpenAI launch a new consumer hardware product by Oc |
 
 ## Near-zero (excluded from pilot)
 
-| 1 | 42.73 | 213.65 | Will MrBeast's next video get between 70 and 80 million  |
-| 2 | 40.00 | 200.00 | Will Lauren Boebert drop out of the CO-04 race? |
-| 3 | 29.80 | 149.00 | Will Ella Langley win Female Vocalist of the Year at the |
-| 4 | 25.60 | 128.00 | Will Anthropic have the best Math AI model at the end of |
-| 5 | 25.40 | 127.00 | Will Little Big Town win Vocal Group of the Year at the  |
-| 6 | 24.56 | 122.82 | Will MrBeast's next video get between 80 and 90 million  |
-| 7 | 23.60 | 118.00 | Will Lula win the most votes in the next Brazil presiden |
-| 8 | 20.00 | 100.00 | Will Russia enter Mykolaivka by October 31, 2026? |
-| 9 | 17.00 | 85.00 | Will Stephen Wilson Jr. win New Artist of the Year at th |
-| 10 | 15.60 | 78.00 | Will Andy Eads win the 2026 Denton County Judge election |
+| 1 | 52.40 | 262.00 | Will United Russia (ER) win 50-55% of the party-list vot |
+| 2 | 35.00 | 175.00 | Will United Russia (ER) win 55-60% of the party-list vot |
+| 3 | 27.20 | 136.00 | Will Anthropic have the best AI model on LiveBench (Codi |
+| 4 | 20.00 | 100.00 | Will the next Claude Opus model be released by September |
+| 5 | 20.00 | 100.00 | Trump invokes war powers in Yemen by September 30? |
+| 6 | 20.00 | 100.00 | Will the next Claude Opus model be released by September |
+| 7 | 17.20 | 86.00 | Will there be exactly 3 North Korea tests in September 2 |
+| 8 | 15.20 | 76.00 | Will there be exactly 2 North Korea tests in September 2 |
+| 9 | 11.20 | 56.00 | Will "Heart of the Beast" Opening Weekend Box Office be  |
+| 10 | 10.80 | 54.00 | Will David Bailey win the 2026 NFL Defensive Rookie of t |
 
 ## Rewards: actual vs estimated
 
-- ts: `2026-09-20T02:40:44Z`
+- ts: `2026-09-20T18:09:09Z`
 - total actual: $0
 - total estimated: $0
 - ratio: n/a
