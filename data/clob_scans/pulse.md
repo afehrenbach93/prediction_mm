@@ -1,36 +1,43 @@
-# CLOB pulse — 2026-09-21T19:55:20Z
+# CLOB pulse — 2026-09-22T02:39:42Z
 
 - Domain: `https://clob.polymarket.com`
 - Budget: $500
 - Snapshot days on disk: 3
-- Scored: 250  competed: 247  near-zero: 3
+- Scored: 250  competed: 227  near-zero: 23
 - Pilot universe: 0 (provisional: 0)
-- Top-20 competed avg yield: 23.1763%/day (gross)
+- Top-20 competed avg yield: 19.2332%/day (gross)
 
 ## Top competed
 
 | # | yield%/d | est$/d | rate | qual$ | market |
 |---|----------|--------|------|-------|--------|
-| 1 | 39.77 | 198.87 | 200 | 99 | Will the 10-year Treasury yield dip below 4.1% before 20 |
-| 2 | 38.95 | 194.77 | 200 | 69 | Will the 10-year Treasury yield dip below 4.7% before 20 |
-| 3 | 36.41 | 182.03 | 200 | 147 | Will the 10-year Treasury yield dip below 4.2% before 20 |
-| 4 | 35.91 | 179.57 | 200 | 138 | Will the 10-year Treasury yield dip below 4.3% before 20 |
-| 5 | 34.90 | 174.51 | 200 | 113 | Will the 10-year Treasury yield dip below 4.5% before 20 |
-| 6 | 25.21 | 126.06 | 128 | 252 | Will Shaun Deeb win the 2026 WSOP Player of the Year? |
-| 7 | 23.75 | 118.76 | 300 | 5475 | US x Iran ceasefire continues through October 31? |
-| 8 | 22.84 | 114.18 | 200 | 205 | CNN, Politico, or MS NOW unbanned from White House by Se |
-| 9 | 21.42 | 107.08 | 116 | 112 | Will Anthropic have the best Math AI model at the end of |
-| 10 | 19.09 | 95.46 | 200 | 421 | Will the 10-year Treasury yield dip below 4.6% before 20 |
+| 1 | 33.46 | 167.29 | 200 | 154 | Will the 10-year Treasury yield dip below 4.4% before 20 |
+| 2 | 31.83 | 159.14 | 200 | 150 | Next OpenAI GPT Luna (5.7+) released by September 27, 20 |
+| 3 | 30.42 | 152.12 | 200 | 202 | Will the next GPT Sol model (5.7+) debut at a score of a |
+| 4 | 26.30 | 131.50 | 200 | 389 | Will the 10-year Treasury yield dip below 4.3% before 20 |
+| 5 | 26.04 | 130.22 | 158 | 153 | Will MrBeast's next video get between 70 and 80 million  |
+| 6 | 25.27 | 126.34 | 200 | 195 | Will the next GPT Sol model (5.7+) debut at a score of a |
+| 7 | 22.33 | 111.65 | 200 | 291 | Will the next GPT Sol model (5.7+) debut at a score of a |
+| 8 | 20.86 | 104.30 | 200 | 231 | Will the next GPT Luna model (5.7+) debut at a score of  |
+| 9 | 20.51 | 102.56 | 200 | 307 | Will the next GPT Luna model (5.7+) debut at a score of  |
+| 10 | 19.52 | 97.61 | 200 | 989 | CNN, Politico, or MS NOW unbanned from White House by Se |
 
 ## Near-zero (excluded from pilot)
 
-| 1 | 60.00 | 300.00 | Saudi Arabia military action against Yemen on September  |
-| 2 | 40.00 | 200.00 | CNN, Politico, or MS NOW unbanned from White House by Oc |
-| 3 | 39.57 | 197.85 | Will the 10-year Treasury yield dip below 4.4% before 20 |
+| 1 | 40.00 | 200.00 | Will the next Claude Sonnet model be released by Septemb |
+| 2 | 40.00 | 200.00 | Will the next Claude Sonnet model be released by Septemb |
+| 3 | 40.00 | 200.00 | Republican House odds hit 12% by October 31? |
+| 4 | 40.00 | 200.00 | Republican House odds hit 15% by October 31? |
+| 5 | 40.00 | 200.00 | Republican House odds hit 20% by October 31? |
+| 6 | 40.00 | 200.00 | Republican Senate odds hit 40% by October 31? |
+| 7 | 40.00 | 200.00 | Republican Senate odds hit 45% by October 31? |
+| 8 | 40.00 | 200.00 | Republican Senate odds hit 50% by October 31? |
+| 9 | 40.00 | 200.00 | Senate control favorite on November 2? |
+| 10 | 40.00 | 200.00 | Republicans flip Democrats for Senate by November 2? |
 
 ## Rewards: actual vs estimated
 
-- ts: `2026-09-21T19:55:20Z`
+- ts: `2026-09-22T02:39:42Z`
 - total actual: $0
 - total estimated: $0
 - ratio: n/a
