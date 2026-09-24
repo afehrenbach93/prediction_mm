@@ -1,43 +1,43 @@
-# CLOB pulse — 2026-09-23T18:56:22Z
+# CLOB pulse — 2026-09-24T02:29:11Z
 
 - Domain: `https://clob.polymarket.com`
 - Budget: $500
 - Snapshot days on disk: 3
-- Scored: 250  competed: 222  near-zero: 28
+- Scored: 250  competed: 226  near-zero: 24
 - Pilot universe: 0 (provisional: 0)
-- Top-20 competed avg yield: 21.2424%/day (gross)
+- Top-20 competed avg yield: 14.1817%/day (gross)
 
 ## Top competed
 
 | # | yield%/d | est$/d | rate | qual$ | market |
 |---|----------|--------|------|-------|--------|
-| 1 | 85.33 | 426.68 | 500 | 312 | Will the US announce a diesel export ban by October 31? |
-| 2 | 76.67 | 383.34 | 1500 | 1236 | Will the US announce a diesel export ban by September 30 |
-| 3 | 42.00 | 210.00 | 210 | 698 | Will Christine Lagarde win the 2027 French presidential  |
-| 4 | 19.55 | 97.78 | 100 | 338 | Will Mohammed bin Abdulrahman Al Thani attend a US x Ira |
-| 5 | 18.56 | 92.80 | 110 | 91 | Will the next US-Iran senior diplomatic meeting take pla |
-| 6 | 16.62 | 83.10 | 175 | 1431 | Will MrBeast Gaming's next video get between 17.5 and 20 |
-| 7 | 15.75 | 78.73 | 106 | 163 | Will Alibaba be the third-best Code Arena | WebDev AI la |
-| 8 | 15.50 | 77.51 | 94 | 90 | Will Moonshot be the third-best Code Arena | WebDev AI l |
-| 9 | 15.46 | 77.33 | 100 | 95 | Will Russia capture Kindrativka by December 31? |
-| 10 | 15.31 | 76.53 | 100 | 113 | Will Ukraine re-enter Kamianske by December 31, 2026? |
+| 1 | 29.25 | 146.25 | 158 | 99 | Will the Trump and Xi handshake last 6–10 seconds during |
+| 2 | 19.80 | 98.99 | 102 | 137 | Will NYC have between 2 and 3 inches of precipitation in |
+| 3 | 18.66 | 93.28 | 100 | 865 | Will A'ja Wilson win the 2026 WNBA MVP award? |
+| 4 | 16.85 | 84.27 | 200 | 294 | Will the 10-year Treasury yield hit 5.25% in September? |
+| 5 | 16.10 | 80.50 | 200 | 689 | Will the 30-year Treasury yield hit 5.90% before 2027? |
+| 6 | 15.22 | 76.11 | 200 | 647 | Will the 10-year Treasury yield hit 5.17% in September? |
+| 7 | 14.17 | 70.83 | 100 | 389 | Will Taylor Hanson be eliminated in week 3 of Dancing Wi |
+| 8 | 13.85 | 69.25 | 300 | 2618 | Will the US announce a diesel export ban by October 31? |
+| 9 | 13.61 | 68.04 | 100 | 288 | Will Tyler Cameron be eliminated in week 3 of Dancing Wi |
+| 10 | 13.29 | 66.46 | 71 | 105 | Will MrBeast Gaming's next video get between 30 and 35 m |
 
 ## Near-zero (excluded from pilot)
 
-| 1 | 33.00 | 165.00 | Will MrBeast Gaming's next video get between 30 and 35 m |
-| 2 | 20.00 | 100.00 | Will Google have the best Image-to-Video AI at the end o |
-| 3 | 20.00 | 100.00 | Will any other model be the best AI model on October 5,  |
-| 4 | 20.00 | 100.00 | Will "Heart of the Beast" score at least 90 on the Rotte |
-| 5 | 18.40 | 92.00 | Will there be exactly 2 Codex weekly usage limit resets  |
-| 6 | 18.00 | 90.00 | Will Seattle have between 1.5 and 2 inches of precipitat |
-| 7 | 17.40 | 87.00 | Will claude-fable-5.1-max be the best AI model on Octobe |
-| 8 | 17.00 | 85.00 | Will MrBeast Gaming's next video get between 35 and 40 m |
-| 9 | 17.00 | 85.00 | Will MrBeast Gaming's next video get between 40 and 45 m |
-| 10 | 16.20 | 81.00 | Will 170-189 ships transit the Bab el-Mandeb Strait betw |
+| 1 | 25.60 | 128.00 | Will OpenAI have the best Code Arena | WebDev AI at the  |
+| 2 | 25.40 | 127.00 | Will the Trump and Xi handshake last 10–15 seconds durin |
+| 3 | 25.20 | 126.00 | Will the Trump and Xi handshake last 15 seconds or longe |
+| 4 | 22.60 | 113.00 | Will MrBeast Gaming's next video get between 25 and 30 m |
+| 5 | 21.20 | 106.00 | Will the median home value in San Francisco Metro be bet |
+| 6 | 21.00 | 105.00 | Will Seattle have between 1.5 and 2 inches of precipitat |
+| 7 | 18.80 | 94.00 | Reserve Bank of New Zealand increases interest rates by  |
+| 8 | 18.80 | 94.00 | Will the median home value in San Francisco Metro be les |
+| 9 | 18.60 | 93.00 | Will Japan's core-core CPI increase by between 2.0 and 2 |
+| 10 | 18.20 | 91.00 | Will there be exactly 2 Codex weekly usage limit resets  |
 
 ## Rewards: actual vs estimated
 
-- ts: `2026-09-23T18:56:22Z`
+- ts: `2026-09-24T02:29:11Z`
 - total actual: $0
 - total estimated: $0
 - ratio: n/a
