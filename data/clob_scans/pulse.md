@@ -1,43 +1,43 @@
-# CLOB pulse — 2026-09-26T18:29:53Z
+# CLOB pulse — 2026-09-27T02:50:22Z
 
 - Domain: `https://clob.polymarket.com`
 - Budget: $500
 - Snapshot days on disk: 3
-- Scored: 250  competed: 221  near-zero: 29
+- Scored: 250  competed: 214  near-zero: 36
 - Pilot universe: 0 (provisional: 0)
-- Top-20 competed avg yield: 12.7554%/day (gross)
+- Top-20 competed avg yield: 9.8122%/day (gross)
 
 ## Top competed
 
 | # | yield%/d | est$/d | rate | qual$ | market |
 |---|----------|--------|------|-------|--------|
-| 1 | 25.31 | 126.56 | 200 | 219 | Will "The Life of a Showgirl: The Encore" first week sal |
-| 2 | 20.59 | 102.97 | 120 | 165 | Will MrBeast Gaming's next video get between 40 and 45 m |
-| 3 | 20.18 | 100.91 | 200 | 494 | Will "The Life of a Showgirl: The Encore" first week sal |
-| 4 | 19.23 | 96.15 | 134 | 191 | Will MrBeast Gaming's next video get between 35 and 40 m |
-| 5 | 18.65 | 93.25 | 106 | 93 | Will MrBeast Gaming's next video get between 30 and 35 m |
-| 6 | 14.24 | 71.19 | 100 | 183 | Will "Patient Zero" hit 60m first week streams? |
-| 7 | 13.79 | 68.95 | 208 | 1965 | Will Аndrey Gyurov win the next Bulgarian presidential e |
-| 8 | 13.00 | 65.02 | 118 | 906 | Will Seattle have between 1.5 and 2 inches of precipitat |
-| 9 | 12.87 | 64.35 | 67 | 120 | Will NYC have between 4 and 5 inches of precipitation in |
-| 10 | 10.89 | 54.43 | 86 | 322 | Will NYC have between 5 and 6 inches of precipitation in |
+| 1 | 18.62 | 93.12 | 100 | 187 | Will WTI Crude Oil (WTI) hit (LOW) $90 in September? |
+| 2 | 13.57 | 67.85 | 200 | 3606 | Saudi Oil Pipeline (East-West) restarts by September 30? |
+| 3 | 13.39 | 66.97 | 200 | 454 | Will "The Life of a Showgirl: The Encore" first week sal |
+| 4 | 11.51 | 57.53 | 100 | 378 | Will "Patient Zero" hit 60m first week streams? |
+| 5 | 11.29 | 56.46 | 90 | 370 | Will 20-24 ships transit the Strait of Hormuz between Se |
+| 6 | 11.04 | 55.20 | 82 | 284 | Will NYC have between 4 and 5 inches of precipitation in |
+| 7 | 9.99 | 49.93 | 200 | 2285 | US x Iran ceasefire continues through November 30? |
+| 8 | 9.73 | 48.64 | 56 | 130 | Will the peak wind gust in Wellington be 102 km/h or abo |
+| 9 | 9.58 | 47.89 | 50 | 55 | Will GPT Astra's output price be at or below $30 in 2026 |
+| 10 | 9.54 | 47.70 | 92 | 377 | Will MrBeast Gaming's next video get between 40 and 45 m |
 
 ## Near-zero (excluded from pilot)
 
-| 1 | 39.92 | 199.58 | Saudi Oil Pipeline (East-West) restarts by October 15? |
-| 2 | 24.80 | 124.00 | Will the median home value in Los Angeles Metro be betwe |
-| 3 | 22.80 | 114.00 | Will South Korea GDP growth in Q3 2026 be between 2.5% a |
-| 4 | 15.80 | 79.00 | Will the next Claude Sonnet model be released on Septemb |
-| 5 | 15.20 | 76.00 | Will the median home value in Los Angeles Metro be betwe |
-| 6 | 13.96 | 69.79 | Will MrBeast Gaming's next video get between 45 and 50 m |
-| 7 | 13.00 | 65.00 | Will “Gary” by Stephen Wilson Jr. win Music Video of the |
-| 8 | 12.40 | 62.00 | Will Alibaba be the third-best Math AI lab at the end of |
-| 9 | 12.00 | 60.00 | Will GitHub's longest critical incident in September 202 |
-| 10 | 11.20 | 56.00 | Will MrBeast Gaming's next video get between 25 and 30 m |
+| 1 | 16.80 | 84.00 | Will MrBeast Gaming's next video get between 30 and 35 m |
+| 2 | 13.58 | 67.91 | Will the total domestic gross for Spider-Man: Brand New  |
+| 3 | 12.40 | 62.00 | Will Muse from Meta be #1 Free App in the US Apple App S |
+| 4 | 10.80 | 54.00 | Will Pete Crow-Armstrong hit the most home runs during t |
+| 5 | 10.20 | 51.00 | Will "Cleveland! - Taylor Swift" be the #2 US song this  |
+| 6 | 10.00 | 50.00 | Will "Earrings – Malcom Todd" be the #2 song in the US f |
+| 7 | 10.00 | 50.00 | Will Jynxzi reach Gold rank in League of Legends by Octo |
+| 8 | 10.00 | 50.00 | Will Iran target Syria by October 31, 2026? |
+| 9 | 10.00 | 50.00 | Israel x Lebanon diplomatic meeting by October 15, 2026? |
+| 10 | 10.00 | 50.00 | NATO downs another Russian drone by October 15? |
 
 ## Rewards: actual vs estimated
 
-- ts: `2026-09-26T18:29:53Z`
+- ts: `2026-09-27T02:50:22Z`
 - total actual: $0
 - total estimated: $0
 - ratio: n/a
