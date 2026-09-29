@@ -1,43 +1,43 @@
-# CLOB pulse — 2026-09-29T03:32:11Z
+# CLOB pulse — 2026-09-29T19:53:40Z
 
 - Domain: `https://clob.polymarket.com`
 - Budget: $500
 - Snapshot days on disk: 3
-- Scored: 250  competed: 219  near-zero: 31
+- Scored: 250  competed: 231  near-zero: 19
 - Pilot universe: 0 (provisional: 0)
-- Top-20 competed avg yield: 11.0326%/day (gross)
+- Top-20 competed avg yield: 94.6633%/day (gross)
 
 ## Top competed
 
 | # | yield%/d | est$/d | rate | qual$ | market |
 |---|----------|--------|------|-------|--------|
-| 1 | 29.25 | 146.25 | 200 | 264 | Next Astra Model (6.1+) released by October 31, 2026? |
-| 2 | 24.43 | 122.13 | 200 | 303 | Next Astra Model (6.1+) released by October 16, 2026? |
-| 3 | 16.93 | 84.64 | 144 | 264 | Will MrBeast Gaming's next video get between 25 and 30 m |
-| 4 | 12.13 | 60.63 | 100 | 258 | US-Iran Hormuz Agreement by October 15? |
-| 5 | 11.05 | 55.23 | 100 | 196 | US-Iran Hormuz Agreement by October 31? |
-| 6 | 10.48 | 52.39 | 57 | 540 | Will ISM Services PMI be between 55.0 and 55.9 in Septem |
-| 7 | 10.09 | 50.47 | 200 | 4588 | US x Iran ceasefire continues through December 31? |
-| 8 | 9.91 | 49.57 | 50 | 87 | Will the 30-year Treasury yield hit 5.65% before 2027? |
-| 9 | 9.91 | 49.56 | 50 | 92 | Will the next Sonnet model debut at a score of at least  |
-| 10 | 9.55 | 47.75 | 199 | 1499 | Will Anthropic's market cap be between $2.25T and $2.5T  |
+| 1 | 234.92 | 1174.62 | 2000 | 271 | Will Texas enact a data center moratorium by December 31 |
+| 2 | 171.33 | 856.65 | 2000 | 420 | Will Texas enact a data center moratorium by June 30, 20 |
+| 3 | 148.21 | 741.04 | 2000 | 447 | Will Indiana enact a data center moratorium by June 30,  |
+| 4 | 141.21 | 706.03 | 2000 | 768 | Will Missouri enact a data center moratorium by December |
+| 5 | 139.27 | 696.34 | 2000 | 452 | Will Indiana enact a data center moratorium by December  |
+| 6 | 134.77 | 673.84 | 2000 | 1085 | Will Missouri enact a data center moratorium by June 30, |
+| 7 | 130.66 | 653.32 | 2000 | 630 | Will Oklahoma enact a data center moratorium by December |
+| 8 | 119.39 | 596.97 | 2000 | 508 | Will Texas enact a data center moratorium by December 31 |
+| 9 | 89.66 | 448.31 | 2000 | 1376 | Will Ohio enact a data center moratorium by December 31, |
+| 10 | 72.00 | 360.01 | 2000 | 1704 | Will Louisiana enact a data center moratorium by Decembe |
 
 ## Near-zero (excluded from pilot)
 
-| 1 | 39.91 | 199.54 | Trump insults Anthropic CEO this week? |
-| 2 | 39.51 | 197.54 | Next Astra Model (6.1+) released by October 23, 2026? |
-| 3 | 26.80 | 134.00 | Will MrBeast's next video get at least 100 million views |
-| 4 | 20.00 | 100.00 | US-Iran Hormuz Agreement by December 31? |
-| 5 | 18.60 | 93.00 | Will MrBeast's next video get between 25 and 30 million  |
-| 6 | 18.60 | 93.00 | Will MrBeast's next video get between 35 and 40 million  |
-| 7 | 16.60 | 83.00 | Will MrBeast's next video get between 20 and 25 million  |
-| 8 | 16.60 | 83.00 | Will MrBeast's next video get between 30 and 35 million  |
-| 9 | 15.00 | 75.00 | Will Flávio Bolsonaro win between 39% and 42% of the val |
-| 10 | 14.80 | 74.00 | Will MrBeast's next video get between 40 and 45 million  |
+| 1 | 40.00 | 200.00 | Over $50M committed to the Jumper public sale? |
+| 2 | 40.00 | 200.00 | Over $30M committed to the Jumper public sale? |
+| 3 | 40.00 | 200.00 | Over $40M committed to the Jumper public sale? |
+| 4 | 38.63 | 193.17 | Next Astra Model (6.1+) released by October 23, 2026? |
+| 5 | 23.01 | 115.06 | Will claude-opus-5.5-high be the best AI model on Octobe |
+| 6 | 20.00 | 100.00 | No change flips Hike 25 bps for October Fed by October 1 |
+| 7 | 20.00 | 100.00 | Will Bruno Mars have the greatest number of monthly Spot |
+| 8 | 18.80 | 94.00 | Will MrBeast's next video get between 35 and 40 million  |
+| 9 | 17.60 | 88.00 | Will Donald Trump post 200+ Truth Social posts from Octo |
+| 10 | 17.20 | 86.00 | Will MrBeast's next video get at least 45 million views  |
 
 ## Rewards: actual vs estimated
 
-- ts: `2026-09-29T03:32:11Z`
+- ts: `2026-09-29T19:53:40Z`
 - total actual: $0
 - total estimated: $0
 - ratio: n/a
