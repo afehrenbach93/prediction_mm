@@ -1,215 +1,215 @@
 {
-  "ts": "2026-09-28T21:09:17Z",
+  "ts": "2026-09-29T03:32:11Z",
   "domain": "https://clob.polymarket.com",
   "budget_usd": 500.0,
   "snapshot_days": 3,
   "scored_markets": 250,
-  "competed": 225,
-  "near_zero": 25,
+  "competed": 219,
+  "near_zero": 31,
   "pilot_universe": 0,
   "pilot_provisional": 0,
-  "top20_competed_avg_yield_pct": 14.5388,
+  "top20_competed_avg_yield_pct": 11.0326,
   "top10_competed": [
     {
-      "question": "Trump insults Anthropic CEO this week?",
-      "slug": "trump-insults-anthropic-ceo-by-october-4",
+      "question": "Next Astra Model (6.1+) released by October 31, 2026?",
+      "slug": "next-astra-model-6pt1-released-by-october-31-2026",
       "daily_rate": 200.0,
-      "qual_notional": 131.2,
-      "est_daily": 151.5913,
-      "yield_pct": 30.3183,
-      "mid": "0.125",
+      "qual_notional": 263.9,
+      "est_daily": 146.2506,
+      "yield_pct": 29.2501,
+      "mid": "0.425",
       "near_zero": false
     },
     {
-      "question": "Next US-Iran senior diplomatic meeting by October 5, 2026?",
-      "slug": "next-us-iran-senior-diplomatic-meeting-by-october-5-2026",
+      "question": "Next Astra Model (6.1+) released by October 16, 2026?",
+      "slug": "next-astra-model-6pt1-released-by-october-16-2026",
       "daily_rate": 200.0,
-      "qual_notional": 357.26,
-      "est_daily": 131.3267,
-      "yield_pct": 26.2653,
-      "mid": "0.375",
-      "near_zero": false
-    },
-    {
-      "question": "Will CNN fly with Trump by October 15?",
-      "slug": "will-cnn-fly-with-trump-by-october-15",
-      "daily_rate": 200.0,
-      "qual_notional": 192.6,
-      "est_daily": 130.662,
-      "yield_pct": 26.1324,
-      "mid": "0.125",
-      "near_zero": false
-    },
-    {
-      "question": "Will CNN fly with Trump by October 31?",
-      "slug": "will-cnn-fly-with-trump-by-october-31",
-      "daily_rate": 200.0,
-      "qual_notional": 237.56,
-      "est_daily": 128.1015,
-      "yield_pct": 25.6203,
-      "mid": "0.145",
-      "near_zero": false
-    },
-    {
-      "question": "Saudi Oil Pipeline (East-West) restarts by October 15?",
-      "slug": "saudi-oil-pipeline-east-west-restarts-by-october-15",
-      "daily_rate": 200.0,
-      "qual_notional": 863.81,
-      "est_daily": 102.9802,
-      "yield_pct": 20.596,
-      "mid": "0.57",
-      "near_zero": false
-    },
-    {
-      "question": "Will Google have the second highest OpenRouter market share the week of Septembe",
-      "slug": "will-google-have-the-second-highest-openrouter-market-share-the-week-of-september-28",
-      "daily_rate": 103.0,
-      "qual_notional": 209.96,
-      "est_daily": 83.0451,
-      "yield_pct": 16.609,
-      "mid": "0.69",
-      "near_zero": false
-    },
-    {
-      "question": "Will London have less than 30mm of precipitation in September?",
-      "slug": "will-london-have-less-than-30mm-of-precipitation-in-september",
-      "daily_rate": 89.0,
-      "qual_notional": 74.62,
-      "est_daily": 80.9911,
-      "yield_pct": 16.1982,
-      "mid": "0.41",
-      "near_zero": false
-    },
-    {
-      "question": "Will 20-24 ships transit the Strait of Hormuz between September 28-October 4?",
-      "slug": "will-20-24-ships-transit-the-strait-of-hormuz-between-september-28-october-4",
-      "daily_rate": 85.0,
-      "qual_notional": 446.66,
-      "est_daily": 62.2671,
-      "yield_pct": 12.4534,
-      "mid": "0.345",
-      "near_zero": false
-    },
-    {
-      "question": "Will Google be the #2 AI lab at the end of November 2026?",
-      "slug": "will-google-be-the-2-ai-lab-at-the-end-of-november-2026",
-      "daily_rate": 80.0,
-      "qual_notional": 139.42,
-      "est_daily": 60.0933,
-      "yield_pct": 12.0187,
-      "mid": "0.355",
-      "near_zero": false
-    },
-    {
-      "question": "Will Google have the third highest OpenRouter market share the week of September",
-      "slug": "will-google-have-the-third-highest-openrouter-market-share-the-week-of-september-28",
-      "daily_rate": 62.0,
-      "qual_notional": 73.47,
-      "est_daily": 54.8844,
-      "yield_pct": 10.9769,
+      "qual_notional": 303.45,
+      "est_daily": 122.1335,
+      "yield_pct": 24.4267,
       "mid": "0.14",
       "near_zero": false
-    }
-  ],
-  "top10_near_zero": [
-    {
-      "question": "Will DeepSeek have the highest OpenRouter market share the week of September 28?",
-      "slug": "will-deepseek-have-the-highest-openrouter-market-share-the-week-of-september-28",
-      "daily_rate": 120.0,
-      "qual_notional": 0.0,
-      "est_daily": 120.0,
-      "yield_pct": 24.0,
-      "mid": "0.8",
-      "near_zero": true
     },
     {
-      "question": "Will \"Patient Zero\" hit 40m first week streams?",
-      "slug": "will-patient-zero-hit-40m-first-week-streams",
-      "daily_rate": 100.0,
-      "qual_notional": 0.0,
-      "est_daily": 100.0,
-      "yield_pct": 20.0,
-      "mid": "0.515",
-      "near_zero": true
-    },
-    {
-      "question": "US-Iran Hormuz Agreement by October 31?",
-      "slug": "us-iran-hormuz-agreement-by-october-31",
-      "daily_rate": 100.0,
-      "qual_notional": 0.0,
-      "est_daily": 100.0,
-      "yield_pct": 20.0,
-      "mid": "0.29",
-      "near_zero": true
-    },
-    {
-      "question": "US-Iran Hormuz Agreement by October 7?",
-      "slug": "us-iran-hormuz-agreement-by-october-7",
-      "daily_rate": 100.0,
-      "qual_notional": 0.0,
-      "est_daily": 100.0,
-      "yield_pct": 20.0,
-      "mid": "0.175",
-      "near_zero": true
+      "question": "Will MrBeast Gaming's next video get between 25 and 30 million views in week 1?",
+      "slug": "will-mrbeast-gamings-next-video-get-between-25-and-30-million-views-in-week-1-20260922",
+      "daily_rate": 144.0,
+      "qual_notional": 263.84,
+      "est_daily": 84.638,
+      "yield_pct": 16.9276,
+      "mid": "0.1835",
+      "near_zero": false
     },
     {
       "question": "US-Iran Hormuz Agreement by October 15?",
       "slug": "us-iran-hormuz-agreement-by-october-15",
       "daily_rate": 100.0,
-      "qual_notional": 0.0,
-      "est_daily": 100.0,
-      "yield_pct": 20.0,
-      "mid": "0.185",
+      "qual_notional": 257.62,
+      "est_daily": 60.6278,
+      "yield_pct": 12.1256,
+      "mid": "0.17",
+      "near_zero": false
+    },
+    {
+      "question": "US-Iran Hormuz Agreement by October 31?",
+      "slug": "us-iran-hormuz-agreement-by-october-31",
+      "daily_rate": 100.0,
+      "qual_notional": 196.29,
+      "est_daily": 55.2295,
+      "yield_pct": 11.0459,
+      "mid": "0.275",
+      "near_zero": false
+    },
+    {
+      "question": "Will ISM Services PMI be between 55.0 and 55.9 in September?",
+      "slug": "will-ism-services-pmi-be-between-55pt0-and-55pt9-in-september",
+      "daily_rate": 57.0,
+      "qual_notional": 540.24,
+      "est_daily": 52.3929,
+      "yield_pct": 10.4786,
+      "mid": "0.2615",
+      "near_zero": false
+    },
+    {
+      "question": "US x Iran ceasefire continues through December 31?",
+      "slug": "us-x-iran-ceasefire-continues-through-december-31-20260918",
+      "daily_rate": 200.0,
+      "qual_notional": 4587.7,
+      "est_daily": 50.4716,
+      "yield_pct": 10.0943,
+      "mid": "0.325",
+      "near_zero": false
+    },
+    {
+      "question": "Will the 30-year Treasury yield hit 5.65% before 2027?",
+      "slug": "will-the-30-year-treasury-yield-hit-5pt65-before-2027",
+      "daily_rate": 50.0,
+      "qual_notional": 87.0,
+      "est_daily": 49.574,
+      "yield_pct": 9.9148,
+      "mid": "0.87",
+      "near_zero": false
+    },
+    {
+      "question": "Will the next Sonnet model debut at a score of at least 1480 by December 31, 202",
+      "slug": "will-the-next-sonnet-model-debut-at-a-score-of-at-least-1480-by-december-31-2026",
+      "daily_rate": 50.0,
+      "qual_notional": 91.96,
+      "est_daily": 49.5643,
+      "yield_pct": 9.9129,
+      "mid": "0.89",
+      "near_zero": false
+    },
+    {
+      "question": "Will Anthropic's market cap be between $2.25T and $2.5T at market close on IPO d",
+      "slug": "will-anthropics-market-cap-be-between-2pt25t-and-2pt5t-at-market-close-on-ipo-day",
+      "daily_rate": 199.0,
+      "qual_notional": 1498.8,
+      "est_daily": 47.749,
+      "yield_pct": 9.5498,
+      "mid": "0.315",
+      "near_zero": false
+    }
+  ],
+  "top10_near_zero": [
+    {
+      "question": "Trump insults Anthropic CEO this week?",
+      "slug": "trump-insults-anthropic-ceo-by-october-4",
+      "daily_rate": 200.0,
+      "qual_notional": 35.56,
+      "est_daily": 199.5442,
+      "yield_pct": 39.9088,
+      "mid": "0.24",
       "near_zero": true
     },
     {
-      "question": "US-Iran Hormuz Agreement by November 30?",
-      "slug": "us-iran-hormuz-agreement-by-november-30",
-      "daily_rate": 100.0,
+      "question": "Next Astra Model (6.1+) released by October 23, 2026?",
+      "slug": "next-astra-model-6pt1-released-by-october-23-2026",
+      "daily_rate": 200.0,
+      "qual_notional": 44.8,
+      "est_daily": 197.5386,
+      "yield_pct": 39.5077,
+      "mid": "0.215",
+      "near_zero": true
+    },
+    {
+      "question": "Will MrBeast's next video get at least 100 million views on week 1?",
+      "slug": "will-mrbeasts-next-video-get-at-least-100-million-views-on-week-1-20261003",
+      "daily_rate": 134.0,
       "qual_notional": 0.0,
-      "est_daily": 100.0,
-      "yield_pct": 20.0,
-      "mid": "0.445",
+      "est_daily": 134.0,
+      "yield_pct": 26.8,
+      "mid": "0.2",
       "near_zero": true
     },
     {
       "question": "US-Iran Hormuz Agreement by December 31?",
       "slug": "us-iran-hormuz-agreement-by-december-31",
       "daily_rate": 100.0,
-      "qual_notional": 0.0,
+      "qual_notional": 34.42,
       "est_daily": 100.0,
       "yield_pct": 20.0,
-      "mid": "0.485",
+      "mid": "0.585",
       "near_zero": true
     },
     {
-      "question": "Will Mexico GDP growth in Q3 2026 be between 2.5% and 3.0%?",
-      "slug": "will-mexico-gdp-growth-in-q3-2026-be-between-2pt5-and-3pt0-20260731151540701",
-      "daily_rate": 86.0,
+      "question": "Will MrBeast's next video get between 25 and 30 million views on day 1?",
+      "slug": "will-mrbeasts-next-video-get-between-25-and-30-million-views-on-day-1-20261003",
+      "daily_rate": 93.0,
       "qual_notional": 0.0,
-      "est_daily": 86.0,
-      "yield_pct": 17.2,
-      "mid": "0.325",
+      "est_daily": 93.0,
+      "yield_pct": 18.6,
+      "mid": "0.155",
       "near_zero": true
     },
     {
-      "question": "Will no live-action Gwen Stacy actor be chosen by end of 2027?",
-      "slug": "will-no-live-action-gwen-stacy-actor-be-chosen",
-      "daily_rate": 80.0,
+      "question": "Will MrBeast's next video get between 35 and 40 million views on day 1?",
+      "slug": "will-mrbeasts-next-video-get-between-35-and-40-million-views-on-day-1-20261003",
+      "daily_rate": 93.0,
       "qual_notional": 0.0,
-      "est_daily": 80.0,
-      "yield_pct": 16.0,
-      "mid": "0.555",
+      "est_daily": 93.0,
+      "yield_pct": 18.6,
+      "mid": "0.165",
       "near_zero": true
     },
     {
-      "question": "Will Google have the highest OpenRouter market share the week of September 28?",
-      "slug": "will-google-have-the-highest-openrouter-market-share-the-week-of-september-28",
-      "daily_rate": 80.0,
+      "question": "Will MrBeast's next video get between 20 and 25 million views on day 1?",
+      "slug": "will-mrbeasts-next-video-get-between-20-and-25-million-views-on-day-1-20261003",
+      "daily_rate": 83.0,
       "qual_notional": 0.0,
-      "est_daily": 80.0,
-      "yield_pct": 16.0,
-      "mid": "0.15",
+      "est_daily": 83.0,
+      "yield_pct": 16.6,
+      "mid": "0.14",
+      "near_zero": true
+    },
+    {
+      "question": "Will MrBeast's next video get between 30 and 35 million views on day 1?",
+      "slug": "will-mrbeasts-next-video-get-between-30-and-35-million-views-on-day-1-20261003",
+      "daily_rate": 83.0,
+      "qual_notional": 0.0,
+      "est_daily": 83.0,
+      "yield_pct": 16.6,
+      "mid": "0.145",
+      "near_zero": true
+    },
+    {
+      "question": "Will Fl\u00e1vio Bolsonaro win between 39% and 42% of the valid vote in the first rou",
+      "slug": "brazil-first-round-vote-share-flavio-bolsonaro-39-42",
+      "daily_rate": 75.0,
+      "qual_notional": 0.0,
+      "est_daily": 75.0,
+      "yield_pct": 15.0,
+      "mid": "0.335",
+      "near_zero": true
+    },
+    {
+      "question": "Will MrBeast's next video get between 40 and 45 million views on day 1?",
+      "slug": "will-mrbeasts-next-video-get-between-40-and-45-million-views-on-day-1-20261003",
+      "daily_rate": 74.0,
+      "qual_notional": 0.0,
+      "est_daily": 74.0,
+      "yield_pct": 14.8,
+      "mid": "0.145",
       "near_zero": true
     }
   ],
@@ -219,7 +219,7 @@
     "day_csvs": [
       "2026-07-19.csv",
       "2026-07-20.csv",
-      "2026-09-28.csv"
+      "2026-09-29.csv"
     ]
   }
 }
