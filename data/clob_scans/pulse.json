@@ -1,137 +1,117 @@
 {
-  "ts": "2026-09-30T03:17:08Z",
+  "ts": "2026-09-30T19:54:08Z",
   "domain": "https://clob.polymarket.com",
   "budget_usd": 500.0,
   "snapshot_days": 3,
   "scored_markets": 250,
-  "competed": 232,
-  "near_zero": 18,
+  "competed": 226,
+  "near_zero": 24,
   "pilot_universe": 0,
   "pilot_provisional": 0,
-  "top20_competed_avg_yield_pct": 16.1466,
+  "top20_competed_avg_yield_pct": 14.4179,
   "top10_competed": [
     {
-      "question": "Will the next GPT Sol model (6.1+) debut at a score of at least 1460 by June 30,",
-      "slug": "will-the-next-gpt-sol-model-6pt1-debut-at-a-score-of-at-least-1460-by-june-30-2027",
+      "question": "Kimberly Guilfoyle out as U.S. Ambassador to Greece by December 31?",
+      "slug": "kimberly-guilfoyle-out-as-us-ambassador-to-greece-by-december-31",
       "daily_rate": 200.0,
-      "qual_notional": 145.03,
-      "est_daily": 197.3338,
-      "yield_pct": 39.4668,
-      "mid": "0.19",
+      "qual_notional": 117.35,
+      "est_daily": 157.698,
+      "yield_pct": 31.5396,
+      "mid": "0.175",
       "near_zero": false
     },
-    {
-      "question": "America.gov removed by October 31?",
-      "slug": "americaptgov-removed-by-october-31-1",
-      "daily_rate": 200.0,
-      "qual_notional": 88.22,
-      "est_daily": 167.7263,
-      "yield_pct": 33.5453,
-      "mid": "0.09",
-      "near_zero": false
-    },
-    {
-      "question": "Will the next GPT Sol model (6.1+) debut with a Humanity's Last Exam score of 50",
-      "slug": "will-the-next-gpt-sol-model-6pt1-debut-with-a-humanitys-last-exam-score-of-50-or-higher",
-      "daily_rate": 200.0,
-      "qual_notional": 918.77,
-      "est_daily": 139.1661,
-      "yield_pct": 27.8332,
-      "mid": "0.58",
-      "near_zero": false
-    },
-    {
-      "question": "Will \"GTA VI\" have a Metascore of at least 94?",
-      "slug": "will-gta-vi-have-a-metascore-of-at-least-94",
-      "daily_rate": 200.0,
-      "qual_notional": 157.44,
-      "est_daily": 133.5489,
-      "yield_pct": 26.7098,
-      "mid": "0.64",
-      "near_zero": false
-    },
-    {
-      "question": "Will the next GPT Sol model (6.1+) debut at a score of at least 1480 by June 30,",
-      "slug": "will-the-next-gpt-sol-model-6pt1-debut-at-a-score-of-at-least-1480-by-june-30-2027",
-      "daily_rate": 200.0,
-      "qual_notional": 291.18,
-      "est_daily": 113.1674,
-      "yield_pct": 22.6335,
-      "mid": "0.165",
-      "near_zero": false
-    },
-    {
-      "question": "Will \"The Social Reckoning\" score at least 80 on the Rotten Tomatoes Tomatometer",
-      "slug": "will-the-social-reckoning-score-at-least-80-on-the-rotten-tomatoes-tomatometer-20261012",
-      "daily_rate": 100.0,
-      "qual_notional": 97.9,
-      "est_daily": 98.3107,
-      "yield_pct": 19.6621,
-      "mid": "0.275",
-      "near_zero": false
-    },
-    {
-      "question": "Will \"Other Mommy\" score at least 70 on the Rotten Tomatoes Tomatometer?",
-      "slug": "will-other-mommy-score-at-least-70-on-the-rotten-tomatoes-tomatometer-20261012",
-      "daily_rate": 100.0,
-      "qual_notional": 140.57,
-      "est_daily": 95.0462,
-      "yield_pct": 19.0092,
-      "mid": "0.25",
-      "near_zero": false
-    },
-    {
-      "question": "US-Iran Hormuz Agreement by October 31?",
-      "slug": "us-iran-hormuz-agreement-by-october-31",
-      "daily_rate": 200.0,
-      "qual_notional": 825.29,
-      "est_daily": 74.7461,
-      "yield_pct": 14.9492,
-      "mid": "0.315",
-      "near_zero": false
-    },
-    {
-      "question": "No change or Hike 25 bps favored on October 27?",
-      "slug": "no-change-or-hike-25-bps-favored-on-october-27",
-      "daily_rate": 100.0,
-      "qual_notional": 348.0,
-      "est_daily": 63.1195,
-      "yield_pct": 12.6239,
-      "mid": "0.58",
-      "near_zero": false
-    },
-    {
-      "question": "Will 25-29 ships transit the Strait of Hormuz between September 28-October 4?",
-      "slug": "will-25-29-ships-transit-the-strait-of-hormuz-between-september-28-october-4",
-      "daily_rate": 69.0,
-      "qual_notional": 234.8,
-      "est_daily": 56.5141,
-      "yield_pct": 11.3028,
-      "mid": "0.28",
-      "near_zero": false
-    }
-  ],
-  "top10_near_zero": [
     {
       "question": "Over $50M committed to the Jumper public sale?",
       "slug": "over-50m-committed-to-the-jumper-public-sale",
       "daily_rate": 200.0,
-      "qual_notional": 0.0,
-      "est_daily": 200.0,
-      "yield_pct": 40.0,
-      "mid": "0.405",
-      "near_zero": true
+      "qual_notional": 222.09,
+      "est_daily": 147.6033,
+      "yield_pct": 29.5207,
+      "mid": "0.24",
+      "near_zero": false
     },
     {
-      "question": "Over $30M committed to the Jumper public sale?",
-      "slug": "over-30m-committed-to-the-jumper-public-sale",
+      "question": "Kimberly Guilfoyle out as U.S. Ambassador to Greece by October 31?",
+      "slug": "kimberly-guilfoyle-out-as-us-ambassador-to-greece-by-october-31",
       "daily_rate": 200.0,
-      "qual_notional": 0.0,
-      "est_daily": 200.0,
-      "yield_pct": 40.0,
-      "mid": "0.755",
-      "near_zero": true
+      "qual_notional": 245.56,
+      "est_daily": 91.4873,
+      "yield_pct": 18.2975,
+      "mid": "0.135",
+      "near_zero": false
     },
+    {
+      "question": "Will WTI Crude Oil (WTI) hit (LOW) $80 in October?",
+      "slug": "will-wti-dip-to-80-in-october-2026",
+      "daily_rate": 100.0,
+      "qual_notional": 814.8,
+      "est_daily": 85.4408,
+      "yield_pct": 17.0882,
+      "mid": "0.485",
+      "near_zero": false
+    },
+    {
+      "question": "Will WTI Crude Oil (WTI) hit (HIGH) $100 in October?",
+      "slug": "will-wti-reach-100-in-october-2026",
+      "daily_rate": 100.0,
+      "qual_notional": 659.5,
+      "est_daily": 83.3676,
+      "yield_pct": 16.6735,
+      "mid": "0.505",
+      "near_zero": false
+    },
+    {
+      "question": "Will the Fed Pause-Hike-Hike in the next three decisions (Oct-Dec-Jan)?",
+      "slug": "will-the-fed-pausehikehike-in-the-next-three-decisions-octdecjan",
+      "daily_rate": 94.0,
+      "qual_notional": 82.57,
+      "est_daily": 71.018,
+      "yield_pct": 14.2036,
+      "mid": "0.18",
+      "near_zero": false
+    },
+    {
+      "question": "Gemini 4.0 released by October 31, 2026?",
+      "slug": "gemini-4pt0-released-by-october-31-2026",
+      "daily_rate": 200.0,
+      "qual_notional": 2416.0,
+      "est_daily": 68.551,
+      "yield_pct": 13.7102,
+      "mid": "0.84",
+      "near_zero": false
+    },
+    {
+      "question": "Will 1 Fed rate hike happen in 2026?",
+      "slug": "will-1-fed-rate-hike-happen-in-2026-20260623190852890",
+      "daily_rate": 200.0,
+      "qual_notional": 1418.58,
+      "est_daily": 65.3788,
+      "yield_pct": 13.0758,
+      "mid": "0.17",
+      "near_zero": false
+    },
+    {
+      "question": "Will the next Prime Minister of Romania be a member of PSD?",
+      "slug": "will-the-next-prime-minister-of-romania-be-a-member-of-psd-482",
+      "daily_rate": 84.0,
+      "qual_notional": 369.35,
+      "est_daily": 64.682,
+      "yield_pct": 12.9364,
+      "mid": "0.313",
+      "near_zero": false
+    },
+    {
+      "question": "Will the Fed Pause-Pause-Pause in the next three decisions (Oct-Dec-Jan)?",
+      "slug": "will-the-fed-pausepausepause-in-the-next-three-decisions-octdecjan",
+      "daily_rate": 87.0,
+      "qual_notional": 147.12,
+      "est_daily": 64.1455,
+      "yield_pct": 12.8291,
+      "mid": "0.165",
+      "near_zero": false
+    }
+  ],
+  "top10_near_zero": [
     {
       "question": "Over $40M committed to the Jumper public sale?",
       "slug": "over-40m-committed-to-the-jumper-public-sale",
@@ -139,77 +119,97 @@
       "qual_notional": 0.0,
       "est_daily": 200.0,
       "yield_pct": 40.0,
-      "mid": "0.42",
+      "mid": "0.63",
       "near_zero": true
     },
     {
-      "question": "Will \"GTA VI\" have a Metascore of at least 96?",
-      "slug": "will-gta-vi-have-a-metascore-of-at-least-96",
+      "question": "Will the next Claude Haiku (4.6+) model be released by October 7, 2026?",
+      "slug": "will-the-next-claude-haiku-4pt6-model-be-released-by-october-7-2026",
       "daily_rate": 200.0,
       "qual_notional": 0.0,
       "est_daily": 200.0,
       "yield_pct": 40.0,
+      "mid": "0.255",
+      "near_zero": true
+    },
+    {
+      "question": "Cornell President out by October 31?",
+      "slug": "cornell-president-out-by-october-31",
+      "daily_rate": 200.0,
+      "qual_notional": 0.0,
+      "est_daily": 200.0,
+      "yield_pct": 40.0,
+      "mid": "0.51",
+      "near_zero": true
+    },
+    {
+      "question": "Will the next Prime Minister of Romania be an Independent or a Technocrat?",
+      "slug": "will-the-next-prime-minister-of-romania-be-an-independent-or-a-technocrat",
+      "daily_rate": 113.0,
+      "qual_notional": 0.0,
+      "est_daily": 113.0,
+      "yield_pct": 22.6,
+      "mid": "0.61",
+      "near_zero": true
+    },
+    {
+      "question": "Gemini 4.0 released by October 15, 2026?",
+      "slug": "gemini-4pt0-released-by-october-15-2026",
+      "daily_rate": 100.0,
+      "qual_notional": 0.0,
+      "est_daily": 100.0,
+      "yield_pct": 20.0,
+      "mid": "0.395",
+      "near_zero": true
+    },
+    {
+      "question": "Will NYC have less than 3 inches of precipitation in October?",
+      "slug": "precipitation-nyc-2026-10-b1",
+      "daily_rate": 68.0,
+      "qual_notional": 0.0,
+      "est_daily": 68.0,
+      "yield_pct": 13.6,
+      "mid": "0.345",
+      "near_zero": true
+    },
+    {
+      "question": "Will White House post 180-199 posts from September 29 to October 6, 2026?",
+      "slug": "white-house-of-tweets-september-29-october-6-2026-180-199",
+      "daily_rate": 67.0,
+      "qual_notional": 8.7,
+      "est_daily": 65.6704,
+      "yield_pct": 13.1341,
+      "mid": "0.1",
+      "near_zero": true
+    },
+    {
+      "question": "Will Seattle have more than 6 inches of precipitation in October?",
+      "slug": "precipitation-in-seattle-in-october-20260925t160000000z-will-seattle-have-more-than-6-inches-of-precipitation-in-october",
+      "daily_rate": 60.0,
+      "qual_notional": 21.6,
+      "est_daily": 59.9148,
+      "yield_pct": 11.983,
+      "mid": "0.18",
+      "near_zero": true
+    },
+    {
+      "question": "Will Seoul have less than 20mm of precipitation in October?",
+      "slug": "precipitation-in-seoul-in-october-20260925t160000000z-will-seoul-have-less-than-20mm-of-precipitation-in-october",
+      "daily_rate": 57.0,
+      "qual_notional": 0.0,
+      "est_daily": 57.0,
+      "yield_pct": 11.4,
       "mid": "0.275",
       "near_zero": true
     },
     {
-      "question": "Will the Republican Party win the MO-07 House seat?",
-      "slug": "will-the-republican-party-win-the-mo-07-house-seat",
-      "daily_rate": 100.0,
+      "question": "Will CZ post 0-19 posts from September 29 to October 6, 2026?",
+      "slug": "cz-binance-of-tweets-september-29-october-6-2026-0-19",
+      "daily_rate": 56.0,
       "qual_notional": 0.0,
-      "est_daily": 100.0,
-      "yield_pct": 20.0,
-      "mid": "0.84",
-      "near_zero": true
-    },
-    {
-      "question": "Will WTI Crude Oil (WTI) hit (HIGH) $100 in October?",
-      "slug": "will-wti-reach-100-in-october-2026",
-      "daily_rate": 100.0,
-      "qual_notional": 0.0,
-      "est_daily": 100.0,
-      "yield_pct": 20.0,
-      "mid": "0.445",
-      "near_zero": true
-    },
-    {
-      "question": "Will WTI Crude Oil (WTI) hit (HIGH) $105 in October?",
-      "slug": "will-wti-reach-105-in-october-2026",
-      "daily_rate": 100.0,
-      "qual_notional": 0.0,
-      "est_daily": 100.0,
-      "yield_pct": 20.0,
-      "mid": "0.38",
-      "near_zero": true
-    },
-    {
-      "question": "Will \"The Social Reckoning\" score at least 40 on the Rotten Tomatoes Tomatometer",
-      "slug": "will-the-social-reckoning-score-at-least-40-on-the-rotten-tomatoes-tomatometer-20261012",
-      "daily_rate": 100.0,
-      "qual_notional": 0.0,
-      "est_daily": 100.0,
-      "yield_pct": 20.0,
-      "mid": "0.74",
-      "near_zero": true
-    },
-    {
-      "question": "Will \"Other Mommy\" score at least 40 on the Rotten Tomatoes Tomatometer?",
-      "slug": "will-other-mommy-score-at-least-40-on-the-rotten-tomatoes-tomatometer-20261012",
-      "daily_rate": 100.0,
-      "qual_notional": 0.0,
-      "est_daily": 100.0,
-      "yield_pct": 20.0,
-      "mid": "0.785",
-      "near_zero": true
-    },
-    {
-      "question": "Will DeepSeek have the highest OpenRouter market share the week of September 28?",
-      "slug": "will-deepseek-have-the-highest-openrouter-market-share-the-week-of-september-28",
-      "daily_rate": 93.0,
-      "qual_notional": 0.0,
-      "est_daily": 93.0,
-      "yield_pct": 18.6,
-      "mid": "0.7875",
+      "est_daily": 56.0,
+      "yield_pct": 11.2,
+      "mid": "0.395",
       "near_zero": true
     }
   ],

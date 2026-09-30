@@ -1,43 +1,43 @@
-# CLOB pulse — 2026-09-30T03:17:08Z
+# CLOB pulse — 2026-09-30T19:54:08Z
 
 - Domain: `https://clob.polymarket.com`
 - Budget: $500
 - Snapshot days on disk: 3
-- Scored: 250  competed: 232  near-zero: 18
+- Scored: 250  competed: 226  near-zero: 24
 - Pilot universe: 0 (provisional: 0)
-- Top-20 competed avg yield: 16.1466%/day (gross)
+- Top-20 competed avg yield: 14.4179%/day (gross)
 
 ## Top competed
 
 | # | yield%/d | est$/d | rate | qual$ | market |
 |---|----------|--------|------|-------|--------|
-| 1 | 39.47 | 197.33 | 200 | 145 | Will the next GPT Sol model (6.1+) debut at a score of a |
-| 2 | 33.55 | 167.73 | 200 | 88 | America.gov removed by October 31? |
-| 3 | 27.83 | 139.17 | 200 | 919 | Will the next GPT Sol model (6.1+) debut with a Humanity |
-| 4 | 26.71 | 133.55 | 200 | 157 | Will "GTA VI" have a Metascore of at least 94? |
-| 5 | 22.63 | 113.17 | 200 | 291 | Will the next GPT Sol model (6.1+) debut at a score of a |
-| 6 | 19.66 | 98.31 | 100 | 98 | Will "The Social Reckoning" score at least 80 on the Rot |
-| 7 | 19.01 | 95.05 | 100 | 141 | Will "Other Mommy" score at least 70 on the Rotten Tomat |
-| 8 | 14.95 | 74.75 | 200 | 825 | US-Iran Hormuz Agreement by October 31? |
-| 9 | 12.62 | 63.12 | 100 | 348 | No change or Hike 25 bps favored on October 27? |
-| 10 | 11.30 | 56.51 | 69 | 235 | Will 25-29 ships transit the Strait of Hormuz between Se |
+| 1 | 31.54 | 157.70 | 200 | 117 | Kimberly Guilfoyle out as U.S. Ambassador to Greece by D |
+| 2 | 29.52 | 147.60 | 200 | 222 | Over $50M committed to the Jumper public sale? |
+| 3 | 18.30 | 91.49 | 200 | 246 | Kimberly Guilfoyle out as U.S. Ambassador to Greece by O |
+| 4 | 17.09 | 85.44 | 100 | 815 | Will WTI Crude Oil (WTI) hit (LOW) $80 in October? |
+| 5 | 16.67 | 83.37 | 100 | 660 | Will WTI Crude Oil (WTI) hit (HIGH) $100 in October? |
+| 6 | 14.20 | 71.02 | 94 | 83 | Will the Fed Pause-Hike-Hike in the next three decisions |
+| 7 | 13.71 | 68.55 | 200 | 2416 | Gemini 4.0 released by October 31, 2026? |
+| 8 | 13.08 | 65.38 | 200 | 1419 | Will 1 Fed rate hike happen in 2026? |
+| 9 | 12.94 | 64.68 | 84 | 369 | Will the next Prime Minister of Romania be a member of P |
+| 10 | 12.83 | 64.15 | 87 | 147 | Will the Fed Pause-Pause-Pause in the next three decisio |
 
 ## Near-zero (excluded from pilot)
 
-| 1 | 40.00 | 200.00 | Over $50M committed to the Jumper public sale? |
-| 2 | 40.00 | 200.00 | Over $30M committed to the Jumper public sale? |
-| 3 | 40.00 | 200.00 | Over $40M committed to the Jumper public sale? |
-| 4 | 40.00 | 200.00 | Will "GTA VI" have a Metascore of at least 96? |
-| 5 | 20.00 | 100.00 | Will the Republican Party win the MO-07 House seat? |
-| 6 | 20.00 | 100.00 | Will WTI Crude Oil (WTI) hit (HIGH) $100 in October? |
-| 7 | 20.00 | 100.00 | Will WTI Crude Oil (WTI) hit (HIGH) $105 in October? |
-| 8 | 20.00 | 100.00 | Will "The Social Reckoning" score at least 40 on the Rot |
-| 9 | 20.00 | 100.00 | Will "Other Mommy" score at least 40 on the Rotten Tomat |
-| 10 | 18.60 | 93.00 | Will DeepSeek have the highest OpenRouter market share t |
+| 1 | 40.00 | 200.00 | Over $40M committed to the Jumper public sale? |
+| 2 | 40.00 | 200.00 | Will the next Claude Haiku (4.6+) model be released by O |
+| 3 | 40.00 | 200.00 | Cornell President out by October 31? |
+| 4 | 22.60 | 113.00 | Will the next Prime Minister of Romania be an Independen |
+| 5 | 20.00 | 100.00 | Gemini 4.0 released by October 15, 2026? |
+| 6 | 13.60 | 68.00 | Will NYC have less than 3 inches of precipitation in Oct |
+| 7 | 13.13 | 65.67 | Will White House post 180-199 posts from September 29 to |
+| 8 | 11.98 | 59.91 | Will Seattle have more than 6 inches of precipitation in |
+| 9 | 11.40 | 57.00 | Will Seoul have less than 20mm of precipitation in Octob |
+| 10 | 11.20 | 56.00 | Will CZ post 0-19 posts from September 29 to October 6,  |
 
 ## Rewards: actual vs estimated
 
-- ts: `2026-09-30T03:17:08Z`
+- ts: `2026-09-30T19:54:09Z`
 - total actual: $0
 - total estimated: $0
 - ratio: n/a
