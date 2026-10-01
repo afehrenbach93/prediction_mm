@@ -1,127 +1,117 @@
 {
-  "ts": "2026-09-30T19:54:08Z",
+  "ts": "2026-10-01T03:24:09Z",
   "domain": "https://clob.polymarket.com",
   "budget_usd": 500.0,
   "snapshot_days": 3,
   "scored_markets": 250,
-  "competed": 226,
-  "near_zero": 24,
+  "competed": 212,
+  "near_zero": 38,
   "pilot_universe": 0,
   "pilot_provisional": 0,
-  "top20_competed_avg_yield_pct": 14.4179,
+  "top20_competed_avg_yield_pct": 22.4098,
   "top10_competed": [
     {
-      "question": "Kimberly Guilfoyle out as U.S. Ambassador to Greece by December 31?",
-      "slug": "kimberly-guilfoyle-out-as-us-ambassador-to-greece-by-december-31",
+      "question": "Any of the Cornell 7 charged with a felony sex crime?",
+      "slug": "any-of-the-cornell-7-charged-with-a-felony-sex-crime",
+      "daily_rate": 1000.0,
+      "qual_notional": 369.67,
+      "est_daily": 451.0786,
+      "yield_pct": 90.2157,
+      "mid": "0.41",
+      "near_zero": false
+    },
+    {
+      "question": "Will the next Claude Haiku model (4.6+) debut at a score of at least 1460 by Jun",
+      "slug": "will-the-next-claude-haiku-model-4pt6-debut-at-a-score-of-at-least-1460-by-june-30-2027",
       "daily_rate": 200.0,
-      "qual_notional": 117.35,
-      "est_daily": 157.698,
-      "yield_pct": 31.5396,
-      "mid": "0.175",
+      "qual_notional": 95.79,
+      "est_daily": 194.1248,
+      "yield_pct": 38.825,
+      "mid": "0.315",
       "near_zero": false
     },
     {
-      "question": "Over $50M committed to the Jumper public sale?",
-      "slug": "over-50m-committed-to-the-jumper-public-sale",
+      "question": "Israel accuses Iran/proxies of plane stabbing incident by Oct 31?",
+      "slug": "israel-accuses-iranproxies-of-plane-stabbing-incident-by-oct-31",
+      "daily_rate": 600.0,
+      "qual_notional": 781.93,
+      "est_daily": 189.5692,
+      "yield_pct": 37.9138,
+      "mid": "0.21",
+      "near_zero": false
+    },
+    {
+      "question": "Will the next Claude Haiku model (4.6+) debut at a score of at least 1440 by Jun",
+      "slug": "will-the-next-claude-haiku-model-4pt6-debut-at-a-score-of-at-least-1440-by-june-30-2027",
       "daily_rate": 200.0,
-      "qual_notional": 222.09,
-      "est_daily": 147.6033,
-      "yield_pct": 29.5207,
-      "mid": "0.24",
+      "qual_notional": 174.51,
+      "est_daily": 185.7355,
+      "yield_pct": 37.1471,
+      "mid": "0.48",
       "near_zero": false
     },
-    {
-      "question": "Kimberly Guilfoyle out as U.S. Ambassador to Greece by October 31?",
-      "slug": "kimberly-guilfoyle-out-as-us-ambassador-to-greece-by-october-31",
-      "daily_rate": 200.0,
-      "qual_notional": 245.56,
-      "est_daily": 91.4873,
-      "yield_pct": 18.2975,
-      "mid": "0.135",
-      "near_zero": false
-    },
-    {
-      "question": "Will WTI Crude Oil (WTI) hit (LOW) $80 in October?",
-      "slug": "will-wti-dip-to-80-in-october-2026",
-      "daily_rate": 100.0,
-      "qual_notional": 814.8,
-      "est_daily": 85.4408,
-      "yield_pct": 17.0882,
-      "mid": "0.485",
-      "near_zero": false
-    },
-    {
-      "question": "Will WTI Crude Oil (WTI) hit (HIGH) $100 in October?",
-      "slug": "will-wti-reach-100-in-october-2026",
-      "daily_rate": 100.0,
-      "qual_notional": 659.5,
-      "est_daily": 83.3676,
-      "yield_pct": 16.6735,
-      "mid": "0.505",
-      "near_zero": false
-    },
-    {
-      "question": "Will the Fed Pause-Hike-Hike in the next three decisions (Oct-Dec-Jan)?",
-      "slug": "will-the-fed-pausehikehike-in-the-next-three-decisions-octdecjan",
-      "daily_rate": 94.0,
-      "qual_notional": 82.57,
-      "est_daily": 71.018,
-      "yield_pct": 14.2036,
-      "mid": "0.18",
-      "near_zero": false
-    },
-    {
-      "question": "Gemini 4.0 released by October 31, 2026?",
-      "slug": "gemini-4pt0-released-by-october-31-2026",
-      "daily_rate": 200.0,
-      "qual_notional": 2416.0,
-      "est_daily": 68.551,
-      "yield_pct": 13.7102,
-      "mid": "0.84",
-      "near_zero": false
-    },
-    {
-      "question": "Will 1 Fed rate hike happen in 2026?",
-      "slug": "will-1-fed-rate-hike-happen-in-2026-20260623190852890",
-      "daily_rate": 200.0,
-      "qual_notional": 1418.58,
-      "est_daily": 65.3788,
-      "yield_pct": 13.0758,
-      "mid": "0.17",
-      "near_zero": false
-    },
-    {
-      "question": "Will the next Prime Minister of Romania be a member of PSD?",
-      "slug": "will-the-next-prime-minister-of-romania-be-a-member-of-psd-482",
-      "daily_rate": 84.0,
-      "qual_notional": 369.35,
-      "est_daily": 64.682,
-      "yield_pct": 12.9364,
-      "mid": "0.313",
-      "near_zero": false
-    },
-    {
-      "question": "Will the Fed Pause-Pause-Pause in the next three decisions (Oct-Dec-Jan)?",
-      "slug": "will-the-fed-pausepausepause-in-the-next-three-decisions-octdecjan",
-      "daily_rate": 87.0,
-      "qual_notional": 147.12,
-      "est_daily": 64.1455,
-      "yield_pct": 12.8291,
-      "mid": "0.165",
-      "near_zero": false
-    }
-  ],
-  "top10_near_zero": [
     {
       "question": "Over $40M committed to the Jumper public sale?",
       "slug": "over-40m-committed-to-the-jumper-public-sale",
       "daily_rate": 200.0,
-      "qual_notional": 0.0,
-      "est_daily": 200.0,
-      "yield_pct": 40.0,
-      "mid": "0.63",
-      "near_zero": true
+      "qual_notional": 194.56,
+      "est_daily": 126.1125,
+      "yield_pct": 25.2225,
+      "mid": "0.31",
+      "near_zero": false
     },
+    {
+      "question": "Will Trump speak to Maria Corina Machado by October 31?",
+      "slug": "will-trump-speak-to-maria-corina-machado-by-october-31",
+      "daily_rate": 100.0,
+      "qual_notional": 80.6,
+      "est_daily": 95.8354,
+      "yield_pct": 19.1671,
+      "mid": "0.135",
+      "near_zero": false
+    },
+    {
+      "question": "Will \"Verity\" score at least 46 on the Rotten Tomatoes Tomatometer?",
+      "slug": "will-verity-score-at-least-46-on-the-rotten-tomatoes-tomatometer",
+      "daily_rate": 100.0,
+      "qual_notional": 57.89,
+      "est_daily": 91.5119,
+      "yield_pct": 18.3024,
+      "mid": "0.225",
+      "near_zero": false
+    },
+    {
+      "question": "Will Trump speak to Mark Carney by October 31?",
+      "slug": "will-trump-speak-to-mark-carney-by-october-31",
+      "daily_rate": 100.0,
+      "qual_notional": 90.34,
+      "est_daily": 78.8393,
+      "yield_pct": 15.7679,
+      "mid": "0.405",
+      "near_zero": false
+    },
+    {
+      "question": "Will Anthropic have the #1 AI model at the end of November 2026?",
+      "slug": "will-anthropic-have-the-1-ai-model-at-the-end-of-november-2026",
+      "daily_rate": 83.0,
+      "qual_notional": 70.83,
+      "est_daily": 76.6308,
+      "yield_pct": 15.3262,
+      "mid": "0.31",
+      "near_zero": false
+    },
+    {
+      "question": "Will Google have the #1 AI model at the end of November 2026?",
+      "slug": "will-google-have-the-1-ai-model-at-the-end-of-november-2026",
+      "daily_rate": 114.0,
+      "qual_notional": 280.6,
+      "est_daily": 75.7541,
+      "yield_pct": 15.1508,
+      "mid": "0.61",
+      "near_zero": false
+    }
+  ],
+  "top10_near_zero": [
     {
       "question": "Will the next Claude Haiku (4.6+) model be released by October 7, 2026?",
       "slug": "will-the-next-claude-haiku-4pt6-model-be-released-by-october-7-2026",
@@ -129,32 +119,42 @@
       "qual_notional": 0.0,
       "est_daily": 200.0,
       "yield_pct": 40.0,
-      "mid": "0.255",
+      "mid": "0.28",
       "near_zero": true
     },
     {
-      "question": "Cornell President out by October 31?",
-      "slug": "cornell-president-out-by-october-31",
-      "daily_rate": 200.0,
+      "question": "Will Google have the #1 AI model at the end of October 2026?",
+      "slug": "will-google-have-the-1-ai-model-at-the-end-of-october-2026-20260811194841246",
+      "daily_rate": 146.0,
       "qual_notional": 0.0,
-      "est_daily": 200.0,
-      "yield_pct": 40.0,
-      "mid": "0.51",
+      "est_daily": 146.0,
+      "yield_pct": 29.2,
+      "mid": "0.597",
       "near_zero": true
     },
     {
-      "question": "Will the next Prime Minister of Romania be an Independent or a Technocrat?",
-      "slug": "will-the-next-prime-minister-of-romania-be-an-independent-or-a-technocrat",
-      "daily_rate": 113.0,
+      "question": "Will Anthropic be the second-best AI lab at the end of October 2026?",
+      "slug": "will-anthropic-be-the-second-best-ai-lab-at-the-end-of-october-2026-20260811194842076",
+      "daily_rate": 123.0,
       "qual_notional": 0.0,
-      "est_daily": 113.0,
-      "yield_pct": 22.6,
-      "mid": "0.61",
+      "est_daily": 123.0,
+      "yield_pct": 24.6,
+      "mid": "0.39",
       "near_zero": true
     },
     {
-      "question": "Gemini 4.0 released by October 15, 2026?",
-      "slug": "gemini-4pt0-released-by-october-15-2026",
+      "question": "Will Google have the best AI model on LiveBench (Overall) at the end of October ",
+      "slug": "will-google-have-the-best-ai-model-on-livebench-overall-at-the-end-of-october-2026-20260811194842566",
+      "daily_rate": 117.0,
+      "qual_notional": 0.0,
+      "est_daily": 117.0,
+      "yield_pct": 23.4,
+      "mid": "0.4675",
+      "near_zero": true
+    },
+    {
+      "question": "Will \"Verity\" score at least 44 on the Rotten Tomatoes Tomatometer?",
+      "slug": "will-verity-score-at-least-44-on-the-rotten-tomatoes-tomatometer",
       "daily_rate": 100.0,
       "qual_notional": 0.0,
       "est_daily": 100.0,
@@ -163,53 +163,53 @@
       "near_zero": true
     },
     {
-      "question": "Will NYC have less than 3 inches of precipitation in October?",
-      "slug": "precipitation-nyc-2026-10-b1",
-      "daily_rate": 68.0,
+      "question": "Will \"Verity\" score at least 42 on the Rotten Tomatoes Tomatometer?",
+      "slug": "will-verity-score-at-least-42-on-the-rotten-tomatoes-tomatometer",
+      "daily_rate": 100.0,
       "qual_notional": 0.0,
-      "est_daily": 68.0,
-      "yield_pct": 13.6,
-      "mid": "0.345",
+      "est_daily": 100.0,
+      "yield_pct": 20.0,
+      "mid": "0.34",
       "near_zero": true
     },
     {
-      "question": "Will White House post 180-199 posts from September 29 to October 6, 2026?",
-      "slug": "white-house-of-tweets-september-29-october-6-2026-180-199",
-      "daily_rate": 67.0,
-      "qual_notional": 8.7,
-      "est_daily": 65.6704,
-      "yield_pct": 13.1341,
-      "mid": "0.1",
-      "near_zero": true
-    },
-    {
-      "question": "Will Seattle have more than 6 inches of precipitation in October?",
-      "slug": "precipitation-in-seattle-in-october-20260925t160000000z-will-seattle-have-more-than-6-inches-of-precipitation-in-october",
-      "daily_rate": 60.0,
-      "qual_notional": 21.6,
-      "est_daily": 59.9148,
-      "yield_pct": 11.983,
-      "mid": "0.18",
-      "near_zero": true
-    },
-    {
-      "question": "Will Seoul have less than 20mm of precipitation in October?",
-      "slug": "precipitation-in-seoul-in-october-20260925t160000000z-will-seoul-have-less-than-20mm-of-precipitation-in-october",
-      "daily_rate": 57.0,
+      "question": "Will Trump speak to Volodymyr Zelenskyy by October 31?",
+      "slug": "will-trump-speak-to-volodymyr-zelenskyy-by-october-31",
+      "daily_rate": 100.0,
       "qual_notional": 0.0,
-      "est_daily": 57.0,
-      "yield_pct": 11.4,
+      "est_daily": 100.0,
+      "yield_pct": 20.0,
+      "mid": "0.67",
+      "near_zero": true
+    },
+    {
+      "question": "Will Trump speak to Vladimir Putin by October 31?",
+      "slug": "will-trump-speak-to-vladimir-putin-by-october-31",
+      "daily_rate": 100.0,
+      "qual_notional": 0.0,
+      "est_daily": 100.0,
+      "yield_pct": 20.0,
       "mid": "0.275",
       "near_zero": true
     },
     {
-      "question": "Will CZ post 0-19 posts from September 29 to October 6, 2026?",
-      "slug": "cz-binance-of-tweets-september-29-october-6-2026-0-19",
-      "daily_rate": 56.0,
+      "question": "Will Trump speak to Ursula von der Leyen by October 31?",
+      "slug": "will-trump-speak-to-ursula-von-der-leyen-by-october-31",
+      "daily_rate": 100.0,
       "qual_notional": 0.0,
-      "est_daily": 56.0,
-      "yield_pct": 11.2,
-      "mid": "0.395",
+      "est_daily": 100.0,
+      "yield_pct": 20.0,
+      "mid": "0.42",
+      "near_zero": true
+    },
+    {
+      "question": "Will Trump speak to Emmanuel Macron by October 31?",
+      "slug": "will-trump-speak-to-emmanuel-macron-by-october-31",
+      "daily_rate": 100.0,
+      "qual_notional": 0.0,
+      "est_daily": 100.0,
+      "yield_pct": 20.0,
+      "mid": "0.43",
       "near_zero": true
     }
   ],
@@ -219,7 +219,7 @@
     "day_csvs": [
       "2026-07-19.csv",
       "2026-07-20.csv",
-      "2026-09-30.csv"
+      "2026-10-01.csv"
     ]
   }
 }
