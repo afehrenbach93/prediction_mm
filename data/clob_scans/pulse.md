@@ -1,43 +1,43 @@
-# CLOB pulse — 2026-10-01T03:24:09Z
+# CLOB pulse — 2026-10-01T20:14:38Z
 
 - Domain: `https://clob.polymarket.com`
 - Budget: $500
 - Snapshot days on disk: 3
-- Scored: 250  competed: 212  near-zero: 38
+- Scored: 250  competed: 202  near-zero: 48
 - Pilot universe: 0 (provisional: 0)
-- Top-20 competed avg yield: 22.4098%/day (gross)
+- Top-20 competed avg yield: 17.7266%/day (gross)
 
 ## Top competed
 
 | # | yield%/d | est$/d | rate | qual$ | market |
 |---|----------|--------|------|-------|--------|
-| 1 | 90.22 | 451.08 | 1000 | 370 | Any of the Cornell 7 charged with a felony sex crime? |
-| 2 | 38.83 | 194.12 | 200 | 96 | Will the next Claude Haiku model (4.6+) debut at a score |
-| 3 | 37.91 | 189.57 | 600 | 782 | Israel accuses Iran/proxies of plane stabbing incident b |
-| 4 | 37.15 | 185.74 | 200 | 175 | Will the next Claude Haiku model (4.6+) debut at a score |
-| 5 | 25.22 | 126.11 | 200 | 195 | Over $40M committed to the Jumper public sale? |
-| 6 | 19.17 | 95.84 | 100 | 81 | Will Trump speak to Maria Corina Machado by October 31? |
-| 7 | 18.30 | 91.51 | 100 | 58 | Will "Verity" score at least 46 on the Rotten Tomatoes T |
-| 8 | 15.77 | 78.84 | 100 | 90 | Will Trump speak to Mark Carney by October 31? |
-| 9 | 15.33 | 76.63 | 83 | 71 | Will Anthropic have the #1 AI model at the end of Novemb |
-| 10 | 15.15 | 75.75 | 114 | 281 | Will Google have the #1 AI model at the end of November  |
+| 1 | 30.16 | 150.79 | 200 | 213 | Over $45M committed to the Jumper public sale? |
+| 2 | 22.69 | 113.43 | 1000 | 3060 | Israel accuses Iran/proxies of plane stabbing incident b |
+| 3 | 22.05 | 110.23 | 167 | 372 | Will the Fed Pause-Hike-Hike in the next three decisions |
+| 4 | 19.90 | 99.49 | 151 | 220 | Will Jay Clayton be Trump's AI czar? |
+| 5 | 19.39 | 96.95 | 100 | 431 | Will the next Google Gemini Pro model added to the Arena |
+| 6 | 19.37 | 96.83 | 100 | 77 | Will Trump speak to Mark Rutte by October 31? |
+| 7 | 18.82 | 94.08 | 115 | 394 | Will there be between 0 and 5 average daily transits of  |
+| 8 | 18.78 | 93.90 | 100 | 107 | Will Ciara Miller be eliminated in week 4 of Dancing Wit |
+| 9 | 18.21 | 91.07 | 100 | 110 | Will Guillermo Rodriguez be eliminated in week 4 of Danc |
+| 10 | 17.74 | 88.71 | 100 | 83 | Will Jackson Olson be eliminated in week 4 of Dancing Wi |
 
 ## Near-zero (excluded from pilot)
 
 | 1 | 40.00 | 200.00 | Will the next Claude Haiku (4.6+) model be released by O |
-| 2 | 29.20 | 146.00 | Will Google have the #1 AI model at the end of October 2 |
-| 3 | 24.60 | 123.00 | Will Anthropic be the second-best AI lab at the end of O |
-| 4 | 23.40 | 117.00 | Will Google have the best AI model on LiveBench (Overall |
-| 5 | 20.00 | 100.00 | Will "Verity" score at least 44 on the Rotten Tomatoes T |
-| 6 | 20.00 | 100.00 | Will "Verity" score at least 42 on the Rotten Tomatoes T |
-| 7 | 20.00 | 100.00 | Will Trump speak to Volodymyr Zelenskyy by October 31? |
-| 8 | 20.00 | 100.00 | Will Trump speak to Vladimir Putin by October 31? |
-| 9 | 20.00 | 100.00 | Will Trump speak to Ursula von der Leyen by October 31? |
-| 10 | 20.00 | 100.00 | Will Trump speak to Emmanuel Macron by October 31? |
+| 2 | 40.00 | 200.00 | Another GTA VI trailer released by October 31? |
+| 3 | 40.00 | 200.00 | Next White House Press Secretary announced by November 3 |
+| 4 | 40.00 | 200.00 | Over $60M committed to the Jumper public sale? |
+| 5 | 40.00 | 200.00 | Next US-Iran senior diplomatic meeting by November 30, 2 |
+| 6 | 40.00 | 200.00 | Will Palmer Luckey attend a US x Iran diplomatic meeting |
+| 7 | 40.00 | 200.00 | Will Steve Witkoff attend a US x Iran diplomatic meeting |
+| 8 | 40.00 | 200.00 | Will Abbas Araghchi attend a US x Iran diplomatic meetin |
+| 9 | 40.00 | 200.00 | Will Jared Kushner attend a US x Iran diplomatic meeting |
+| 10 | 40.00 | 200.00 | Will Elon Musk attend a US x Iran diplomatic meeting by  |
 
 ## Rewards: actual vs estimated
 
-- ts: `2026-10-01T03:24:10Z`
+- ts: `2026-10-01T20:14:38Z`
 - total actual: $0
 - total estimated: $0
 - ratio: n/a
