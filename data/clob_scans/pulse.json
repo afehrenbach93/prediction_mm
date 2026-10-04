@@ -1,205 +1,145 @@
 {
-  "ts": "2026-10-03T18:36:41Z",
+  "ts": "2026-10-04T03:37:06Z",
   "domain": "https://clob.polymarket.com",
   "budget_usd": 500.0,
   "snapshot_days": 3,
   "scored_markets": 250,
-  "competed": 221,
-  "near_zero": 29,
+  "competed": 235,
+  "near_zero": 15,
   "pilot_universe": 0,
   "pilot_provisional": 0,
-  "top20_competed_avg_yield_pct": 14.0688,
+  "top20_competed_avg_yield_pct": 9.9642,
   "top10_competed": [
     {
-      "question": "Will MrBeast's next video get between 90 and 100 million views on week 1?",
-      "slug": "will-mrbeasts-next-video-get-between-90-and-100-million-views-on-week-1-20261003",
-      "daily_rate": 162.0,
-      "qual_notional": 209.82,
-      "est_daily": 136.8412,
-      "yield_pct": 27.3682,
-      "mid": "0.22",
-      "near_zero": false
-    },
-    {
-      "question": "Will EU emergency diesel stocks be at least 33M tonnes at end of November 2026?",
-      "slug": "will-eu-emergency-diesel-stocks-be-at-least-33m-tonnes-at-end-of-november-2026",
+      "question": "Will EU emergency diesel stocks be at least 33M tonnes at end of October 2026?",
+      "slug": "will-eu-emergency-diesel-stocks-be-at-least-33m-tonnes-at-end-of-october-2026",
       "daily_rate": 200.0,
-      "qual_notional": 292.72,
-      "est_daily": 97.3063,
-      "yield_pct": 19.4613,
-      "mid": "0.395",
+      "qual_notional": 556.34,
+      "est_daily": 95.0976,
+      "yield_pct": 19.0195,
+      "mid": "0.54",
       "near_zero": false
     },
     {
-      "question": "Will Russia capture all of Donetsk Oblast by June 30, 2027?",
-      "slug": "will-russia-capture-all-of-donetsk-oblast-by-june-30-2027",
+      "question": "Will Ukraine re-enter Terny by December 31, 2026?",
+      "slug": "will-ukraine-re-enter-terny-by-december-31-2026",
       "daily_rate": 100.0,
-      "qual_notional": 328.84,
-      "est_daily": 96.4213,
-      "yield_pct": 19.2843,
-      "mid": "0.245",
+      "qual_notional": 137.5,
+      "est_daily": 75.1904,
+      "yield_pct": 15.0381,
+      "mid": "0.55",
       "near_zero": false
     },
     {
-      "question": "Will EU emergency diesel stocks be at least 36M tonnes at end of October 2026?",
-      "slug": "will-eu-emergency-diesel-stocks-be-at-least-36m-tonnes-at-end-of-october-2026",
+      "question": "Will EU emergency diesel stocks be at least 34M tonnes at end of October 2026?",
+      "slug": "will-eu-emergency-diesel-stocks-be-at-least-34m-tonnes-at-end-of-october-2026",
       "daily_rate": 200.0,
-      "qual_notional": 282.87,
-      "est_daily": 88.7102,
-      "yield_pct": 17.742,
-      "mid": "0.21",
+      "qual_notional": 642.63,
+      "est_daily": 69.3468,
+      "yield_pct": 13.8694,
+      "mid": "0.41",
       "near_zero": false
     },
     {
-      "question": "Will Ohio enact a data center moratorium by December 31, 2027?",
-      "slug": "will-ohio-enact-a-data-center-moratorium-by-december-31-2027",
-      "daily_rate": 500.0,
-      "qual_notional": 3645.62,
-      "est_daily": 81.2099,
-      "yield_pct": 16.242,
-      "mid": "0.195",
-      "near_zero": false
-    },
-    {
-      "question": "Will EU emergency diesel stocks be at least 35M tonnes at end of November 2026?",
-      "slug": "will-eu-emergency-diesel-stocks-be-at-least-35m-tonnes-at-end-of-november-2026",
-      "daily_rate": 200.0,
-      "qual_notional": 470.19,
-      "est_daily": 78.0393,
-      "yield_pct": 15.6079,
-      "mid": "0.285",
+      "question": "Will NYC have less than 3 inches of precipitation in October?",
+      "slug": "precipitation-nyc-2026-10-b1",
+      "daily_rate": 126.0,
+      "qual_notional": 274.02,
+      "est_daily": 67.2006,
+      "yield_pct": 13.4401,
+      "mid": "0.565",
       "near_zero": false
     },
     {
       "question": "Rain during the Bahrain Grand Prix?",
       "slug": "will-it-rain-during-the-bahrain-grand-prix",
       "daily_rate": 200.0,
-      "qual_notional": 483.21,
-      "est_daily": 75.8579,
-      "yield_pct": 15.1716,
+      "qual_notional": 727.97,
+      "est_daily": 62.9377,
+      "yield_pct": 12.5875,
+      "mid": "0.855",
+      "near_zero": false
+    },
+    {
+      "question": "Will Trump not announce his AI czar pick by December 31, 2026?",
+      "slug": "will-trump-not-announce-his-ai-czar-pick-by-december-31-2026-20260928",
+      "daily_rate": 67.0,
+      "qual_notional": 464.83,
+      "est_daily": 62.0015,
+      "yield_pct": 12.4003,
+      "mid": "0.114",
+      "near_zero": false
+    },
+    {
+      "question": "Will Hong Kong have between 70-120mm of precipitation in October?",
+      "slug": "precipitation-in-hong-kong-in-october-20260925t160000000z-will-hong-kong-have-between-70-120mm-of-precipitation-in-october",
+      "daily_rate": 105.0,
+      "qual_notional": 567.58,
+      "est_daily": 58.37,
+      "yield_pct": 11.674,
       "mid": "0.485",
       "near_zero": false
     },
     {
-      "question": "Will no next Israeli Minister of Finance be appointed by February 28, 2027?",
-      "slug": "will-no-next-israeli-minister-of-finance-be-appointed-by-february-28-2027",
-      "daily_rate": 114.0,
-      "qual_notional": 306.36,
-      "est_daily": 70.533,
-      "yield_pct": 14.1066,
-      "mid": "0.38",
-      "near_zero": false
-    },
-    {
-      "question": "Will EU emergency diesel stocks be at least 32M tonnes at end of November 2026?",
-      "slug": "will-eu-emergency-diesel-stocks-be-at-least-32m-tonnes-at-end-of-november-2026",
-      "daily_rate": 200.0,
-      "qual_notional": 537.02,
-      "est_daily": 69.8055,
-      "yield_pct": 13.9611,
-      "mid": "0.57",
-      "near_zero": false
-    },
-    {
-      "question": "Will Russia capture all of Kostyantynivka by March 31, 2027?",
-      "slug": "will-russia-capture-all-of-kostyantynivka-by-march-31-2027",
+      "question": "Will 190-209 ships transit the Bab el-Mandeb Strait between October 5-October 11",
+      "slug": "will-190-209-ships-transit-the-bab-el-mandeb-strait-between-october-5-october-11",
       "daily_rate": 100.0,
-      "qual_notional": 159.12,
-      "est_daily": 69.1998,
-      "yield_pct": 13.84,
-      "mid": "0.355",
+      "qual_notional": 340.54,
+      "est_daily": 54.7258,
+      "yield_pct": 10.9452,
+      "mid": "0.365",
       "near_zero": false
-    }
-  ],
-  "top10_near_zero": [
-    {
-      "question": "Will MrBeast's next video get at least 100 million views on week 1?",
-      "slug": "will-mrbeasts-next-video-get-at-least-100-million-views-on-week-1-20261003",
-      "daily_rate": 273.0,
-      "qual_notional": 0.0,
-      "est_daily": 273.0,
-      "yield_pct": 54.6,
-      "mid": "0.57",
-      "near_zero": true
     },
     {
       "question": "Will EU emergency diesel stocks be at least 32M tonnes at end of October 2026?",
       "slug": "will-eu-emergency-diesel-stocks-be-at-least-32m-tonnes-at-end-of-october-2026",
       "daily_rate": 200.0,
-      "qual_notional": 0.0,
-      "est_daily": 200.0,
-      "yield_pct": 40.0,
-      "mid": "0.805",
-      "near_zero": true
+      "qual_notional": 782.76,
+      "est_daily": 44.022,
+      "yield_pct": 8.8044,
+      "mid": "0.755",
+      "near_zero": false
     },
     {
-      "question": "Will EU emergency diesel stocks be at least 33M tonnes at end of October 2026?",
-      "slug": "will-eu-emergency-diesel-stocks-be-at-least-33m-tonnes-at-end-of-october-2026",
+      "question": "Will the next Muse model family be named Muse Flare?",
+      "slug": "will-the-next-muse-model-family-be-named-muse-flare",
+      "daily_rate": 74.0,
+      "qual_notional": 215.05,
+      "est_daily": 43.6098,
+      "yield_pct": 8.722,
+      "mid": "0.2205",
+      "near_zero": false
+    }
+  ],
+  "top10_near_zero": [
+    {
+      "question": "Will claude-opus-5.5-high be the best AI model on October 12, 2026?",
+      "slug": "will-claude-opus-5pt5-high-be-the-best-ai-model-on-october-12-2026",
       "daily_rate": 200.0,
       "qual_notional": 0.0,
       "est_daily": 200.0,
       "yield_pct": 40.0,
-      "mid": "0.73",
+      "mid": "0.1885",
       "near_zero": true
     },
     {
-      "question": "Will EU emergency diesel stocks be at least 34M tonnes at end of October 2026?",
-      "slug": "will-eu-emergency-diesel-stocks-be-at-least-34m-tonnes-at-end-of-october-2026",
-      "daily_rate": 200.0,
+      "question": "Will no next Israeli Minister of Finance be appointed by February 28, 2027?",
+      "slug": "will-no-next-israeli-minister-of-finance-be-appointed-by-february-28-2027",
+      "daily_rate": 113.0,
       "qual_notional": 0.0,
-      "est_daily": 200.0,
-      "yield_pct": 40.0,
-      "mid": "0.48",
+      "est_daily": 113.0,
+      "yield_pct": 22.6,
+      "mid": "0.43",
       "near_zero": true
     },
     {
-      "question": "Will EU emergency diesel stocks be at least 35M tonnes at end of October 2026?",
-      "slug": "will-eu-emergency-diesel-stocks-be-at-least-35m-tonnes-at-end-of-october-2026",
-      "daily_rate": 200.0,
+      "question": "Will Seoul have less than 20mm of precipitation in October?",
+      "slug": "precipitation-in-seoul-in-october-20260925t160000000z-will-seoul-have-less-than-20mm-of-precipitation-in-october",
+      "daily_rate": 106.0,
       "qual_notional": 0.0,
-      "est_daily": 200.0,
-      "yield_pct": 40.0,
-      "mid": "0.33",
-      "near_zero": true
-    },
-    {
-      "question": "Will FURIA Win CBLOL 2026 Split 2",
-      "slug": "will-furia-win-cblol-2026-split-2-20260703174223683",
-      "daily_rate": 153.0,
-      "qual_notional": 0.0,
-      "est_daily": 153.0,
-      "yield_pct": 30.6,
-      "mid": "0.525",
-      "near_zero": true
-    },
-    {
-      "question": "Will LOS Win CBLOL 2026 Split 2",
-      "slug": "will-los-win-cblol-2026-split-2-20260703174223689",
-      "daily_rate": 147.0,
-      "qual_notional": 0.0,
-      "est_daily": 147.0,
-      "yield_pct": 29.4,
-      "mid": "0.454",
-      "near_zero": true
-    },
-    {
-      "question": "Will Hong Kong have between 70-120mm of precipitation in October?",
-      "slug": "precipitation-in-hong-kong-in-october-20260925t160000000z-will-hong-kong-have-between-70-120mm-of-precipitation-in-october",
-      "daily_rate": 110.0,
-      "qual_notional": 16.8,
-      "est_daily": 109.8178,
-      "yield_pct": 21.9636,
-      "mid": "0.42",
-      "near_zero": true
-    },
-    {
-      "question": "Will the Rhine River fail to return to normal levels before November 1, 2026?",
-      "slug": "will-the-rhine-river-fail-to-return-to-normal-levels-before-november-1-2026",
-      "daily_rate": 107.0,
-      "qual_notional": 0.0,
-      "est_daily": 107.0,
-      "yield_pct": 21.4,
-      "mid": "0.63",
+      "est_daily": 106.0,
+      "yield_pct": 21.2,
+      "mid": "0.39",
       "near_zero": true
     },
     {
@@ -209,7 +149,67 @@
       "qual_notional": 0.0,
       "est_daily": 100.0,
       "yield_pct": 20.0,
-      "mid": "0.26",
+      "mid": "0.27",
+      "near_zero": true
+    },
+    {
+      "question": "Lula flips Bolsonaro for Brazil president by October 15?",
+      "slug": "lula-flips-bolsonaro-for-brazil-president-by-october-15",
+      "daily_rate": 100.0,
+      "qual_notional": 0.0,
+      "est_daily": 100.0,
+      "yield_pct": 20.0,
+      "mid": "0.56",
+      "near_zero": true
+    },
+    {
+      "question": "Will Ukraine re-enter Terny by October 31, 2026?",
+      "slug": "will-ukraine-re-enter-terny-by-october-31-2026",
+      "daily_rate": 100.0,
+      "qual_notional": 0.0,
+      "est_daily": 100.0,
+      "yield_pct": 20.0,
+      "mid": "0.325",
+      "near_zero": true
+    },
+    {
+      "question": "Saudi-Houthi ceasefire agreement announced by December 31?",
+      "slug": "saudi-houthi-ceasefire-agreement-announced-by-december-31",
+      "daily_rate": 100.0,
+      "qual_notional": 0.0,
+      "est_daily": 100.0,
+      "yield_pct": 20.0,
+      "mid": "0.315",
+      "near_zero": true
+    },
+    {
+      "question": "Will Russia capture the Royal Caf\u00e9 Alex in Kostyantynivka by November 30, 2026?",
+      "slug": "will-russia-capture-the-royal-cafe-alex-in-kostyantynivka-by-november-30-2026",
+      "daily_rate": 100.0,
+      "qual_notional": 49.0,
+      "est_daily": 98.8212,
+      "yield_pct": 19.7642,
+      "mid": "0.35",
+      "near_zero": true
+    },
+    {
+      "question": "Will \"Patient Zero - Taylor Swift\" be the Billboard Hot 100 #2 song for the week",
+      "slug": "will-patient-zero-taylor-swift-be-the-billboard-hot-100-2-song-for-the-week-of-october-17",
+      "daily_rate": 81.0,
+      "qual_notional": 0.0,
+      "est_daily": 81.0,
+      "yield_pct": 16.2,
+      "mid": "0.255",
+      "near_zero": true
+    },
+    {
+      "question": "Will Abyss be the fewest played map at VALORANT Champions 2026?",
+      "slug": "will-abyss-be-the-fewest-played-map-at-valorant-champions-2026",
+      "daily_rate": 68.0,
+      "qual_notional": 0.0,
+      "est_daily": 68.0,
+      "yield_pct": 13.6,
+      "mid": "0.5875",
       "near_zero": true
     }
   ],
@@ -219,7 +219,7 @@
     "day_csvs": [
       "2026-07-19.csv",
       "2026-07-20.csv",
-      "2026-10-03.csv"
+      "2026-10-04.csv"
     ]
   }
 }
