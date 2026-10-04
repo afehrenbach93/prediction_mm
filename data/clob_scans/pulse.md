@@ -1,43 +1,43 @@
-# CLOB pulse — 2026-10-04T03:37:06Z
+# CLOB pulse — 2026-10-04T18:34:44Z
 
 - Domain: `https://clob.polymarket.com`
 - Budget: $500
 - Snapshot days on disk: 3
-- Scored: 250  competed: 235  near-zero: 15
+- Scored: 250  competed: 234  near-zero: 16
 - Pilot universe: 0 (provisional: 0)
-- Top-20 competed avg yield: 9.9642%/day (gross)
+- Top-20 competed avg yield: 10.478%/day (gross)
 
 ## Top competed
 
 | # | yield%/d | est$/d | rate | qual$ | market |
 |---|----------|--------|------|-------|--------|
-| 1 | 19.02 | 95.10 | 200 | 556 | Will EU emergency diesel stocks be at least 33M tonnes a |
-| 2 | 15.04 | 75.19 | 100 | 138 | Will Ukraine re-enter Terny by December 31, 2026? |
-| 3 | 13.87 | 69.35 | 200 | 643 | Will EU emergency diesel stocks be at least 34M tonnes a |
-| 4 | 13.44 | 67.20 | 126 | 274 | Will NYC have less than 3 inches of precipitation in Oct |
-| 5 | 12.59 | 62.94 | 200 | 728 | Rain during the Bahrain Grand Prix? |
-| 6 | 12.40 | 62.00 | 67 | 465 | Will Trump not announce his AI czar pick by December 31, |
-| 7 | 11.67 | 58.37 | 105 | 568 | Will Hong Kong have between 70-120mm of precipitation in |
-| 8 | 10.95 | 54.73 | 100 | 341 | Will 190-209 ships transit the Bab el-Mandeb Strait betw |
-| 9 | 8.80 | 44.02 | 200 | 783 | Will EU emergency diesel stocks be at least 32M tonnes a |
-| 10 | 8.72 | 43.61 | 74 | 215 | Will the next Muse model family be named Muse Flare? |
+| 1 | 38.26 | 191.31 | 200 | 71 | Will SpaceXAI officially rename itself to SpaceXSI by Oc |
+| 2 | 14.65 | 73.26 | 119 | 995 | Will Hong Kong have between 70-120mm of precipitation in |
+| 3 | 12.69 | 63.46 | 67 | 74 | Will UK annual inflation be between 3.4% and 3.6% in Sep |
+| 4 | 12.19 | 60.94 | 85 | 185 | Will Core PCE MoM be 0.2% in September? |
+| 5 | 10.54 | 52.72 | 100 | 200 | Will Ukraine re-enter Terny by December 31, 2026? |
+| 6 | 10.11 | 50.53 | 51 | 63 | Will the median home value in Miami be between $830,000  |
+| 7 | 9.47 | 47.37 | 100 | 513 | Houthi x Saudi Arabia effective ceasefire by October 31? |
+| 8 | 8.83 | 44.17 | 97 | 921 | Will the Rhine River fail to return to normal levels bef |
+| 9 | 8.62 | 43.12 | 55 | 191 | Will Zelenskyy post 80-99 posts from October 2 to Octobe |
+| 10 | 8.55 | 42.76 | 56 | 189 | Will Seoul have less than 20mm of precipitation in Octob |
 
 ## Near-zero (excluded from pilot)
 
-| 1 | 40.00 | 200.00 | Will claude-opus-5.5-high be the best AI model on Octobe |
-| 2 | 22.60 | 113.00 | Will no next Israeli Minister of Finance be appointed by |
-| 3 | 21.20 | 106.00 | Will Seoul have less than 20mm of precipitation in Octob |
-| 4 | 20.00 | 100.00 | Houthi x Saudi Arabia effective ceasefire by October 31? |
+| 1 | 39.92 | 199.60 | Will SpaceXAI officially rename itself to SpaceXSI by Oc |
+| 2 | 32.00 | 160.00 | Will MrBeast's next video get at least 150 million views |
+| 3 | 26.40 | 132.00 | Will MrBeast's next video get between 140 and 150 millio |
+| 4 | 22.20 | 111.00 | Will MrBeast's next video get between 130 and 140 millio |
 | 5 | 20.00 | 100.00 | Lula flips Bolsonaro for Brazil president by October 15? |
-| 6 | 20.00 | 100.00 | Will Ukraine re-enter Terny by October 31, 2026? |
-| 7 | 20.00 | 100.00 | Saudi-Houthi ceasefire agreement announced by December 3 |
-| 8 | 19.76 | 98.82 | Will Russia capture the Royal Café Alex in Kostyantynivk |
-| 9 | 16.20 | 81.00 | Will "Patient Zero - Taylor Swift" be the Billboard Hot  |
-| 10 | 13.60 | 68.00 | Will Abyss be the fewest played map at VALORANT Champion |
+| 6 | 13.80 | 69.00 | Will "Patient Zero - Taylor Swift" be the Billboard Hot  |
+| 7 | 13.00 | 65.00 | Will White House post 200+ posts from October 6 to Octob |
+| 8 | 12.20 | 61.00 | Will Liquipedia Win the 2026 Esports Supporting Service  |
+| 9 | 11.40 | 57.00 | Will CZ post 20-39 posts from October 2 to October 9, 20 |
+| 10 | 10.80 | 54.00 | Will Seoul have between 30-40mm of precipitation in Octo |
 
 ## Rewards: actual vs estimated
 
-- ts: `2026-10-04T03:37:07Z`
+- ts: `2026-10-04T18:34:44Z`
 - total actual: $0
 - total estimated: $0
 - ratio: n/a
