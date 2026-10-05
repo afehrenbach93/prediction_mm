@@ -1,43 +1,43 @@
-# CLOB pulse — 2026-10-04T18:34:44Z
+# CLOB pulse — 2026-10-05T03:19:50Z
 
 - Domain: `https://clob.polymarket.com`
 - Budget: $500
 - Snapshot days on disk: 3
-- Scored: 250  competed: 234  near-zero: 16
+- Scored: 250  competed: 239  near-zero: 11
 - Pilot universe: 0 (provisional: 0)
-- Top-20 competed avg yield: 10.478%/day (gross)
+- Top-20 competed avg yield: 11.5328%/day (gross)
 
 ## Top competed
 
 | # | yield%/d | est$/d | rate | qual$ | market |
 |---|----------|--------|------|-------|--------|
-| 1 | 38.26 | 191.31 | 200 | 71 | Will SpaceXAI officially rename itself to SpaceXSI by Oc |
-| 2 | 14.65 | 73.26 | 119 | 995 | Will Hong Kong have between 70-120mm of precipitation in |
-| 3 | 12.69 | 63.46 | 67 | 74 | Will UK annual inflation be between 3.4% and 3.6% in Sep |
-| 4 | 12.19 | 60.94 | 85 | 185 | Will Core PCE MoM be 0.2% in September? |
-| 5 | 10.54 | 52.72 | 100 | 200 | Will Ukraine re-enter Terny by December 31, 2026? |
-| 6 | 10.11 | 50.53 | 51 | 63 | Will the median home value in Miami be between $830,000  |
-| 7 | 9.47 | 47.37 | 100 | 513 | Houthi x Saudi Arabia effective ceasefire by October 31? |
-| 8 | 8.83 | 44.17 | 97 | 921 | Will the Rhine River fail to return to normal levels bef |
-| 9 | 8.62 | 43.12 | 55 | 191 | Will Zelenskyy post 80-99 posts from October 2 to Octobe |
-| 10 | 8.55 | 42.76 | 56 | 189 | Will Seoul have less than 20mm of precipitation in Octob |
+| 1 | 27.11 | 135.56 | 200 | 307 | Will SpaceXAI officially rename itself to SpaceXSI by Oc |
+| 2 | 18.94 | 94.72 | 112 | 183 | Will MrBeast's next video get between 140 and 150 millio |
+| 3 | 18.27 | 91.34 | 93 | 119 | Will Anthropic have the best AI model on LiveBench (Math |
+| 4 | 13.80 | 68.98 | 96 | 661 | Will Los Angeles Dodgers win the 2026 National League Ch |
+| 5 | 13.33 | 66.65 | 171 | 1207 | Will MrBeast's next video get at least 150 million views |
+| 6 | 11.81 | 59.07 | 100 | 8230 | Will WTI Crude Oil (WTI) hit (HIGH) $95 in October? |
+| 7 | 11.76 | 58.79 | 88 | 160 | Will Microsoft be the third-largest company in the world |
+| 8 | 11.51 | 57.56 | 68 | 118 | Will Google have the best AI model on LiveBench (Mathema |
+| 9 | 10.83 | 54.16 | 128 | 392 | Will OpenAI not announce that it has resumed training by |
+| 10 | 10.43 | 52.14 | 95 | 503 | Will the Ornn A100 Index be between $0.75 and $1.00 on N |
 
 ## Near-zero (excluded from pilot)
 
-| 1 | 39.92 | 199.60 | Will SpaceXAI officially rename itself to SpaceXSI by Oc |
-| 2 | 32.00 | 160.00 | Will MrBeast's next video get at least 150 million views |
-| 3 | 26.40 | 132.00 | Will MrBeast's next video get between 140 and 150 millio |
-| 4 | 22.20 | 111.00 | Will MrBeast's next video get between 130 and 140 millio |
-| 5 | 20.00 | 100.00 | Lula flips Bolsonaro for Brazil president by October 15? |
-| 6 | 13.80 | 69.00 | Will "Patient Zero - Taylor Swift" be the Billboard Hot  |
-| 7 | 13.00 | 65.00 | Will White House post 200+ posts from October 6 to Octob |
-| 8 | 12.20 | 61.00 | Will Liquipedia Win the 2026 Esports Supporting Service  |
-| 9 | 11.40 | 57.00 | Will CZ post 20-39 posts from October 2 to October 9, 20 |
-| 10 | 10.80 | 54.00 | Will Seoul have between 30-40mm of precipitation in Octo |
+| 1 | 21.20 | 106.00 | Will NYC have less than 3 inches of precipitation in Oct |
+| 2 | 13.47 | 67.35 | Will Abyss be the fewest played map at VALORANT Champion |
+| 3 | 12.80 | 64.00 | Will Arvell Reese win the 2026 NFL Defensive Rookie of t |
+| 4 | 12.00 | 60.00 | Will there be 35 to 49 West Nile neuroinvasive disease c |
+| 5 | 11.40 | 57.00 | Will the Bank of Brazil decrease the target for the Seli |
+| 6 | 11.40 | 57.00 | Will the median home value in the US be between $407,000 |
+| 7 | 11.40 | 57.00 | Will The Weeknd have the second-greatest number of month |
+| 8 | 11.29 | 56.44 | Will Anthropic be the second-best Code Arena | WebDev AI |
+| 9 | 10.80 | 54.00 | Will the peak wind gust in Wellington be 86 to 95 km/h i |
+| 10 | 10.40 | 52.00 | Will fewer than 170 ships transit the Bab el-Mandeb Stra |
 
 ## Rewards: actual vs estimated
 
-- ts: `2026-10-04T18:34:44Z`
+- ts: `2026-10-05T03:19:50Z`
 - total actual: $0
 - total estimated: $0
 - ratio: n/a
