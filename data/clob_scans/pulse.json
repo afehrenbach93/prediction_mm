@@ -1,127 +1,117 @@
 {
-  "ts": "2026-10-07T20:31:08Z",
+  "ts": "2026-10-08T03:48:51Z",
   "domain": "https://clob.polymarket.com",
   "budget_usd": 500.0,
   "snapshot_days": 3,
   "scored_markets": 250,
-  "competed": 208,
-  "near_zero": 42,
+  "competed": 211,
+  "near_zero": 39,
   "pilot_universe": 0,
   "pilot_provisional": 0,
-  "top20_competed_avg_yield_pct": 20.9571,
+  "top20_competed_avg_yield_pct": 21.9792,
   "top10_competed": [
+    {
+      "question": "Will MrBeast Gaming's next video get between 17.5 and 20 million views on day 1?",
+      "slug": "will-mrbeast-gamings-next-video-get-between-17-5-and-20-million-views-on-day-1-20261010",
+      "daily_rate": 202.0,
+      "qual_notional": 77.6,
+      "est_daily": 195.9915,
+      "yield_pct": 39.1983,
+      "mid": "0.485",
+      "near_zero": false
+    },
     {
       "question": "Will the next Google Gemini Pro model added to the Arena Leaderboard debut at a ",
       "slug": "will-the-next-google-gemini-pro-model-added-to-the-arena-leaderboard-debut-at-a-score-of-at-least-1490",
       "daily_rate": 200.0,
-      "qual_notional": 52.56,
-      "est_daily": 194.394,
-      "yield_pct": 38.8788,
-      "mid": "0.509",
+      "qual_notional": 64.64,
+      "est_daily": 171.3063,
+      "yield_pct": 34.2613,
+      "mid": "0.331",
       "near_zero": false
     },
     {
-      "question": "Will Mistral Large 4 debut at a score of at least 1450 by June 30, 2027?",
-      "slug": "will-mistral-large-4-debut-at-a-score-of-at-least-1450-by-june-30-2027",
+      "question": "Will Jynxzi, Ron or Los die to a zombie in a 5th timeframe?",
+      "slug": "will-jynxzi-ron-or-los-die-to-a-zombie-in-a-5th-timeframe",
       "daily_rate": 200.0,
-      "qual_notional": 161.66,
-      "est_daily": 189.4287,
-      "yield_pct": 37.8857,
-      "mid": "0.665",
+      "qual_notional": 479.25,
+      "est_daily": 170.866,
+      "yield_pct": 34.1732,
+      "mid": "0.71",
       "near_zero": false
     },
-    {
-      "question": "Will Jynxzi, Ron or Los die to a wither skeleton in a 3rd timeframe?",
-      "slug": "will-jynxzi-ron-or-los-die-to-a-wither-skeleton-in-a-3rd-timeframe",
-      "daily_rate": 200.0,
-      "qual_notional": 253.44,
-      "est_daily": 183.1462,
-      "yield_pct": 36.6292,
-      "mid": "0.6",
-      "near_zero": false
-    },
-    {
-      "question": "Will Isaias make landfall in Florida as a hurricane?",
-      "slug": "will-isaias-make-landfall-in-florida-as-a-hurricane-1791380120953",
-      "daily_rate": 200.0,
-      "qual_notional": 108.78,
-      "est_daily": 173.4513,
-      "yield_pct": 34.6903,
-      "mid": "0.405",
-      "near_zero": false
-    },
-    {
-      "question": "Next Fable Model (5.2+) released by October 10, 2026?",
-      "slug": "next-fable-model-5pt2-released-by-october-10-2026",
-      "daily_rate": 200.0,
-      "qual_notional": 227.41,
-      "est_daily": 165.1124,
-      "yield_pct": 33.0225,
-      "mid": "0.205",
-      "near_zero": false
-    },
-    {
-      "question": "Will Gemini Argon debut with a Humanity's Last Exam score of 55% or higher?",
-      "slug": "will-gemini-argon-debut-with-a-humanitys-last-exam-score-of-55-or-higher",
-      "daily_rate": 200.0,
-      "qual_notional": 380.35,
-      "est_daily": 114.9967,
-      "yield_pct": 22.9993,
-      "mid": "0.655",
-      "near_zero": false
-    },
-    {
-      "question": "Military action against Saudi Oil Pipeline (East-West) by November 30?",
-      "slug": "military-action-against-saudi-oil-pipeline-east-west-by-november-30",
-      "daily_rate": 200.0,
-      "qual_notional": 732.02,
-      "est_daily": 101.9784,
-      "yield_pct": 20.3957,
-      "mid": "0.51",
-      "near_zero": false
-    },
-    {
-      "question": "Next Fable Model (5.2+) released by October 17, 2026?",
-      "slug": "next-fable-model-5pt2-released-by-october-17-2026",
-      "daily_rate": 100.0,
-      "qual_notional": 117.3,
-      "est_daily": 94.2211,
-      "yield_pct": 18.8442,
-      "mid": "0.69",
-      "near_zero": false
-    },
-    {
-      "question": "Will Jynxzi, Ron or Los die to an ender dragon?",
-      "slug": "will-jynxzi-ron-or-los-die-to-an-ender-dragon-20261004",
-      "daily_rate": 100.0,
-      "qual_notional": 335.33,
-      "est_daily": 90.4283,
-      "yield_pct": 18.0857,
-      "mid": "0.59",
-      "near_zero": false
-    },
-    {
-      "question": "No change in Reserve Bank of New Zealand's interest rates at the December 2026 m",
-      "slug": "no-change-in-reserve-bank-of-new-zealands-interest-rates-at-the-december-2026-meeting-20260908230600004",
-      "daily_rate": 102.0,
-      "qual_notional": 178.04,
-      "est_daily": 90.045,
-      "yield_pct": 18.009,
-      "mid": "0.285",
-      "near_zero": false
-    }
-  ],
-  "top10_near_zero": [
     {
       "question": "Will the next Google Gemini Pro model added to the Arena Leaderboard debut at a ",
       "slug": "will-the-next-google-gemini-pro-model-added-to-the-arena-leaderboard-debut-at-a-score-of-at-least-1480",
       "daily_rate": 200.0,
-      "qual_notional": 0.0,
-      "est_daily": 200.0,
-      "yield_pct": 40.0,
-      "mid": "0.5905",
-      "near_zero": true
+      "qual_notional": 85.73,
+      "est_daily": 162.3879,
+      "yield_pct": 32.4776,
+      "mid": "0.3745",
+      "near_zero": false
     },
+    {
+      "question": "Will Mistral Large 4 debut at a score of at least 1470 by June 30, 2027?",
+      "slug": "will-mistral-large-4-debut-at-a-score-of-at-least-1470-by-june-30-2027",
+      "daily_rate": 200.0,
+      "qual_notional": 122.27,
+      "est_daily": 150.163,
+      "yield_pct": 30.0326,
+      "mid": "0.3",
+      "near_zero": false
+    },
+    {
+      "question": "Will Jynxzi, Ron or Los be eliminated by fire again?",
+      "slug": "will-jynxzi-ron-or-los-be-eliminated-by-fire-again",
+      "daily_rate": 200.0,
+      "qual_notional": 185.95,
+      "est_daily": 134.881,
+      "yield_pct": 26.9762,
+      "mid": "0.545",
+      "near_zero": false
+    },
+    {
+      "question": "Will OpenAI not announce that it has resumed training by October 20, 2026?",
+      "slug": "openai-resumes-training-not-resumed-by-october-20",
+      "daily_rate": 194.0,
+      "qual_notional": 365.14,
+      "est_daily": 130.4896,
+      "yield_pct": 26.0979,
+      "mid": "0.6",
+      "near_zero": false
+    },
+    {
+      "question": "Next Fable Model (5.2+) released by October 12, 2026?",
+      "slug": "next-fable-model-5pt2-released-by-october-12-2026",
+      "daily_rate": 200.0,
+      "qual_notional": 283.9,
+      "est_daily": 120.5778,
+      "yield_pct": 24.1156,
+      "mid": "0.185",
+      "near_zero": false
+    },
+    {
+      "question": "Will Isaias make landfall in Alabama as a hurricane?",
+      "slug": "will-isaias-make-landfall-in-alabama-as-a-hurricane-1791380120953",
+      "daily_rate": 200.0,
+      "qual_notional": 350.77,
+      "est_daily": 101.0948,
+      "yield_pct": 20.219,
+      "mid": "0.29",
+      "near_zero": false
+    },
+    {
+      "question": "Will Tyler Cameron be eliminated in week 5 of Dancing With The Stars: Season 35?",
+      "slug": "dwts-35-week-5-elimination-tylcam",
+      "daily_rate": 100.0,
+      "qual_notional": 104.96,
+      "est_daily": 95.6044,
+      "yield_pct": 19.1209,
+      "mid": "0.195",
+      "near_zero": false
+    }
+  ],
+  "top10_near_zero": [
     {
       "question": "Will Taylor Swift perform at the 2027 Big Game halftime show?",
       "slug": "will-taylor-swift-perform-at-the-2027-big-game-halftime-show-939",
@@ -129,7 +119,7 @@
       "qual_notional": 0.0,
       "est_daily": 200.0,
       "yield_pct": 40.0,
-      "mid": "0.514",
+      "mid": "0.191",
       "near_zero": true
     },
     {
@@ -139,77 +129,87 @@
       "qual_notional": 0.0,
       "est_daily": 200.0,
       "yield_pct": 40.0,
-      "mid": "0.745",
+      "mid": "0.64",
       "near_zero": true
     },
     {
-      "question": "Will Isaias make landfall in Mississippi as a hurricane?",
-      "slug": "will-isaias-make-landfall-in-mississippi-as-a-hurricane-1791380120953",
-      "daily_rate": 200.0,
+      "question": "Will Jynxzi, Ron, and Los have between 150 and 179 Minecraft deaths during the m",
+      "slug": "will-jynxzi-ron-and-los-have-between-150-and-179-minecraft-deaths-during-the-marathon",
+      "daily_rate": 145.0,
       "qual_notional": 0.0,
-      "est_daily": 200.0,
-      "yield_pct": 40.0,
-      "mid": "0.45",
+      "est_daily": 145.0,
+      "yield_pct": 29.0,
+      "mid": "0.393",
       "near_zero": true
     },
     {
-      "question": "Will Isaias make landfall in Alabama as a hurricane?",
-      "slug": "will-isaias-make-landfall-in-alabama-as-a-hurricane-1791380120953",
-      "daily_rate": 200.0,
+      "question": "Will NYC have less than 3 inches of precipitation in October?",
+      "slug": "precipitation-nyc-2026-10-b1",
+      "daily_rate": 133.0,
       "qual_notional": 0.0,
-      "est_daily": 200.0,
-      "yield_pct": 40.0,
-      "mid": "0.66",
+      "est_daily": 133.0,
+      "yield_pct": 26.6,
+      "mid": "0.365",
       "near_zero": true
     },
     {
-      "question": "Will Mistral Large 4 debut at a score of at least 1470 by June 30, 2027?",
-      "slug": "will-mistral-large-4-debut-at-a-score-of-at-least-1470-by-june-30-2027",
-      "daily_rate": 200.0,
+      "question": "Will Google have the second highest OpenRouter market share the week of October ",
+      "slug": "will-google-have-the-second-highest-openrouter-market-share-the-week-of-october-5",
+      "daily_rate": 115.0,
       "qual_notional": 0.0,
-      "est_daily": 200.0,
-      "yield_pct": 40.0,
-      "mid": "0.255",
+      "est_daily": 115.0,
+      "yield_pct": 23.0,
+      "mid": "0.56",
       "near_zero": true
     },
     {
-      "question": "Will Jynxzi, Ron or Los be eliminated by drowning in a 4th timeframe?",
-      "slug": "will-jynxzi-ron-or-los-be-eliminated-by-drowning-in-a-4th-timeframe",
-      "daily_rate": 200.0,
+      "question": "Next Fable Model (5.2+) released by October 17, 2026?",
+      "slug": "next-fable-model-5pt2-released-by-october-17-2026",
+      "daily_rate": 100.0,
       "qual_notional": 0.0,
-      "est_daily": 200.0,
-      "yield_pct": 40.0,
-      "mid": "0.815",
+      "est_daily": 100.0,
+      "yield_pct": 20.0,
+      "mid": "0.57",
       "near_zero": true
     },
     {
-      "question": "Will Flavio Bolsonaro win the most votes in the second round of the Brazil presi",
-      "slug": "will-flavio-bolsonaro-win-the-most-votes-in-the-second-round-of-the-brazil-presidential-election-from-tocantins",
-      "daily_rate": 193.0,
+      "question": "Will Jackson Olson be eliminated in week 5 of Dancing With The Stars: Season 35?",
+      "slug": "dwts-35-week-5-elimination-jacols",
+      "daily_rate": 100.0,
       "qual_notional": 0.0,
-      "est_daily": 193.0,
-      "yield_pct": 38.6,
-      "mid": "0.686",
+      "est_daily": 100.0,
+      "yield_pct": 20.0,
+      "mid": "0.35",
       "near_zero": true
     },
     {
-      "question": "Will Jynxzi, Ron, and Los have between 90 and 119 Minecraft deaths during the ma",
-      "slug": "will-jynxzi-ron-and-los-have-between-90-and-119-minecraft-deaths-during-the-marathon",
-      "daily_rate": 182.0,
+      "question": "Will Google be the #2 AI lab at the end of November 2026?",
+      "slug": "will-google-be-the-2-ai-lab-at-the-end-of-november-2026",
+      "daily_rate": 96.0,
       "qual_notional": 0.0,
-      "est_daily": 182.0,
-      "yield_pct": 36.4,
-      "mid": "0.47",
+      "est_daily": 96.0,
+      "yield_pct": 19.2,
+      "mid": "0.43",
       "near_zero": true
     },
     {
-      "question": "Will MrBeast's next video get between 199 and 207 million views on week 1?",
-      "slug": "will-mrbeasts-next-video-get-between-199-and-207-million-views-on-week-1-even-higher-brackets-20261003",
-      "daily_rate": 119.0,
+      "question": "Will Isaias peak at Category 2?",
+      "slug": "will-isaias-peak-at-category-2",
+      "daily_rate": 94.0,
       "qual_notional": 0.0,
-      "est_daily": 119.0,
-      "yield_pct": 23.8,
-      "mid": "0.245",
+      "est_daily": 94.0,
+      "yield_pct": 18.8,
+      "mid": "0.415",
+      "near_zero": true
+    },
+    {
+      "question": "Will Jynxzi, Ron, and Los have between 120 and 149 Minecraft deaths during the m",
+      "slug": "will-jynxzi-ron-and-los-have-between-120-and-149-minecraft-deaths-during-the-marathon",
+      "daily_rate": 94.0,
+      "qual_notional": 0.0,
+      "est_daily": 94.0,
+      "yield_pct": 18.8,
+      "mid": "0.38",
       "near_zero": true
     }
   ],
@@ -219,7 +219,7 @@
     "day_csvs": [
       "2026-07-19.csv",
       "2026-07-20.csv",
-      "2026-10-07.csv"
+      "2026-10-08.csv"
     ]
   }
 }
