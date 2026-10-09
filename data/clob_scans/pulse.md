@@ -1,43 +1,43 @@
-# CLOB pulse — 2026-10-09T03:54:11Z
+# CLOB pulse — 2026-10-09T20:03:00Z
 
 - Domain: `https://clob.polymarket.com`
 - Budget: $500
 - Snapshot days on disk: 3
-- Scored: 250  competed: 216  near-zero: 34
+- Scored: 250  competed: 220  near-zero: 30
 - Pilot universe: 0 (provisional: 0)
-- Top-20 competed avg yield: 13.7236%/day (gross)
+- Top-20 competed avg yield: 17.4189%/day (gross)
 
 ## Top competed
 
 | # | yield%/d | est$/d | rate | qual$ | market |
 |---|----------|--------|------|-------|--------|
-| 1 | 59.90 | 299.50 | 7000 | 22934 | Will Yulia Navalnaya win the Nobel Peace Prize in 2026? |
-| 2 | 48.12 | 240.60 | 350 | 298 | Will there be no Gemini Argon release by October 31, 202 |
-| 3 | 18.41 | 92.06 | 97 | 99 | Will Isaias peak at Category 2? |
-| 4 | 16.90 | 84.49 | 88 | 70 | Will Noah Wyle be named People's Sexiest Man Alive in 20 |
-| 5 | 13.51 | 67.54 | 119 | 250 | Will MrBeast Gaming's next video get between 45 and 50 m |
-| 6 | 12.99 | 64.97 | 107 | 258 | Will Simon peak at Category 4? |
-| 7 | 10.46 | 52.32 | 97 | 575 | Will NYC have less than 3 inches of precipitation in Oct |
-| 8 | 9.56 | 47.79 | 200 | 1833 | Next Fable Model (5.2+) released by October 14, 2026? |
-| 9 | 8.57 | 42.86 | 103 | 730 | Will Isaias peak at Category 3? |
-| 10 | 8.37 | 41.86 | 100 | 1503 | Will WTI Crude Oil (WTI) hit (LOW) $85 in October? |
+| 1 | 36.03 | 180.14 | 200 | 61 | SpaceX becomes a US mobile carrier by December 31, 2027? |
+| 2 | 32.38 | 161.92 | 200 | 392 | Next Fable Model (5.2+) released by October 24, 2026? |
+| 3 | 30.31 | 151.54 | 200 | 666 | Next Fable Model (5.2+) released by October 14, 2026? |
+| 4 | 30.24 | 151.18 | 200 | 230 | Perim Island no longer under Houthi control by October 3 |
+| 5 | 20.00 | 99.98 | 200 | 949 | Perim Island no longer under Houthi control by December  |
+| 6 | 19.84 | 99.20 | 100 | 91 | Next Fable Model (5.2+) released by October 17, 2026? |
+| 7 | 19.13 | 95.63 | 102 | 175 | Will Simon peak at Category 4? |
+| 8 | 17.31 | 86.57 | 147 | 144 | Will the next Muse model family be named Muse Blaze? |
+| 9 | 15.26 | 76.28 | 100 | 271 | Perim Island no longer under Houthi control by November  |
+| 10 | 14.01 | 70.03 | 100 | 177 | Perim Island no longer under Houthi control by October 1 |
 
 ## Near-zero (excluded from pilot)
 
-| 1 | 53.40 | 267.00 | Will Gemini Argon be released on October 13, 2026? |
-| 2 | 49.20 | 246.00 | Will MrBeast Gaming's next video get between 30 and 35 m |
-| 3 | 40.00 | 200.00 | Will Gemini Argon be released on October 29, 2026? |
-| 4 | 40.00 | 200.00 | Gemini Argon released by October 12, 2026? |
-| 5 | 40.00 | 200.00 | Gemini Argon released by October 14, 2026? |
-| 6 | 40.00 | 200.00 | Gemini 4.0 released by October 13, 2026? |
-| 7 | 24.00 | 120.00 | Will Google have the third highest OpenRouter market sha |
-| 8 | 20.00 | 100.00 | Will Jynxzi, Ron or Los die to an enderman in a 4th time |
-| 9 | 19.80 | 99.00 | Will UMich Consumer Sentiment be between 46.0 and 48.9 i |
-| 10 | 17.38 | 86.89 | Will South Korea GDP growth in Q3 2026 be between 3.0% a |
+| 1 | 40.00 | 200.00 | Will Talarico and Paxton debate live by October 15? |
+| 2 | 40.00 | 200.00 | SpaceX becomes a US mobile carrier by June 30, 2027? |
+| 3 | 40.00 | 200.00 | Will Talarico and Paxton debate live by October 31? |
+| 4 | 21.80 | 109.00 | Will Google have the third highest OpenRouter market sha |
+| 5 | 21.40 | 107.00 | Will Isaias peak at Category 3? |
+| 6 | 21.20 | 106.00 | Taiwan Semiconductor (TSM) Q3 gross profit margin 67% to |
+| 7 | 20.02 | 100.11 | Will MrBeast Gaming's next video get between 30 and 35 m |
+| 8 | 19.80 | 99.00 | Will UMich Consumer Sentiment be between 46.0 and 48.9 i |
+| 9 | 19.60 | 98.00 | Will Khamenei post 5-9 posts from October 6 to October 1 |
+| 10 | 19.20 | 96.00 | Will OpenAI have the second highest OpenRouter market sh |
 
 ## Rewards: actual vs estimated
 
-- ts: `2026-10-09T03:54:11Z`
+- ts: `2026-10-09T20:03:01Z`
 - total actual: $0
 - total estimated: $0
 - ratio: n/a
