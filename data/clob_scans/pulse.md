@@ -1,43 +1,43 @@
-# CLOB pulse — 2026-10-08T20:36:13Z
+# CLOB pulse — 2026-10-09T03:54:11Z
 
 - Domain: `https://clob.polymarket.com`
 - Budget: $500
 - Snapshot days on disk: 3
-- Scored: 250  competed: 207  near-zero: 43
+- Scored: 250  competed: 216  near-zero: 34
 - Pilot universe: 0 (provisional: 0)
-- Top-20 competed avg yield: 18.6476%/day (gross)
+- Top-20 competed avg yield: 13.7236%/day (gross)
 
 ## Top competed
 
 | # | yield%/d | est$/d | rate | qual$ | market |
 |---|----------|--------|------|-------|--------|
-| 1 | 33.82 | 169.09 | 192 | 87 | Will MrBeast Gaming's next video get between 15 and 17.5 |
-| 2 | 29.94 | 149.70 | 200 | 260 | Gemini 4.0 released by October 14, 2026? |
-| 3 | 29.27 | 146.36 | 200 | 162 | Will Anthropic launch a Muse-like personal agent before  |
-| 4 | 27.06 | 135.32 | 200 | 327 | Gemini 4.0 released by October 23, 2026? |
-| 5 | 26.07 | 130.37 | 200 | 209 | Will Perplexity launch a Muse-like personal agent before |
-| 6 | 25.15 | 125.75 | 200 | 379 | Gemini 4.0 released by October 12, 2026? |
-| 7 | 22.97 | 114.87 | 144 | 936 | Will MrBeast Gaming's next video get between 35 and 40 m |
-| 8 | 21.69 | 108.43 | 200 | 215 | Will Amazon launch a Muse-like personal agent before 202 |
-| 9 | 19.60 | 98.01 | 105 | 125 | Will Gemini Argon be released on October 27, 2026? |
-| 10 | 16.83 | 84.17 | 100 | 566 | Will WTI Crude Oil (WTI) hit (LOW) $85 in October? |
+| 1 | 59.90 | 299.50 | 7000 | 22934 | Will Yulia Navalnaya win the Nobel Peace Prize in 2026? |
+| 2 | 48.12 | 240.60 | 350 | 298 | Will there be no Gemini Argon release by October 31, 202 |
+| 3 | 18.41 | 92.06 | 97 | 99 | Will Isaias peak at Category 2? |
+| 4 | 16.90 | 84.49 | 88 | 70 | Will Noah Wyle be named People's Sexiest Man Alive in 20 |
+| 5 | 13.51 | 67.54 | 119 | 250 | Will MrBeast Gaming's next video get between 45 and 50 m |
+| 6 | 12.99 | 64.97 | 107 | 258 | Will Simon peak at Category 4? |
+| 7 | 10.46 | 52.32 | 97 | 575 | Will NYC have less than 3 inches of precipitation in Oct |
+| 8 | 9.56 | 47.79 | 200 | 1833 | Next Fable Model (5.2+) released by October 14, 2026? |
+| 9 | 8.57 | 42.86 | 103 | 730 | Will Isaias peak at Category 3? |
+| 10 | 8.37 | 41.86 | 100 | 1503 | Will WTI Crude Oil (WTI) hit (LOW) $85 in October? |
 
 ## Near-zero (excluded from pilot)
 
-| 1 | 52.60 | 263.00 | Will Gemini Argon be released on October 13, 2026? |
-| 2 | 47.40 | 237.00 | Will Gemini Argon be released on October 29, 2026? |
-| 3 | 40.00 | 200.00 | Will Flavio Bolsonaro win the most votes in the second r |
-| 4 | 40.00 | 200.00 | Gemini Argon released by October 14, 2026? |
-| 5 | 40.00 | 200.00 | Gemini Argon released by October 12, 2026? |
+| 1 | 53.40 | 267.00 | Will Gemini Argon be released on October 13, 2026? |
+| 2 | 49.20 | 246.00 | Will MrBeast Gaming's next video get between 30 and 35 m |
+| 3 | 40.00 | 200.00 | Will Gemini Argon be released on October 29, 2026? |
+| 4 | 40.00 | 200.00 | Gemini Argon released by October 12, 2026? |
+| 5 | 40.00 | 200.00 | Gemini Argon released by October 14, 2026? |
 | 6 | 40.00 | 200.00 | Gemini 4.0 released by October 13, 2026? |
-| 7 | 40.00 | 200.00 | Will Microsoft launch a Muse-like personal agent before  |
-| 8 | 39.77 | 198.85 | Gemini Argon released by October 16, 2026? |
-| 9 | 36.00 | 180.00 | Will MrBeast Gaming's next video get between 17.5 and 20 |
-| 10 | 33.40 | 167.00 | Will Jynxzi, Ron, and Los have between 120 and 149 Minec |
+| 7 | 24.00 | 120.00 | Will Google have the third highest OpenRouter market sha |
+| 8 | 20.00 | 100.00 | Will Jynxzi, Ron or Los die to an enderman in a 4th time |
+| 9 | 19.80 | 99.00 | Will UMich Consumer Sentiment be between 46.0 and 48.9 i |
+| 10 | 17.38 | 86.89 | Will South Korea GDP growth in Q3 2026 be between 3.0% a |
 
 ## Rewards: actual vs estimated
 
-- ts: `2026-10-08T20:36:13Z`
+- ts: `2026-10-09T03:54:11Z`
 - total actual: $0
 - total estimated: $0
 - ratio: n/a

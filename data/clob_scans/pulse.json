@@ -1,113 +1,113 @@
 {
-  "ts": "2026-10-08T20:36:13Z",
+  "ts": "2026-10-09T03:54:11Z",
   "domain": "https://clob.polymarket.com",
   "budget_usd": 500.0,
   "snapshot_days": 3,
   "scored_markets": 250,
-  "competed": 207,
-  "near_zero": 43,
+  "competed": 216,
+  "near_zero": 34,
   "pilot_universe": 0,
   "pilot_provisional": 0,
-  "top20_competed_avg_yield_pct": 18.6476,
+  "top20_competed_avg_yield_pct": 13.7236,
   "top10_competed": [
     {
-      "question": "Will MrBeast Gaming's next video get between 15 and 17.5 million views on day 1?",
-      "slug": "will-mrbeast-gamings-next-video-get-between-15-and-17-5-million-views-on-day-1-20261010",
-      "daily_rate": 192.0,
-      "qual_notional": 87.28,
-      "est_daily": 169.0917,
-      "yield_pct": 33.8183,
-      "mid": "0.345",
+      "question": "Will Yulia Navalnaya win the Nobel Peace Prize in 2026?",
+      "slug": "will-yulia-navalnaya-win-the-nobel-peace-prize-in-2026-261",
+      "daily_rate": 7000.0,
+      "qual_notional": 22934.12,
+      "est_daily": 299.4977,
+      "yield_pct": 59.8995,
+      "mid": "0.2675",
       "near_zero": false
     },
     {
-      "question": "Gemini 4.0 released by October 14, 2026?",
-      "slug": "gemini-4pt0-released-by-october-14-2026",
+      "question": "Will there be no Gemini Argon release by October 31, 2026?",
+      "slug": "will-there-be-no-gemini-argon-release-by-october-31-2026",
+      "daily_rate": 350.0,
+      "qual_notional": 297.73,
+      "est_daily": 240.5983,
+      "yield_pct": 48.1197,
+      "mid": "0.2575",
+      "near_zero": false
+    },
+    {
+      "question": "Will Isaias peak at Category 2?",
+      "slug": "will-isaias-peak-at-category-2",
+      "daily_rate": 97.0,
+      "qual_notional": 99.31,
+      "est_daily": 92.0592,
+      "yield_pct": 18.4118,
+      "mid": "0.35",
+      "near_zero": false
+    },
+    {
+      "question": "Will Noah Wyle be named People's Sexiest Man Alive in 2026?",
+      "slug": "will-noah-wyle-be-named-peoples-sexiest-man-alive-in-2026",
+      "daily_rate": 88.0,
+      "qual_notional": 69.93,
+      "est_daily": 84.4925,
+      "yield_pct": 16.8985,
+      "mid": "0.555",
+      "near_zero": false
+    },
+    {
+      "question": "Will MrBeast Gaming's next video get between 45 and 50 million views in week 1?",
+      "slug": "will-mrbeast-gamings-next-video-get-between-45-and-50-million-views-in-week-1-20261010",
+      "daily_rate": 119.0,
+      "qual_notional": 249.54,
+      "est_daily": 67.5379,
+      "yield_pct": 13.5076,
+      "mid": "0.2",
+      "near_zero": false
+    },
+    {
+      "question": "Will Simon peak at Category 4?",
+      "slug": "will-simon-peak-at-category-4",
+      "daily_rate": 107.0,
+      "qual_notional": 257.54,
+      "est_daily": 64.9703,
+      "yield_pct": 12.9941,
+      "mid": "0.555",
+      "near_zero": false
+    },
+    {
+      "question": "Will NYC have less than 3 inches of precipitation in October?",
+      "slug": "precipitation-nyc-2026-10-b1",
+      "daily_rate": 97.0,
+      "qual_notional": 575.29,
+      "est_daily": 52.323,
+      "yield_pct": 10.4646,
+      "mid": "0.415",
+      "near_zero": false
+    },
+    {
+      "question": "Next Fable Model (5.2+) released by October 14, 2026?",
+      "slug": "next-fable-model-5pt2-released-by-october-14-2026",
       "daily_rate": 200.0,
-      "qual_notional": 259.91,
-      "est_daily": 149.6981,
-      "yield_pct": 29.9396,
-      "mid": "0.53",
+      "qual_notional": 1833.31,
+      "est_daily": 47.7882,
+      "yield_pct": 9.5576,
+      "mid": "0.275",
       "near_zero": false
     },
     {
-      "question": "Will Anthropic launch a Muse-like personal agent before 2027?",
-      "slug": "will-anthropic-launch-a-muse-like-personal-agent-before-2027",
-      "daily_rate": 200.0,
-      "qual_notional": 162.0,
-      "est_daily": 146.3564,
-      "yield_pct": 29.2713,
-      "mid": "0.36",
-      "near_zero": false
-    },
-    {
-      "question": "Gemini 4.0 released by October 23, 2026?",
-      "slug": "gemini-4pt0-released-by-october-23-2026",
-      "daily_rate": 200.0,
-      "qual_notional": 327.48,
-      "est_daily": 135.3197,
-      "yield_pct": 27.0639,
-      "mid": "0.73",
-      "near_zero": false
-    },
-    {
-      "question": "Will Perplexity launch a Muse-like personal agent before 2027?",
-      "slug": "will-perplexity-launch-a-muse-like-personal-agent-before-2027",
-      "daily_rate": 200.0,
-      "qual_notional": 209.15,
-      "est_daily": 130.3657,
-      "yield_pct": 26.0731,
-      "mid": "0.32",
-      "near_zero": false
-    },
-    {
-      "question": "Gemini 4.0 released by October 12, 2026?",
-      "slug": "gemini-4pt0-released-by-october-12-2026",
-      "daily_rate": 200.0,
-      "qual_notional": 379.04,
-      "est_daily": 125.7462,
-      "yield_pct": 25.1492,
-      "mid": "0.11",
-      "near_zero": false
-    },
-    {
-      "question": "Will MrBeast Gaming's next video get between 35 and 40 million views in week 1?",
-      "slug": "will-mrbeast-gamings-next-video-get-between-35-and-40-million-views-in-week-1-20261010",
-      "daily_rate": 144.0,
-      "qual_notional": 936.0,
-      "est_daily": 114.8665,
-      "yield_pct": 22.9733,
-      "mid": "0.225",
-      "near_zero": false
-    },
-    {
-      "question": "Will Amazon launch a Muse-like personal agent before 2027?",
-      "slug": "will-amazon-launch-a-muse-like-personal-agent-before-2027",
-      "daily_rate": 200.0,
-      "qual_notional": 215.22,
-      "est_daily": 108.4278,
-      "yield_pct": 21.6856,
-      "mid": "0.19",
-      "near_zero": false
-    },
-    {
-      "question": "Will Gemini Argon be released on October 27, 2026?",
-      "slug": "will-gemini-argon-be-released-on-october-27-2026",
-      "daily_rate": 105.0,
-      "qual_notional": 125.12,
-      "est_daily": 98.0056,
-      "yield_pct": 19.6011,
-      "mid": "0.13",
+      "question": "Will Isaias peak at Category 3?",
+      "slug": "will-isaias-peak-at-category-3",
+      "daily_rate": 103.0,
+      "qual_notional": 730.08,
+      "est_daily": 42.8561,
+      "yield_pct": 8.5712,
+      "mid": "0.625",
       "near_zero": false
     },
     {
       "question": "Will WTI Crude Oil (WTI) hit (LOW) $85 in October?",
       "slug": "will-wti-dip-to-85-in-october-2026",
       "daily_rate": 100.0,
-      "qual_notional": 566.17,
-      "est_daily": 84.1716,
-      "yield_pct": 16.8343,
-      "mid": "0.595",
+      "qual_notional": 1503.02,
+      "est_daily": 41.8608,
+      "yield_pct": 8.3722,
+      "mid": "0.63",
       "near_zero": false
     }
   ],
@@ -115,41 +115,31 @@
     {
       "question": "Will Gemini Argon be released on October 13, 2026?",
       "slug": "will-gemini-argon-be-released-on-october-13-2026",
-      "daily_rate": 263.0,
+      "daily_rate": 267.0,
       "qual_notional": 0.0,
-      "est_daily": 263.0,
-      "yield_pct": 52.6,
-      "mid": "0.1885",
+      "est_daily": 267.0,
+      "yield_pct": 53.4,
+      "mid": "0.356",
+      "near_zero": true
+    },
+    {
+      "question": "Will MrBeast Gaming's next video get between 30 and 35 million views in week 1?",
+      "slug": "will-mrbeast-gamings-next-video-get-between-30-and-35-million-views-in-week-1-20261010",
+      "daily_rate": 246.0,
+      "qual_notional": 0.0,
+      "est_daily": 246.0,
+      "yield_pct": 49.2,
+      "mid": "0.375",
       "near_zero": true
     },
     {
       "question": "Will Gemini Argon be released on October 29, 2026?",
       "slug": "will-gemini-argon-be-released-on-october-29-2026",
-      "daily_rate": 237.0,
-      "qual_notional": 0.0,
-      "est_daily": 237.0,
-      "yield_pct": 47.4,
-      "mid": "0.2305",
-      "near_zero": true
-    },
-    {
-      "question": "Will Flavio Bolsonaro win the most votes in the second round of the Brazil presi",
-      "slug": "will-flavio-bolsonaro-win-the-most-votes-in-the-second-round-of-the-brazil-presidential-election-from-tocantins",
       "daily_rate": 200.0,
       "qual_notional": 0.0,
       "est_daily": 200.0,
       "yield_pct": 40.0,
-      "mid": "0.703",
-      "near_zero": true
-    },
-    {
-      "question": "Gemini Argon released by October 14, 2026?",
-      "slug": "gemini-argon-released-by-october-14-2026",
-      "daily_rate": 200.0,
-      "qual_notional": 0.0,
-      "est_daily": 200.0,
-      "yield_pct": 40.0,
-      "mid": "0.615",
+      "mid": "0.172",
       "near_zero": true
     },
     {
@@ -159,7 +149,17 @@
       "qual_notional": 0.0,
       "est_daily": 200.0,
       "yield_pct": 40.0,
-      "mid": "0.4",
+      "mid": "0.285",
+      "near_zero": true
+    },
+    {
+      "question": "Gemini Argon released by October 14, 2026?",
+      "slug": "gemini-argon-released-by-october-14-2026",
+      "daily_rate": 200.0,
+      "qual_notional": 0.0,
+      "est_daily": 200.0,
+      "yield_pct": 40.0,
+      "mid": "0.335",
       "near_zero": true
     },
     {
@@ -169,47 +169,47 @@
       "qual_notional": 0.0,
       "est_daily": 200.0,
       "yield_pct": 40.0,
-      "mid": "0.33",
+      "mid": "0.56",
       "near_zero": true
     },
     {
-      "question": "Will Microsoft launch a Muse-like personal agent before 2027?",
-      "slug": "will-microsoft-launch-a-muse-like-personal-agent-before-2027",
-      "daily_rate": 200.0,
+      "question": "Will Google have the third highest OpenRouter market share the week of October 5",
+      "slug": "will-google-have-the-third-highest-openrouter-market-share-the-week-of-october-5",
+      "daily_rate": 120.0,
       "qual_notional": 0.0,
-      "est_daily": 200.0,
-      "yield_pct": 40.0,
-      "mid": "0.525",
+      "est_daily": 120.0,
+      "yield_pct": 24.0,
+      "mid": "0.5045",
       "near_zero": true
     },
     {
-      "question": "Gemini Argon released by October 16, 2026?",
-      "slug": "gemini-argon-released-by-october-16-2026",
-      "daily_rate": 200.0,
-      "qual_notional": 37.06,
-      "est_daily": 198.8509,
-      "yield_pct": 39.7702,
-      "mid": "0.545",
-      "near_zero": true
-    },
-    {
-      "question": "Will MrBeast Gaming's next video get between 17.5 and 20 million views on day 1?",
-      "slug": "will-mrbeast-gamings-next-video-get-between-17-5-and-20-million-views-on-day-1-20261010",
-      "daily_rate": 180.0,
+      "question": "Will Jynxzi, Ron or Los die to an enderman in a 4th timeframe?",
+      "slug": "will-jynxzi-ron-or-los-die-to-an-enderman-in-a-4th-timeframe",
+      "daily_rate": 100.0,
       "qual_notional": 0.0,
-      "est_daily": 180.0,
-      "yield_pct": 36.0,
-      "mid": "0.335",
+      "est_daily": 100.0,
+      "yield_pct": 20.0,
+      "mid": "0.485",
       "near_zero": true
     },
     {
-      "question": "Will Jynxzi, Ron, and Los have between 120 and 149 Minecraft deaths during the m",
-      "slug": "will-jynxzi-ron-and-los-have-between-120-and-149-minecraft-deaths-during-the-marathon",
-      "daily_rate": 167.0,
+      "question": "Will UMich Consumer Sentiment be between 46.0 and 48.9 in October?",
+      "slug": "will-umich-consumer-sentiment-be-between-46pt0-and-48pt9-in-october-2026",
+      "daily_rate": 99.0,
       "qual_notional": 0.0,
-      "est_daily": 167.0,
-      "yield_pct": 33.4,
-      "mid": "0.4",
+      "est_daily": 99.0,
+      "yield_pct": 19.8,
+      "mid": "0.45",
+      "near_zero": true
+    },
+    {
+      "question": "Will South Korea GDP growth in Q3 2026 be between 3.0% and 3.4%?",
+      "slug": "will-south-korea-gdp-growth-in-q3-2026-be-between-3pt0-and-3pt4-20260723231127768",
+      "daily_rate": 87.0,
+      "qual_notional": 22.4,
+      "est_daily": 86.8902,
+      "yield_pct": 17.378,
+      "mid": "0.32",
       "near_zero": true
     }
   ],
@@ -219,7 +219,7 @@
     "day_csvs": [
       "2026-07-19.csv",
       "2026-07-20.csv",
-      "2026-10-08.csv"
+      "2026-10-09.csv"
     ]
   }
 }
