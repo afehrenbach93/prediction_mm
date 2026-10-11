@@ -1,43 +1,43 @@
-# CLOB pulse — 2026-10-11T03:11:34Z
+# CLOB pulse — 2026-10-11T19:25:52Z
 
 - Domain: `https://clob.polymarket.com`
 - Budget: $500
 - Snapshot days on disk: 3
-- Scored: 250  competed: 240  near-zero: 10
+- Scored: 250  competed: 238  near-zero: 12
 - Pilot universe: 0 (provisional: 0)
-- Top-20 competed avg yield: 12.3196%/day (gross)
+- Top-20 competed avg yield: 9.4282%/day (gross)
 
 ## Top competed
 
 | # | yield%/d | est$/d | rate | qual$ | market |
 |---|----------|--------|------|-------|--------|
-| 1 | 20.54 | 102.70 | 113 | 131 | Will Simon peak at Category 4? |
-| 2 | 20.52 | 102.58 | 105 | 140 | Will Anthropic have the best AI model on LiveBench (Math |
-| 3 | 17.77 | 88.87 | 100 | 210 | Perim Island no longer under Houthi control by October 1 |
-| 4 | 17.19 | 85.94 | 100 | 96 | Will Tyreek Hill sign with the Kansas City Chiefs in 202 |
-| 5 | 16.37 | 81.84 | 105 | 201 | Will MrBeast Gaming's next video get between 35 and 40 m |
-| 6 | 14.48 | 72.38 | 100 | 293 | Will Riyadh airport be closed by October 15? |
-| 7 | 14.46 | 72.32 | 76 | 99 | Will Mexico’s 2026 Annual Inflation be between 4.00% and |
-| 8 | 13.73 | 68.64 | 500 | 4271 | US x Yemen ceasefire continues through October 15? |
-| 9 | 12.93 | 64.64 | 100 | 386 | Next Fable Model (5.2+) released by October 17, 2026? |
-| 10 | 11.91 | 59.55 | 64 | 90 | Will London have less than 35mm of precipitation in Octo |
+| 1 | 24.41 | 122.06 | 200 | 483 | US-Iran Hormuz Agreement by November 2? |
+| 2 | 21.24 | 106.21 | 157 | 272 | Will MrBeast Gaming's next video get between 45 and 50 m |
+| 3 | 17.52 | 87.61 | 200 | 866 | Next Fable Model (5.2+) released by October 14, 2026? |
+| 4 | 15.57 | 77.84 | 79 | 178 | Will London have less than 35mm of precipitation in Octo |
+| 5 | 13.42 | 67.11 | 100 | 520 | Iran-Oman Hormuz Agreement by December 31? |
+| 6 | 9.18 | 45.92 | 50 | 82 | Will Cheryl Fuller win the next Central Coast mayoral el |
+| 7 | 8.75 | 43.74 | 4000 | 36094 | Will there be no Hormuz agreement and the Republicans wi |
+| 8 | 8.53 | 42.64 | 100 | 1220 | Perim Island no longer under Houthi control by October 1 |
+| 9 | 7.33 | 36.64 | 100 | 2025 | Will Saudi airspace be closed by December 31? |
+| 10 | 6.60 | 32.99 | 100 | 2879 | Gemini 4.0 released by October 15, 2026? |
 
 ## Near-zero (excluded from pilot)
 
-| 1 | 49.40 | 247.00 | Will MrBeast Gaming's next video get between 40 and 45 m |
-| 2 | 28.40 | 142.00 | Will MrBeast Gaming's next video get between 45 and 50 m |
-| 3 | 20.00 | 100.00 | Will SpaceXAI officially rename itself to SpaceXSI by Oc |
-| 4 | 17.40 | 87.00 | Will Simon peak at Category 5? |
-| 5 | 17.19 | 85.96 | Will Seattle have between 2.5 and 3 inches of precipitat |
-| 6 | 16.80 | 84.00 | Will a Junior win the 2026 Heisman Trophy? |
-| 7 | 14.60 | 73.00 | Will Mexico’s 2026 Annual Inflation be between 3.50% and |
-| 8 | 12.20 | 61.00 | Will "Street Fighter" Opening Weekend Box Office be less |
-| 9 | 10.40 | 52.00 | Will there be between 60 and 89 tornadoes in the US in O |
-| 10 | 10.00 | 50.00 | Will a hurricane make landfall in Alabama by November 30 |
+| 1 | 21.80 | 109.00 | Will Anthropic be the second-best Math AI lab at the end |
+| 2 | 20.00 | 100.00 | Next Fable Model (5.2+) released by October 17, 2026? |
+| 3 | 17.20 | 86.00 | Will MrBeast Gaming's next video get between 50 and 55 m |
+| 4 | 15.60 | 78.00 | Will Google be the second-best Math AI lab at the end of |
+| 5 | 15.20 | 76.00 | Will a Junior win the 2026 Heisman Trophy? |
+| 6 | 14.00 | 70.00 | Will White House post 200+ posts from October 9 to Octob |
+| 7 | 13.80 | 69.00 | Will October be Melbourne's wettest month of 2026? |
+| 8 | 12.00 | 60.00 | Will "Street Fighter" Opening Weekend Box Office be less |
+| 9 | 10.40 | 52.00 | Will Seoul have 85mm or more of precipitation in October |
+| 10 | 10.40 | 52.00 | Will the peak wind gust in Wellington be 86 to 95 km/h i |
 
 ## Rewards: actual vs estimated
 
-- ts: `2026-10-11T03:11:34Z`
+- ts: `2026-10-11T19:25:52Z`
 - total actual: $0
 - total estimated: $0
 - ratio: n/a
