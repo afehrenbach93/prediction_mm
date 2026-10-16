@@ -1,43 +1,35 @@
-# CLOB pulse — 2026-10-15T18:58:32Z
+# CLOB pulse — 2026-10-16T02:30:25Z
 
 - Domain: `https://clob.polymarket.com`
 - Budget: $500
 - Snapshot days on disk: 3
-- Scored: 250  competed: 228  near-zero: 22
+- Scored: 250  competed: 248  near-zero: 2
 - Pilot universe: 0 (provisional: 0)
-- Top-20 competed avg yield: 17.198%/day (gross)
+- Top-20 competed avg yield: 11.8607%/day (gross)
 
 ## Top competed
 
 | # | yield%/d | est$/d | rate | qual$ | market |
 |---|----------|--------|------|-------|--------|
-| 1 | 59.61 | 298.06 | 462 | 168 | Will "Grand Theft Auto VI Launch Trailer" get between 40 |
-| 2 | 33.64 | 168.20 | 200 | 140 | Ilhan Omar denaturalization case filed by March 31, 2027 |
-| 3 | 23.32 | 116.61 | 200 | 777 | Next Fable Model (5.2+) released by October 22, 2026? |
-| 4 | 20.42 | 102.10 | 131 | 220 | Will there be exactly 3 Codex weekly usage limit resets  |
-| 5 | 19.23 | 96.15 | 100 | 94 | Will Jynxzi reach Unreal rank in Fortnite by October 19, |
-| 6 | 18.98 | 94.91 | 200 | 414 | Ilhan Omar denaturalization case filed by December 31, 2 |
-| 7 | 17.18 | 85.89 | 88 | 67 | Will "Grand Theft Auto VI Launch Trailer" get less than  |
-| 8 | 14.70 | 73.52 | 93 | 170 | Will Argentina's monthly inflation in October 2026 be be |
-| 9 | 14.46 | 72.32 | 81 | 166 | Will Meta be the third-best Math AI lab at the end of Oc |
-| 10 | 13.41 | 67.05 | 80 | 147 | Will N1 launch a token by December 31, 2026? |
+| 1 | 25.91 | 129.53 | 482 | 952 | Will "Grand Theft Auto VI Launch Trailer" get between 40 |
+| 2 | 19.03 | 95.17 | 113 | 132 | Will Anthropic have the best Math AI model at the end of |
+| 3 | 18.71 | 93.56 | 288 | 1540 | Will Anthropic's market cap be between $1.75T and $2.0T  |
+| 4 | 17.96 | 89.82 | 130 | 647 | Will Core PCE MoM be 0.3% in September? |
+| 5 | 17.68 | 88.42 | 139 | 221 | Will the next Fable model (5.2+) be released on October  |
+| 6 | 17.09 | 85.46 | 100 | 128 | Will Jynxzi reach Unreal rank in Fortnite by October 19, |
+| 7 | 13.43 | 67.15 | 108 | 205 | Will Meta be the #3 AI Lab at the end of November 2026 ( |
+| 8 | 10.88 | 54.41 | 109 | 496 | No change in Bank of England’s interest rates after Dece |
+| 9 | 8.81 | 44.06 | 124 | 746 | Will Google have the #1 AI model at the end of November  |
+| 10 | 8.63 | 43.13 | 107 | 1689 | Will the Ornn RTX 5090 Index be at least $0.60 on Octobe |
 
 ## Near-zero (excluded from pilot)
 
-| 1 | 54.54 | 272.68 | Will "Grand Theft Auto VI Launch Trailer" get between 60 |
-| 2 | 29.00 | 145.00 | Will Anthropic have the best AI model on LiveBench (Math |
-| 3 | 20.20 | 101.00 | Will The Odyssey win Best Production Design at the 99th  |
-| 4 | 20.00 | 100.00 | Will Jynxzi reach Unreal rank in Fortnite by October 18, |
-| 5 | 18.80 | 94.00 | Will MrBeast's next video get between 90 and 100 million |
-| 6 | 18.40 | 92.00 | Will The Odyssey win Best Film Editing at the 99th Acade |
-| 7 | 17.56 | 87.80 | Will "Grand Theft Auto VI Launch Trailer" get between 80 |
-| 8 | 17.40 | 87.00 | Will "Grand Theft Auto VI Launch Trailer" get between 10 |
-| 9 | 17.40 | 87.00 | Will Elon Musk post 65-89 tweets from October 17 to Octo |
-| 10 | 16.00 | 80.00 | Will Axis Robotics launch a token by November 30, 2026? |
+| 1 | 64.20 | 321.00 | Will "Grand Theft Auto VI Launch Trailer" get between 60 |
+| 2 | 23.40 | 117.00 | Will The Baddest Speechwriter of All win Best Documentar |
 
 ## Rewards: actual vs estimated
 
-- ts: `2026-10-15T18:58:32Z`
+- ts: `2026-10-16T02:30:25Z`
 - total actual: $0
 - total estimated: $0
 - ratio: n/a
