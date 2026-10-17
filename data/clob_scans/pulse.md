@@ -1,43 +1,43 @@
-# CLOB pulse — 2026-10-17T02:23:25Z
+# CLOB pulse — 2026-10-17T17:48:47Z
 
 - Domain: `https://clob.polymarket.com`
 - Budget: $500
 - Snapshot days on disk: 3
-- Scored: 250  competed: 239  near-zero: 11
+- Scored: 250  competed: 234  near-zero: 16
 - Pilot universe: 0 (provisional: 0)
-- Top-20 competed avg yield: 14.4194%/day (gross)
+- Top-20 competed avg yield: 8.3855%/day (gross)
 
 ## Top competed
 
 | # | yield%/d | est$/d | rate | qual$ | market |
 |---|----------|--------|------|-------|--------|
-| 1 | 48.75 | 243.75 | 369 | 1050 | Will "Grand Theft Auto VI Launch Trailer" get between 60 |
-| 2 | 24.85 | 124.26 | 609 | 1696 | Will "Grand Theft Auto VI Launch Trailer" get between 40 |
-| 3 | 18.90 | 94.49 | 200 | 1623 | Will OpenAI announce another Millennium Prize solution b |
-| 4 | 17.55 | 87.76 | 200 | 290 | Will Kaka attend the 2026 Ballon d'Or ceremony? |
-| 5 | 15.78 | 78.91 | 500 | 1987 | Will Scott Jennings be the next White House Press Secret |
-| 6 | 14.57 | 72.83 | 200 | 846 | Will Zinedine Zidane attend the 2026 Ballon d'Or ceremon |
-| 7 | 13.74 | 68.70 | 79 | 76 | Will Canada's GDP growth rate MoM in August 2026 be betw |
-| 8 | 13.05 | 65.24 | 111 | 743 | Will Core CPI YoY be 2.6% in October? |
-| 9 | 12.67 | 63.36 | 69 | 159 | Lam Research (LRCX) Q1 China revenue mix 22% to 26%? |
-| 10 | 12.24 | 61.20 | 95 | 1390 | Will MrBeast's next video get between 35 and 40 million  |
+| 1 | 18.69 | 93.45 | 438 | 1573 | Will "Grand Theft Auto VI Launch Trailer" get between 60 |
+| 2 | 12.62 | 63.10 | 259 | 1188 | Will Anna Kelly be the next White House Press Secretary? |
+| 3 | 11.55 | 57.76 | 65 | 89 | Will China’s CPI increase by between 0.7% and 0.8% over  |
+| 4 | 11.40 | 56.99 | 482 | 2662 | Will Scott Jennings be the next White House Press Secret |
+| 5 | 10.42 | 52.08 | 65 | 416 | Will Micron Q1 adjusted gross margin be between 85% and  |
+| 6 | 10.14 | 50.68 | 57 | 116 | Will China’s CPI increase by ≤0.6% over the 12 month per |
+| 7 | 9.35 | 46.75 | 192 | 2406 | Will Anthropic's market cap be between $1.75T and $2.0T  |
+| 8 | 8.98 | 44.92 | 500 | 5857 | Next White House Press Secretary announced by November 3 |
+| 9 | 8.12 | 40.60 | 71 | 442 | Will "Resident Evil Requiem" win Ultimate Game of the Ye |
+| 10 | 7.46 | 37.31 | 86 | 362 | Will OpenRouter process between 175T and 185T tokens the |
 
 ## Near-zero (excluded from pilot)
 
-| 1 | 20.00 | 100.00 | Will Lamine Yamal finish in the top 2 of the 2026 Ballon |
-| 2 | 18.40 | 92.00 | Will voter turnout be between 72% and 74% in the 2026 Is |
-| 3 | 15.60 | 78.00 | Will OpenRouter process at least 775T tokens from Oct 26 |
-| 4 | 14.40 | 72.00 | Will MrBeast's next video get between 40 and 45 million  |
-| 5 | 13.40 | 67.00 | Will MrBeast's next video get between 90 and 100 million |
-| 6 | 12.20 | 61.00 | Will White House post 160-179 posts from October 16 to O |
-| 7 | 11.60 | 58.00 | Will Alphabet’s market capitalization be between $4.00T  |
-| 8 | 11.40 | 57.00 | Will "Love Is Blind: Boston" be the #2 US Netflix show t |
-| 9 | 10.60 | 53.00 | Will the Democrats win Leavenworth County in the Kansas  |
-| 10 | 10.40 | 52.00 | Will "Sacrifice" be the #2 US Netflix movie this week? |
+| 1 | 20.00 | 100.00 | Will "Doing Life" be the #2 US Netflix movie this week? |
+| 2 | 20.00 | 100.00 | Will Jynxzi reach Unreal rank in Fortnite by October 23, |
+| 3 | 19.60 | 98.00 | Will MrBeast's next video get between 40 and 45 million  |
+| 4 | 18.20 | 91.00 | Will MrBeast's next video get at least 120 million views |
+| 5 | 17.60 | 88.00 | Will MrBeast's next video get between 45 and 50 million  |
+| 6 | 17.00 | 85.00 | Will Core PCE YoY be 3.1% in September? |
+| 7 | 14.80 | 74.00 | Will Elon Musk post 40-64 tweets from October 19 to Octo |
+| 8 | 14.20 | 71.00 | Will MrBeast's next video get between 50 and 55 million  |
+| 9 | 13.00 | 65.00 | Will MrBeast's next video get between 80 and 90 million  |
+| 10 | 13.00 | 65.00 | Will MrBeast's next video get between 100 and 110 millio |
 
 ## Rewards: actual vs estimated
 
-- ts: `2026-10-17T02:23:25Z`
+- ts: `2026-10-17T17:48:47Z`
 - total actual: $0
 - total estimated: $0
 - ratio: n/a
