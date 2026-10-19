@@ -1,39 +1,38 @@
-# CLOB pulse — 2026-10-18T17:55:52Z
+# CLOB pulse — 2026-10-19T02:37:53Z
 
 - Domain: `https://clob.polymarket.com`
 - Budget: $500
 - Snapshot days on disk: 3
-- Scored: 250  competed: 244  near-zero: 6
+- Scored: 250  competed: 245  near-zero: 5
 - Pilot universe: 0 (provisional: 0)
-- Top-20 competed avg yield: 14.9907%/day (gross)
+- Top-20 competed avg yield: 8.9092%/day (gross)
 
 ## Top competed
 
 | # | yield%/d | est$/d | rate | qual$ | market |
 |---|----------|--------|------|-------|--------|
-| 1 | 47.47 | 237.33 | 240 | 66 | Will Beni Rae Harmony be the next White House Press Secr |
-| 2 | 37.04 | 185.20 | 507 | 1056 | Will "Grand Theft Auto VI Launch Trailer" get between 60 |
-| 3 | 28.30 | 141.48 | 493 | 1619 | Will "Grand Theft Auto VI Launch Trailer" get between 40 |
-| 4 | 23.57 | 117.84 | 200 | 435 | Paris curfew by October 31? |
-| 5 | 21.77 | 108.83 | 200 | 233 | France declares state of emergency by October 31, 2026? |
-| 6 | 18.17 | 90.83 | 200 | 413 | France declares state of emergency by October 21, 2026? |
-| 7 | 17.43 | 87.15 | 200 | 665 | France declares state of emergency by December 31, 2026? |
-| 8 | 12.41 | 62.06 | 122 | 310 | Will "La Nieve" from The Black Ball win Best Original So |
-| 9 | 10.19 | 50.96 | 79 | 246 | Will Muse from Meta be #1 Free App in the US Apple App S |
-| 10 | 9.60 | 48.00 | 146 | 968 | Will Mexico’s 2026 Annual Inflation be between 3.50% and |
+| 1 | 19.77 | 98.88 | 111 | 125 | Will Argentina's monthly inflation in October 2026 be be |
+| 2 | 16.20 | 81.01 | 91 | 70 | Will OpenRouter process between 165T and 175T tokens the |
+| 3 | 14.34 | 71.71 | 494 | 5461 | Will "Grand Theft Auto VI Launch Trailer" get between 40 |
+| 4 | 12.09 | 60.44 | 200 | 1027 | France declares state of emergency by October 31, 2026? |
+| 5 | 11.94 | 59.70 | 120 | 796 | Will Flávio Bolsonaro win the second round of the 2026 B |
+| 6 | 10.78 | 53.88 | 200 | 1952 | Curfew in a major French city by November 15, 2026? |
+| 7 | 8.43 | 42.17 | 54 | 122 | Will PPI YoY be 6.5% in October? |
+| 8 | 7.94 | 39.72 | 84 | 319 | Will PPI YoY be 6.8% or more in October? |
+| 9 | 7.78 | 38.89 | 63 | 143 | Will the Central Bank of Colombia increase the monetary  |
+| 10 | 7.71 | 38.56 | 53 | 163 | Will ISM Manufacturing PMI be between 54.0 and 54.9 in O |
 
 ## Near-zero (excluded from pilot)
 
-| 1 | 40.00 | 200.00 | Curfew in a major French city by October 24, 2026? |
-| 2 | 40.00 | 200.00 | Curfew in a major French city by November 15, 2026? |
-| 3 | 40.00 | 200.00 | Curfew in a major French city by October 31, 2026? |
-| 4 | 40.00 | 200.00 | Curfew in a major French city by December 31, 2026? |
-| 5 | 11.40 | 57.00 | Will Vinted: Pre-loved marketplace be #2 Free App in the |
-| 6 | 10.60 | 53.00 | Will China’s CPI increase by between 0.9% and 1.0% over  |
+| 1 | 14.60 | 73.00 | Will White House post 200+ posts from October 16 to Octo |
+| 2 | 11.60 | 58.00 | Will the Republicans win Leavenworth County in the Kansa |
+| 3 | 10.60 | 53.00 | Will MrBeast's next video get between 170 and 180 millio |
+| 4 | 10.60 | 53.00 | Will OpenRouter process between 185T and 195T tokens the |
+| 5 | 10.20 | 51.00 | Will MrBeast's next video get between 180 and 190 millio |
 
 ## Rewards: actual vs estimated
 
-- ts: `2026-10-18T17:55:52Z`
+- ts: `2026-10-19T02:37:53Z`
 - total actual: $0
 - total estimated: $0
 - ratio: n/a

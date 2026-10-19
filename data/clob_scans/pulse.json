@@ -1,175 +1,165 @@
 {
-  "ts": "2026-10-18T17:55:52Z",
+  "ts": "2026-10-19T02:37:53Z",
   "domain": "https://clob.polymarket.com",
   "budget_usd": 500.0,
   "snapshot_days": 3,
   "scored_markets": 250,
-  "competed": 244,
-  "near_zero": 6,
+  "competed": 245,
+  "near_zero": 5,
   "pilot_universe": 0,
   "pilot_provisional": 0,
-  "top20_competed_avg_yield_pct": 14.9907,
+  "top20_competed_avg_yield_pct": 8.9092,
   "top10_competed": [
     {
-      "question": "Will Beni Rae Harmony be the next White House Press Secretary?",
-      "slug": "will-beni-rae-harmony-be-the-next-white-house-press-secretary-2027",
-      "daily_rate": 240.0,
-      "qual_notional": 66.47,
-      "est_daily": 237.3333,
-      "yield_pct": 47.4667,
-      "mid": "0.1055",
+      "question": "Will Argentina's monthly inflation in October 2026 be between 1.6% and 1.8%?",
+      "slug": "will-argentinas-monthly-inflation-in-october-2026-be-between-1pt6-and-1pt8",
+      "daily_rate": 111.0,
+      "qual_notional": 124.94,
+      "est_daily": 98.8752,
+      "yield_pct": 19.775,
+      "mid": "0.485",
       "near_zero": false
     },
     {
-      "question": "Will \"Grand Theft Auto VI Launch Trailer\" get between 60 and 80 million views on",
-      "slug": "will-grand-theft-auto-vi-launch-trailer-get-between-60-and-80-million-views-on-week-1",
-      "daily_rate": 507.0,
-      "qual_notional": 1055.97,
-      "est_daily": 185.2035,
-      "yield_pct": 37.0407,
-      "mid": "0.413",
+      "question": "Will OpenRouter process between 165T and 175T tokens the week of October 19?",
+      "slug": "will-openrouter-process-between-165t-and-175t-tokens-the-week-of-october-19",
+      "daily_rate": 91.0,
+      "qual_notional": 70.4,
+      "est_daily": 81.011,
+      "yield_pct": 16.2022,
+      "mid": "0.44",
       "near_zero": false
     },
     {
       "question": "Will \"Grand Theft Auto VI Launch Trailer\" get between 40 and 60 million views on",
       "slug": "will-grand-theft-auto-vi-launch-trailer-get-between-40-and-60-million-views-on-week-1",
-      "daily_rate": 493.0,
-      "qual_notional": 1619.34,
-      "est_daily": 141.477,
-      "yield_pct": 28.2954,
-      "mid": "0.585",
-      "near_zero": false
-    },
-    {
-      "question": "Paris curfew by October 31?",
-      "slug": "paris-curfew-by-october-31",
-      "daily_rate": 200.0,
-      "qual_notional": 435.22,
-      "est_daily": 117.8374,
-      "yield_pct": 23.5675,
-      "mid": "0.115",
+      "daily_rate": 494.0,
+      "qual_notional": 5461.37,
+      "est_daily": 71.7094,
+      "yield_pct": 14.3419,
+      "mid": "0.44",
       "near_zero": false
     },
     {
       "question": "France declares state of emergency by October 31, 2026?",
       "slug": "france-declares-state-of-emergency-by-october-31-2026",
       "daily_rate": 200.0,
-      "qual_notional": 233.35,
-      "est_daily": 108.8338,
-      "yield_pct": 21.7668,
-      "mid": "0.155",
+      "qual_notional": 1027.49,
+      "est_daily": 60.4397,
+      "yield_pct": 12.0879,
+      "mid": "0.105",
       "near_zero": false
     },
     {
-      "question": "France declares state of emergency by October 21, 2026?",
-      "slug": "france-declares-state-of-emergency-by-october-21-2026",
-      "daily_rate": 200.0,
-      "qual_notional": 413.08,
-      "est_daily": 90.8318,
-      "yield_pct": 18.1664,
-      "mid": "0.115",
-      "near_zero": false
-    },
-    {
-      "question": "France declares state of emergency by December 31, 2026?",
-      "slug": "france-declares-state-of-emergency-by-december-31-2026",
-      "daily_rate": 200.0,
-      "qual_notional": 664.74,
-      "est_daily": 87.1499,
-      "yield_pct": 17.43,
+      "question": "Will Fl\u00e1vio Bolsonaro win the second round of the 2026 Brazilian presidential el",
+      "slug": "will-flavio-bolsonaro-win-the-second-round-of-the-2026-brazilian-presidential-election-by-48",
+      "daily_rate": 120.0,
+      "qual_notional": 795.71,
+      "est_daily": 59.701,
+      "yield_pct": 11.9402,
       "mid": "0.235",
       "near_zero": false
-    },
-    {
-      "question": "Will \"La Nieve\" from The Black Ball win Best Original Song at the 99th Academy A",
-      "slug": "will-la-nieve-from-the-black-ball-win-best-original-song-at-the-99th-academy-awards-20261013180153422",
-      "daily_rate": 122.0,
-      "qual_notional": 309.99,
-      "est_daily": 62.0568,
-      "yield_pct": 12.4114,
-      "mid": "0.405",
-      "near_zero": false
-    },
-    {
-      "question": "Will Muse from Meta be #1 Free App in the US Apple App Store on October 23?",
-      "slug": "will-muse-from-meta-be-1-free-app-in-the-us-apple-app-store-on-october-23-10172026",
-      "daily_rate": 79.0,
-      "qual_notional": 246.05,
-      "est_daily": 50.9593,
-      "yield_pct": 10.1919,
-      "mid": "0.795",
-      "near_zero": false
-    },
-    {
-      "question": "Will Mexico\u2019s 2026 Annual Inflation be between 3.50% and 3.99%?",
-      "slug": "will-mexicos-2026-annual-inflation-be-between-3pt50-and-3pt99",
-      "daily_rate": 146.0,
-      "qual_notional": 968.49,
-      "est_daily": 47.9983,
-      "yield_pct": 9.5997,
-      "mid": "0.684",
-      "near_zero": false
-    }
-  ],
-  "top10_near_zero": [
-    {
-      "question": "Curfew in a major French city by October 24, 2026?",
-      "slug": "curfew-in-major-french-city-by-october-24-2026",
-      "daily_rate": 200.0,
-      "qual_notional": 0.0,
-      "est_daily": 200.0,
-      "yield_pct": 40.0,
-      "mid": "0.33",
-      "near_zero": true
     },
     {
       "question": "Curfew in a major French city by November 15, 2026?",
       "slug": "curfew-in-major-french-city-by-november-15-2026",
       "daily_rate": 200.0,
+      "qual_notional": 1952.31,
+      "est_daily": 53.8833,
+      "yield_pct": 10.7767,
+      "mid": "0.175",
+      "near_zero": false
+    },
+    {
+      "question": "Will PPI YoY be 6.5% in October?",
+      "slug": "will-ppi-yoy-be-6pt5-in-october",
+      "daily_rate": 54.0,
+      "qual_notional": 122.37,
+      "est_daily": 42.1671,
+      "yield_pct": 8.4334,
+      "mid": "0.19",
+      "near_zero": false
+    },
+    {
+      "question": "Will PPI YoY be 6.8% or more in October?",
+      "slug": "will-ppi-yoy-be-6pt8-or-more-in-october",
+      "daily_rate": 84.0,
+      "qual_notional": 318.63,
+      "est_daily": 39.7246,
+      "yield_pct": 7.9449,
+      "mid": "0.285",
+      "near_zero": false
+    },
+    {
+      "question": "Will the Central Bank of Colombia increase the monetary policy interest rate by ",
+      "slug": "will-the-central-bank-of-colombia-increase-the-monetary-policy-interest-rate-by-25-bps-at-the-december-2026-meeting",
+      "daily_rate": 63.0,
+      "qual_notional": 143.43,
+      "est_daily": 38.8907,
+      "yield_pct": 7.7781,
+      "mid": "0.235",
+      "near_zero": false
+    },
+    {
+      "question": "Will ISM Manufacturing PMI be between 54.0 and 54.9 in October?",
+      "slug": "will-ism-manufacturing-pmi-be-between-54pt0-and-54pt9-in-october",
+      "daily_rate": 53.0,
+      "qual_notional": 162.69,
+      "est_daily": 38.5636,
+      "yield_pct": 7.7127,
+      "mid": "0.255",
+      "near_zero": false
+    }
+  ],
+  "top10_near_zero": [
+    {
+      "question": "Will White House post 200+ posts from October 16 to October 23, 2026?",
+      "slug": "white-house-of-tweets-october-16-october-23-2026-200plus",
+      "daily_rate": 73.0,
       "qual_notional": 0.0,
-      "est_daily": 200.0,
-      "yield_pct": 40.0,
-      "mid": "0.44",
+      "est_daily": 73.0,
+      "yield_pct": 14.6,
+      "mid": "0.835",
       "near_zero": true
     },
     {
-      "question": "Curfew in a major French city by October 31, 2026?",
-      "slug": "curfew-in-major-french-city-by-october-31-2026",
-      "daily_rate": 200.0,
+      "question": "Will the Republicans win Leavenworth County in the Kansas Senate race in 2026?",
+      "slug": "will-the-republicans-win-leavenworth-county-in-the-kansas-senate-race-in-2026",
+      "daily_rate": 58.0,
       "qual_notional": 0.0,
-      "est_daily": 200.0,
-      "yield_pct": 40.0,
-      "mid": "0.35",
+      "est_daily": 58.0,
+      "yield_pct": 11.6,
+      "mid": "0.69",
       "near_zero": true
     },
     {
-      "question": "Curfew in a major French city by December 31, 2026?",
-      "slug": "curfew-in-major-french-city-by-december-31-2026",
-      "daily_rate": 200.0,
-      "qual_notional": 0.0,
-      "est_daily": 200.0,
-      "yield_pct": 40.0,
-      "mid": "0.51",
-      "near_zero": true
-    },
-    {
-      "question": "Will Vinted: Pre-loved marketplace be #2 Free App in the US Apple App Store on O",
-      "slug": "will-vinted-pre-loved-marketplace-be-2-free-app-in-the-us-apple-app-store-on-october-23-10172026",
-      "daily_rate": 57.0,
-      "qual_notional": 0.0,
-      "est_daily": 57.0,
-      "yield_pct": 11.4,
-      "mid": "0.36",
-      "near_zero": true
-    },
-    {
-      "question": "Will China\u2019s CPI increase by between 0.9% and 1.0% over the 12 month period endi",
-      "slug": "will-chinas-cpi-increase-by-between-0pt9-and-1pt0-over-the-12-month-period-ending-in-october-2026",
+      "question": "Will MrBeast's next video get between 170 and 180 million views on week 1?",
+      "slug": "will-mrbeasts-next-video-get-between-170-and-180-million-views-on-week-1-20261017",
       "daily_rate": 53.0,
       "qual_notional": 0.0,
       "est_daily": 53.0,
       "yield_pct": 10.6,
-      "mid": "0.28",
+      "mid": "0.35",
+      "near_zero": true
+    },
+    {
+      "question": "Will OpenRouter process between 185T and 195T tokens the week of October 19?",
+      "slug": "will-openrouter-process-between-185t-and-195t-tokens-the-week-of-october-19",
+      "daily_rate": 53.0,
+      "qual_notional": 0.0,
+      "est_daily": 53.0,
+      "yield_pct": 10.6,
+      "mid": "0.25",
+      "near_zero": true
+    },
+    {
+      "question": "Will MrBeast's next video get between 180 and 190 million views on week 1?",
+      "slug": "will-mrbeasts-next-video-get-between-180-and-190-million-views-on-week-1-20261017",
+      "daily_rate": 51.0,
+      "qual_notional": 0.0,
+      "est_daily": 51.0,
+      "yield_pct": 10.2,
+      "mid": "0.315",
       "near_zero": true
     }
   ],
@@ -179,7 +169,7 @@
     "day_csvs": [
       "2026-07-19.csv",
       "2026-07-20.csv",
-      "2026-10-18.csv"
+      "2026-10-19.csv"
     ]
   }
 }
