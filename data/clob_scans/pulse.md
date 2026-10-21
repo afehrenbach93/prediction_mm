@@ -1,43 +1,41 @@
-# CLOB pulse — 2026-10-20T19:05:19Z
+# CLOB pulse — 2026-10-21T02:44:10Z
 
 - Domain: `https://clob.polymarket.com`
 - Budget: $500
 - Snapshot days on disk: 3
-- Scored: 250  competed: 234  near-zero: 16
+- Scored: 250  competed: 242  near-zero: 8
 - Pilot universe: 0 (provisional: 0)
-- Top-20 competed avg yield: 13.5911%/day (gross)
+- Top-20 competed avg yield: 9.7631%/day (gross)
 
 ## Top competed
 
 | # | yield%/d | est$/d | rate | qual$ | market |
 |---|----------|--------|------|-------|--------|
-| 1 | 27.52 | 137.60 | 200 | 287 | Paris curfew effectively lifted by October 31? |
-| 2 | 27.51 | 137.55 | 188 | 4956 | Will MrBeast's next video get less than 150 million view |
-| 3 | 25.81 | 129.07 | 200 | 357 | Paris curfew effectively lifted by October 24? |
-| 4 | 22.21 | 111.05 | 200 | 1310 | France declares state of emergency by December 31, 2026? |
-| 5 | 21.45 | 107.27 | 200 | 180 | Lyon curfew effectively lifted by October 24? |
-| 6 | 14.92 | 74.60 | 100 | 266 | Next Fable Model (5.2+) released by October 24, 2026? |
-| 7 | 14.72 | 73.58 | 95 | 267 | Will there be no next Fable model (5.2+) release by Octo |
-| 8 | 13.15 | 65.75 | 68 | 188 | Will Donald Trump post 200+ Truth Social posts from Octo |
-| 9 | 11.73 | 58.63 | 200 | 876 | Lyon curfew effectively lifted by October 31? |
-| 10 | 11.46 | 57.32 | 74 | 144 | Will Target Q3 comparable sales growth be between 3% and |
+| 1 | 26.73 | 133.67 | 200 | 467 | Next Fable Model (5.2+) released by October 29, 2026? |
+| 2 | 15.34 | 76.69 | 100 | 336 | Next Fable Model (5.2+) released by October 24, 2026? |
+| 3 | 14.02 | 70.11 | 75 | 192 | Will Khamenei post 0-4 posts from October 20 to October  |
+| 4 | 13.03 | 65.14 | 96 | 121 | Will ISM Services PMI be between 53.0 and 53.9 in Octobe |
+| 5 | 10.92 | 54.61 | 80 | 180 | 1win FDV above $150M one day after launch? |
+| 6 | 9.90 | 49.52 | 200 | 979 | Next Astra Model (6.1+) released by December 15, 2026? |
+| 7 | 9.37 | 46.86 | 51 | 272 | Will Meta’s market capitalization be between $1.50T and  |
+| 8 | 9.15 | 45.74 | 200 | 1147 | Next Astra Model (6.1+) released by November 15, 2026? |
+| 9 | 8.82 | 44.12 | 100 | 271 | Will "Ali G: Who Iz I?" score at least 50 on the Rotten  |
+| 10 | 8.61 | 43.06 | 59 | 224 | Microsoft (MSFT) Q1 Azure revenue growth (constant curre |
 
 ## Near-zero (excluded from pilot)
 
-| 1 | 38.77 | 193.83 | Another GTA VI trailer released by November 30? |
-| 2 | 23.00 | 115.00 | Will OpenAI have the third highest OpenRouter market sha |
-| 3 | 21.80 | 109.00 | Will gemini-4-argon-high be the best AI model on October |
-| 4 | 18.20 | 91.00 | Will any other model be the best AI model on October 26, |
-| 5 | 18.20 | 91.00 | Will Google have the third highest OpenRouter market sha |
-| 6 | 16.00 | 80.00 | Will 1win launch a token by October 31, 2026? |
-| 7 | 16.00 | 80.00 | Will 1win launch a token by November 30, 2026? |
-| 8 | 16.00 | 80.00 | Will 1win launch a token by December 31, 2026? |
-| 9 | 16.00 | 80.00 | 1win FDV above $45M one day after launch? |
-| 10 | 16.00 | 80.00 | 1win FDV above $30M one day after launch? |
+| 1 | 40.00 | 200.00 | Next Fable Model (5.2+) released by October 26, 2026? |
+| 2 | 40.00 | 200.00 | Next Fable Model (5.2+) released by October 27, 2026? |
+| 3 | 40.00 | 200.00 | Next Fable Model (5.2+) released by October 28, 2026? |
+| 4 | 29.80 | 149.00 | Will Anthropic have the best AI model on LiveBench (Math |
+| 5 | 14.58 | 72.90 | Will Micron Q1 adjusted gross margin be between 85% and  |
+| 6 | 12.80 | 64.00 | Will the Republicans win Greenville County in the South  |
+| 7 | 10.40 | 52.00 | Welltower (WELL) Q3 same store NOI (SSNOI) growth 15% to |
+| 8 | 10.20 | 51.00 | Will Space Exploration Technologies’ market capitalizati |
 
 ## Rewards: actual vs estimated
 
-- ts: `2026-10-20T19:05:20Z`
+- ts: `2026-10-21T02:44:10Z`
 - total actual: $0
 - total estimated: $0
 - ratio: n/a
