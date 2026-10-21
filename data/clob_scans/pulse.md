@@ -1,41 +1,43 @@
-# CLOB pulse — 2026-10-21T02:44:10Z
+# CLOB pulse — 2026-10-21T19:11:09Z
 
 - Domain: `https://clob.polymarket.com`
 - Budget: $500
 - Snapshot days on disk: 3
-- Scored: 250  competed: 242  near-zero: 8
+- Scored: 250  competed: 221  near-zero: 29
 - Pilot universe: 0 (provisional: 0)
-- Top-20 competed avg yield: 9.7631%/day (gross)
+- Top-20 competed avg yield: 30.1394%/day (gross)
 
 ## Top competed
 
 | # | yield%/d | est$/d | rate | qual$ | market |
 |---|----------|--------|------|-------|--------|
-| 1 | 26.73 | 133.67 | 200 | 467 | Next Fable Model (5.2+) released by October 29, 2026? |
-| 2 | 15.34 | 76.69 | 100 | 336 | Next Fable Model (5.2+) released by October 24, 2026? |
-| 3 | 14.02 | 70.11 | 75 | 192 | Will Khamenei post 0-4 posts from October 20 to October  |
-| 4 | 13.03 | 65.14 | 96 | 121 | Will ISM Services PMI be between 53.0 and 53.9 in Octobe |
-| 5 | 10.92 | 54.61 | 80 | 180 | 1win FDV above $150M one day after launch? |
-| 6 | 9.90 | 49.52 | 200 | 979 | Next Astra Model (6.1+) released by December 15, 2026? |
-| 7 | 9.37 | 46.86 | 51 | 272 | Will Meta’s market capitalization be between $1.50T and  |
-| 8 | 9.15 | 45.74 | 200 | 1147 | Next Astra Model (6.1+) released by November 15, 2026? |
-| 9 | 8.82 | 44.12 | 100 | 271 | Will "Ali G: Who Iz I?" score at least 50 on the Rotten  |
-| 10 | 8.61 | 43.06 | 59 | 224 | Microsoft (MSFT) Q1 Azure revenue growth (constant curre |
+| 1 | 163.40 | 816.98 | 1000 | 531 | US x Iran ceasefire continues through October 24? |
+| 2 | 49.37 | 246.83 | 1000 | 2990 | US x Iran ceasefire continues through October 28? |
+| 3 | 39.50 | 197.50 | 2000 | 11804 | US x Iran ceasefire continues through October 31? |
+| 4 | 38.54 | 192.70 | 200 | 68 | Will GPT Astra 6.1+ debut at a score of at least 1460 by |
+| 5 | 34.67 | 173.36 | 200 | 257 | Will GPT Astra 6.1+ debut at a score of at least 1450 by |
+| 6 | 29.82 | 149.08 | 200 | 190 | Will Vivek Ramaswamy pull the Amy Acton mother ad? |
+| 7 | 25.07 | 125.36 | 200 | 1659 | Will GPT Astra 6.1+ debut at a score of at least 1440 by |
+| 8 | 24.71 | 123.56 | 200 | 248 | Tornado in California by October 25? |
+| 9 | 23.10 | 115.50 | 200 | 242 | Another critical PHP security flaw in 2026? |
+| 10 | 19.47 | 97.35 | 200 | 452 | Will Jynxzi beat the Elden Ring DLC by October 25? |
 
 ## Near-zero (excluded from pilot)
 
-| 1 | 40.00 | 200.00 | Next Fable Model (5.2+) released by October 26, 2026? |
-| 2 | 40.00 | 200.00 | Next Fable Model (5.2+) released by October 27, 2026? |
-| 3 | 40.00 | 200.00 | Next Fable Model (5.2+) released by October 28, 2026? |
-| 4 | 29.80 | 149.00 | Will Anthropic have the best AI model on LiveBench (Math |
-| 5 | 14.58 | 72.90 | Will Micron Q1 adjusted gross margin be between 85% and  |
-| 6 | 12.80 | 64.00 | Will the Republicans win Greenville County in the South  |
-| 7 | 10.40 | 52.00 | Welltower (WELL) Q3 same store NOI (SSNOI) growth 15% to |
-| 8 | 10.20 | 51.00 | Will Space Exploration Technologies’ market capitalizati |
+| 1 | 40.00 | 200.00 | Will Jynxzi beat the Elden Ring DLC by October 24? |
+| 2 | 39.08 | 195.42 | France accuses foreign country of provoking unrest by No |
+| 3 | 26.60 | 133.00 | Will the median home value in San Francisco Metro be les |
+| 4 | 21.20 | 106.00 | Will OpenAI have the third highest OpenRouter market sha |
+| 5 | 20.20 | 101.00 | Will Microsoft be the third-largest company in the world |
+| 6 | 20.00 | 100.00 | Will Russia enter Sloviansk by June 30, 2027? |
+| 7 | 20.00 | 100.00 | Will Russia enter Druzkhivka by June 30, 2027? |
+| 8 | 20.00 | 100.00 | Will Russia enter Kramatorsk by June 30, 2027? |
+| 9 | 20.00 | 100.00 | Will Russia enter Sloviansk by December 31, 2027? |
+| 10 | 20.00 | 100.00 | Will Russia enter Druzkhivka by December 31, 2027? |
 
 ## Rewards: actual vs estimated
 
-- ts: `2026-10-21T02:44:10Z`
+- ts: `2026-10-21T19:11:09Z`
 - total actual: $0
 - total estimated: $0
 - ratio: n/a
