@@ -1,41 +1,43 @@
-# CLOB pulse — 2026-10-24T02:43:34Z
+# CLOB pulse — 2026-10-24T18:00:10Z
 
 - Domain: `https://clob.polymarket.com`
 - Budget: $500
 - Snapshot days on disk: 3
-- Scored: 250  competed: 242  near-zero: 8
+- Scored: 250  competed: 228  near-zero: 22
 - Pilot universe: 0 (provisional: 0)
-- Top-20 competed avg yield: 10.2716%/day (gross)
+- Top-20 competed avg yield: 9.6069%/day (gross)
 
 ## Top competed
 
 | # | yield%/d | est$/d | rate | qual$ | market |
 |---|----------|--------|------|-------|--------|
-| 1 | 30.37 | 151.85 | 200 | 148 | Will DJ Snake attend the 2026 Ballon d'Or ceremony? |
-| 2 | 21.02 | 105.12 | 200 | 296 | Will Ronaldinho attend the 2026 Ballon d'Or ceremony? |
-| 3 | 20.27 | 101.35 | 200 | 487 | Will Vozinha attend the 2026 Ballon d'Or ceremony? |
-| 4 | 11.70 | 58.49 | 118 | 507 | Will the next Fable model (5.2+) be released on October  |
-| 5 | 11.04 | 55.20 | 95 | 254 | Will the next GPT Terra model (5.7+) be released between |
-| 6 | 10.60 | 53.00 | 53 | 116 | Will Xiaomi have the best Chinese AI model at the end of |
-| 7 | 9.85 | 49.26 | 116 | 743 | Will Germany GDP growth in Q3 2026 be between 1.0% and 1 |
-| 8 | 8.88 | 44.39 | 52 | 52 | Will UMich Consumer Sentiment be between 43.0 and 45.9 i |
-| 9 | 8.78 | 43.91 | 183 | 1995 | Will Anna Kelly be the next White House Press Secretary? |
-| 10 | 8.70 | 43.48 | 66 | 370 | Will CZ post 20-39 posts from October 23 to October 30,  |
+| 1 | 22.19 | 110.93 | 124 | 56 | Will the Central Bank of Colombia make no change to the  |
+| 2 | 16.97 | 84.87 | 98 | 154 | Will HLE be number 1 on the end of year Global Power Ran |
+| 3 | 12.09 | 60.45 | 67 | 225 | Will Moonshot be the third-best Code Arena | WebDev AI l |
+| 4 | 11.97 | 59.83 | 79 | 297 | Will no next Israeli Minister of Justice be appointed by |
+| 5 | 11.66 | 58.28 | 124 | 365 | No change in Reserve Bank of Australia's interest rates  |
+| 6 | 11.40 | 56.99 | 129 | 1339 | Will GEN be number 1 on the end of year Global Power Ran |
+| 7 | 11.26 | 56.31 | 68 | 270 | Will Nate Sheppard be the 2026 D1 Rushing Yards Leader? |
+| 8 | 10.66 | 53.31 | 105 | 456 | Will Alphabet be the third-largest company in the world  |
+| 9 | 9.55 | 47.77 | 58 | 109 | Allstate (ALL) Q3 property-liability combined ratio 86%  |
+| 10 | 8.68 | 43.39 | 83 | 292 | Will South Korea GDP growth in Q3 2026 be between 3.0% a |
 
 ## Near-zero (excluded from pilot)
 
-| 1 | 14.60 | 73.00 | Will "Gladiator II" be the top US Netflix movie this wee |
-| 2 | 13.40 | 67.00 | Will Anthropic's IPO valuation be between $1.50T and $1. |
-| 3 | 13.20 | 66.00 | Will "Gladiator II" be the #2 global Netflix movie this  |
-| 4 | 12.40 | 62.00 | Will "Love Is Blind: Boston" be the top US Netflix show  |
-| 5 | 12.00 | 60.00 | Will Lionel Messi finish 5th in the 2026 Ballon d'Or? |
-| 6 | 12.00 | 60.00 | Will Alphabet’s market capitalization be between $3.50T  |
-| 7 | 11.00 | 55.00 | Will "Below: Limited Series" be the top global Netflix s |
-| 8 | 10.32 | 51.60 | Allstate (ALL) Q3 property-liability combined ratio 86%  |
+| 1 | 29.40 | 147.00 | Will Anthropic have the best AI model on LiveBench (Math |
+| 2 | 27.40 | 137.00 | Will the next GPT Terra model (5.7+) be released between |
+| 3 | 26.60 | 133.00 | Will Meta be the third-best Code Arena | WebDev AI lab a |
+| 4 | 24.00 | 120.00 | Will Elon Musk post 1000+ tweets in November 2026? |
+| 5 | 20.80 | 104.00 | Will Meta be the #3 AI Lab at the end of October 2026 (S |
+| 6 | 20.00 | 100.00 | Will "You Seem Pretty Sad for a Girl So in Love - Olivia |
+| 7 | 15.20 | 76.00 | Will the median home value in NYC be less than $445,000  |
+| 8 | 15.20 | 76.00 | Reserve Bank of Australia increases interest rates by 25 |
+| 9 | 14.80 | 74.00 | Will Meta’s market capitalization be between $1.50T and  |
+| 10 | 14.80 | 74.00 | Will Elon Musk post 40-64 tweets from October 26 to Octo |
 
 ## Rewards: actual vs estimated
 
-- ts: `2026-10-24T02:43:34Z`
+- ts: `2026-10-24T18:00:10Z`
 - total actual: $0
 - total estimated: $0
 - ratio: n/a
