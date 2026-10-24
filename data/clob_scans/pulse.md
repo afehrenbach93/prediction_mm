@@ -1,43 +1,41 @@
-# CLOB pulse — 2026-10-23T18:59:14Z
+# CLOB pulse — 2026-10-24T02:43:34Z
 
 - Domain: `https://clob.polymarket.com`
 - Budget: $500
 - Snapshot days on disk: 3
-- Scored: 250  competed: 227  near-zero: 23
+- Scored: 250  competed: 242  near-zero: 8
 - Pilot universe: 0 (provisional: 0)
-- Top-20 competed avg yield: 12.0568%/day (gross)
+- Top-20 competed avg yield: 10.2716%/day (gross)
 
 ## Top competed
 
 | # | yield%/d | est$/d | rate | qual$ | market |
 |---|----------|--------|------|-------|--------|
-| 1 | 28.28 | 141.41 | 200 | 462 | Will Erling Haaland attend the 2026 Ballon d'Or ceremony |
-| 2 | 23.98 | 119.88 | 200 | 266 | Will Ronaldo Nazário attend the 2026 Ballon d'Or ceremon |
-| 3 | 16.53 | 82.63 | 200 | 491 | Viktor Orbán arrested by June 30, 2027? |
-| 4 | 14.84 | 74.22 | 88 | 331 | Will Democratic House incumbents not win in between ten  |
-| 5 | 14.03 | 70.14 | 118 | 329 | Will "La Nieve" from The Black Ball win Best Original So |
-| 6 | 12.44 | 62.21 | 64 | 63 | Will Alibaba be the second-best Chinese AI company at th |
-| 7 | 11.96 | 59.79 | 100 | 258 | Next Fable Model (5.2+) released by October 29, 2026? |
-| 8 | 11.23 | 56.13 | 68 | 114 | Will the median home value in Miami be between $809,000  |
-| 9 | 11.12 | 55.60 | 89 | 316 | Will gemini-4-argon-high be the best AI model on Novembe |
-| 10 | 10.94 | 54.68 | 236 | 1062 | Will there be no next Fable model (5.2+) release by Octo |
+| 1 | 30.37 | 151.85 | 200 | 148 | Will DJ Snake attend the 2026 Ballon d'Or ceremony? |
+| 2 | 21.02 | 105.12 | 200 | 296 | Will Ronaldinho attend the 2026 Ballon d'Or ceremony? |
+| 3 | 20.27 | 101.35 | 200 | 487 | Will Vozinha attend the 2026 Ballon d'Or ceremony? |
+| 4 | 11.70 | 58.49 | 118 | 507 | Will the next Fable model (5.2+) be released on October  |
+| 5 | 11.04 | 55.20 | 95 | 254 | Will the next GPT Terra model (5.7+) be released between |
+| 6 | 10.60 | 53.00 | 53 | 116 | Will Xiaomi have the best Chinese AI model at the end of |
+| 7 | 9.85 | 49.26 | 116 | 743 | Will Germany GDP growth in Q3 2026 be between 1.0% and 1 |
+| 8 | 8.88 | 44.39 | 52 | 52 | Will UMich Consumer Sentiment be between 43.0 and 45.9 i |
+| 9 | 8.78 | 43.91 | 183 | 1995 | Will Anna Kelly be the next White House Press Secretary? |
+| 10 | 8.70 | 43.48 | 66 | 370 | Will CZ post 20-39 posts from October 23 to October 30,  |
 
 ## Near-zero (excluded from pilot)
 
-| 1 | 40.00 | 200.00 | Will Melania Trump win the Nobel Peace Prize in 2027? |
-| 2 | 40.00 | 200.00 | Will Vincent Kompany attend the 2026 Ballon d'Or ceremon |
-| 3 | 40.00 | 200.00 | Will Ronaldinho attend the 2026 Ballon d'Or ceremony? |
-| 4 | 40.00 | 200.00 | Will Michael Olise attend the 2026 Ballon d'Or ceremony? |
-| 5 | 40.00 | 200.00 | Will Luis Enrique attend the 2026 Ballon d'Or ceremony? |
-| 6 | 40.00 | 200.00 | Will Jürgen Klopp attend the 2026 Ballon d'Or ceremony? |
-| 7 | 40.00 | 200.00 | Will Princess Charlene of Monaco attend the 2026 Ballon  |
-| 8 | 40.00 | 200.00 | Will Pep Guardiola attend the 2026 Ballon d'Or ceremony? |
-| 9 | 38.93 | 194.63 | Will Vozinha attend the 2026 Ballon d'Or ceremony? |
-| 10 | 36.81 | 184.05 | Will DJ Snake attend the 2026 Ballon d'Or ceremony? |
+| 1 | 14.60 | 73.00 | Will "Gladiator II" be the top US Netflix movie this wee |
+| 2 | 13.40 | 67.00 | Will Anthropic's IPO valuation be between $1.50T and $1. |
+| 3 | 13.20 | 66.00 | Will "Gladiator II" be the #2 global Netflix movie this  |
+| 4 | 12.40 | 62.00 | Will "Love Is Blind: Boston" be the top US Netflix show  |
+| 5 | 12.00 | 60.00 | Will Lionel Messi finish 5th in the 2026 Ballon d'Or? |
+| 6 | 12.00 | 60.00 | Will Alphabet’s market capitalization be between $3.50T  |
+| 7 | 11.00 | 55.00 | Will "Below: Limited Series" be the top global Netflix s |
+| 8 | 10.32 | 51.60 | Allstate (ALL) Q3 property-liability combined ratio 86%  |
 
 ## Rewards: actual vs estimated
 
-- ts: `2026-10-23T18:59:14Z`
+- ts: `2026-10-24T02:43:34Z`
 - total actual: $0
 - total estimated: $0
 - ratio: n/a
