@@ -1,43 +1,43 @@
-# CLOB pulse — 2026-10-26T02:32:23Z
+# CLOB pulse — 2026-10-26T20:22:40Z
 
 - Domain: `https://clob.polymarket.com`
 - Budget: $500
 - Snapshot days on disk: 3
-- Scored: 250  competed: 238  near-zero: 12
+- Scored: 250  competed: 223  near-zero: 27
 - Pilot universe: 0 (provisional: 0)
-- Top-20 competed avg yield: 11.2979%/day (gross)
+- Top-20 competed avg yield: 10.3697%/day (gross)
 
 ## Top competed
 
 | # | yield%/d | est$/d | rate | qual$ | market |
 |---|----------|--------|------|-------|--------|
-| 1 | 32.17 | 160.84 | 400 | 879 | Pete Hegseth out as Secretary of Defense by December 31? |
-| 2 | 18.27 | 91.36 | 114 | 383 | Will Brazil’s Annual Inflation in 2026 be between 5.00%  |
-| 3 | 14.95 | 74.77 | 130 | 405 | Will Meta be the third-best Math AI lab at the end of Oc |
-| 4 | 13.40 | 67.00 | 96 | 373 | Will Canada's GDP growth rate MoM in August 2026 be betw |
-| 5 | 13.37 | 66.84 | 87 | 89 | Will "Choosin' Texas - Ella Langley" be the Billboard Ho |
-| 6 | 11.70 | 58.52 | 106 | 820 | Will the Bank of Brazil decrease the target for the Seli |
-| 7 | 11.60 | 58.02 | 89 | 731 | Will Canada's GDP growth rate MoM in August 2026 be betw |
-| 8 | 11.31 | 56.55 | 94 | 545 | Will the Bank of Brazil make no change to the target for |
-| 9 | 10.63 | 53.15 | 72 | 282 | Will Rodri finish 4th in the 2026 Ballon d'Or? |
-| 10 | 10.52 | 52.58 | 100 | 573 | Will "You Seem Pretty Sad for a Girl So in Love - Olivia |
+| 1 | 29.21 | 146.04 | 153 | 57 | Will Radomir Saičić win the next Serbia presidential ele |
+| 2 | 16.50 | 82.49 | 180 | 1106 | Will there be no next Fable model (5.2+) release by Octo |
+| 3 | 13.87 | 69.36 | 80 | 167 | Will Elon Musk post 65-89 tweets from October 29 to Octo |
+| 4 | 12.27 | 61.36 | 63 | 68 | Will GPT Astra 6.1+ be released between October 26 and N |
+| 5 | 12.23 | 61.15 | 67 | 84 | Will Target Q3 comparable sales growth be between 3% and |
+| 6 | 12.08 | 60.40 | 80 | 255 | Will Soneium launch a token by December 31, 2026? |
+| 7 | 10.15 | 50.77 | 170 | 458 | Will GEN be number 1 on the end of year Global Power Ran |
+| 8 | 9.98 | 49.92 | 67 | 1187 | Will "Choosin' Texas - Ella Langley" be the Billboard Ho |
+| 9 | 9.38 | 46.92 | 80 | 216 | Will Soneium launch a token by December 31, 2027? |
+| 10 | 9.38 | 46.88 | 52 | 84 | Will Elon Musk post 40-64 tweets from October 29 to Octo |
 
 ## Near-zero (excluded from pilot)
 
-| 1 | 22.60 | 113.00 | Will the Central Bank of Colombia make no change to the  |
-| 2 | 17.40 | 87.00 | Will the Central Bank of Colombia increase the monetary  |
-| 3 | 15.40 | 77.00 | Will Elon Musk post 1000+ tweets in November 2026? |
-| 4 | 11.60 | 58.00 | Will Luiz Inácio Lula da Silva win Brazil, Benjamin Neta |
-| 5 | 11.00 | 55.00 | Will Khamenei post 0-4 posts from October 23 to October  |
-| 6 | 10.80 | 54.00 | Will MrBeast Gaming's next video get between 35 and 40 m |
-| 7 | 10.80 | 54.00 | Will MrBeast Gaming's next video get between 45 and 50 m |
-| 8 | 10.80 | 54.00 | Will MrBeast Gaming's next video get between 50 and 55 m |
-| 9 | 10.80 | 54.00 | Will MrBeast Gaming's next video get 55 million or more  |
-| 10 | 10.40 | 52.00 | Will MrBeast Gaming's next video get between 40 and 45 m |
+| 1 | 40.00 | 200.00 | Gemini Carbon released by November 30, 2026? |
+| 2 | 30.60 | 153.00 | Will Meta be the #3 AI Lab at the end of October 2026 (S |
+| 3 | 20.40 | 102.00 | Will Microsoft be the third-largest company in the world |
+| 4 | 20.00 | 100.00 | Will Pau Cubarsi win the 2026 Golden Boy award? |
+| 5 | 19.00 | 95.00 | Will Alphabet be the third-largest company in the world  |
+| 6 | 18.40 | 92.00 | Alexandria Ocasio-Cortez Democratic nomination odds lead |
+| 7 | 16.20 | 81.00 | Will Alibaba be the second-best Chinese AI company at th |
+| 8 | 16.00 | 80.00 | Will Soneium launch a token by March 31, 2027? |
+| 9 | 16.00 | 80.00 | Will Soneium launch a token by June 30, 2027? |
+| 10 | 13.60 | 68.00 | Will "Housewife - Tate McRae" be the Billboard Hot 100 # |
 
 ## Rewards: actual vs estimated
 
-- ts: `2026-10-26T02:32:23Z`
+- ts: `2026-10-26T20:22:40Z`
 - total actual: $0
 - total estimated: $0
 - ratio: n/a
