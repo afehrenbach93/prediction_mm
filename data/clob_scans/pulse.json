@@ -1,5 +1,5 @@
 {
-  "ts": "2026-10-25T18:17:39Z",
+  "ts": "2026-10-26T02:32:23Z",
   "domain": "https://clob.polymarket.com",
   "budget_usd": 500.0,
   "snapshot_days": 3,
@@ -8,158 +8,158 @@
   "near_zero": 12,
   "pilot_universe": 0,
   "pilot_provisional": 0,
-  "top20_competed_avg_yield_pct": 7.5433,
+  "top20_competed_avg_yield_pct": 11.2979,
   "top10_competed": [
     {
-      "question": "Will NVIDIA be the second-largest company in the world by market cap on October ",
-      "slug": "will-nvidia-be-the-second-largest-company-in-the-world-by-market-cap-on-october-31-2026",
-      "daily_rate": 94.0,
-      "qual_notional": 162.6,
-      "est_daily": 73.2298,
-      "yield_pct": 14.646,
-      "mid": "0.288",
+      "question": "Pete Hegseth out as Secretary of Defense by December 31?",
+      "slug": "pete-hegseth-out-as-secretary-of-defense-by-december-31",
+      "daily_rate": 400.0,
+      "qual_notional": 878.6,
+      "est_daily": 160.8383,
+      "yield_pct": 32.1677,
+      "mid": "0.285",
       "near_zero": false
     },
     {
-      "question": "Will Apple be the second-largest company in the world by market cap on October 3",
-      "slug": "will-apple-be-the-second-largest-company-in-the-world-by-market-cap-on-october-31-2026",
+      "question": "Will Brazil\u2019s Annual Inflation in 2026 be between 5.00% and 5.49%?",
+      "slug": "will-brazils-annual-inflation-in-2026-be-between-5pt00-and-5pt49",
+      "daily_rate": 114.0,
+      "qual_notional": 382.61,
+      "est_daily": 91.3578,
+      "yield_pct": 18.2716,
+      "mid": "0.5205",
+      "near_zero": false
+    },
+    {
+      "question": "Will Meta be the third-best Math AI lab at the end of October 2026?",
+      "slug": "will-meta-be-the-third-best-math-ai-lab-at-the-end-of-october-2026-20260811194841958",
+      "daily_rate": 130.0,
+      "qual_notional": 405.31,
+      "est_daily": 74.7685,
+      "yield_pct": 14.9537,
+      "mid": "0.534",
+      "near_zero": false
+    },
+    {
+      "question": "Will Canada's GDP growth rate MoM in August 2026 be between 0.0% and 0.1%?",
+      "slug": "will-canadas-gdp-growth-rate-mom-in-august-2026-be-between-0pt0-and-0pt1",
+      "daily_rate": 96.0,
+      "qual_notional": 373.42,
+      "est_daily": 67.0021,
+      "yield_pct": 13.4004,
+      "mid": "0.435",
+      "near_zero": false
+    },
+    {
+      "question": "Will \"Choosin' Texas - Ella Langley\" be the Billboard Hot 100 #2 song for the we",
+      "slug": "choosin-texas-ella-langley-billboard-hot-100-2-song-week-of-november-7",
+      "daily_rate": 87.0,
+      "qual_notional": 88.71,
+      "est_daily": 66.8392,
+      "yield_pct": 13.3678,
+      "mid": "0.595",
+      "near_zero": false
+    },
+    {
+      "question": "Will the Bank of Brazil decrease the target for the Selic rate by 25 bps at the ",
+      "slug": "will-the-bank-of-brazil-decrease-the-target-for-the-selic-rate-by-25-bps-at-the-december-meeting-20260918",
       "daily_rate": 106.0,
-      "qual_notional": 467.03,
-      "est_daily": 65.0351,
-      "yield_pct": 13.007,
-      "mid": "0.69",
+      "qual_notional": 820.23,
+      "est_daily": 58.5175,
+      "yield_pct": 11.7035,
+      "mid": "0.515",
       "near_zero": false
     },
     {
-      "question": "Will Eurozone GDP growth in Q3 2026 be between 1.2% and 1.5%?",
-      "slug": "will-eurozone-gdp-growth-in-q3-2026-be-between-1pt2-and-1pt5-20260731151541473",
-      "daily_rate": 63.0,
-      "qual_notional": 112.7,
-      "est_daily": 55.8355,
-      "yield_pct": 11.1671,
-      "mid": "0.166",
+      "question": "Will Canada's GDP growth rate MoM in August 2026 be between 0.2% and 0.3%?",
+      "slug": "will-canadas-gdp-growth-rate-mom-in-august-2026-be-between-0pt2-and-0pt3",
+      "daily_rate": 89.0,
+      "qual_notional": 731.04,
+      "est_daily": 58.0207,
+      "yield_pct": 11.6041,
+      "mid": "0.41",
       "near_zero": false
     },
     {
-      "question": "Will Shadowrocket be #1 Paid App in the US Apple App Store on October 30?",
-      "slug": "will-shadowrocket-be-1-paid-app-in-the-us-apple-app-store-on-october-30",
+      "question": "Will the Bank of Brazil make no change to the target for the Selic rate at the D",
+      "slug": "will-the-bank-of-brazil-make-no-change-to-the-target-for-the-selic-rate-at-the-december-meeting-20260918",
+      "daily_rate": 94.0,
+      "qual_notional": 545.3,
+      "est_daily": 56.5464,
+      "yield_pct": 11.3093,
+      "mid": "0.425",
+      "near_zero": false
+    },
+    {
+      "question": "Will Rodri finish 4th in the 2026 Ballon d'Or?",
+      "slug": "will-rodri-finish-4th-in-the-2026-ballon-d-or-20261019193417541",
+      "daily_rate": 72.0,
+      "qual_notional": 282.21,
+      "est_daily": 53.1515,
+      "yield_pct": 10.6303,
+      "mid": "0.595",
+      "near_zero": false
+    },
+    {
+      "question": "Will \"You Seem Pretty Sad for a Girl So in Love - Olivia Rodrigo\" be the Billboa",
+      "slug": "you-seem-pretty-sad-for-a-girl-so-in-love-olivia-rodrigo-billboard-200-1-album-week-of-november-7",
       "daily_rate": 100.0,
-      "qual_notional": 502.59,
-      "est_daily": 53.415,
-      "yield_pct": 10.683,
+      "qual_notional": 573.31,
+      "est_daily": 52.5776,
+      "yield_pct": 10.5155,
       "mid": "0.77",
-      "near_zero": false
-    },
-    {
-      "question": "Will Elon Musk post 1000+ tweets in November 2026?",
-      "slug": "elon-musk-of-tweets-november-2026-1000plus",
-      "daily_rate": 78.0,
-      "qual_notional": 224.54,
-      "est_daily": 46.3103,
-      "yield_pct": 9.2621,
-      "mid": "0.55",
-      "near_zero": false
-    },
-    {
-      "question": "Will Spilled Milk win Best Live Action Short Film at the 99th Academy Awards?",
-      "slug": "will-spilled-milk-win-best-live-action-short-film-at-the-99th-academy-awards-20261013180153422",
-      "daily_rate": 63.0,
-      "qual_notional": 589.86,
-      "est_daily": 43.2778,
-      "yield_pct": 8.6556,
-      "mid": "0.22",
-      "near_zero": false
-    },
-    {
-      "question": "Will the next GPT Terra model (5.7+) be released between October 26 and November",
-      "slug": "will-the-next-gpt-terra-model-5pt7-be-released-between-october-26-and-november-1-2026",
-      "daily_rate": 59.0,
-      "qual_notional": 288.26,
-      "est_daily": 42.9901,
-      "yield_pct": 8.598,
-      "mid": "0.505",
-      "near_zero": false
-    },
-    {
-      "question": "Mastercard (MA) Q3 cross-border volume growth (local currency basis) 10.5% to 11",
-      "slug": "mastercard-ma-q3-cross-border-volume-growth-local-currency-basis-10pt5-to-11pt5",
-      "daily_rate": 56.0,
-      "qual_notional": 165.31,
-      "est_daily": 39.3238,
-      "yield_pct": 7.8648,
-      "mid": "0.5",
-      "near_zero": false
-    },
-    {
-      "question": "Will \"Housewife - Tate McRae\" be the Billboard Hot 100 #1 song for the week of N",
-      "slug": "housewife-tate-mcrae-billboard-hot-100-1-song-week-of-november-7",
-      "daily_rate": 52.0,
-      "qual_notional": 317.26,
-      "est_daily": 37.4897,
-      "yield_pct": 7.4979,
-      "mid": "0.665",
-      "near_zero": false
-    },
-    {
-      "question": "Will Z.ai be the third-best Math AI lab at the end of October 2026?",
-      "slug": "will-zptai-be-the-third-best-math-ai-lab-at-the-end-of-october-2026-20260811194841955",
-      "daily_rate": 64.0,
-      "qual_notional": 234.08,
-      "est_daily": 35.424,
-      "yield_pct": 7.0848,
-      "mid": "0.2585",
       "near_zero": false
     }
   ],
   "top10_near_zero": [
     {
-      "question": "Will Meta be the third-best Math AI lab at the end of October 2026?",
-      "slug": "will-meta-be-the-third-best-math-ai-lab-at-the-end-of-october-2026-20260811194841958",
-      "daily_rate": 136.0,
+      "question": "Will the Central Bank of Colombia make no change to the monetary policy interest",
+      "slug": "will-the-central-bank-of-colombia-make-no-change-to-the-monetary-policy-interest-rate-at-the-october-meeting",
+      "daily_rate": 113.0,
       "qual_notional": 0.0,
-      "est_daily": 136.0,
-      "yield_pct": 27.2,
-      "mid": "0.4965",
+      "est_daily": 113.0,
+      "yield_pct": 22.6,
+      "mid": "0.415",
       "near_zero": true
     },
     {
-      "question": "Will Eurozone GDP growth in Q3 2026 be between 0.8% and 1.1%?",
-      "slug": "will-eurozone-gdp-growth-in-q3-2026-be-between-0pt8-and-1pt1-20260731151541472",
-      "daily_rate": 117.0,
+      "question": "Will the Central Bank of Colombia increase the monetary policy interest rate by ",
+      "slug": "will-the-central-bank-of-colombia-increase-the-monetary-policy-interest-rate-by-25-bps-at-the-october-meeting",
+      "daily_rate": 87.0,
       "qual_notional": 0.0,
-      "est_daily": 117.0,
-      "yield_pct": 23.4,
-      "mid": "0.66",
+      "est_daily": 87.0,
+      "yield_pct": 17.4,
+      "mid": "0.395",
       "near_zero": true
     },
     {
-      "question": "Will Space Exploration Technologies\u2019 market capitalization be between $1.75T and",
-      "slug": "will-space-exploration-technologies-market-capitalization-be-between-1pt75t-and-2pt00t-at-the-end-of-october-2026",
-      "daily_rate": 67.0,
+      "question": "Will Elon Musk post 1000+ tweets in November 2026?",
+      "slug": "elon-musk-of-tweets-november-2026-1000plus",
+      "daily_rate": 77.0,
       "qual_notional": 0.0,
-      "est_daily": 67.0,
-      "yield_pct": 13.4,
-      "mid": "0.4895",
+      "est_daily": 77.0,
+      "yield_pct": 15.4,
+      "mid": "0.595",
       "near_zero": true
     },
     {
-      "question": "Will CZ post 40-59 posts from October 23 to October 30, 2026?",
-      "slug": "cz-binance-of-tweets-october-23-october-30-2026-40-59",
-      "daily_rate": 56.0,
+      "question": "Will Luiz In\u00e1cio Lula da Silva win Brazil, Benjamin Netanyahu become Israeli PM,",
+      "slug": "will-luiz-inacio-lula-da-silva-win-brazil-benjamin-netanyahu-become-israeli-pm-and-democrats-win-the-us-senate",
+      "daily_rate": 58.0,
       "qual_notional": 0.0,
-      "est_daily": 56.0,
-      "yield_pct": 11.2,
-      "mid": "0.16",
+      "est_daily": 58.0,
+      "yield_pct": 11.6,
+      "mid": "0.1455",
       "near_zero": true
     },
     {
-      "question": "Will the Ornn H200 Index be at least $6.50 on November 30, 2026?",
-      "slug": "will-the-ornn-h200-index-be-at-least-6pt50-on-november-30-2026",
+      "question": "Will Khamenei post 0-4 posts from October 23 to October 30, 2026?",
+      "slug": "khamenei-of-tweets-october-23-october-30-2026-0-4",
       "daily_rate": 55.0,
       "qual_notional": 0.0,
       "est_daily": 55.0,
       "yield_pct": 11.0,
-      "mid": "0.255",
+      "mid": "0.77",
       "near_zero": true
     },
     {
@@ -169,7 +169,7 @@
       "qual_notional": 0.0,
       "est_daily": 54.0,
       "yield_pct": 10.8,
-      "mid": "0.48",
+      "mid": "0.5",
       "near_zero": true
     },
     {
@@ -199,17 +199,17 @@
       "qual_notional": 0.0,
       "est_daily": 54.0,
       "yield_pct": 10.8,
-      "mid": "0.48",
+      "mid": "0.475",
       "near_zero": true
     },
     {
-      "question": "Will the Republican Party win the NJ-02 House seat?",
-      "slug": "will-the-republican-party-win-the-nj-02-house-seat",
+      "question": "Will MrBeast Gaming's next video get between 40 and 45 million views in week 1?",
+      "slug": "will-mrbeast-gamings-next-video-get-between-40-and-45-million-views-in-week-1-20261024",
       "daily_rate": 52.0,
       "qual_notional": 0.0,
       "est_daily": 52.0,
       "yield_pct": 10.4,
-      "mid": "0.59",
+      "mid": "0.5",
       "near_zero": true
     }
   ],
@@ -219,7 +219,7 @@
     "day_csvs": [
       "2026-07-19.csv",
       "2026-07-20.csv",
-      "2026-10-25.csv"
+      "2026-10-26.csv"
     ]
   }
 }
