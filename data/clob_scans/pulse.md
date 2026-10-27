@@ -1,43 +1,43 @@
-# CLOB pulse — 2026-10-27T03:07:14Z
+# CLOB pulse — 2026-10-27T19:57:51Z
 
 - Domain: `https://clob.polymarket.com`
 - Budget: $500
 - Snapshot days on disk: 3
-- Scored: 250  competed: 228  near-zero: 22
+- Scored: 250  competed: 232  near-zero: 18
 - Pilot universe: 0 (provisional: 0)
-- Top-20 competed avg yield: 15.884%/day (gross)
+- Top-20 competed avg yield: 21.8623%/day (gross)
 
 ## Top competed
 
 | # | yield%/d | est$/d | rate | qual$ | market |
 |---|----------|--------|------|-------|--------|
-| 1 | 27.02 | 135.11 | 200 | 114 | Gemini Carbon released by November 15, 2026? |
-| 2 | 22.78 | 113.90 | 124 | 203 | Will voter turnout in the second round of the 2026 Bulga |
-| 3 | 18.89 | 94.46 | 100 | 66 | Will "Ebenezer" score at least 70 on the Rotten Tomatoes |
-| 4 | 18.44 | 92.19 | 96 | 87 | Will María Corina Machado win the next Venezuelan presid |
-| 5 | 17.09 | 85.43 | 100 | 208 | Will "I Play Rocky" score at least 85 on the Rotten Toma |
-| 6 | 16.67 | 83.34 | 200 | 357 | Will Anthropic IPO by November 18, 2026? |
-| 7 | 16.47 | 82.37 | 100 | 56 | Will "Ebenezer" score at least 60 on the Rotten Tomatoes |
-| 8 | 16.34 | 81.71 | 113 | 156 | Will UMich Consumer Sentiment be between 46.0 and 48.9 i |
-| 9 | 15.62 | 78.09 | 200 | 778 | Gemini Carbon released by November 30, 2026? |
-| 10 | 15.48 | 77.39 | 200 | 283 | Trump declassifies new UFO files by November 30? |
+| 1 | 79.20 | 396.02 | 500 | 150 | Flávio Bolsonaro arrested before 2027? |
+| 2 | 43.90 | 219.51 | 758 | 965 | Will Anthropic raise between $115B and $125B in its IPO? |
+| 3 | 41.39 | 206.93 | 341 | 221 | Will Anthropic raise less than $65B in its IPO? |
+| 4 | 38.83 | 194.14 | 200 | 475 | Netanyahu out by March 31, 2027? |
+| 5 | 35.57 | 177.84 | 265 | 223 | Will Anthropic raise at least $135B in its IPO? |
+| 6 | 30.22 | 151.09 | 300 | 500 | Will Trump meet with Flávio Bolsonaro in 2026? |
+| 7 | 23.66 | 118.32 | 833 | 1795 | Will Anthropic raise between $105B and $115B in its IPO? |
+| 8 | 20.69 | 103.45 | 500 | 764 | Will Flávio Bolsonaro return to Brazil by December 31, 2 |
+| 9 | 14.17 | 70.85 | 200 | 887 | Next Astra Model (6.1+) released by November 15, 2026? |
+| 10 | 12.93 | 64.65 | 75 | 798 | Will the median home value in Miami be between $830,000  |
 
 ## Near-zero (excluded from pilot)
 
-| 1 | 40.00 | 200.00 | Will Anthropic IPO by November 17, 2026? |
-| 2 | 36.48 | 182.39 | Gemini Carbon released by October 31, 2026? |
-| 3 | 21.20 | 106.00 | Will Ra'am win exactly 5 seats in the 2026 Knesset elect |
-| 4 | 18.20 | 91.00 | Will Ra'am win exactly 7 seats in the 2026 Knesset elect |
-| 5 | 14.80 | 74.00 | Will Anthropic IPO on November 24, 2026? |
-| 6 | 14.80 | 74.00 | Will Anthropic IPO on November 20, 2026? |
-| 7 | 14.60 | 73.00 | Will "Housewife - Tate McRae" be the Billboard Hot 100 # |
-| 8 | 13.00 | 65.00 | Will Rihanna have the second-greatest number of monthly  |
-| 9 | 12.80 | 64.00 | Will Reservists – New Economic Party win 2.75-3.25% of t |
-| 10 | 12.20 | 61.00 | Will William Contreras win the 2026 World Series MVP? |
+| 1 | 40.00 | 200.00 | US imports Russian diesel by November 2? |
+| 2 | 30.00 | 150.00 | Will Republicans lose the Alaska, Iowa, Kansas, Maine, M |
+| 3 | 29.40 | 147.00 | Will PPI YoY be 6.8% or more in October? |
+| 4 | 20.60 | 103.00 | No change in Reserve Bank of Australia's interest rates  |
+| 5 | 20.40 | 102.00 | Will Google have the third highest OpenRouter market sha |
+| 6 | 20.00 | 100.00 | Will OpenAI’s valuation be between $1.20T and $1.30T at  |
+| 7 | 19.60 | 98.00 | Will OpenAI have the third highest OpenRouter market sha |
+| 8 | 19.40 | 97.00 | Will Yashar win 18-20% of the vote in the 2026 Knesset e |
+| 9 | 19.40 | 97.00 | Reserve Bank of Australia increases interest rates by 25 |
+| 10 | 19.20 | 96.00 | Will "Housewife - Tate McRae" be the Billboard Hot 100 # |
 
 ## Rewards: actual vs estimated
 
-- ts: `2026-10-27T03:07:14Z`
+- ts: `2026-10-27T19:57:51Z`
 - total actual: $0
 - total estimated: $0
 - ratio: n/a
