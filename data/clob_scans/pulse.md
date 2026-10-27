@@ -1,43 +1,43 @@
-# CLOB pulse — 2026-10-26T20:22:40Z
+# CLOB pulse — 2026-10-27T03:07:14Z
 
 - Domain: `https://clob.polymarket.com`
 - Budget: $500
 - Snapshot days on disk: 3
-- Scored: 250  competed: 223  near-zero: 27
+- Scored: 250  competed: 228  near-zero: 22
 - Pilot universe: 0 (provisional: 0)
-- Top-20 competed avg yield: 10.3697%/day (gross)
+- Top-20 competed avg yield: 15.884%/day (gross)
 
 ## Top competed
 
 | # | yield%/d | est$/d | rate | qual$ | market |
 |---|----------|--------|------|-------|--------|
-| 1 | 29.21 | 146.04 | 153 | 57 | Will Radomir Saičić win the next Serbia presidential ele |
-| 2 | 16.50 | 82.49 | 180 | 1106 | Will there be no next Fable model (5.2+) release by Octo |
-| 3 | 13.87 | 69.36 | 80 | 167 | Will Elon Musk post 65-89 tweets from October 29 to Octo |
-| 4 | 12.27 | 61.36 | 63 | 68 | Will GPT Astra 6.1+ be released between October 26 and N |
-| 5 | 12.23 | 61.15 | 67 | 84 | Will Target Q3 comparable sales growth be between 3% and |
-| 6 | 12.08 | 60.40 | 80 | 255 | Will Soneium launch a token by December 31, 2026? |
-| 7 | 10.15 | 50.77 | 170 | 458 | Will GEN be number 1 on the end of year Global Power Ran |
-| 8 | 9.98 | 49.92 | 67 | 1187 | Will "Choosin' Texas - Ella Langley" be the Billboard Ho |
-| 9 | 9.38 | 46.92 | 80 | 216 | Will Soneium launch a token by December 31, 2027? |
-| 10 | 9.38 | 46.88 | 52 | 84 | Will Elon Musk post 40-64 tweets from October 29 to Octo |
+| 1 | 27.02 | 135.11 | 200 | 114 | Gemini Carbon released by November 15, 2026? |
+| 2 | 22.78 | 113.90 | 124 | 203 | Will voter turnout in the second round of the 2026 Bulga |
+| 3 | 18.89 | 94.46 | 100 | 66 | Will "Ebenezer" score at least 70 on the Rotten Tomatoes |
+| 4 | 18.44 | 92.19 | 96 | 87 | Will María Corina Machado win the next Venezuelan presid |
+| 5 | 17.09 | 85.43 | 100 | 208 | Will "I Play Rocky" score at least 85 on the Rotten Toma |
+| 6 | 16.67 | 83.34 | 200 | 357 | Will Anthropic IPO by November 18, 2026? |
+| 7 | 16.47 | 82.37 | 100 | 56 | Will "Ebenezer" score at least 60 on the Rotten Tomatoes |
+| 8 | 16.34 | 81.71 | 113 | 156 | Will UMich Consumer Sentiment be between 46.0 and 48.9 i |
+| 9 | 15.62 | 78.09 | 200 | 778 | Gemini Carbon released by November 30, 2026? |
+| 10 | 15.48 | 77.39 | 200 | 283 | Trump declassifies new UFO files by November 30? |
 
 ## Near-zero (excluded from pilot)
 
-| 1 | 40.00 | 200.00 | Gemini Carbon released by November 30, 2026? |
-| 2 | 30.60 | 153.00 | Will Meta be the #3 AI Lab at the end of October 2026 (S |
-| 3 | 20.40 | 102.00 | Will Microsoft be the third-largest company in the world |
-| 4 | 20.00 | 100.00 | Will Pau Cubarsi win the 2026 Golden Boy award? |
-| 5 | 19.00 | 95.00 | Will Alphabet be the third-largest company in the world  |
-| 6 | 18.40 | 92.00 | Alexandria Ocasio-Cortez Democratic nomination odds lead |
-| 7 | 16.20 | 81.00 | Will Alibaba be the second-best Chinese AI company at th |
-| 8 | 16.00 | 80.00 | Will Soneium launch a token by March 31, 2027? |
-| 9 | 16.00 | 80.00 | Will Soneium launch a token by June 30, 2027? |
-| 10 | 13.60 | 68.00 | Will "Housewife - Tate McRae" be the Billboard Hot 100 # |
+| 1 | 40.00 | 200.00 | Will Anthropic IPO by November 17, 2026? |
+| 2 | 36.48 | 182.39 | Gemini Carbon released by October 31, 2026? |
+| 3 | 21.20 | 106.00 | Will Ra'am win exactly 5 seats in the 2026 Knesset elect |
+| 4 | 18.20 | 91.00 | Will Ra'am win exactly 7 seats in the 2026 Knesset elect |
+| 5 | 14.80 | 74.00 | Will Anthropic IPO on November 24, 2026? |
+| 6 | 14.80 | 74.00 | Will Anthropic IPO on November 20, 2026? |
+| 7 | 14.60 | 73.00 | Will "Housewife - Tate McRae" be the Billboard Hot 100 # |
+| 8 | 13.00 | 65.00 | Will Rihanna have the second-greatest number of monthly  |
+| 9 | 12.80 | 64.00 | Will Reservists – New Economic Party win 2.75-3.25% of t |
+| 10 | 12.20 | 61.00 | Will William Contreras win the 2026 World Series MVP? |
 
 ## Rewards: actual vs estimated
 
-- ts: `2026-10-26T20:22:40Z`
+- ts: `2026-10-27T03:07:14Z`
 - total actual: $0
 - total estimated: $0
 - ratio: n/a
