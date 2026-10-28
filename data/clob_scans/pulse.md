@@ -1,43 +1,43 @@
-# CLOB pulse — 2026-10-28T03:20:34Z
+# CLOB pulse — 2026-10-28T20:09:37Z
 
 - Domain: `https://clob.polymarket.com`
 - Budget: $500
 - Snapshot days on disk: 3
-- Scored: 250  competed: 223  near-zero: 27
+- Scored: 250  competed: 225  near-zero: 25
 - Pilot universe: 0 (provisional: 0)
-- Top-20 competed avg yield: 19.7574%/day (gross)
+- Top-20 competed avg yield: 15.5531%/day (gross)
 
 ## Top competed
 
 | # | yield%/d | est$/d | rate | qual$ | market |
 |---|----------|--------|------|-------|--------|
-| 1 | 40.00 | 199.99 | 200 | 122 | Will Ra'am win exactly 7 seats in the 2026 Knesset elect |
-| 2 | 31.92 | 159.59 | 200 | 83 | Next Fable Model (5.2+) released by November 5, 2026? |
-| 3 | 31.20 | 156.02 | 208 | 248 | Will Anthropic raise less than $65B in its IPO? |
-| 4 | 30.48 | 152.39 | 200 | 302 | Next Fable Model (5.2+) released by November 19, 2026? |
-| 5 | 24.03 | 120.13 | 137 | 68 | Will Reservists – New Economic Party win 2.75-3.25% of t |
-| 6 | 20.70 | 103.49 | 200 | 415 | Exponential Time Hypothesis disproof confirmed by Decemb |
-| 7 | 19.09 | 95.43 | 111 | 202 | Will the Bank of Brazil make no change to the target for |
-| 8 | 19.01 | 95.07 | 500 | 2775 | Netanyahu out by end of 2026? |
-| 9 | 18.53 | 92.63 | 300 | 1260 | Will Trump meet with Flávio Bolsonaro in 2026? |
-| 10 | 18.16 | 90.80 | 200 | 331 | Next Israeli government formed by February 28, 2027? |
+| 1 | 30.81 | 154.07 | 200 | 154 | Will commitments to the 1W public sale exceed $50M? |
+| 2 | 24.95 | 124.77 | 250 | 468 | Will Joint List win 12 or more seats in the 2026 Knesset |
+| 3 | 23.43 | 117.16 | 200 | 298 | Next Israeli government formed by December 31, 2026? |
+| 4 | 19.49 | 97.44 | 200 | 390 | Next Israeli government formed by February 28, 2027? |
+| 5 | 18.43 | 92.17 | 94 | 279 | Will Anthropic be the #3 AI Lab at the end of October 20 |
+| 6 | 16.77 | 83.84 | 100 | 354 | Will Anthropic's market cap be between $1.75T and $2.0T  |
+| 7 | 16.42 | 82.10 | 100 | 137 | Will "You Seem Pretty Sad for a Girl So in Love - Olivia |
+| 8 | 15.47 | 77.37 | 200 | 2829 | Will 1 Fed rate hike happen in 2026? |
+| 9 | 14.31 | 71.57 | 116 | 245 | Will Donald Trump post 200+ Truth Social posts from Octo |
+| 10 | 13.53 | 67.62 | 150 | 462 | Will Likud be in the next Israeli government? |
 
 ## Near-zero (excluded from pilot)
 
-| 1 | 159.80 | 799.00 | Will Anthropic raise between $105B and $115B in its IPO? |
-| 2 | 139.00 | 695.00 | Will Anthropic raise between $85B and $95B in its IPO? |
-| 3 | 118.00 | 590.00 | Will Anthropic raise between $115B and $125B in its IPO? |
-| 4 | 50.00 | 250.00 | Will Joint List win 12 or more seats in the 2026 Knesset |
-| 5 | 40.00 | 200.00 | Israel Election: Arab party and Likud in coalition? |
-| 6 | 39.96 | 199.81 | Next Fable Model (5.2+) released by November 12, 2026? |
-| 7 | 32.20 | 161.00 | Will Yashar win 16-18% of the vote in the 2026 Knesset e |
-| 8 | 32.00 | 160.00 | Will Together win 7-9% of the vote in the 2026 Knesset e |
-| 9 | 31.58 | 157.92 | Will Reservists – New Economic Party win less than 2.75% |
-| 10 | 30.00 | 150.00 | Will Likud be in the next Israeli government? |
+| 1 | 80.00 | 400.00 | Israel Election: Arab party disqualified? |
+| 2 | 80.00 | 400.00 | Israeli Knesset election annulled? |
+| 3 | 53.60 | 268.00 | Will there be no change in Fed interest rates after the  |
+| 4 | 40.00 | 200.00 | US-Iran Hormuz Agreement by December 31? |
+| 5 | 40.00 | 200.00 | Will the Knesset elect a new Speaker by November 13? |
+| 6 | 40.00 | 200.00 | Will the Knesset elect a new Speaker by November 30? |
+| 7 | 40.00 | 200.00 | Will the Knesset elect a new Speaker by November 6? |
+| 8 | 40.00 | 200.00 | Israel Election: Yashar and Likud in coalition? |
+| 9 | 33.55 | 167.75 | Will no next Israeli Minister of Finance be appointed by |
+| 10 | 32.60 | 163.00 | Will "Call of Duty: Modern Warfare 4" be the #1 Steam We |
 
 ## Rewards: actual vs estimated
 
-- ts: `2026-10-28T03:20:34Z`
+- ts: `2026-10-28T20:09:37Z`
 - total actual: $0
 - total estimated: $0
 - ratio: n/a
