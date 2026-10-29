@@ -1,43 +1,43 @@
-# CLOB pulse — 2026-10-28T20:09:37Z
+# CLOB pulse — 2026-10-29T03:44:37Z
 
 - Domain: `https://clob.polymarket.com`
 - Budget: $500
 - Snapshot days on disk: 3
-- Scored: 250  competed: 225  near-zero: 25
+- Scored: 250  competed: 224  near-zero: 26
 - Pilot universe: 0 (provisional: 0)
-- Top-20 competed avg yield: 15.5531%/day (gross)
+- Top-20 competed avg yield: 23.6301%/day (gross)
 
 ## Top competed
 
 | # | yield%/d | est$/d | rate | qual$ | market |
 |---|----------|--------|------|-------|--------|
-| 1 | 30.81 | 154.07 | 200 | 154 | Will commitments to the 1W public sale exceed $50M? |
-| 2 | 24.95 | 124.77 | 250 | 468 | Will Joint List win 12 or more seats in the 2026 Knesset |
-| 3 | 23.43 | 117.16 | 200 | 298 | Next Israeli government formed by December 31, 2026? |
-| 4 | 19.49 | 97.44 | 200 | 390 | Next Israeli government formed by February 28, 2027? |
-| 5 | 18.43 | 92.17 | 94 | 279 | Will Anthropic be the #3 AI Lab at the end of October 20 |
-| 6 | 16.77 | 83.84 | 100 | 354 | Will Anthropic's market cap be between $1.75T and $2.0T  |
-| 7 | 16.42 | 82.10 | 100 | 137 | Will "You Seem Pretty Sad for a Girl So in Love - Olivia |
-| 8 | 15.47 | 77.37 | 200 | 2829 | Will 1 Fed rate hike happen in 2026? |
-| 9 | 14.31 | 71.57 | 116 | 245 | Will Donald Trump post 200+ Truth Social posts from Octo |
-| 10 | 13.53 | 67.62 | 150 | 462 | Will Likud be in the next Israeli government? |
+| 1 | 38.02 | 190.08 | 200 | 55 | Gemini Carbon released by November 11, 2026? |
+| 2 | 36.20 | 180.99 | 200 | 70 | Will GPT Astra 6.1+ debut in the top 20 of the Text Aren |
+| 3 | 35.17 | 175.83 | 200 | 63 | Will GPT Astra 6.1+ debut in the top 10 of the Text Aren |
+| 4 | 31.30 | 156.48 | 200 | 98 | Israel tourism plunges below 40K by January? |
+| 5 | 28.70 | 143.52 | 200 | 247 | Next Fable Model (5.2+) released by November 2, 2026? |
+| 6 | 26.85 | 134.24 | 200 | 146 | Gemini Carbon released by November 4, 2026? |
+| 7 | 26.68 | 133.39 | 250 | 373 | Will Joint List win 12 or more seats in the 2026 Knesset |
+| 8 | 26.59 | 132.94 | 156 | 167 | Will exactly 2 Israeli legislative elections occur befor |
+| 9 | 23.80 | 118.98 | 200 | 406 | Will the next Fable model (5.2+) debut in the top 1 of t |
+| 10 | 21.69 | 108.45 | 200 | 480 | Israel x Iran ceasefire continues through November 3? |
 
 ## Near-zero (excluded from pilot)
 
-| 1 | 80.00 | 400.00 | Israel Election: Arab party disqualified? |
-| 2 | 80.00 | 400.00 | Israeli Knesset election annulled? |
-| 3 | 53.60 | 268.00 | Will there be no change in Fed interest rates after the  |
-| 4 | 40.00 | 200.00 | US-Iran Hormuz Agreement by December 31? |
-| 5 | 40.00 | 200.00 | Will the Knesset elect a new Speaker by November 13? |
-| 6 | 40.00 | 200.00 | Will the Knesset elect a new Speaker by November 30? |
-| 7 | 40.00 | 200.00 | Will the Knesset elect a new Speaker by November 6? |
-| 8 | 40.00 | 200.00 | Israel Election: Yashar and Likud in coalition? |
-| 9 | 33.55 | 167.75 | Will no next Israeli Minister of Finance be appointed by |
-| 10 | 32.60 | 163.00 | Will "Call of Duty: Modern Warfare 4" be the #1 Steam We |
+| 1 | 40.00 | 200.00 | Will Gemini Carbon debut with an HLE-Diamond score of 65 |
+| 2 | 40.00 | 200.00 | Israel x Iran ceasefire continues through December 15? |
+| 3 | 40.00 | 200.00 | Israel x Iran ceasefire continues through November 5? |
+| 4 | 40.00 | 200.00 | Israel x Iran ceasefire continues through November 4? |
+| 5 | 40.00 | 200.00 | Israel x Iran ceasefire continues through November 6? |
+| 6 | 40.00 | 200.00 | Israel x Iran ceasefire continues through November 7? |
+| 7 | 40.00 | 200.00 | Israel x Iran ceasefire continues through November 2? |
+| 8 | 39.77 | 198.85 | Gemini Carbon released by November 6, 2026? |
+| 9 | 39.48 | 197.40 | Gemini Carbon released by November 13, 2026? |
+| 10 | 36.24 | 181.19 | Will GPT Astra 6.1+ debut in the top 5 of the Text Arena |
 
 ## Rewards: actual vs estimated
 
-- ts: `2026-10-28T20:09:37Z`
+- ts: `2026-10-29T03:44:37Z`
 - total actual: $0
 - total estimated: $0
 - ratio: n/a
