@@ -1,214 +1,214 @@
 {
-  "ts": "2026-10-29T20:07:20Z",
+  "ts": "2026-10-30T03:47:09Z",
   "domain": "https://clob.polymarket.com",
   "budget_usd": 500.0,
   "snapshot_days": 3,
   "scored_markets": 250,
-  "competed": 204,
-  "near_zero": 46,
+  "competed": 224,
+  "near_zero": 26,
   "pilot_universe": 0,
   "pilot_provisional": 0,
-  "top20_competed_avg_yield_pct": 24.4576,
+  "top20_competed_avg_yield_pct": 22.633,
   "top10_competed": [
     {
-      "question": "Will Republicans lose the Alaska, Iowa, Kansas, Maine, Michigan, Ohio, and Texas",
-      "slug": "2026-senate-map-r-none",
-      "daily_rate": 2000.0,
-      "qual_notional": 9044.17,
-      "est_daily": 410.6946,
-      "yield_pct": 82.1389,
-      "mid": "0.255",
+      "question": "Trump declares election interference national emergency by December 31?",
+      "slug": "trump-declares-election-interference-national-emergency",
+      "daily_rate": 400.0,
+      "qual_notional": 813.08,
+      "est_daily": 246.0468,
+      "yield_pct": 49.2094,
+      "mid": "0.245",
       "near_zero": false
     },
     {
-      "question": "Will the Democratic Party control the House after the 2028 elections?",
-      "slug": "will-the-democratic-party-control-the-house-after-the-2028-elections",
-      "daily_rate": 279.0,
-      "qual_notional": 55.08,
-      "est_daily": 248.3974,
-      "yield_pct": 49.6795,
-      "mid": "0.54",
-      "near_zero": false
-    },
-    {
-      "question": "Will Republicans win Iowa and Kansas, and lose Alaska, Maine, Michigan, Ohio, an",
-      "slug": "2026-senate-map-r-ia-ks",
-      "daily_rate": 800.0,
-      "qual_notional": 2949.54,
-      "est_daily": 189.0443,
-      "yield_pct": 37.8089,
-      "mid": "0.115",
-      "near_zero": false
-    },
-    {
-      "question": "Israel x Iran ceasefire continues through November 22?",
-      "slug": "israel-x-iran-ceasefire-continues-through-november-22",
+      "question": "Major airlines suspend Ben Gurion flights by November 30, 2026?",
+      "slug": "major-airlines-suspend-ben-gurion-flights-by-november-30-2026",
       "daily_rate": 200.0,
-      "qual_notional": 441.83,
-      "est_daily": 156.6731,
-      "yield_pct": 31.3346,
-      "mid": "0.56",
+      "qual_notional": 203.27,
+      "est_daily": 193.0039,
+      "yield_pct": 38.6008,
+      "mid": "0.23",
       "near_zero": false
     },
     {
-      "question": "Will exactly 1 Israeli legislative election occur before a government is formed?",
-      "slug": "will-exactly-1-israeli-legislative-election-occur-before-a-government-is-formed-20260728195012185",
-      "daily_rate": 293.0,
-      "qual_notional": 913.02,
-      "est_daily": 120.6532,
-      "yield_pct": 24.1306,
-      "mid": "0.505",
+      "question": "US x Iran ceasefire continues through December 31?",
+      "slug": "us-x-iran-ceasefire-continues-through-december-31-20260918",
+      "daily_rate": 400.0,
+      "qual_notional": 2112.62,
+      "est_daily": 188.6881,
+      "yield_pct": 37.7376,
+      "mid": "0.23",
       "near_zero": false
     },
     {
-      "question": "Next Israeli government formed by December 31, 2026?",
-      "slug": "next-israeli-government-formed-by-december-31-2026",
+      "question": "Brazil's top courts strike down oil export tax by June 30, 2027?",
+      "slug": "brazils-top-courts-strike-down-oil-export-tax-by-june-30-2027",
       "daily_rate": 200.0,
-      "qual_notional": 296.89,
-      "est_daily": 116.553,
-      "yield_pct": 23.3106,
-      "mid": "0.285",
+      "qual_notional": 119.5,
+      "est_daily": 166.8651,
+      "yield_pct": 33.373,
+      "mid": "0.165",
       "near_zero": false
     },
     {
-      "question": "Will the Republican Party control the House after the 2028 elections?",
-      "slug": "will-the-republican-party-control-the-house-after-the-2028-elections",
-      "daily_rate": 221.0,
-      "qual_notional": 278.52,
-      "est_daily": 113.4897,
-      "yield_pct": 22.6979,
-      "mid": "0.28",
+      "question": "Will Together be in the next Israeli government?",
+      "slug": "will-together-be-in-the-next-israeli-government",
+      "daily_rate": 150.0,
+      "qual_notional": 96.43,
+      "est_daily": 139.6011,
+      "yield_pct": 27.9202,
+      "mid": "0.2",
       "near_zero": false
-    },
-    {
-      "question": "Will exactly 2 Israeli legislative elections occur before a government is formed",
-      "slug": "will-exactly-2-israeli-legislative-elections-occur-before-a-government-is-formed-20260728195012186",
-      "daily_rate": 207.0,
-      "qual_notional": 2707.87,
-      "est_daily": 106.7296,
-      "yield_pct": 21.3459,
-      "mid": "0.355",
-      "near_zero": false
-    },
-    {
-      "question": "Democratic Senate odds >68% on November 2?",
-      "slug": "democratic-senate-odds-over-68-on-november-2",
-      "daily_rate": 143.0,
-      "qual_notional": 228.78,
-      "est_daily": 103.3922,
-      "yield_pct": 20.6784,
-      "mid": "0.465",
-      "near_zero": false
-    },
-    {
-      "question": "Will Dune: Part Three win Best Production Design at the 99th Academy Awards?",
-      "slug": "will-dune-part-three-win-best-production-design-at-the-99th-academy-awards-20261013180153422",
-      "daily_rate": 102.0,
-      "qual_notional": 161.59,
-      "est_daily": 96.5403,
-      "yield_pct": 19.3081,
-      "mid": "0.285",
-      "near_zero": false
-    }
-  ],
-  "top10_near_zero": [
-    {
-      "question": "Will Gemini Carbon be released between November 9 and November 15, 2026?",
-      "slug": "will-gemini-carbon-be-released-between-november-9-and-november-15-2026",
-      "daily_rate": 342.0,
-      "qual_notional": 0.0,
-      "est_daily": 342.0,
-      "yield_pct": 68.4,
-      "mid": "0.54",
-      "near_zero": true
-    },
-    {
-      "question": "Will Anthropic not IPO by November 30, 2026?",
-      "slug": "will-anthropic-not-ipo-by-november-30-2026",
-      "daily_rate": 218.0,
-      "qual_notional": 0.0,
-      "est_daily": 218.0,
-      "yield_pct": 43.6,
-      "mid": "0.31",
-      "near_zero": true
-    },
-    {
-      "question": "Israel x Iran ceasefire continues through December 15?",
-      "slug": "israel-x-iran-ceasefire-continues-through-december-15",
-      "daily_rate": 200.0,
-      "qual_notional": 0.0,
-      "est_daily": 200.0,
-      "yield_pct": 40.0,
-      "mid": "0.395",
-      "near_zero": true
-    },
-    {
-      "question": "Will Core CPI YoY be 2.6% in October?",
-      "slug": "will-core-cpi-yoy-be-2pt6-in-october-2026",
-      "daily_rate": 179.0,
-      "qual_notional": 0.0,
-      "est_daily": 179.0,
-      "yield_pct": 35.8,
-      "mid": "0.75",
-      "near_zero": true
-    },
-    {
-      "question": "Will \"Call of Duty: Modern Warfare 4\" be the #1 Steam Weekly Top Seller for the ",
-      "slug": "will-call-of-duty-modern-warfare-4-be-the-1-steam-weekly-top-seller-week-of-october-27-2026",
-      "daily_rate": 160.0,
-      "qual_notional": 0.0,
-      "est_daily": 160.0,
-      "yield_pct": 32.0,
-      "mid": "0.565",
-      "near_zero": true
     },
     {
       "question": "Will Yashar be in the next Israeli government?",
       "slug": "will-yashar-be-in-the-next-israeli-government",
       "daily_rate": 150.0,
-      "qual_notional": 0.0,
-      "est_daily": 150.0,
-      "yield_pct": 30.0,
-      "mid": "0.56",
-      "near_zero": true
+      "qual_notional": 113.82,
+      "est_daily": 124.3574,
+      "yield_pct": 24.8715,
+      "mid": "0.45",
+      "near_zero": false
     },
     {
-      "question": "Will no next Israeli Minister of Defense be appointed by February 28, 2027?",
-      "slug": "will-no-next-israeli-minister-of-defense-be-appointed-by-february-28-2027",
-      "daily_rate": 150.0,
-      "qual_notional": 0.0,
-      "est_daily": 150.0,
-      "yield_pct": 30.0,
-      "mid": "0.748",
-      "near_zero": true
+      "question": "Brazil's top courts strike down oil export tax by December 31, 2027?",
+      "slug": "brazils-top-courts-strike-down-oil-export-tax-by-december-31-2027",
+      "daily_rate": 200.0,
+      "qual_notional": 338.37,
+      "est_daily": 108.9868,
+      "yield_pct": 21.7974,
+      "mid": "0.215",
+      "near_zero": false
     },
     {
-      "question": "Will any other company have the best AI model on LiveBench (Mathematics) at the ",
-      "slug": "will-any-other-company-have-the-best-ai-model-on-livebench-mathematics-at-the-end-of-november-2026",
-      "daily_rate": 144.0,
-      "qual_notional": 0.0,
-      "est_daily": 144.0,
-      "yield_pct": 28.8,
-      "mid": "0.575",
-      "near_zero": true
+      "question": "Will Anthropic IPO on November 20, 2026?",
+      "slug": "will-anthropic-ipo-on-november-20-2026",
+      "daily_rate": 136.0,
+      "qual_notional": 261.7,
+      "est_daily": 105.6065,
+      "yield_pct": 21.1213,
+      "mid": "0.21",
+      "near_zero": false
     },
     {
-      "question": "Will Microsoft be the third-largest company in the world by market cap on Decemb",
-      "slug": "will-microsoft-be-the-third-largest-company-in-the-world-by-market-cap-on-december-31-20260806175740603",
-      "daily_rate": 140.0,
-      "qual_notional": 0.0,
-      "est_daily": 140.0,
-      "yield_pct": 28.0,
-      "mid": "0.59",
-      "near_zero": true
+      "question": "Will Kimi K3.1 Pro debut at a score of at least 1470 by June 30, 2027?",
+      "slug": "will-kimi-k3pt1-pro-debut-at-a-score-of-at-least-1470-by-june-30-2027",
+      "daily_rate": 100.0,
+      "qual_notional": 56.17,
+      "est_daily": 100.0,
+      "yield_pct": 20.0,
+      "mid": "0.535",
+      "near_zero": false
     },
     {
       "question": "Will \"Phantom Blade Zero\" be the #1 Steam Weekly Top Seller for the week of Octo",
       "slug": "will-phantom-blade-zero-be-the-1-steam-weekly-top-seller-week-of-october-27-2026",
-      "daily_rate": 140.0,
+      "daily_rate": 150.0,
+      "qual_notional": 127.78,
+      "est_daily": 97.476,
+      "yield_pct": 19.4952,
+      "mid": "0.415",
+      "near_zero": false
+    }
+  ],
+  "top10_near_zero": [
+    {
+      "question": "Major airlines suspend Ben Gurion flights by December 31, 2026?",
+      "slug": "major-airlines-suspend-ben-gurion-flights-by-december-31-2026",
+      "daily_rate": 200.0,
       "qual_notional": 0.0,
-      "est_daily": 140.0,
-      "yield_pct": 28.0,
+      "est_daily": 200.0,
+      "yield_pct": 40.0,
+      "mid": "0.335",
+      "near_zero": true
+    },
+    {
+      "question": "Will Gemini Carbon be released on November 11, 2026?",
+      "slug": "will-gemini-carbon-be-released-on-november-11-2026",
+      "daily_rate": 179.0,
+      "qual_notional": 0.0,
+      "est_daily": 179.0,
+      "yield_pct": 35.8,
+      "mid": "0.3265",
+      "near_zero": true
+    },
+    {
+      "question": "Will God is Shy win Best Animated Short Film at the 99th Academy Awards?",
+      "slug": "will-god-is-shy-win-best-animated-short-film-at-the-99th-academy-awards-20261013180153422",
+      "daily_rate": 131.0,
+      "qual_notional": 0.0,
+      "est_daily": 131.0,
+      "yield_pct": 26.2,
+      "mid": "0.4075",
+      "near_zero": true
+    },
+    {
+      "question": "Will Gemini Carbon be released on November 12, 2026?",
+      "slug": "will-gemini-carbon-be-released-on-november-12-2026",
+      "daily_rate": 103.0,
+      "qual_notional": 0.0,
+      "est_daily": 103.0,
+      "yield_pct": 20.6,
+      "mid": "0.202",
+      "near_zero": true
+    },
+    {
+      "question": "Will Ukraine re-enter Oleshky by December 31, 2026?",
+      "slug": "will-ukraine-re-enter-oleshky-by-december-31-2026",
+      "daily_rate": 100.0,
+      "qual_notional": 0.0,
+      "est_daily": 100.0,
+      "yield_pct": 20.0,
+      "mid": "0.415",
+      "near_zero": true
+    },
+    {
+      "question": "Will the Reserve Bank of New Zealand make no change to the official cash rate at",
+      "slug": "will-the-reserve-bank-of-new-zealand-make-no-change-to-the-official-cash-rate-at-the-february-2027-meeting",
+      "daily_rate": 97.0,
+      "qual_notional": 0.0,
+      "est_daily": 97.0,
+      "yield_pct": 19.4,
+      "mid": "0.55",
+      "near_zero": true
+    },
+    {
+      "question": "Will ISM Services PMI be between 53.0 and 53.9 in October?",
+      "slug": "will-ism-services-pmi-be-between-53pt0-and-53pt9-in-october",
+      "daily_rate": 93.0,
+      "qual_notional": 0.0,
+      "est_daily": 93.0,
+      "yield_pct": 18.6,
+      "mid": "0.52",
+      "near_zero": true
+    },
+    {
+      "question": "Will the Ornn B200 Index be at least $9.00 on November 30, 2026?",
+      "slug": "will-the-ornn-b200-index-be-at-least-9pt00-on-november-30-2026",
+      "daily_rate": 88.0,
+      "qual_notional": 0.0,
+      "est_daily": 88.0,
+      "yield_pct": 17.6,
+      "mid": "0.405",
+      "near_zero": true
+    },
+    {
+      "question": "Will \"Housewife - Tate McRae\" be the Billboard Hot 100 #2 song for the week of N",
+      "slug": "housewife-tate-mcrae-billboard-hot-100-2-song-week-of-november-7",
+      "daily_rate": 81.0,
+      "qual_notional": 0.0,
+      "est_daily": 81.0,
+      "yield_pct": 16.2,
+      "mid": "0.735",
+      "near_zero": true
+    },
+    {
+      "question": "Will the Reserve Bank of New Zealand increase the official cash rate by 25 bps a",
+      "slug": "will-the-reserve-bank-of-new-zealand-increase-the-official-cash-rate-by-25-bps-at-the-february-2027-meeting",
+      "daily_rate": 81.0,
+      "qual_notional": 25.55,
+      "est_daily": 80.5355,
+      "yield_pct": 16.1071,
       "mid": "0.365",
       "near_zero": true
     }
@@ -219,7 +219,7 @@
     "day_csvs": [
       "2026-07-19.csv",
       "2026-07-20.csv",
-      "2026-10-29.csv"
+      "2026-10-30.csv"
     ]
   }
 }
