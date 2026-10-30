@@ -1,43 +1,43 @@
-# CLOB pulse — 2026-10-30T03:47:09Z
+# CLOB pulse — 2026-10-30T19:53:40Z
 
 - Domain: `https://clob.polymarket.com`
 - Budget: $500
 - Snapshot days on disk: 3
-- Scored: 250  competed: 224  near-zero: 26
+- Scored: 250  competed: 200  near-zero: 50
 - Pilot universe: 0 (provisional: 0)
-- Top-20 competed avg yield: 22.633%/day (gross)
+- Top-20 competed avg yield: 15.784%/day (gross)
 
 ## Top competed
 
 | # | yield%/d | est$/d | rate | qual$ | market |
 |---|----------|--------|------|-------|--------|
-| 1 | 49.21 | 246.05 | 400 | 813 | Trump declares election interference national emergency  |
-| 2 | 38.60 | 193.00 | 200 | 203 | Major airlines suspend Ben Gurion flights by November 30 |
-| 3 | 37.74 | 188.69 | 400 | 2113 | US x Iran ceasefire continues through December 31? |
-| 4 | 33.37 | 166.87 | 200 | 120 | Brazil's top courts strike down oil export tax by June 3 |
-| 5 | 27.92 | 139.60 | 150 | 96 | Will Together be in the next Israeli government? |
-| 6 | 24.87 | 124.36 | 150 | 114 | Will Yashar be in the next Israeli government? |
-| 7 | 21.80 | 108.99 | 200 | 338 | Brazil's top courts strike down oil export tax by Decemb |
-| 8 | 21.12 | 105.61 | 136 | 262 | Will Anthropic IPO on November 20, 2026? |
-| 9 | 20.00 | 100.00 | 100 | 56 | Will Kimi K3.1 Pro debut at a score of at least 1470 by  |
-| 10 | 19.50 | 97.48 | 150 | 128 | Will "Phantom Blade Zero" be the #1 Steam Weekly Top Sel |
+| 1 | 33.20 | 166.02 | 180 | 251 | Will no next Israeli Minister of Finance be appointed by |
+| 2 | 32.76 | 163.80 | 250 | 225 | Will Kanye West appear at the 2027 Big Game halftime sho |
+| 3 | 29.60 | 147.99 | 250 | 318 | Will Miley Cyrus appear at the 2027 Big Game halftime sh |
+| 4 | 22.84 | 114.20 | 150 | 134 | Will Shas be in the next Israeli government? |
+| 5 | 22.05 | 110.23 | 150 | 205 | Will Together be in the next Israeli government? |
+| 6 | 19.12 | 95.59 | 150 | 466 | Will The Democrats be in the next Israeli government? |
+| 7 | 16.48 | 82.38 | 150 | 626 | Will RZP-Zehut be in the next Israeli government? |
+| 8 | 16.25 | 81.23 | 200 | 366 | Next Israeli government formed by December 31, 2026? |
+| 9 | 12.86 | 64.30 | 250 | 4532 | Will exactly 2 Israeli legislative elections occur befor |
+| 10 | 12.63 | 63.14 | 100 | 349 | Will Russia capture Bilytske by November 30, 2026? |
 
 ## Near-zero (excluded from pilot)
 
-| 1 | 40.00 | 200.00 | Major airlines suspend Ben Gurion flights by December 31 |
-| 2 | 35.80 | 179.00 | Will Gemini Carbon be released on November 11, 2026? |
-| 3 | 26.20 | 131.00 | Will God is Shy win Best Animated Short Film at the 99th |
-| 4 | 20.60 | 103.00 | Will Gemini Carbon be released on November 12, 2026? |
-| 5 | 20.00 | 100.00 | Will Ukraine re-enter Oleshky by December 31, 2026? |
-| 6 | 19.40 | 97.00 | Will the Reserve Bank of New Zealand make no change to t |
-| 7 | 18.60 | 93.00 | Will ISM Services PMI be between 53.0 and 53.9 in Octobe |
-| 8 | 17.60 | 88.00 | Will the Ornn B200 Index be at least $9.00 on November 3 |
-| 9 | 16.20 | 81.00 | Will "Housewife - Tate McRae" be the Billboard Hot 100 # |
-| 10 | 16.11 | 80.54 | Will the Reserve Bank of New Zealand increase the offici |
+| 1 | 52.00 | 260.00 | Will Gemini Carbon be released on November 11, 2026? |
+| 2 | 31.60 | 158.00 | Will "Call of Duty: Modern Warfare 4" be the #1 Steam We |
+| 3 | 28.40 | 142.00 | Will "Phantom Blade Zero" be the #1 Steam Weekly Top Sel |
+| 4 | 23.40 | 117.00 | Will the Bank of Canada make no change to the target for |
+| 5 | 23.20 | 116.00 | Will the Reserve Bank of Australia make no change to the |
+| 6 | 22.40 | 112.00 | Will the Central Bank of Colombia make no change to the  |
+| 7 | 21.40 | 107.00 | Will the Reserve Bank of New Zealand make no change to t |
+| 8 | 20.00 | 100.00 | Will Ukraine re-enter Uspenivka by December 31? |
+| 9 | 19.40 | 97.00 | Will the Reserve Bank of Australia make no change to the |
+| 10 | 19.20 | 96.00 | Will the Reserve Bank of Australia increase the cash rat |
 
 ## Rewards: actual vs estimated
 
-- ts: `2026-10-30T03:47:09Z`
+- ts: `2026-10-30T19:53:40Z`
 - total actual: $0
 - total estimated: $0
 - ratio: n/a
