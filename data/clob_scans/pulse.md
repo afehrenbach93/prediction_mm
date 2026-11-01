@@ -1,43 +1,43 @@
-# CLOB pulse — 2026-11-01T03:36:00Z
+# CLOB pulse — 2026-11-01T19:26:41Z
 
 - Domain: `https://clob.polymarket.com`
 - Budget: $500
 - Snapshot days on disk: 3
-- Scored: 250  competed: 178  near-zero: 72
+- Scored: 250  competed: 198  near-zero: 52
 - Pilot universe: 0 (provisional: 0)
-- Top-20 competed avg yield: 11.8378%/day (gross)
+- Top-20 competed avg yield: 12.8606%/day (gross)
 
 ## Top competed
 
 | # | yield%/d | est$/d | rate | qual$ | market |
 |---|----------|--------|------|-------|--------|
-| 1 | 20.72 | 103.60 | 140 | 259 | Will the median home value in Miami be between $830,000  |
-| 2 | 18.56 | 92.79 | 100 | 82 | Will Trump meet with Elon Musk by November 30, 2026? |
-| 3 | 16.87 | 84.37 | 100 | 174 | Will Trump speak to Ahmed al-Sharaa by November 30? |
-| 4 | 15.01 | 75.04 | 113 | 180 | Will the ECB increase the deposit facility rate by 25 bp |
-| 5 | 14.77 | 73.87 | 104 | 201 | Will the Swiss National Bank make no change to the SNB p |
-| 6 | 14.01 | 70.04 | 100 | 238 | Will Trump meet with Javier Milei by November 30, 2026? |
-| 7 | 13.42 | 67.08 | 329 | 2223 | Will Gemini Carbon be released between November 9 and No |
-| 8 | 13.03 | 65.15 | 71 | 168 | Will Robinhood be first to list tokenized stocks in the  |
-| 9 | 11.56 | 57.80 | 100 | 403 | Will Trump speak to Ursula von der Leyen by November 30? |
-| 10 | 10.95 | 54.73 | 64 | 248 | Will GPT Astra 6.1+ be released between November 2 and N |
+| 1 | 44.14 | 220.68 | 350 | 286 | Will Gemini Carbon be released between November 9 and No |
+| 2 | 19.14 | 95.69 | 127 | 141 | Will PPI YoY be 6.8% or more in October? |
+| 3 | 17.80 | 89.01 | 100 | 159 | Next Israeli government formed by December 31, 2026? |
+| 4 | 16.19 | 80.95 | 133 | 310 | Will Gemini Carbon be released between November 16 and N |
+| 5 | 13.29 | 66.46 | 95 | 175 | Will BLG be number 1 on the end of year Global Power Ran |
+| 6 | 12.39 | 61.96 | 100 | 316 | Will Trump speak to Friedrich Merz by November 30? |
+| 7 | 11.07 | 55.37 | 132 | 301 | Will there be no next Claude Opus model (5.6+) release b |
+| 8 | 11.01 | 55.04 | 57 | 102 | Will A Derailment win Best Documentary Short Film at the |
+| 9 | 10.48 | 52.38 | 121 | 546 | Will the Bank of Israel make no change to the Bank of Is |
+| 10 | 10.24 | 51.19 | 106 | 525 | Will China’s CPI increase by between 0.7% and 0.8% over  |
 
 ## Near-zero (excluded from pilot)
 
-| 1 | 50.00 | 250.00 | Will Miley Cyrus appear at the 2027 Big Game halftime sh |
-| 2 | 45.40 | 227.00 | Will Gemini Carbon be released on November 11, 2026? |
-| 3 | 40.00 | 200.00 | Will OpenAI have the best Text-to-Image AI at the end of |
-| 4 | 20.20 | 101.00 | Will the Bank of England increase the Bank Rate by 25 bp |
-| 5 | 20.00 | 100.00 | Houthis capture Taiz city by December 31? |
-| 6 | 20.00 | 100.00 | Next Israeli government formed by December 31, 2026? |
-| 7 | 20.00 | 100.00 | Will Trump meet with Joseph Aoun by November 30, 2026? |
-| 8 | 20.00 | 100.00 | Will Trump meet with Sam Altman by November 30, 2026? |
-| 9 | 20.00 | 100.00 | Will Trump speak to Volodymyr Zelenskyy by November 30? |
-| 10 | 20.00 | 100.00 | Will Trump speak to Mohammed bin Salman by November 30? |
+| 1 | 47.80 | 239.00 | Will Gemini Carbon be released on November 10, 2026? |
+| 2 | 32.80 | 164.00 | Will Gemini Carbon be released on November 11, 2026? |
+| 3 | 32.00 | 160.00 | Will Agapito win Best Live Action Short Film at the 99th |
+| 4 | 20.00 | 100.00 | Next Israeli government formed by February 28, 2027? |
+| 5 | 20.00 | 100.00 | Will "You Seem Pretty Sad for a Girl So in Love - Olivia |
+| 6 | 20.00 | 100.00 | Will Trump meet with Sam Altman by November 30, 2026? |
+| 7 | 20.00 | 100.00 | Will Trump speak to Emmanuel Macron by November 30? |
+| 8 | 20.00 | 100.00 | Will Trump speak to Mark Rutte by November 30? |
+| 9 | 20.00 | 100.00 | Will Trump speak to Ahmed al-Sharaa by November 30? |
+| 10 | 20.00 | 100.00 | Will Trump speak to Luiz Inácio Lula da Silva by Novembe |
 
 ## Rewards: actual vs estimated
 
-- ts: `2026-11-01T03:36:00Z`
+- ts: `2026-11-01T19:26:41Z`
 - total actual: $0
 - total estimated: $0
 - ratio: n/a
