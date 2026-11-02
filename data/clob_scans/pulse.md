@@ -1,43 +1,43 @@
-# CLOB pulse — 2026-11-02T03:42:22Z
+# CLOB pulse — 2026-11-02T23:02:06Z
 
 - Domain: `https://clob.polymarket.com`
 - Budget: $500
 - Snapshot days on disk: 3
-- Scored: 250  competed: 200  near-zero: 50
+- Scored: 250  competed: 220  near-zero: 30
 - Pilot universe: 0 (provisional: 0)
-- Top-20 competed avg yield: 10.7666%/day (gross)
+- Top-20 competed avg yield: 16.7222%/day (gross)
 
 ## Top competed
 
 | # | yield%/d | est$/d | rate | qual$ | market |
 |---|----------|--------|------|-------|--------|
-| 1 | 29.27 | 146.37 | 354 | 1262 | Will Gemini Carbon be released between November 9 and No |
-| 2 | 18.49 | 92.44 | 152 | 195 | Will the median home value in Los Angeles Metro be less  |
-| 3 | 15.42 | 77.10 | 100 | 352 | Houthis capture Taiz city by December 31? |
-| 4 | 14.71 | 73.55 | 133 | 391 | Will PPI YoY be 6.8% or more in October? |
-| 5 | 14.57 | 72.86 | 100 | 336 | Will US gas hit $4.40 (High) in November? |
-| 6 | 13.59 | 67.96 | 120 | 462 | Will the Reserve Bank of Australia make no change to the |
-| 7 | 11.61 | 58.04 | 117 | 775 | Will Anthropic IPO on November 20, 2026? |
-| 8 | 11.36 | 56.81 | 58 | 65 | Will "Housewife - Tate McRae" be the #1 song this week? |
-| 9 | 10.85 | 54.27 | 106 | 376 | Will the Swiss National Bank make no change to the SNB p |
-| 10 | 9.82 | 49.08 | 66 | 348 | Will the median home value in the Chicago Metro be betwe |
+| 1 | 52.09 | 260.46 | 276 | 153 | Will Gemini Carbon be released on November 10, 2026? |
+| 2 | 38.34 | 191.68 | 200 | 159 | Will Jason or Lucia die in GTA VI? |
+| 3 | 20.12 | 100.59 | 111 | 265 | Will the Reserve Bank of India increase the policy repo  |
+| 4 | 17.57 | 87.84 | 147 | 931 | Will Microsoft be the third-largest company in the world |
+| 5 | 16.77 | 83.87 | 104 | 140 | Will the ECB make no change to the deposit facility rate |
+| 6 | 16.77 | 83.87 | 129 | 586 | Will Gemini Carbon be released on November 11, 2026? |
+| 7 | 16.23 | 81.15 | 85 | 68 | Will the Reserve Bank of Australia increase the cash rat |
+| 8 | 14.16 | 70.82 | 219 | 1187 | Will Anthropic IPO on November 20, 2026? |
+| 9 | 13.82 | 69.09 | 97 | 334 | Will the median home value in NYC be less than $445,000  |
+| 10 | 13.47 | 67.35 | 300 | 3912 | US x Iran ceasefire continues through November 6? |
 
 ## Near-zero (excluded from pilot)
 
-| 1 | 33.40 | 167.00 | Will Gemini Carbon be released on November 10, 2026? |
-| 2 | 23.40 | 117.00 | Will the Bank of Japan make no change to the uncollatera |
-| 3 | 22.00 | 110.00 | Will the Bank of Canada make no change to the target for |
-| 4 | 20.00 | 100.00 | Will "Choosin' Texas - Ella Langley" be the Billboard Ho |
-| 5 | 20.00 | 100.00 | Will "You Seem Pretty Sad for a Girl So in Love - Olivia |
-| 6 | 20.00 | 100.00 | Will Trump speak to Emmanuel Macron by November 30? |
-| 7 | 20.00 | 100.00 | Will US gas hit $4.45 (High) in November? |
-| 8 | 20.00 | 100.00 | Will US gas hit $4.35 (High) in November? |
-| 9 | 20.00 | 100.00 | Will US gas hit $4.25 (High) in November? |
-| 10 | 20.00 | 100.00 | Will US gas hit $4.30 (High) in November? |
+| 1 | 21.80 | 109.00 | Will the Bank of Canada make no change to the target for |
+| 2 | 21.80 | 109.00 | Will NVIDIA be the largest company in the world by marke |
+| 3 | 20.00 | 100.00 | Will US gas hit $4.30 (High) in November? |
+| 4 | 20.00 | 100.00 | Will US gas hit $4.25 (High) in November? |
+| 5 | 20.00 | 100.00 | Will US gas hit $4.20 (High) in November? |
+| 6 | 20.00 | 100.00 | Will US gas hit $4.05 (Low) in November? |
+| 7 | 18.20 | 91.00 | Will Apple be the largest company in the world by market |
+| 8 | 18.00 | 90.00 | Will China’s CPI increase by between 0.7% and 0.8% over  |
+| 9 | 16.00 | 80.00 | Will Theo launch a token by June 30, 2027? |
+| 10 | 16.00 | 80.00 | Will Dreamcash launch a token by December 31, 2027? |
 
 ## Rewards: actual vs estimated
 
-- ts: `2026-11-02T03:42:22Z`
+- ts: `2026-11-02T23:02:06Z`
 - total actual: $0
 - total estimated: $0
 - ratio: n/a
