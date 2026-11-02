@@ -1,43 +1,43 @@
-# CLOB pulse — 2026-11-01T19:26:41Z
+# CLOB pulse — 2026-11-02T03:42:22Z
 
 - Domain: `https://clob.polymarket.com`
 - Budget: $500
 - Snapshot days on disk: 3
-- Scored: 250  competed: 198  near-zero: 52
+- Scored: 250  competed: 200  near-zero: 50
 - Pilot universe: 0 (provisional: 0)
-- Top-20 competed avg yield: 12.8606%/day (gross)
+- Top-20 competed avg yield: 10.7666%/day (gross)
 
 ## Top competed
 
 | # | yield%/d | est$/d | rate | qual$ | market |
 |---|----------|--------|------|-------|--------|
-| 1 | 44.14 | 220.68 | 350 | 286 | Will Gemini Carbon be released between November 9 and No |
-| 2 | 19.14 | 95.69 | 127 | 141 | Will PPI YoY be 6.8% or more in October? |
-| 3 | 17.80 | 89.01 | 100 | 159 | Next Israeli government formed by December 31, 2026? |
-| 4 | 16.19 | 80.95 | 133 | 310 | Will Gemini Carbon be released between November 16 and N |
-| 5 | 13.29 | 66.46 | 95 | 175 | Will BLG be number 1 on the end of year Global Power Ran |
-| 6 | 12.39 | 61.96 | 100 | 316 | Will Trump speak to Friedrich Merz by November 30? |
-| 7 | 11.07 | 55.37 | 132 | 301 | Will there be no next Claude Opus model (5.6+) release b |
-| 8 | 11.01 | 55.04 | 57 | 102 | Will A Derailment win Best Documentary Short Film at the |
-| 9 | 10.48 | 52.38 | 121 | 546 | Will the Bank of Israel make no change to the Bank of Is |
-| 10 | 10.24 | 51.19 | 106 | 525 | Will China’s CPI increase by between 0.7% and 0.8% over  |
+| 1 | 29.27 | 146.37 | 354 | 1262 | Will Gemini Carbon be released between November 9 and No |
+| 2 | 18.49 | 92.44 | 152 | 195 | Will the median home value in Los Angeles Metro be less  |
+| 3 | 15.42 | 77.10 | 100 | 352 | Houthis capture Taiz city by December 31? |
+| 4 | 14.71 | 73.55 | 133 | 391 | Will PPI YoY be 6.8% or more in October? |
+| 5 | 14.57 | 72.86 | 100 | 336 | Will US gas hit $4.40 (High) in November? |
+| 6 | 13.59 | 67.96 | 120 | 462 | Will the Reserve Bank of Australia make no change to the |
+| 7 | 11.61 | 58.04 | 117 | 775 | Will Anthropic IPO on November 20, 2026? |
+| 8 | 11.36 | 56.81 | 58 | 65 | Will "Housewife - Tate McRae" be the #1 song this week? |
+| 9 | 10.85 | 54.27 | 106 | 376 | Will the Swiss National Bank make no change to the SNB p |
+| 10 | 9.82 | 49.08 | 66 | 348 | Will the median home value in the Chicago Metro be betwe |
 
 ## Near-zero (excluded from pilot)
 
-| 1 | 47.80 | 239.00 | Will Gemini Carbon be released on November 10, 2026? |
-| 2 | 32.80 | 164.00 | Will Gemini Carbon be released on November 11, 2026? |
-| 3 | 32.00 | 160.00 | Will Agapito win Best Live Action Short Film at the 99th |
-| 4 | 20.00 | 100.00 | Next Israeli government formed by February 28, 2027? |
+| 1 | 33.40 | 167.00 | Will Gemini Carbon be released on November 10, 2026? |
+| 2 | 23.40 | 117.00 | Will the Bank of Japan make no change to the uncollatera |
+| 3 | 22.00 | 110.00 | Will the Bank of Canada make no change to the target for |
+| 4 | 20.00 | 100.00 | Will "Choosin' Texas - Ella Langley" be the Billboard Ho |
 | 5 | 20.00 | 100.00 | Will "You Seem Pretty Sad for a Girl So in Love - Olivia |
-| 6 | 20.00 | 100.00 | Will Trump meet with Sam Altman by November 30, 2026? |
-| 7 | 20.00 | 100.00 | Will Trump speak to Emmanuel Macron by November 30? |
-| 8 | 20.00 | 100.00 | Will Trump speak to Mark Rutte by November 30? |
-| 9 | 20.00 | 100.00 | Will Trump speak to Ahmed al-Sharaa by November 30? |
-| 10 | 20.00 | 100.00 | Will Trump speak to Luiz Inácio Lula da Silva by Novembe |
+| 6 | 20.00 | 100.00 | Will Trump speak to Emmanuel Macron by November 30? |
+| 7 | 20.00 | 100.00 | Will US gas hit $4.45 (High) in November? |
+| 8 | 20.00 | 100.00 | Will US gas hit $4.35 (High) in November? |
+| 9 | 20.00 | 100.00 | Will US gas hit $4.25 (High) in November? |
+| 10 | 20.00 | 100.00 | Will US gas hit $4.30 (High) in November? |
 
 ## Rewards: actual vs estimated
 
-- ts: `2026-11-01T19:26:41Z`
+- ts: `2026-11-02T03:42:22Z`
 - total actual: $0
 - total estimated: $0
 - ratio: n/a
