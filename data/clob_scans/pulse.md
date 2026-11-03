@@ -1,43 +1,43 @@
-# CLOB pulse — 2026-11-03T04:46:26Z
+# CLOB pulse — 2026-11-03T20:51:00Z
 
 - Domain: `https://clob.polymarket.com`
 - Budget: $500
 - Snapshot days on disk: 3
-- Scored: 250  competed: 201  near-zero: 49
+- Scored: 250  competed: 203  near-zero: 47
 - Pilot universe: 0 (provisional: 0)
-- Top-20 competed avg yield: 14.9741%/day (gross)
+- Top-20 competed avg yield: 10.674%/day (gross)
 
 ## Top competed
 
 | # | yield%/d | est$/d | rate | qual$ | market |
 |---|----------|--------|------|-------|--------|
-| 1 | 79.21 | 396.03 | 398 | 552 | Will Gemini Carbon be released on November 10, 2026? |
-| 2 | 23.55 | 117.75 | 119 | 125 | Will the ECB increase the deposit facility rate by 25 bp |
-| 3 | 20.46 | 102.30 | 200 | 348 | US-Iran Hormuz Agreement by November 6? |
-| 4 | 18.56 | 92.78 | 200 | 758 | Israel x Iran ceasefire continues through November 22? |
-| 5 | 14.09 | 70.46 | 200 | 300 | Rain during the Brazilian Grand Prix? |
-| 6 | 13.29 | 66.43 | 144 | 541 | Will Anthropic IPO on November 20, 2026? |
-| 7 | 13.20 | 66.02 | 111 | 602 | Will China’s CPI increase by between 0.7% and 0.8% over  |
-| 8 | 12.25 | 61.24 | 113 | 336 | Will Apple be the second-largest company in the world by |
-| 9 | 11.14 | 55.71 | 117 | 551 | Will UMich Consumer Sentiment be between 46.0 and 48.9 i |
-| 10 | 10.07 | 50.33 | 147 | 482 | Will the median home value in Austin Metro be less than  |
+| 1 | 39.52 | 197.58 | 200 | 53 | Next Astra Model (6.1+) released by November 9, 2026? |
+| 2 | 18.28 | 91.42 | 200 | 653 | Next Astra Model (6.1+) released by November 6, 2026? |
+| 3 | 16.90 | 84.51 | 200 | 357 | Next Astra Model (6.1+) released by November 13, 2026? |
+| 4 | 11.68 | 58.39 | 100 | 227 | Will US gas hit $4.30 (High) in November? |
+| 5 | 11.52 | 57.62 | 58 | 79 | Will US GDP growth in Q4 2026 be between 1.5% and 2.0%? |
+| 6 | 9.90 | 49.51 | 63 | 137 | Will Alphabet be the third-largest company in the world  |
+| 7 | 9.26 | 46.28 | 200 | 786 | Next Astra Model (6.1+) released by November 11, 2026? |
+| 8 | 9.09 | 45.46 | 100 | 728 | Will Gemini Carbon be released between November 2 and No |
+| 9 | 8.83 | 44.15 | 50 | 356 | Will Kimi K3.1 Pro debut at a score of at least 1470 by  |
+| 10 | 8.34 | 41.70 | 99 | 844 | Will Anthropic have the #1 AI model at the end of Januar |
 
 ## Near-zero (excluded from pilot)
 
-| 1 | 40.00 | 200.00 | Israeli airspace closed by November 30, 2026? |
-| 2 | 40.00 | 200.00 | Belgium snap election called by December 31? |
-| 3 | 28.20 | 141.00 | Will Revolut have the third highest private market valua |
-| 4 | 26.00 | 130.00 | Callum Turner announced as next James Bond? |
-| 5 | 21.80 | 109.00 | Will Eurozone annual GDP growth in 2026 be between 1.0%  |
-| 6 | 20.00 | 100.00 | Will US gas hit $4.20 (High) in November? |
-| 7 | 20.00 | 100.00 | Will US gas hit $4.05 (Low) in November? |
-| 8 | 18.20 | 91.00 | Will Eurozone annual GDP growth in 2026 be between 0% an |
-| 9 | 18.20 | 91.00 | Will the KMT win the Taipei and New Taipei mayoral elect |
-| 10 | 16.40 | 82.00 | Will Rachel Campos-Duffy be the next White House Press S |
+| 1 | 26.60 | 133.00 | Will the median home value in San Francisco Metro be les |
+| 2 | 23.00 | 115.00 | Will the Swiss National Bank increase the SNB policy rat |
+| 3 | 22.20 | 111.00 | Will Anthropic have the highest private market valuation |
+| 4 | 20.80 | 104.00 | Will Malaysia be the Jury Winner in the Eurovision Asia  |
+| 5 | 20.00 | 100.00 | Will US gas hit $4.20 (High) in November? |
+| 6 | 20.00 | 100.00 | Will US gas hit $3.85 (Low) in November? |
+| 7 | 18.00 | 90.00 | Will Japan Q3 GDP growth (annualized) be between 0.0% an |
+| 8 | 17.80 | 89.00 | Will GPT Astra 6.1+ be released on November 25, 2026? |
+| 9 | 17.60 | 88.00 | Will there be no next Claude Opus model (5.6+) release b |
+| 10 | 16.00 | 80.00 | Will GPT Astra 6.1+ be released on November 6, 2026? |
 
 ## Rewards: actual vs estimated
 
-- ts: `2026-11-03T04:46:26Z`
+- ts: `2026-11-03T20:51:00Z`
 - total actual: $0
 - total estimated: $0
 - ratio: n/a
