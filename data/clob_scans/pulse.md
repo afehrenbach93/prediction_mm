@@ -1,43 +1,43 @@
-# CLOB pulse — 2026-11-02T23:02:06Z
+# CLOB pulse — 2026-11-03T04:46:26Z
 
 - Domain: `https://clob.polymarket.com`
 - Budget: $500
 - Snapshot days on disk: 3
-- Scored: 250  competed: 220  near-zero: 30
+- Scored: 250  competed: 201  near-zero: 49
 - Pilot universe: 0 (provisional: 0)
-- Top-20 competed avg yield: 16.7222%/day (gross)
+- Top-20 competed avg yield: 14.9741%/day (gross)
 
 ## Top competed
 
 | # | yield%/d | est$/d | rate | qual$ | market |
 |---|----------|--------|------|-------|--------|
-| 1 | 52.09 | 260.46 | 276 | 153 | Will Gemini Carbon be released on November 10, 2026? |
-| 2 | 38.34 | 191.68 | 200 | 159 | Will Jason or Lucia die in GTA VI? |
-| 3 | 20.12 | 100.59 | 111 | 265 | Will the Reserve Bank of India increase the policy repo  |
-| 4 | 17.57 | 87.84 | 147 | 931 | Will Microsoft be the third-largest company in the world |
-| 5 | 16.77 | 83.87 | 104 | 140 | Will the ECB make no change to the deposit facility rate |
-| 6 | 16.77 | 83.87 | 129 | 586 | Will Gemini Carbon be released on November 11, 2026? |
-| 7 | 16.23 | 81.15 | 85 | 68 | Will the Reserve Bank of Australia increase the cash rat |
-| 8 | 14.16 | 70.82 | 219 | 1187 | Will Anthropic IPO on November 20, 2026? |
-| 9 | 13.82 | 69.09 | 97 | 334 | Will the median home value in NYC be less than $445,000  |
-| 10 | 13.47 | 67.35 | 300 | 3912 | US x Iran ceasefire continues through November 6? |
+| 1 | 79.21 | 396.03 | 398 | 552 | Will Gemini Carbon be released on November 10, 2026? |
+| 2 | 23.55 | 117.75 | 119 | 125 | Will the ECB increase the deposit facility rate by 25 bp |
+| 3 | 20.46 | 102.30 | 200 | 348 | US-Iran Hormuz Agreement by November 6? |
+| 4 | 18.56 | 92.78 | 200 | 758 | Israel x Iran ceasefire continues through November 22? |
+| 5 | 14.09 | 70.46 | 200 | 300 | Rain during the Brazilian Grand Prix? |
+| 6 | 13.29 | 66.43 | 144 | 541 | Will Anthropic IPO on November 20, 2026? |
+| 7 | 13.20 | 66.02 | 111 | 602 | Will China’s CPI increase by between 0.7% and 0.8% over  |
+| 8 | 12.25 | 61.24 | 113 | 336 | Will Apple be the second-largest company in the world by |
+| 9 | 11.14 | 55.71 | 117 | 551 | Will UMich Consumer Sentiment be between 46.0 and 48.9 i |
+| 10 | 10.07 | 50.33 | 147 | 482 | Will the median home value in Austin Metro be less than  |
 
 ## Near-zero (excluded from pilot)
 
-| 1 | 21.80 | 109.00 | Will the Bank of Canada make no change to the target for |
-| 2 | 21.80 | 109.00 | Will NVIDIA be the largest company in the world by marke |
-| 3 | 20.00 | 100.00 | Will US gas hit $4.30 (High) in November? |
-| 4 | 20.00 | 100.00 | Will US gas hit $4.25 (High) in November? |
-| 5 | 20.00 | 100.00 | Will US gas hit $4.20 (High) in November? |
-| 6 | 20.00 | 100.00 | Will US gas hit $4.05 (Low) in November? |
-| 7 | 18.20 | 91.00 | Will Apple be the largest company in the world by market |
-| 8 | 18.00 | 90.00 | Will China’s CPI increase by between 0.7% and 0.8% over  |
-| 9 | 16.00 | 80.00 | Will Theo launch a token by June 30, 2027? |
-| 10 | 16.00 | 80.00 | Will Dreamcash launch a token by December 31, 2027? |
+| 1 | 40.00 | 200.00 | Israeli airspace closed by November 30, 2026? |
+| 2 | 40.00 | 200.00 | Belgium snap election called by December 31? |
+| 3 | 28.20 | 141.00 | Will Revolut have the third highest private market valua |
+| 4 | 26.00 | 130.00 | Callum Turner announced as next James Bond? |
+| 5 | 21.80 | 109.00 | Will Eurozone annual GDP growth in 2026 be between 1.0%  |
+| 6 | 20.00 | 100.00 | Will US gas hit $4.20 (High) in November? |
+| 7 | 20.00 | 100.00 | Will US gas hit $4.05 (Low) in November? |
+| 8 | 18.20 | 91.00 | Will Eurozone annual GDP growth in 2026 be between 0% an |
+| 9 | 18.20 | 91.00 | Will the KMT win the Taipei and New Taipei mayoral elect |
+| 10 | 16.40 | 82.00 | Will Rachel Campos-Duffy be the next White House Press S |
 
 ## Rewards: actual vs estimated
 
-- ts: `2026-11-02T23:02:06Z`
+- ts: `2026-11-03T04:46:26Z`
 - total actual: $0
 - total estimated: $0
 - ratio: n/a
