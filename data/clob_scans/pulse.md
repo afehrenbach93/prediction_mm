@@ -1,43 +1,43 @@
-# CLOB pulse — 2026-11-04T21:10:22Z
+# CLOB pulse — 2026-11-05T04:30:36Z
 
 - Domain: `https://clob.polymarket.com`
 - Budget: $500
 - Snapshot days on disk: 3
-- Scored: 250  competed: 203  near-zero: 47
+- Scored: 250  competed: 211  near-zero: 39
 - Pilot universe: 0 (provisional: 0)
-- Top-20 competed avg yield: 19.0034%/day (gross)
+- Top-20 competed avg yield: 13.9528%/day (gross)
 
 ## Top competed
 
 | # | yield%/d | est$/d | rate | qual$ | market |
 |---|----------|--------|------|-------|--------|
-| 1 | 48.34 | 241.72 | 265 | 80 | Will Gemini Carbon be released on November 11, 2026? |
-| 2 | 29.97 | 149.86 | 196 | 838 | Will Gemini Carbon be released on November 10, 2026? |
-| 3 | 26.14 | 130.71 | 300 | 784 | Will Trump meet with Flávio Bolsonaro in 2026? |
-| 4 | 24.62 | 123.11 | 200 | 399 | Shapiro's Democratic nomination odds dip to 4% by Decemb |
-| 5 | 23.61 | 118.07 | 200 | 218 | Newsom flips Vance for 2028 president by March 31? |
-| 6 | 22.22 | 111.11 | 130 | 68 | Will GPT Astra 6.1+ be released on November 12, 2026? |
-| 7 | 18.59 | 92.93 | 103 | 167 | Will gemini-4-carbon-high be the best AI model on Novemb |
-| 8 | 17.89 | 89.47 | 100 | 227 | JD Vance 2028 presidential odds leader on November 30? |
-| 9 | 17.70 | 88.51 | 100 | 179 | Will "You Seem Pretty Sad for a Girl So in Love - Olivia |
-| 10 | 16.91 | 84.57 | 107 | 238 | Will the Bank of Brazil make no change to the target for |
+| 1 | 28.31 | 141.54 | 200 | 173 | Will Trump insult Hegseth by December 31? |
+| 2 | 26.37 | 131.85 | 220 | 536 | Will Gemini Carbon be released on November 11, 2026? |
+| 3 | 24.15 | 120.74 | 200 | 2690 | National Guard deployed to election sites by December 31 |
+| 4 | 23.90 | 119.49 | 200 | 406 | Newsom flips Vance for 2028 president by March 31? |
+| 5 | 12.91 | 64.56 | 99 | 276 | Will Donald Trump post 200+ Truth Social posts from Nove |
+| 6 | 12.90 | 64.52 | 71 | 150 | Will Moonshot be the third-best Chinese AI company at th |
+| 7 | 12.56 | 62.82 | 63 | 188 | Will Costa Rica take second place in Miss Universe 2026? |
+| 8 | 11.88 | 59.38 | 71 | 198 | Will GPT Astra 6.1+ be released on November 9, 2026? |
+| 9 | 11.75 | 58.77 | 100 | 1605 | JD Vance 2028 presidential odds leader on November 30? |
+| 10 | 11.55 | 57.75 | 200 | 529 | Next James Bond announced by November 15, 2026? |
 
 ## Near-zero (excluded from pilot)
 
-| 1 | 27.80 | 139.00 | Will the Democratic Party candidate win the 2026 Mississ |
-| 2 | 27.60 | 138.00 | Will the Republican Party candidate win the 2026 Mississ |
-| 3 | 25.20 | 126.00 | Will the Democratic Party candidate win the 2026 Mississ |
-| 4 | 25.13 | 125.65 | Will the Democratic Party candidate win the 2026 Mississ |
-| 5 | 25.00 | 125.00 | Will the median home value in Miami be between $830,000  |
-| 6 | 24.00 | 120.00 | Will South African inflation be greater than 5.0% in 202 |
-| 7 | 22.60 | 113.00 | Will China’s CPI increase by between 0.7% and 0.8% over  |
-| 8 | 21.60 | 108.00 | Will the Bank of Israel make no change to the Bank of Is |
-| 9 | 20.00 | 100.00 | Will "Housewife - Tate McRae" be the Billboard Hot 100 # |
-| 10 | 20.00 | 100.00 | Will US gas hit $3.85 (Low) in November? |
+| 1 | 40.00 | 200.00 | Will OpenAI have the second highest private market valua |
+| 2 | 40.00 | 200.00 | Any member-elect blocked from being sworn in? |
+| 3 | 29.60 | 148.00 | Will there be 3 or more government shutdowns by December |
+| 4 | 25.60 | 128.00 | Will there be exactly 1 government shutdown by December  |
+| 5 | 25.40 | 127.00 | Will Gemini Carbon be released on November 12, 2026? |
+| 6 | 20.00 | 100.00 | Will US gas hit $3.85 (Low) in November? |
+| 7 | 20.00 | 100.00 | Jon Ossoff Democratic nomination odds leader on November |
+| 8 | 20.00 | 100.00 | Will US gas hit $4.15 (High) in November? |
+| 9 | 18.40 | 92.00 | Will the Bank of Japan increase the uncollateralized ove |
+| 10 | 17.80 | 89.00 | Will Canada’s 2026 inflation be between 3.0% and 3.4%? |
 
 ## Rewards: actual vs estimated
 
-- ts: `2026-11-04T21:10:22Z`
+- ts: `2026-11-05T04:30:36Z`
 - total actual: $0
 - total estimated: $0
 - ratio: n/a
