@@ -1,43 +1,43 @@
-# CLOB pulse — 2026-11-05T04:30:36Z
+# CLOB pulse — 2026-11-05T21:24:38Z
 
 - Domain: `https://clob.polymarket.com`
 - Budget: $500
 - Snapshot days on disk: 3
-- Scored: 250  competed: 211  near-zero: 39
+- Scored: 250  competed: 199  near-zero: 51
 - Pilot universe: 0 (provisional: 0)
-- Top-20 competed avg yield: 13.9528%/day (gross)
+- Top-20 competed avg yield: 22.3479%/day (gross)
 
 ## Top competed
 
 | # | yield%/d | est$/d | rate | qual$ | market |
 |---|----------|--------|------|-------|--------|
-| 1 | 28.31 | 141.54 | 200 | 173 | Will Trump insult Hegseth by December 31? |
-| 2 | 26.37 | 131.85 | 220 | 536 | Will Gemini Carbon be released on November 11, 2026? |
-| 3 | 24.15 | 120.74 | 200 | 2690 | National Guard deployed to election sites by December 31 |
-| 4 | 23.90 | 119.49 | 200 | 406 | Newsom flips Vance for 2028 president by March 31? |
-| 5 | 12.91 | 64.56 | 99 | 276 | Will Donald Trump post 200+ Truth Social posts from Nove |
-| 6 | 12.90 | 64.52 | 71 | 150 | Will Moonshot be the third-best Chinese AI company at th |
-| 7 | 12.56 | 62.82 | 63 | 188 | Will Costa Rica take second place in Miss Universe 2026? |
-| 8 | 11.88 | 59.38 | 71 | 198 | Will GPT Astra 6.1+ be released on November 9, 2026? |
-| 9 | 11.75 | 58.77 | 100 | 1605 | JD Vance 2028 presidential odds leader on November 30? |
-| 10 | 11.55 | 57.75 | 200 | 529 | Next James Bond announced by November 15, 2026? |
+| 1 | 139.63 | 698.16 | 700 | 90 | Will Kai Cenat finish his GTA marathon by November 10? |
+| 2 | 31.97 | 159.86 | 500 | 1442 | AI bubble burst in 2026? |
+| 3 | 30.24 | 151.20 | 500 | 1516 | AI bubble burst by June 30, 2027? |
+| 4 | 24.78 | 123.92 | 126 | 105 | Will UMich Consumer Sentiment be between 46.0 and 48.9 i |
+| 5 | 22.80 | 113.98 | 200 | 1020 | Marco Rubio out as Secretary of State by December 31, 20 |
+| 6 | 18.75 | 93.76 | 135 | 336 | Will GPT Astra 6.1+ be released between November 9 and N |
+| 7 | 17.77 | 88.87 | 92 | 202 | Will no Israeli government be formed after the 2026 Knes |
+| 8 | 17.20 | 86.00 | 86 | 153 | Will the Fed increase interest rates by 25 bps after the |
+| 9 | 16.40 | 82.00 | 84 | 319 | Will exactly 2 Israeli legislative elections occur befor |
+| 10 | 15.97 | 79.83 | 284 | 780 | Will Anthropic not IPO by November 30, 2026? |
 
 ## Near-zero (excluded from pilot)
 
-| 1 | 40.00 | 200.00 | Will OpenAI have the second highest private market valua |
-| 2 | 40.00 | 200.00 | Any member-elect blocked from being sworn in? |
-| 3 | 29.60 | 148.00 | Will there be 3 or more government shutdowns by December |
-| 4 | 25.60 | 128.00 | Will there be exactly 1 government shutdown by December  |
-| 5 | 25.40 | 127.00 | Will Gemini Carbon be released on November 12, 2026? |
-| 6 | 20.00 | 100.00 | Will US gas hit $3.85 (Low) in November? |
-| 7 | 20.00 | 100.00 | Jon Ossoff Democratic nomination odds leader on November |
-| 8 | 20.00 | 100.00 | Will US gas hit $4.15 (High) in November? |
-| 9 | 18.40 | 92.00 | Will the Bank of Japan increase the uncollateralized ove |
-| 10 | 17.80 | 89.00 | Will Canada’s 2026 inflation be between 3.0% and 3.4%? |
+| 1 | 100.00 | 500.00 | Will Kai Cenat finish his GTA marathon by November 12? |
+| 2 | 57.40 | 287.00 | Will Gemini Carbon be released on November 10, 2026? |
+| 3 | 40.00 | 200.00 | Marco Rubio out as Secretary of State by November 30, 20 |
+| 4 | 40.00 | 200.00 | Will Kai Cenat finish his GTA marathon by November 14? |
+| 5 | 34.60 | 173.00 | Will Core CPI YoY be 2.6% in October? |
+| 6 | 34.40 | 172.00 | Will Gemini Carbon be released on November 11, 2026? |
+| 7 | 28.60 | 143.00 | Will Anthropic raise between $75B and $85B in its IPO? |
+| 8 | 24.80 | 124.00 | Will Google have the best Image-to-Video AI at the end o |
+| 9 | 21.00 | 105.00 | Will NVIDIA be the second-largest company in the world b |
+| 10 | 20.80 | 104.00 | Will the DPP win the Taipei and New Taipei mayoral elect |
 
 ## Rewards: actual vs estimated
 
-- ts: `2026-11-05T04:30:36Z`
+- ts: `2026-11-05T21:24:38Z`
 - total actual: $0
 - total estimated: $0
 - ratio: n/a
