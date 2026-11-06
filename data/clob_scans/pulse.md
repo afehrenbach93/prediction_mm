@@ -1,43 +1,43 @@
-# CLOB pulse — 2026-11-05T21:24:38Z
+# CLOB pulse — 2026-11-06T04:29:10Z
 
 - Domain: `https://clob.polymarket.com`
 - Budget: $500
 - Snapshot days on disk: 3
-- Scored: 250  competed: 199  near-zero: 51
+- Scored: 250  competed: 227  near-zero: 23
 - Pilot universe: 0 (provisional: 0)
-- Top-20 competed avg yield: 22.3479%/day (gross)
+- Top-20 competed avg yield: 16.7847%/day (gross)
 
 ## Top competed
 
 | # | yield%/d | est$/d | rate | qual$ | market |
 |---|----------|--------|------|-------|--------|
-| 1 | 139.63 | 698.16 | 700 | 90 | Will Kai Cenat finish his GTA marathon by November 10? |
-| 2 | 31.97 | 159.86 | 500 | 1442 | AI bubble burst in 2026? |
-| 3 | 30.24 | 151.20 | 500 | 1516 | AI bubble burst by June 30, 2027? |
-| 4 | 24.78 | 123.92 | 126 | 105 | Will UMich Consumer Sentiment be between 46.0 and 48.9 i |
-| 5 | 22.80 | 113.98 | 200 | 1020 | Marco Rubio out as Secretary of State by December 31, 20 |
-| 6 | 18.75 | 93.76 | 135 | 336 | Will GPT Astra 6.1+ be released between November 9 and N |
-| 7 | 17.77 | 88.87 | 92 | 202 | Will no Israeli government be formed after the 2026 Knes |
-| 8 | 17.20 | 86.00 | 86 | 153 | Will the Fed increase interest rates by 25 bps after the |
-| 9 | 16.40 | 82.00 | 84 | 319 | Will exactly 2 Israeli legislative elections occur befor |
-| 10 | 15.97 | 79.83 | 284 | 780 | Will Anthropic not IPO by November 30, 2026? |
+| 1 | 43.82 | 219.08 | 241 | 86 | 270-274 votes for Hakeem Jeffries to be Speaker on first |
+| 2 | 33.94 | 169.68 | 250 | 507 | Will GPT Astra 6.1+ be released on November 12, 2026? |
+| 3 | 22.85 | 114.25 | 500 | 721 | Will Kai Cenat finish his GTA marathon by November 10? |
+| 4 | 21.69 | 108.47 | 110 | 71 | Will there be no next Claude Opus model (5.6+) release b |
+| 5 | 19.88 | 99.39 | 179 | 361 | Will there be no GPT Astra 6.1+ release by November 30,  |
+| 6 | 18.77 | 93.83 | 121 | 382 | Reserve Bank of New Zealand increases interest rates by  |
+| 7 | 17.74 | 88.69 | 100 | 90 | Will Brazil’s Annual Inflation in 2026 be between 5.50%  |
+| 8 | 17.01 | 85.05 | 95 | 260 | 255-259 votes for Hakeem Jeffries to be Speaker on first |
+| 9 | 15.27 | 76.34 | 200 | 535 | Will Kai Cenat finish his GTA marathon by November 14? |
+| 10 | 14.86 | 74.31 | 76 | 94 | Will GPT Astra 6.1+ be released between November 9 and N |
 
 ## Near-zero (excluded from pilot)
 
-| 1 | 100.00 | 500.00 | Will Kai Cenat finish his GTA marathon by November 12? |
-| 2 | 57.40 | 287.00 | Will Gemini Carbon be released on November 10, 2026? |
-| 3 | 40.00 | 200.00 | Marco Rubio out as Secretary of State by November 30, 20 |
-| 4 | 40.00 | 200.00 | Will Kai Cenat finish his GTA marathon by November 14? |
-| 5 | 34.60 | 173.00 | Will Core CPI YoY be 2.6% in October? |
-| 6 | 34.40 | 172.00 | Will Gemini Carbon be released on November 11, 2026? |
-| 7 | 28.60 | 143.00 | Will Anthropic raise between $75B and $85B in its IPO? |
-| 8 | 24.80 | 124.00 | Will Google have the best Image-to-Video AI at the end o |
-| 9 | 21.00 | 105.00 | Will NVIDIA be the second-largest company in the world b |
-| 10 | 20.80 | 104.00 | Will the DPP win the Taipei and New Taipei mayoral elect |
+| 1 | 26.80 | 134.00 | Will Anthropic raise between $75B and $85B in its IPO? |
+| 2 | 21.40 | 107.00 | Will the Bank of Korea make no change to the base rate a |
+| 3 | 18.20 | 91.00 | Will Bolivia take second place in Miss Universe 2026? |
+| 4 | 17.60 | 88.00 | Will The Birthday Gift win Best Live Action Short Film a |
+| 5 | 16.40 | 82.00 | Will UK annual inflation be between 3.7% and 3.9% in Oct |
+| 6 | 14.80 | 74.00 | Walmart (WMT) Q3 US comp sales (ex-fuel) growth 2.5% to  |
+| 7 | 14.60 | 73.00 | Will the Bank of Israel decrease the Bank of Israel Inte |
+| 8 | 14.20 | 71.00 | Will the Ornn H200 Index be between $7.00 and $7.50 on D |
+| 9 | 14.20 | 71.00 | Will Anthropic's initial public offering occur in Novemb |
+| 10 | 13.80 | 69.00 | Will Portugal take second place in Miss Universe 2026? |
 
 ## Rewards: actual vs estimated
 
-- ts: `2026-11-05T21:24:38Z`
+- ts: `2026-11-06T04:29:10Z`
 - total actual: $0
 - total estimated: $0
 - ratio: n/a
