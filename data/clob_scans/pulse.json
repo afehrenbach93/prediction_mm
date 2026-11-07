@@ -1,187 +1,117 @@
 {
-  "ts": "2026-11-06T20:46:22Z",
+  "ts": "2026-11-07T03:56:02Z",
   "domain": "https://clob.polymarket.com",
   "budget_usd": 500.0,
   "snapshot_days": 3,
   "scored_markets": 250,
-  "competed": 203,
-  "near_zero": 47,
+  "competed": 212,
+  "near_zero": 38,
   "pilot_universe": 0,
   "pilot_provisional": 0,
-  "top20_competed_avg_yield_pct": 19.0454,
+  "top20_competed_avg_yield_pct": 21.7238,
   "top10_competed": [
     {
       "question": "Will Kai Cenat finish his GTA marathon by November 11?",
       "slug": "will-kai-cenat-finish-his-gta-marathon-by-november-11",
       "daily_rate": 500.0,
-      "qual_notional": 106.75,
-      "est_daily": 417.9361,
-      "yield_pct": 83.5872,
-      "mid": "0.305",
-      "near_zero": false
-    },
-    {
-      "question": "Will Kai Cenat finish his GTA marathon by November 13?",
-      "slug": "will-kai-cenat-finish-his-gta-marathon-by-november-13",
-      "daily_rate": 500.0,
-      "qual_notional": 654.06,
-      "est_daily": 180.6058,
-      "yield_pct": 36.1212,
-      "mid": "0.63",
-      "near_zero": false
-    },
-    {
-      "question": "Will \"FRESH\" first week sales be at least 120k?",
-      "slug": "will-fresh-first-week-sales-be-at-least-120k",
-      "daily_rate": 200.0,
-      "qual_notional": 155.99,
-      "est_daily": 145.0684,
-      "yield_pct": 29.0137,
-      "mid": "0.505",
-      "near_zero": false
-    },
-    {
-      "question": "Next Astra Model (6.1+) released by November 12, 2026?",
-      "slug": "next-astra-model-6pt1-released-by-november-12-2026",
-      "daily_rate": 200.0,
-      "qual_notional": 263.08,
-      "est_daily": 102.4019,
-      "yield_pct": 20.4804,
+      "qual_notional": 830.76,
+      "est_daily": 369.6472,
+      "yield_pct": 73.9294,
       "mid": "0.46",
       "near_zero": false
-    },
-    {
-      "question": "Will Kai Cenat finish his GTA marathon by November 14?",
-      "slug": "will-kai-cenat-finish-his-gta-marathon-by-november-14-20261105",
-      "daily_rate": 200.0,
-      "qual_notional": 1939.33,
-      "est_daily": 95.8835,
-      "yield_pct": 19.1767,
-      "mid": "0.74",
-      "near_zero": false
-    },
-    {
-      "question": "Will Hy4 debut at a score of at least 1480 by June 30, 2027?",
-      "slug": "will-hy4-debut-at-a-score-of-at-least-1480-by-june-30-2027",
-      "daily_rate": 200.0,
-      "qual_notional": 242.16,
-      "est_daily": 95.5483,
-      "yield_pct": 19.1097,
-      "mid": "0.195",
-      "near_zero": false
-    },
-    {
-      "question": "Will another result occur for the next governing coalition of Israel?",
-      "slug": "will-another-coalition-form-the-next-israeli-government",
-      "daily_rate": 131.0,
-      "qual_notional": 525.19,
-      "est_daily": 89.8113,
-      "yield_pct": 17.9623,
-      "mid": "0.575",
-      "near_zero": false
-    },
-    {
-      "question": "Will the Bank of Canada make no change to the target for the overnight rate at t",
-      "slug": "will-the-bank-of-canada-make-no-change-to-the-target-for-the-overnight-rate-at-the-march-2027-interest-rate-announcement",
-      "daily_rate": 95.0,
-      "qual_notional": 68.4,
-      "est_daily": 89.5551,
-      "yield_pct": 17.911,
-      "mid": "0.57",
-      "near_zero": false
-    },
-    {
-      "question": "Will there be no next Meta Muse Spark model release by November 30, 2026?",
-      "slug": "will-there-be-no-next-meta-muse-spark-model-release-by-november-30-2026",
-      "daily_rate": 121.0,
-      "qual_notional": 222.09,
-      "est_daily": 89.5294,
-      "yield_pct": 17.9059,
-      "mid": "0.45",
-      "near_zero": false
-    },
-    {
-      "question": "Will UMich Consumer Sentiment be between 46.0 and 48.9 in November?",
-      "slug": "will-umich-consumer-sentiment-be-between-46pt0-and-48pt9-in-november-2026",
-      "daily_rate": 90.0,
-      "qual_notional": 59.37,
-      "est_daily": 86.8353,
-      "yield_pct": 17.3671,
-      "mid": "0.41",
-      "near_zero": false
-    }
-  ],
-  "top10_near_zero": [
-    {
-      "question": "Will \"FRESH\" first week sales be at least 60k?",
-      "slug": "will-fresh-first-week-sales-be-at-least-60k",
-      "daily_rate": 200.0,
-      "qual_notional": 0.0,
-      "est_daily": 200.0,
-      "yield_pct": 40.0,
-      "mid": "0.49",
-      "near_zero": true
-    },
-    {
-      "question": "Will \"FRESH\" first week sales be at least 80k?",
-      "slug": "will-fresh-first-week-sales-be-at-least-80k",
-      "daily_rate": 200.0,
-      "qual_notional": 0.0,
-      "est_daily": 200.0,
-      "yield_pct": 40.0,
-      "mid": "0.585",
-      "near_zero": true
-    },
-    {
-      "question": "Will \"FRESH\" first week sales be at least 100k?",
-      "slug": "will-fresh-first-week-sales-be-at-least-100k",
-      "daily_rate": 200.0,
-      "qual_notional": 0.0,
-      "est_daily": 200.0,
-      "yield_pct": 40.0,
-      "mid": "0.735",
-      "near_zero": true
-    },
-    {
-      "question": "Next Alibaba Qwen Max (3.9+) released by November 9, 2026?",
-      "slug": "next-alibaba-qwen-max-3pt9-released-by-november-9-2026",
-      "daily_rate": 200.0,
-      "qual_notional": 0.0,
-      "est_daily": 200.0,
-      "yield_pct": 40.0,
-      "mid": "0.495",
-      "near_zero": true
-    },
-    {
-      "question": "Next Alibaba Qwen Max (3.9+) released by November 13, 2026?",
-      "slug": "next-alibaba-qwen-max-3pt9-released-by-november-13-2026",
-      "daily_rate": 200.0,
-      "qual_notional": 0.0,
-      "est_daily": 200.0,
-      "yield_pct": 40.0,
-      "mid": "0.51",
-      "near_zero": true
     },
     {
       "question": "Next Alibaba Qwen Max (3.9+) released by November 11, 2026?",
       "slug": "next-alibaba-qwen-max-3pt9-released-by-november-11-2026",
       "daily_rate": 200.0,
-      "qual_notional": 0.0,
-      "est_daily": 200.0,
-      "yield_pct": 40.0,
-      "mid": "0.505",
-      "near_zero": true
+      "qual_notional": 236.81,
+      "est_daily": 189.1411,
+      "yield_pct": 37.8282,
+      "mid": "0.73",
+      "near_zero": false
+    },
+    {
+      "question": "Will \"FRESH\" first week sales be at least 100k?",
+      "slug": "will-fresh-first-week-sales-be-at-least-100k",
+      "daily_rate": 200.0,
+      "qual_notional": 112.12,
+      "est_daily": 178.6283,
+      "yield_pct": 35.7257,
+      "mid": "0.575",
+      "near_zero": false
+    },
+    {
+      "question": "Gemini Carbon released by November 10, 2026?",
+      "slug": "gemini-carbon-released-by-november-10-2026-20261026",
+      "daily_rate": 200.0,
+      "qual_notional": 328.57,
+      "est_daily": 125.383,
+      "yield_pct": 25.0766,
+      "mid": "0.33",
+      "near_zero": false
+    },
+    {
+      "question": "Next Alibaba Qwen Max (3.9+) released by November 13, 2026?",
+      "slug": "next-alibaba-qwen-max-3pt9-released-by-november-13-2026",
+      "daily_rate": 200.0,
+      "qual_notional": 378.02,
+      "est_daily": 124.1625,
+      "yield_pct": 24.8325,
+      "mid": "0.76",
+      "near_zero": false
+    },
+    {
+      "question": "Will Kai Cenat finish his GTA marathon by November 10?",
+      "slug": "will-kai-cenat-finish-his-gta-marathon-by-november-10-20261105",
+      "daily_rate": 300.0,
+      "qual_notional": 1666.4,
+      "est_daily": 122.1061,
+      "yield_pct": 24.4212,
+      "mid": "0.21",
+      "near_zero": false
+    },
+    {
+      "question": "Will the Ornn B200 Index be at least $10.00 on December 31, 2026?",
+      "slug": "will-the-ornn-b200-index-be-at-least-10pt00-on-december-31-2026",
+      "daily_rate": 117.0,
+      "qual_notional": 53.21,
+      "est_daily": 115.8619,
+      "yield_pct": 23.1724,
+      "mid": "0.25",
+      "near_zero": false
+    },
+    {
+      "question": "Will Brazil's Q3 2026 GDP growth rate (QoQ) be less than -0.3%?",
+      "slug": "will-brazils-q3-2026-gdp-growth-rate-qoq-be-less-than-negative-0pt3",
+      "daily_rate": 114.0,
+      "qual_notional": 199.95,
+      "est_daily": 109.1861,
+      "yield_pct": 21.8372,
+      "mid": "0.465",
+      "near_zero": false
     },
     {
       "question": "Will Hy4 debut at a score of at least 1460 by June 30, 2027?",
       "slug": "will-hy4-debut-at-a-score-of-at-least-1460-by-june-30-2027",
       "daily_rate": 200.0,
-      "qual_notional": 0.0,
-      "est_daily": 200.0,
-      "yield_pct": 40.0,
-      "mid": "0.41",
-      "near_zero": true
+      "qual_notional": 531.71,
+      "est_daily": 100.3716,
+      "yield_pct": 20.0743,
+      "mid": "0.535",
+      "near_zero": false
     },
+    {
+      "question": "Will world GDP growth be 3.2% in 2026?",
+      "slug": "will-world-gdp-growth-be-3pt2-in-2026",
+      "daily_rate": 96.0,
+      "qual_notional": 70.35,
+      "est_daily": 94.2536,
+      "yield_pct": 18.8507,
+      "mid": "0.335",
+      "near_zero": false
+    }
+  ],
+  "top10_near_zero": [
     {
       "question": "Democratic 2028 presidential odds dip to 60% by March 31?",
       "slug": "democratic-2028-presidential-odds-dip-to-60-by-march-31",
@@ -189,27 +119,97 @@
       "qual_notional": 0.0,
       "est_daily": 200.0,
       "yield_pct": 40.0,
-      "mid": "0.505",
+      "mid": "0.465",
       "near_zero": true
     },
     {
-      "question": "Gemini Carbon released by November 10, 2026?",
-      "slug": "gemini-carbon-released-by-november-10-2026-20261026",
-      "daily_rate": 200.0,
+      "question": "Will the Ornn H200 Index be at least $7.50 on December 31, 2026?",
+      "slug": "will-the-ornn-h200-index-be-at-least-7pt50-on-december-31-2026-20260709164949071",
+      "daily_rate": 138.0,
       "qual_notional": 0.0,
-      "est_daily": 200.0,
-      "yield_pct": 40.0,
-      "mid": "0.305",
+      "est_daily": 138.0,
+      "yield_pct": 27.6,
+      "mid": "0.507",
       "near_zero": true
     },
     {
-      "question": "Democratic 2028 presidential odds hit 70% by March 31?",
-      "slug": "democratic-2028-presidential-odds-hit-70-by-march-31",
-      "daily_rate": 200.0,
+      "question": "Will the Philippines win Miss Universe 2026?",
+      "slug": "will-the-philippines-win-miss-universe-2026",
+      "daily_rate": 120.0,
       "qual_notional": 0.0,
-      "est_daily": 200.0,
-      "yield_pct": 40.0,
-      "mid": "0.505",
+      "est_daily": 120.0,
+      "yield_pct": 24.0,
+      "mid": "0.225",
+      "near_zero": true
+    },
+    {
+      "question": "Will Google have the best Math AI model at the end of November 2026?",
+      "slug": "will-google-have-the-best-math-ai-model-at-the-end-of-november-2026",
+      "daily_rate": 100.0,
+      "qual_notional": 0.0,
+      "est_daily": 100.0,
+      "yield_pct": 20.0,
+      "mid": "0.52",
+      "near_zero": true
+    },
+    {
+      "question": "Will the Swiss National Bank make no change to the SNB policy rate at the March ",
+      "slug": "will-the-swiss-national-bank-make-no-change-to-the-snb-policy-rate-at-the-march-2027-meeting",
+      "daily_rate": 100.0,
+      "qual_notional": 0.0,
+      "est_daily": 100.0,
+      "yield_pct": 20.0,
+      "mid": "0.34",
+      "near_zero": true
+    },
+    {
+      "question": "Will Dani win the GMGN GGC Season 1 Grand Final?",
+      "slug": "will-dani-win-the-gmgn-ggc-season-1-grand-final",
+      "daily_rate": 100.0,
+      "qual_notional": 0.0,
+      "est_daily": 100.0,
+      "yield_pct": 20.0,
+      "mid": "0.655",
+      "near_zero": true
+    },
+    {
+      "question": "Will US gas hit $3.80 (Low) in November?",
+      "slug": "will-gas-hit-3pt80-low-by-november-30-2026",
+      "daily_rate": 100.0,
+      "qual_notional": 0.0,
+      "est_daily": 100.0,
+      "yield_pct": 20.0,
+      "mid": "0.525",
+      "near_zero": true
+    },
+    {
+      "question": "Will Meta be the #2 AI lab at the end of November 2026?",
+      "slug": "will-meta-be-the-2-ai-lab-at-the-end-of-november-2026",
+      "daily_rate": 94.0,
+      "qual_notional": 0.0,
+      "est_daily": 94.0,
+      "yield_pct": 18.8,
+      "mid": "0.46",
+      "near_zero": true
+    },
+    {
+      "question": "Will \"Thriller - Michael Jackson\" be the Billboard Hot 100 #2 song for the week ",
+      "slug": "will-thriller-michael-jackson-be-the-billboard-hot-100-2-song-for-the-week-of-november-14",
+      "daily_rate": 91.0,
+      "qual_notional": 0.0,
+      "est_daily": 91.0,
+      "yield_pct": 18.2,
+      "mid": "0.4795",
+      "near_zero": true
+    },
+    {
+      "question": "Will the Ornn RTX 5090 Index be at least $0.75 on November 30, 2026?",
+      "slug": "will-the-ornn-rtx-5090-index-be-at-least-0pt75-on-november-30-2026",
+      "daily_rate": 83.0,
+      "qual_notional": 0.0,
+      "est_daily": 83.0,
+      "yield_pct": 16.6,
+      "mid": "0.38",
       "near_zero": true
     }
   ],
@@ -219,7 +219,7 @@
     "day_csvs": [
       "2026-07-19.csv",
       "2026-07-20.csv",
-      "2026-11-06.csv"
+      "2026-11-07.csv"
     ]
   }
 }

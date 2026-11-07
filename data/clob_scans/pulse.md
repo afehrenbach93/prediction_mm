@@ -1,43 +1,43 @@
-# CLOB pulse — 2026-11-06T20:46:22Z
+# CLOB pulse — 2026-11-07T03:56:02Z
 
 - Domain: `https://clob.polymarket.com`
 - Budget: $500
 - Snapshot days on disk: 3
-- Scored: 250  competed: 203  near-zero: 47
+- Scored: 250  competed: 212  near-zero: 38
 - Pilot universe: 0 (provisional: 0)
-- Top-20 competed avg yield: 19.0454%/day (gross)
+- Top-20 competed avg yield: 21.7238%/day (gross)
 
 ## Top competed
 
 | # | yield%/d | est$/d | rate | qual$ | market |
 |---|----------|--------|------|-------|--------|
-| 1 | 83.59 | 417.94 | 500 | 107 | Will Kai Cenat finish his GTA marathon by November 11? |
-| 2 | 36.12 | 180.61 | 500 | 654 | Will Kai Cenat finish his GTA marathon by November 13? |
-| 3 | 29.01 | 145.07 | 200 | 156 | Will "FRESH" first week sales be at least 120k? |
-| 4 | 20.48 | 102.40 | 200 | 263 | Next Astra Model (6.1+) released by November 12, 2026? |
-| 5 | 19.18 | 95.88 | 200 | 1939 | Will Kai Cenat finish his GTA marathon by November 14? |
-| 6 | 19.11 | 95.55 | 200 | 242 | Will Hy4 debut at a score of at least 1480 by June 30, 2 |
-| 7 | 17.96 | 89.81 | 131 | 525 | Will another result occur for the next governing coaliti |
-| 8 | 17.91 | 89.56 | 95 | 68 | Will the Bank of Canada make no change to the target for |
-| 9 | 17.91 | 89.53 | 121 | 222 | Will there be no next Meta Muse Spark model release by N |
-| 10 | 17.37 | 86.84 | 90 | 59 | Will UMich Consumer Sentiment be between 46.0 and 48.9 i |
+| 1 | 73.93 | 369.65 | 500 | 831 | Will Kai Cenat finish his GTA marathon by November 11? |
+| 2 | 37.83 | 189.14 | 200 | 237 | Next Alibaba Qwen Max (3.9+) released by November 11, 20 |
+| 3 | 35.73 | 178.63 | 200 | 112 | Will "FRESH" first week sales be at least 100k? |
+| 4 | 25.08 | 125.38 | 200 | 329 | Gemini Carbon released by November 10, 2026? |
+| 5 | 24.83 | 124.16 | 200 | 378 | Next Alibaba Qwen Max (3.9+) released by November 13, 20 |
+| 6 | 24.42 | 122.11 | 300 | 1666 | Will Kai Cenat finish his GTA marathon by November 10? |
+| 7 | 23.17 | 115.86 | 117 | 53 | Will the Ornn B200 Index be at least $10.00 on December  |
+| 8 | 21.84 | 109.19 | 114 | 200 | Will Brazil's Q3 2026 GDP growth rate (QoQ) be less than |
+| 9 | 20.07 | 100.37 | 200 | 532 | Will Hy4 debut at a score of at least 1460 by June 30, 2 |
+| 10 | 18.85 | 94.25 | 96 | 70 | Will world GDP growth be 3.2% in 2026? |
 
 ## Near-zero (excluded from pilot)
 
-| 1 | 40.00 | 200.00 | Will "FRESH" first week sales be at least 60k? |
-| 2 | 40.00 | 200.00 | Will "FRESH" first week sales be at least 80k? |
-| 3 | 40.00 | 200.00 | Will "FRESH" first week sales be at least 100k? |
-| 4 | 40.00 | 200.00 | Next Alibaba Qwen Max (3.9+) released by November 9, 202 |
-| 5 | 40.00 | 200.00 | Next Alibaba Qwen Max (3.9+) released by November 13, 20 |
-| 6 | 40.00 | 200.00 | Next Alibaba Qwen Max (3.9+) released by November 11, 20 |
-| 7 | 40.00 | 200.00 | Will Hy4 debut at a score of at least 1460 by June 30, 2 |
-| 8 | 40.00 | 200.00 | Democratic 2028 presidential odds dip to 60% by March 31 |
-| 9 | 40.00 | 200.00 | Gemini Carbon released by November 10, 2026? |
-| 10 | 40.00 | 200.00 | Democratic 2028 presidential odds hit 70% by March 31? |
+| 1 | 40.00 | 200.00 | Democratic 2028 presidential odds dip to 60% by March 31 |
+| 2 | 27.60 | 138.00 | Will the Ornn H200 Index be at least $7.50 on December 3 |
+| 3 | 24.00 | 120.00 | Will the Philippines win Miss Universe 2026? |
+| 4 | 20.00 | 100.00 | Will Google have the best Math AI model at the end of No |
+| 5 | 20.00 | 100.00 | Will the Swiss National Bank make no change to the SNB p |
+| 6 | 20.00 | 100.00 | Will Dani win the GMGN GGC Season 1 Grand Final? |
+| 7 | 20.00 | 100.00 | Will US gas hit $3.80 (Low) in November? |
+| 8 | 18.80 | 94.00 | Will Meta be the #2 AI lab at the end of November 2026? |
+| 9 | 18.20 | 91.00 | Will "Thriller - Michael Jackson" be the Billboard Hot 1 |
+| 10 | 16.60 | 83.00 | Will the Ornn RTX 5090 Index be at least $0.75 on Novemb |
 
 ## Rewards: actual vs estimated
 
-- ts: `2026-11-06T20:46:22Z`
+- ts: `2026-11-07T03:56:02Z`
 - total actual: $0
 - total estimated: $0
 - ratio: n/a
