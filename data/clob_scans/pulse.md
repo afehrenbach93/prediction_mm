@@ -1,43 +1,43 @@
-# CLOB pulse — 2026-11-07T19:18:24Z
+# CLOB pulse — 2026-11-08T03:41:11Z
 
 - Domain: `https://clob.polymarket.com`
 - Budget: $500
 - Snapshot days on disk: 3
-- Scored: 250  competed: 213  near-zero: 37
+- Scored: 250  competed: 198  near-zero: 52
 - Pilot universe: 0 (provisional: 0)
-- Top-20 competed avg yield: 17.7924%/day (gross)
+- Top-20 competed avg yield: 24.7137%/day (gross)
 
 ## Top competed
 
 | # | yield%/d | est$/d | rate | qual$ | market |
 |---|----------|--------|------|-------|--------|
-| 1 | 97.61 | 488.07 | 500 | 147 | Will Kai Cenat finish his GTA marathon by November 11, 2 |
-| 2 | 24.12 | 120.59 | 150 | 364 | Will Kai Cenat finish his GTA marathon by November 11? |
-| 3 | 22.90 | 114.49 | 121 | 206 | Will UMich Consumer Sentiment be between 49.0 and 51.9 i |
-| 4 | 19.01 | 95.04 | 150 | 748 | Will Kai Cenat finish his GTA marathon by November 10? |
-| 5 | 17.61 | 88.06 | 90 | 102 | Will the Bank of Russia make no change to the key rate a |
-| 6 | 15.85 | 79.24 | 200 | 1999 | Will Anna Kelly be the next White House Press Secretary? |
-| 7 | 15.22 | 76.09 | 86 | 76 | Will "Thriller - Michael Jackson" be the Billboard Hot 1 |
-| 8 | 13.40 | 67.00 | 68 | 71 | Will Dani win the GMGN GGC Season 1 Grand Final? |
-| 9 | 11.80 | 58.98 | 83 | 257 | Will Japan Q3 GDP growth (annualized) be between 0.0% an |
-| 10 | 11.73 | 58.65 | 100 | 185 | Will US gas hit $4.10 (High) in November? |
+| 1 | 93.47 | 467.37 | 500 | 100 | US x Iran Effective Ceasefire by November 22? |
+| 2 | 84.02 | 420.08 | 500 | 95 | US x Iran Effective Ceasefire by December 31? |
+| 3 | 77.97 | 389.84 | 500 | 321 | US x Iran Effective Ceasefire by November 30? |
+| 4 | 37.42 | 187.12 | 400 | 999 | Will Kai Cenat finish his GTA marathon by November 11? |
+| 5 | 28.92 | 144.58 | 173 | 108 | Will "Cuffem's Team" lose the most weight in Nozempic 2? |
+| 6 | 27.48 | 137.39 | 200 | 695 | Will Kai Cenat finish his GTA marathon by November 12? |
+| 7 | 14.67 | 73.33 | 300 | 1638 | Will Cuffem lose the most weight in Nozempic 2? |
+| 8 | 13.36 | 66.79 | 300 | 6177 | Pete Hegseth out as Secretary of Defense by November 30? |
+| 9 | 13.10 | 65.49 | 400 | 10779 | Pete Hegseth impeached by December 31, 2026? |
+| 10 | 12.42 | 62.12 | 79 | 200 | Will Jean-Michel Basquiat's “Untitled (Leonardo and His  |
 
 ## Near-zero (excluded from pilot)
 
-| 1 | 33.20 | 166.00 | Will Benjamin Netanyahu receive the second mandate to fo |
-| 2 | 29.00 | 145.00 | Will "Adin Ross's Team" win Nozempic 2? |
-| 3 | 26.80 | 134.00 | Will no second mandate to form a government be given aft |
-| 4 | 25.20 | 126.00 | Will the Bank of Israel make no change to the Bank of Is |
-| 5 | 24.80 | 124.00 | Will GPT Astra 6.1+ be released on November 12, 2026? |
-| 6 | 22.60 | 113.00 | Will there be no next Meta Muse Spark model release by N |
-| 7 | 20.60 | 103.00 | Will Adin Ross lose the most weight in Nozempic 2? |
-| 8 | 20.00 | 100.00 | Pete Hegseth impeached by December 31, 2026? |
-| 9 | 20.00 | 100.00 | Will N3on lose the most weight in Nozempic 2? |
-| 10 | 19.80 | 99.00 | Will ISM Manufacturing PMI be between 54.0 and 54.9 in N |
+| 1 | 100.00 | 500.00 | US x Iran Effective Ceasefire by November 15? |
+| 2 | 31.20 | 156.00 | Will GPT Astra 6.1+ be released on November 12, 2026? |
+| 3 | 29.00 | 145.00 | Will "Adin Ross's Team" win Nozempic 2? |
+| 4 | 21.80 | 109.00 | Will Core PCE YoY be 3.3% in October? |
+| 5 | 19.00 | 95.00 | Will IShowSpeed win Best IRL Streamer at the 2026 Stream |
+| 6 | 18.00 | 90.00 | Will Team Spirit win 1win Essence III? |
+| 7 | 16.60 | 83.00 | Will UK annual inflation be between 3.4% and 3.6% in Oct |
+| 8 | 16.60 | 83.00 | Will Dani win the GMGN GGC Season 1 Grand Final? |
+| 9 | 16.20 | 81.00 | Will Anthropic raise between $65B and $75B in its IPO? |
+| 10 | 15.80 | 79.00 | Will "Cuffem's Team" win Nozempic 2? |
 
 ## Rewards: actual vs estimated
 
-- ts: `2026-11-07T19:18:24Z`
+- ts: `2026-11-08T03:41:11Z`
 - total actual: $0
 - total estimated: $0
 - ratio: n/a
