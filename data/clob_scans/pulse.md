@@ -1,43 +1,43 @@
-# CLOB pulse — 2026-11-09T23:44:02Z
+# CLOB pulse — 2026-11-10T05:27:58Z
 
 - Domain: `https://clob.polymarket.com`
 - Budget: $500
 - Snapshot days on disk: 3
-- Scored: 250  competed: 219  near-zero: 31
+- Scored: 250  competed: 214  near-zero: 36
 - Pilot universe: 0 (provisional: 0)
-- Top-20 competed avg yield: 14.5687%/day (gross)
+- Top-20 competed avg yield: 25.2104%/day (gross)
 
 ## Top competed
 
 | # | yield%/d | est$/d | rate | qual$ | market |
 |---|----------|--------|------|-------|--------|
-| 1 | 31.43 | 157.13 | 159 | 60 | Will there be no next Meta Muse Spark model release by N |
-| 2 | 24.54 | 122.70 | 140 | 112 | Will "Adin Ross's Team" lose the most weight in Nozempic |
-| 3 | 23.89 | 119.44 | 152 | 264 | Will Cuffem lose the most weight in Nozempic 2? |
-| 4 | 18.37 | 91.84 | 117 | 112 | Will Anthropic IPO on November 20, 2026? |
-| 5 | 15.14 | 75.71 | 144 | 497 | Will John Thune be the next US Senate Minority Leader? |
-| 6 | 14.98 | 74.92 | 118 | 429 | Will the Reserve Bank of India increase the policy repo  |
-| 7 | 14.74 | 73.72 | 500 | 5196 | Jensen Huang announced resignation or removal by March 3 |
-| 8 | 12.99 | 64.94 | 72 | 99 | Will the Bank of Korea make no change to the base rate a |
-| 9 | 12.27 | 61.34 | 100 | 1551 | US imports Russian diesel by March 31? |
-| 10 | 12.26 | 61.28 | 105 | 400 | Will "N3on's Team" lose the most weight in Nozempic 2? |
+| 1 | 37.09 | 185.43 | 200 | 91 | Will "Dirt Off Your Shoulder" be played at the 2027 Big  |
+| 2 | 34.25 | 171.25 | 200 | 115 | GTA VI Online released by June 30, 2027? |
+| 3 | 33.28 | 166.40 | 200 | 195 | Will "On to the Next One" be played at the 2027 Big Game |
+| 4 | 32.06 | 160.29 | 200 | 124 | Will "No Church in the Wild" be played at the 2027 Big G |
+| 5 | 29.65 | 148.26 | 200 | 125 | Will "Show Me What You Got" be played at the 2027 Big Ga |
+| 6 | 26.39 | 131.96 | 200 | 166 | Will "'03 Bonnie & Clyde" be played at the 2027 Big Game |
+| 7 | 25.30 | 126.51 | 200 | 246 | Newsom's Democratic nomination odds hit 15% by December  |
+| 8 | 25.25 | 126.23 | 133 | 190 | Will there be no next Gemini Flash-Lite model (3.6+) rel |
+| 9 | 24.74 | 123.72 | 200 | 119 | Will "Umbrella" be played at the 2027 Big Game halftime  |
+| 10 | 24.70 | 123.51 | 200 | 123 | Will "God Did" be played at the 2027 Big Game halftime s |
 
 ## Near-zero (excluded from pilot)
 
-| 1 | 40.00 | 200.00 | Will Kimi K3.1 Pro debut at a score of at least 1460 by  |
-| 2 | 31.00 | 155.00 | Will Donald Trump be the next White House Press Secretar |
-| 3 | 30.00 | 150.00 | Will "Cuffem's Team" win Nozempic 2? |
-| 4 | 27.30 | 136.52 | Another candidate is the 2028 presidential odds leader o |
-| 5 | 24.40 | 122.00 | Will Brazil’s Annual Inflation in 2026 be between 5.50%  |
-| 6 | 24.00 | 120.00 | Will the median home value in San Francisco Metro be les |
-| 7 | 23.00 | 115.00 | Will South Korea’s 2026 Annual Inflation be between 2.4% |
-| 8 | 22.04 | 110.18 | Will Alibaba be the second-best Chinese AI company at th |
-| 9 | 20.20 | 101.00 | Will Z.ai be the third-best Chinese AI company at the en |
-| 10 | 19.80 | 99.00 | Will Gustav Klimt's “Litzlbergkeller” sell for between $ |
+| 1 | 40.00 | 200.00 | Will "Empire State of Mind" be played at the 2027 Big Ga |
+| 2 | 25.40 | 127.00 | Will the Ornn B200 Index be at least $10.00 on December  |
+| 3 | 20.00 | 100.00 | Will "Ghost Soldier" score at least 20 on the Rotten Tom |
+| 4 | 20.00 | 100.00 | Will "Ghost Soldier" score at least 60 on the Rotten Tom |
+| 5 | 20.00 | 100.00 | Will "Ghost Soldier" score at least 30 on the Rotten Tom |
+| 6 | 20.00 | 100.00 | Will "Ghost Soldier" score at least 50 on the Rotten Tom |
+| 7 | 20.00 | 100.00 | Will "Ghost Soldier" score at least 40 on the Rotten Tom |
+| 8 | 20.00 | 100.00 | Will "Victorian Psycho" score at least 70 on the Rotten  |
+| 9 | 20.00 | 100.00 | Will "Victorian Psycho" score at least 80 on the Rotten  |
+| 10 | 19.90 | 99.51 | Will "How to Rob a Bank" score at least 70 on the Rotten |
 
 ## Rewards: actual vs estimated
 
-- ts: `2026-11-09T23:44:02Z`
+- ts: `2026-11-10T05:27:58Z`
 - total actual: $0
 - total estimated: $0
 - ratio: n/a
