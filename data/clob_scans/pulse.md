@@ -1,43 +1,43 @@
-# CLOB pulse — 2026-11-11T03:58:06Z
+# CLOB pulse — 2026-11-11T21:48:40Z
 
 - Domain: `https://clob.polymarket.com`
 - Budget: $500
 - Snapshot days on disk: 3
-- Scored: 250  competed: 198  near-zero: 52
+- Scored: 250  competed: 199  near-zero: 51
 - Pilot universe: 0 (provisional: 0)
-- Top-20 competed avg yield: 26.783%/day (gross)
+- Top-20 competed avg yield: 12.3802%/day (gross)
 
 ## Top competed
 
 | # | yield%/d | est$/d | rate | qual$ | market |
 |---|----------|--------|------|-------|--------|
-| 1 | 39.53 | 197.64 | 200 | 105 | Will Gemini Krypton debut at a score of at least 1540 by |
-| 2 | 39.48 | 197.40 | 200 | 70 | Will Gemini Hydrogen debut at a score of at least 1520 b |
-| 3 | 39.35 | 196.75 | 200 | 87 | Will Gemini Hydrogen debut at a score of at least 1500 b |
-| 4 | 38.30 | 191.52 | 273 | 168 | Will Johnny Walker fight Rizvan Kuniev next? |
-| 5 | 37.51 | 187.53 | 200 | 193 | Will Gemini Krypton debut at a score of at least 1520 by |
-| 6 | 34.74 | 173.68 | 200 | 172 | Will Gemini Krypton debut in the top 5 of the Text Arena |
-| 7 | 32.81 | 164.07 | 200 | 164 | Will Gemini Krypton debut in the top 1 of the Text Arena |
-| 8 | 30.49 | 152.45 | 200 | 112 | Will Gemini Krypton debut at a score of at least 1560 by |
-| 9 | 26.43 | 132.14 | 200 | 160 | Will Gemini Krypton debut in the top 3 of the Text Arena |
-| 10 | 23.98 | 119.88 | 120 | 108 | Will the median home value in Los Angeles Metro be betwe |
+| 1 | 31.91 | 159.54 | 162 | 94 | Will OpenAI have the best Text-to-Image AI at the end of |
+| 2 | 20.36 | 101.79 | 123 | 78 | Will Core PCE YoY be 3.3% in October? |
+| 3 | 16.62 | 83.09 | 117 | 138 | Will the Reserve Bank of India increase the policy repo  |
+| 4 | 15.80 | 78.99 | 100 | 109 | Will "Victorian Psycho" score at least 75 on the Rotten  |
+| 5 | 15.07 | 75.36 | 100 | 437 | Will Anthropic's valuation hit (LOW) $1.35T by November  |
+| 6 | 14.73 | 73.64 | 139 | 268 | Will Anthropic sell between 6% and 7% of its shares in i |
+| 7 | 11.50 | 57.48 | 60 | 129 | Shapiro's Democratic nomination odds hit 8% by December  |
+| 8 | 11.19 | 55.93 | 263 | 1006 | Will Madison Huang be the next CEO of NVIDIA? |
+| 9 | 10.37 | 51.83 | 53 | 370 | Will Pete Hegseth be the first of these people impeached |
+| 10 | 10.15 | 50.75 | 52 | 62 | Will "How to Rob a Bank" Opening Weekend Box Office be l |
 
 ## Near-zero (excluded from pilot)
 
-| 1 | 45.00 | 225.00 | Will Jay Puri be the next CEO of NVIDIA? |
-| 2 | 40.00 | 200.00 | Will Gemini Hydrogen debut at a score of at least 1480 b |
-| 3 | 40.00 | 200.00 | Will Gemini Hydrogen debut at a score of at least 1540 b |
-| 4 | 40.00 | 200.00 | Will Gemini Hydrogen debut in the top 1 of the Text Aren |
-| 5 | 40.00 | 200.00 | Will Gemini Hydrogen debut in the top 5 of the Text Aren |
-| 6 | 40.00 | 200.00 | Will Gemini Hydrogen debut in the top 3 of the Text Aren |
-| 7 | 40.00 | 200.00 | Will Gemini Hydrogen debut in the top 10 of the Text Are |
-| 8 | 40.00 | 200.00 | Will Gemini Hydrogen debut with an HLE-Diamond score of  |
-| 9 | 40.00 | 200.00 | Will Gemini Hydrogen debut with an HLE-Diamond score of  |
-| 10 | 40.00 | 200.00 | Will Gemini Hydrogen debut with an HLE-Diamond score of  |
+| 1 | 34.74 | 173.71 | Will Gemini Hydrogen debut with an HLE-Diamond score of  |
+| 2 | 31.60 | 158.00 | Will there be no next Gemini Flash-Lite model (3.6+) rel |
+| 3 | 31.40 | 157.00 | Will "Grand Theft Auto VI: Pre-Load Now" get between 10  |
+| 4 | 26.20 | 131.00 | Will the Bank of England increase the Bank Rate by 25 bp |
+| 5 | 24.20 | 121.00 | Will Anthropic be the #2 AI lab at the end of November 2 |
+| 6 | 23.40 | 117.00 | Will the Ornn H200 Index be at least $6.50 on December 3 |
+| 7 | 20.00 | 100.00 | Will Anthropic's valuation hit (HIGH) $1.6T by November  |
+| 8 | 20.00 | 100.00 | Will Anthropic's valuation hit (HIGH) $1.75T by November |
+| 9 | 20.00 | 100.00 | Will Anthropic's valuation hit (HIGH) $1.575T by Novembe |
+| 10 | 20.00 | 100.00 | Will Anthropic's valuation hit (LOW) $1.4T by November 3 |
 
 ## Rewards: actual vs estimated
 
-- ts: `2026-11-11T03:58:06Z`
+- ts: `2026-11-11T21:48:40Z`
 - total actual: $0
 - total estimated: $0
 - ratio: n/a
