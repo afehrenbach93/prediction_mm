@@ -1,43 +1,43 @@
-# CLOB pulse — 2026-11-10T21:14:49Z
+# CLOB pulse — 2026-11-11T03:58:06Z
 
 - Domain: `https://clob.polymarket.com`
 - Budget: $500
 - Snapshot days on disk: 3
-- Scored: 250  competed: 199  near-zero: 51
+- Scored: 250  competed: 198  near-zero: 52
 - Pilot universe: 0 (provisional: 0)
-- Top-20 competed avg yield: 15.0723%/day (gross)
+- Top-20 competed avg yield: 26.783%/day (gross)
 
 ## Top competed
 
 | # | yield%/d | est$/d | rate | qual$ | market |
 |---|----------|--------|------|-------|--------|
-| 1 | 31.70 | 158.48 | 400 | 4444 | Pete Hegseth impeached by December 31, 2026? |
-| 2 | 25.82 | 129.09 | 200 | 424 | EU adopts Chinese telecom gear phase-out law by December |
-| 3 | 23.77 | 118.86 | 194 | 241 | Will there be no next Gemini Flash-Lite model (3.6+) rel |
-| 4 | 22.03 | 110.15 | 131 | 134 | Will the Bank of Russia make no change to the key rate a |
-| 5 | 19.15 | 95.76 | 200 | 368 | EU adopts Chinese telecom gear phase-out law by June 30, |
-| 6 | 16.13 | 80.66 | 104 | 167 | Will the Bank of Korea make no change to the base rate a |
-| 7 | 15.01 | 75.07 | 100 | 164 | Will "Victorian Psycho" score at least 80 on the Rotten  |
-| 8 | 13.77 | 68.84 | 322 | 1419 | Will "Public Service Announcement" be played last at the |
-| 9 | 13.41 | 67.06 | 88 | 282 | Will the Bank of Korea make no change to the base rate a |
-| 10 | 13.06 | 65.31 | 200 | 486 | EU adopts Chinese telecom gear phase-out law by June 30, |
+| 1 | 39.53 | 197.64 | 200 | 105 | Will Gemini Krypton debut at a score of at least 1540 by |
+| 2 | 39.48 | 197.40 | 200 | 70 | Will Gemini Hydrogen debut at a score of at least 1520 b |
+| 3 | 39.35 | 196.75 | 200 | 87 | Will Gemini Hydrogen debut at a score of at least 1500 b |
+| 4 | 38.30 | 191.52 | 273 | 168 | Will Johnny Walker fight Rizvan Kuniev next? |
+| 5 | 37.51 | 187.53 | 200 | 193 | Will Gemini Krypton debut at a score of at least 1520 by |
+| 6 | 34.74 | 173.68 | 200 | 172 | Will Gemini Krypton debut in the top 5 of the Text Arena |
+| 7 | 32.81 | 164.07 | 200 | 164 | Will Gemini Krypton debut in the top 1 of the Text Arena |
+| 8 | 30.49 | 152.45 | 200 | 112 | Will Gemini Krypton debut at a score of at least 1560 by |
+| 9 | 26.43 | 132.14 | 200 | 160 | Will Gemini Krypton debut in the top 3 of the Text Arena |
+| 10 | 23.98 | 119.88 | 120 | 108 | Will the median home value in Los Angeles Metro be betwe |
 
 ## Near-zero (excluded from pilot)
 
-| 1 | 40.00 | 200.00 | EU adopts Chinese telecom gear phase-out law by December |
-| 2 | 40.00 | 200.00 | Next Israeli government formed by December 15, 2026? |
-| 3 | 38.60 | 193.00 | Will there be no next Meta Muse Spark model release by N |
-| 4 | 27.60 | 138.00 | Will Johnny Walker fight Rizvan Kuniev next? |
-| 5 | 26.80 | 134.00 | Will Johnny Walker fight Alexander Volkov next? |
-| 6 | 26.40 | 132.00 | Will MrBeast's next video get at least 110 million views |
-| 7 | 25.60 | 128.00 | Will Johnny Walker fight Curtis Blaydes next? |
-| 8 | 25.00 | 125.00 | Will Ben Moss be the next White House Press Secretary? |
-| 9 | 23.40 | 117.00 | Will Core PCE MoM be 0.3% in October? |
-| 10 | 23.20 | 116.00 | Will Jay Puri be the next CEO of NVIDIA? |
+| 1 | 45.00 | 225.00 | Will Jay Puri be the next CEO of NVIDIA? |
+| 2 | 40.00 | 200.00 | Will Gemini Hydrogen debut at a score of at least 1480 b |
+| 3 | 40.00 | 200.00 | Will Gemini Hydrogen debut at a score of at least 1540 b |
+| 4 | 40.00 | 200.00 | Will Gemini Hydrogen debut in the top 1 of the Text Aren |
+| 5 | 40.00 | 200.00 | Will Gemini Hydrogen debut in the top 5 of the Text Aren |
+| 6 | 40.00 | 200.00 | Will Gemini Hydrogen debut in the top 3 of the Text Aren |
+| 7 | 40.00 | 200.00 | Will Gemini Hydrogen debut in the top 10 of the Text Are |
+| 8 | 40.00 | 200.00 | Will Gemini Hydrogen debut with an HLE-Diamond score of  |
+| 9 | 40.00 | 200.00 | Will Gemini Hydrogen debut with an HLE-Diamond score of  |
+| 10 | 40.00 | 200.00 | Will Gemini Hydrogen debut with an HLE-Diamond score of  |
 
 ## Rewards: actual vs estimated
 
-- ts: `2026-11-10T21:14:49Z`
+- ts: `2026-11-11T03:58:06Z`
 - total actual: $0
 - total estimated: $0
 - ratio: n/a
