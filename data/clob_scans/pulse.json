@@ -1,125 +1,125 @@
 {
-  "ts": "2026-11-12T21:47:11Z",
+  "ts": "2026-11-13T04:24:00Z",
   "domain": "https://clob.polymarket.com",
   "budget_usd": 500.0,
   "snapshot_days": 3,
   "scored_markets": 250,
-  "competed": 204,
-  "near_zero": 46,
+  "competed": 211,
+  "near_zero": 39,
   "pilot_universe": 0,
   "pilot_provisional": 0,
-  "top20_competed_avg_yield_pct": 23.4946,
+  "top20_competed_avg_yield_pct": 24.9454,
   "top10_competed": [
     {
-      "question": "Will Johny Srouji be the next CEO of NVIDIA?",
-      "slug": "will-johny-srouji-be-the-next-ceo-of-nvidia",
-      "daily_rate": 431.0,
-      "qual_notional": 143.68,
-      "est_daily": 381.3717,
-      "yield_pct": 76.2743,
-      "mid": "0.16",
-      "near_zero": false
-    },
-    {
-      "question": "Will Ian Buck be the next CEO of NVIDIA?",
-      "slug": "will-ian-buck-be-the-next-ceo-of-nvidia",
-      "daily_rate": 1466.0,
-      "qual_notional": 3557.74,
-      "est_daily": 297.3059,
-      "yield_pct": 59.4612,
-      "mid": "0.355",
-      "near_zero": false
-    },
-    {
-      "question": "DOJ criminally charges NVIDIA by December 31?",
-      "slug": "nvidia-criminally-charged-by-doj-by-december-31",
+      "question": "Democratic 2028 presidential odds up or down this week?",
+      "slug": "democratic-2028-presidential-odds-up-or-down-2026-11-20",
       "daily_rate": 200.0,
-      "qual_notional": 100.42,
-      "est_daily": 175.5915,
-      "yield_pct": 35.1183,
-      "mid": "0.055",
+      "qual_notional": 76.6,
+      "est_daily": 199.2915,
+      "yield_pct": 39.8583,
+      "mid": "0.5",
       "near_zero": false
     },
     {
-      "question": "Another NVIDIA board member announced resignation or removal by December 31, 202",
-      "slug": "another-nvidia-board-member-announced-resignation-or-removal-by-december-31-2026",
+      "question": "Will Kevin Hart appear in a 2027 Big Game commercial?",
+      "slug": "will-kevin-hart-appear-in-a-2027-big-game-commercial",
       "daily_rate": 200.0,
-      "qual_notional": 197.9,
-      "est_daily": 164.9878,
-      "yield_pct": 32.9976,
-      "mid": "0.365",
+      "qual_notional": 93.73,
+      "est_daily": 195.6653,
+      "yield_pct": 39.1331,
+      "mid": "0.39",
       "near_zero": false
     },
     {
-      "question": "Fourth Jensen Huang affair reported by December 31?",
-      "slug": "fourth-jensen-huang-affair-reported-by-december-31",
-      "daily_rate": 1000.0,
-      "qual_notional": 2971.6,
-      "est_daily": 156.4576,
-      "yield_pct": 31.2915,
-      "mid": "0.48",
+      "question": "Will Travis Kelce appear in a 2027 Big Game commercial?",
+      "slug": "will-travis-kelce-appear-in-a-2027-big-game-commercial",
+      "daily_rate": 200.0,
+      "qual_notional": 134.42,
+      "est_daily": 180.2842,
+      "yield_pct": 36.0568,
+      "mid": "0.385",
       "near_zero": false
     },
     {
-      "question": "Will Anthropic's valuation hit (LOW) $1.35T by November 30?",
-      "slug": "will-anthropics-valuation-hit-low-1pt35t-by-november-30-2026",
-      "daily_rate": 100.0,
-      "qual_notional": 198.0,
-      "est_daily": 99.022,
-      "yield_pct": 19.8044,
-      "mid": "0.6",
+      "question": "Will Mariah Carey appear at the 2026 NFL Christmas Day halftime show?",
+      "slug": "will-mariah-carey-appear-at-the-2026-nfl-christmas-day-halftime-show",
+      "daily_rate": 200.0,
+      "qual_notional": 94.98,
+      "est_daily": 169.1742,
+      "yield_pct": 33.8348,
+      "mid": "0.13",
+      "near_zero": false
+    },
+    {
+      "question": "Will Taylor Swift appear at the 2026 NFL Christmas Day halftime show?",
+      "slug": "will-taylor-swift-appear-at-the-2026-nfl-christmas-day-halftime-show",
+      "daily_rate": 200.0,
+      "qual_notional": 1041.32,
+      "est_daily": 142.3569,
+      "yield_pct": 28.4714,
+      "mid": "0.1",
+      "near_zero": false
+    },
+    {
+      "question": "Will Andrea Bocelli appear at the 2026 NFL Christmas Day halftime show?",
+      "slug": "will-andrea-bocelli-appear-at-the-2026-nfl-christmas-day-halftime-show",
+      "daily_rate": 200.0,
+      "qual_notional": 2011.19,
+      "est_daily": 138.8036,
+      "yield_pct": 27.7607,
+      "mid": "0.11",
+      "near_zero": false
+    },
+    {
+      "question": "Will Snoop Dogg appear at the 2026 NFL Christmas Day halftime show?",
+      "slug": "will-snoop-dogg-appear-at-the-2026-nfl-christmas-day-halftime-show",
+      "daily_rate": 200.0,
+      "qual_notional": 217.64,
+      "est_daily": 132.9254,
+      "yield_pct": 26.5851,
+      "mid": "0.105",
+      "near_zero": false
+    },
+    {
+      "question": "Will Kacey Musgraves appear at the 2026 NFL Christmas Day halftime show?",
+      "slug": "will-kacey-musgraves-appear-at-the-2026-nfl-christmas-day-halftime-show",
+      "daily_rate": 200.0,
+      "qual_notional": 252.4,
+      "est_daily": 121.2438,
+      "yield_pct": 24.2488,
+      "mid": "0.165",
+      "near_zero": false
+    },
+    {
+      "question": "Will Martha Stewart appear at the 2026 NFL Christmas Day halftime show?",
+      "slug": "will-martha-stewart-appear-at-the-2026-nfl-christmas-day-halftime-show",
+      "daily_rate": 200.0,
+      "qual_notional": 272.18,
+      "est_daily": 118.659,
+      "yield_pct": 23.7318,
+      "mid": "0.14",
       "near_zero": false
     },
     {
       "question": "Will Alice Huang be federally charged by March 31, 2027?",
       "slug": "alice-huang-federally-charged-by-march-31-2027",
       "daily_rate": 500.0,
-      "qual_notional": 1269.7,
-      "est_daily": 94.4044,
-      "yield_pct": 18.8809,
-      "mid": "0.285",
-      "near_zero": false
-    },
-    {
-      "question": "Will US gas hit $3.95 (High) in November?",
-      "slug": "will-gas-hit-3pt95-high-by-november-30-2026",
-      "daily_rate": 100.0,
-      "qual_notional": 63.84,
-      "est_daily": 93.3587,
-      "yield_pct": 18.6717,
-      "mid": "0.19",
-      "near_zero": false
-    },
-    {
-      "question": "Jensen Huang admits to another affair with a woman by December 31?",
-      "slug": "jensen-huang-admits-to-another-affair-by-december-31",
-      "daily_rate": 500.0,
-      "qual_notional": 1975.74,
-      "est_daily": 90.8147,
-      "yield_pct": 18.1629,
-      "mid": "0.55",
-      "near_zero": false
-    },
-    {
-      "question": "Will any other model be the best AI model on November 23, 2026?",
-      "slug": "will-any-other-model-be-the-best-ai-model-on-november-23-2026",
-      "daily_rate": 93.0,
-      "qual_notional": 52.8,
-      "est_daily": 89.6983,
-      "yield_pct": 17.9397,
-      "mid": "0.16",
+      "qual_notional": 2719.34,
+      "est_daily": 116.9652,
+      "yield_pct": 23.393,
+      "mid": "0.215",
       "near_zero": false
     }
   ],
   "top10_near_zero": [
     {
-      "question": "Another NVIDIA board member announced resignation or removal by November 30, 202",
-      "slug": "another-nvidia-board-member-announced-resignation-or-removal-by-november-30-2026",
+      "question": "Will Jensen Huang publicly testify before Congress by December 31, 2026?",
+      "slug": "will-jensen-huang-publicly-testify-before-congress-by-december-31-2026",
       "daily_rate": 200.0,
       "qual_notional": 0.0,
       "est_daily": 200.0,
       "yield_pct": 40.0,
-      "mid": "0.36",
+      "mid": "0.425",
       "near_zero": true
     },
     {
@@ -129,7 +129,7 @@
       "qual_notional": 0.0,
       "est_daily": 200.0,
       "yield_pct": 40.0,
-      "mid": "0.305",
+      "mid": "0.525",
       "near_zero": true
     },
     {
@@ -139,57 +139,57 @@
       "qual_notional": 0.0,
       "est_daily": 200.0,
       "yield_pct": 40.0,
-      "mid": "0.295",
+      "mid": "0.65",
       "near_zero": true
     },
     {
-      "question": "Will Jensen Huang rejoin NVIDIA by November 30, 2026?",
-      "slug": "will-jensen-huang-rejoin-nvidia-by-november-30-2026",
+      "question": "Howard Lutnick out as Secretary of Commerce by November 30?",
+      "slug": "howard-lutnick-out-as-secretary-of-commerce-by-november-30",
       "daily_rate": 200.0,
       "qual_notional": 0.0,
       "est_daily": 200.0,
       "yield_pct": 40.0,
-      "mid": "0.14",
+      "mid": "0.32",
       "near_zero": true
     },
     {
-      "question": "Will Jensen Huang rejoin NVIDIA by December 31, 2026?",
-      "slug": "will-jensen-huang-rejoin-nvidia-by-december-31-2026",
+      "question": "Will Tom Brady appear in a 2027 Big Game commercial?",
+      "slug": "will-tom-brady-appear-in-a-2027-big-game-commercial",
       "daily_rate": 200.0,
       "qual_notional": 0.0,
       "est_daily": 200.0,
       "yield_pct": 40.0,
-      "mid": "0.255",
+      "mid": "0.69",
       "near_zero": true
     },
     {
-      "question": "Will Jensen Huang rejoin NVIDIA by December 31, 2027?",
-      "slug": "will-jensen-huang-rejoin-nvidia-by-december-31-2027",
+      "question": "Will Sabrina Carpenter appear in a 2027 Big Game commercial?",
+      "slug": "will-sabrina-carpenter-appear-in-a-2027-big-game-commercial",
       "daily_rate": 200.0,
       "qual_notional": 0.0,
       "est_daily": 200.0,
       "yield_pct": 40.0,
-      "mid": "0.53",
+      "mid": "0.21",
       "near_zero": true
     },
     {
-      "question": "Will Jensen Huang publicly testify before Congress by December 31, 2026?",
-      "slug": "will-jensen-huang-publicly-testify-before-congress-by-december-31-2026",
-      "daily_rate": 200.0,
-      "qual_notional": 43.78,
-      "est_daily": 194.2082,
-      "yield_pct": 38.8416,
-      "mid": "0.175",
-      "near_zero": true
-    },
-    {
-      "question": "Will the Bank of Korea make no change to the base rate at the January meeting?",
-      "slug": "will-the-bank-of-korea-make-no-change-to-the-base-rate-at-the-january-2027-meeting",
-      "daily_rate": 118.0,
+      "question": "Will the Ornn H200 Index be at least $7.50 on December 31, 2026?",
+      "slug": "will-the-ornn-h200-index-be-at-least-7pt50-on-december-31-2026-20260709164949071",
+      "daily_rate": 119.0,
       "qual_notional": 0.0,
-      "est_daily": 118.0,
-      "yield_pct": 23.6,
-      "mid": "0.71",
+      "est_daily": 119.0,
+      "yield_pct": 23.8,
+      "mid": "0.553",
+      "near_zero": true
+    },
+    {
+      "question": "Will Japan's core CPI increase by less than or equal to 1.9% in 2026?",
+      "slug": "will-japans-core-cpi-increase-by-less-than-or-equal-to-1pt9-in-2026-20260617224132718",
+      "daily_rate": 114.0,
+      "qual_notional": 0.0,
+      "est_daily": 114.0,
+      "yield_pct": 22.8,
+      "mid": "0.472",
       "near_zero": true
     },
     {
@@ -199,7 +199,7 @@
       "qual_notional": 0.0,
       "est_daily": 100.0,
       "yield_pct": 20.0,
-      "mid": "0.3015",
+      "mid": "0.3695",
       "near_zero": true
     },
     {
@@ -209,7 +209,7 @@
       "qual_notional": 0.0,
       "est_daily": 100.0,
       "yield_pct": 20.0,
-      "mid": "0.525",
+      "mid": "0.565",
       "near_zero": true
     }
   ],
@@ -219,7 +219,7 @@
     "day_csvs": [
       "2026-07-19.csv",
       "2026-07-20.csv",
-      "2026-11-12.csv"
+      "2026-11-13.csv"
     ]
   }
 }
