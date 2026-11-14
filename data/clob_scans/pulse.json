@@ -1,165 +1,145 @@
 {
-  "ts": "2026-11-14T04:19:55Z",
+  "ts": "2026-11-14T19:49:53Z",
   "domain": "https://clob.polymarket.com",
   "budget_usd": 500.0,
   "snapshot_days": 3,
   "scored_markets": 250,
-  "competed": 204,
-  "near_zero": 46,
+  "competed": 189,
+  "near_zero": 61,
   "pilot_universe": 0,
   "pilot_provisional": 0,
-  "top20_competed_avg_yield_pct": 13.3235,
+  "top20_competed_avg_yield_pct": 10.2251,
   "top10_competed": [
     {
       "question": "Fourth Jensen Huang affair reported by November 20?",
       "slug": "fourth-jensen-huang-affair-reported-by-november-20",
       "daily_rate": 150.0,
-      "qual_notional": 442.65,
-      "est_daily": 140.2743,
-      "yield_pct": 28.0549,
-      "mid": "0.195",
+      "qual_notional": 1155.99,
+      "est_daily": 94.1465,
+      "yield_pct": 18.8293,
+      "mid": "0.165",
       "near_zero": false
     },
     {
-      "question": "Will it be confirmed that a software or configuration error caused the FAA's nat",
-      "slug": "faa-ground-stop-cause-software-or-configuration-error",
-      "daily_rate": 300.0,
-      "qual_notional": 761.94,
-      "est_daily": 138.2376,
-      "yield_pct": 27.6475,
-      "mid": "0.8",
+      "question": "Fourth Jensen Huang affair reported by December 31?",
+      "slug": "fourth-jensen-huang-affair-reported-by-december-31",
+      "daily_rate": 250.0,
+      "qual_notional": 2212.34,
+      "est_daily": 90.5423,
+      "yield_pct": 18.1085,
+      "mid": "0.38",
       "near_zero": false
-    },
-    {
-      "question": "Will Finland be 1st in the World Happiness Report 2027?",
-      "slug": "will-finland-be-1st-in-the-world-happiness-report-2027",
-      "daily_rate": 200.0,
-      "qual_notional": 893.1,
-      "est_daily": 101.2247,
-      "yield_pct": 20.2449,
-      "mid": "0.885",
-      "near_zero": false
-    },
-    {
-      "question": "Jensen Huang admits to another affair with a woman by December 31?",
-      "slug": "jensen-huang-admits-to-another-affair-by-december-31",
-      "daily_rate": 200.0,
-      "qual_notional": 1137.65,
-      "est_daily": 85.9929,
-      "yield_pct": 17.1986,
-      "mid": "0.22",
-      "near_zero": false
-    },
-    {
-      "question": "Will the Fed hike-pause-hike in the next three decisions (Dec-Jan-Mar)?",
-      "slug": "will-the-fed-hikepausehike-in-the-next-three-decisions-decjanmar-2027",
-      "daily_rate": 131.0,
-      "qual_notional": 471.87,
-      "est_daily": 71.834,
-      "yield_pct": 14.3668,
-      "mid": "0.255",
-      "near_zero": false
-    },
-    {
-      "question": "Will Iceland be 2nd in the World Happiness Report 2027?",
-      "slug": "will-iceland-be-2nd-in-the-world-happiness-report-2027",
-      "daily_rate": 86.0,
-      "qual_notional": 220.3,
-      "est_daily": 71.35,
-      "yield_pct": 14.27,
-      "mid": "0.315",
-      "near_zero": false
-    },
-    {
-      "question": "Will Jensen Huang not join any company by December 31, 2027?",
-      "slug": "will-jensen-huang-not-join-any-company-by-december-31-2027",
-      "daily_rate": 84.0,
-      "qual_notional": 308.46,
-      "est_daily": 60.8928,
-      "yield_pct": 12.1786,
-      "mid": "0.3",
-      "near_zero": false
-    },
-    {
-      "question": "Will \"Reminders of Him\" be the top US Netflix movie this week?",
-      "slug": "will-reminders-of-him-be-the-top-us-netflix-movie-this-week",
-      "daily_rate": 60.0,
-      "qual_notional": 75.5,
-      "est_daily": 59.7639,
-      "yield_pct": 11.9528,
-      "mid": "0.5",
-      "near_zero": false
-    },
-    {
-      "question": "Will Widow\u2019s Bay win Best Television Series \u2013 Comedy or Musical at the 84th Gold",
-      "slug": "will-widow-s-bay-win-best-television-series-comedy-or-musical-at-the-84th-golden-globes",
-      "daily_rate": 117.0,
-      "qual_notional": 509.71,
-      "est_daily": 58.8692,
-      "yield_pct": 11.7738,
-      "mid": "0.745",
-      "near_zero": false
-    },
-    {
-      "question": "Will Florence Pugh win Best Actress \u2013 Limited Series at the 84th Golden Globes?",
-      "slug": "will-florence-pugh-east-of-eden-win-best-actress-limited-series-at-the-84th-golden-globes",
-      "daily_rate": 91.0,
-      "qual_notional": 456.8,
-      "est_daily": 58.585,
-      "yield_pct": 11.717,
-      "mid": "0.515",
-      "near_zero": false
-    }
-  ],
-  "top10_near_zero": [
-    {
-      "question": "Will Workin' Man: Willie Sings Merle - Willie Nelson win Best Traditional Countr",
-      "slug": "will-workin-man-willie-sings-merle-willie-nelson-win-best-traditional-country-album-at-the-69th-annual-grammy-awards-20261109",
-      "daily_rate": 200.0,
-      "qual_notional": 0.0,
-      "est_daily": 200.0,
-      "yield_pct": 40.0,
-      "mid": "0.385",
-      "near_zero": true
-    },
-    {
-      "question": "Will Porcelana - Rosalia win Best Global Music Performance at the 69th Annual GR",
-      "slug": "will-porcelana-rosalia-win-best-global-music-performance-at-the-69th-annual-grammy-awards-20261109",
-      "daily_rate": 200.0,
-      "qual_notional": 37.65,
-      "est_daily": 188.0909,
-      "yield_pct": 37.6182,
-      "mid": "0.315",
-      "near_zero": true
-    },
-    {
-      "question": "Will MrBeast's next video get at least 110 million views on week 1?",
-      "slug": "will-mrbeasts-next-video-get-110m-views-on-week-1-20261110",
-      "daily_rate": 162.0,
-      "qual_notional": 0.0,
-      "est_daily": 162.0,
-      "yield_pct": 32.4,
-      "mid": "0.61",
-      "near_zero": true
-    },
-    {
-      "question": "Will Google be the second-best AI Agent Lab at the end of November 2026?",
-      "slug": "will-google-be-the-second-best-ai-agent-lab-at-the-end-of-november-2026",
-      "daily_rate": 108.0,
-      "qual_notional": 0.0,
-      "est_daily": 108.0,
-      "yield_pct": 21.6,
-      "mid": "0.3755",
-      "near_zero": true
     },
     {
       "question": "Will the chopsticks catch the Starship for SpaceX Starship Flight Test 15?",
       "slug": "will-the-chopsticks-catch-spacex-starship-flight-test-15-starship",
       "daily_rate": 100.0,
+      "qual_notional": 149.6,
+      "est_daily": 86.1366,
+      "yield_pct": 17.2273,
+      "mid": "0.68",
+      "near_zero": false
+    },
+    {
+      "question": "Will Jensen Huang join SpaceX by December 31, 2027?",
+      "slug": "will-jensen-huang-join-spacex-by-december-31-2027",
+      "daily_rate": 70.0,
+      "qual_notional": 135.3,
+      "est_daily": 68.1346,
+      "yield_pct": 13.6269,
+      "mid": "0.165",
+      "near_zero": false
+    },
+    {
+      "question": "Will Jensen Huang join SpaceX by March 31, 2027?",
+      "slug": "will-jensen-huang-join-spacex-by-march-31-2027",
+      "daily_rate": 100.0,
+      "qual_notional": 344.81,
+      "est_daily": 58.395,
+      "yield_pct": 11.679,
+      "mid": "0.145",
+      "near_zero": false
+    },
+    {
+      "question": "Kimberly Powell announced resignation or removal by December 31, 2026?",
+      "slug": "kimberly-powell-announced-resignation-or-removal-by-december-31-2026",
+      "daily_rate": 200.0,
+      "qual_notional": 907.71,
+      "est_daily": 52.3552,
+      "yield_pct": 10.471,
+      "mid": "0.355",
+      "near_zero": false
+    },
+    {
+      "question": "Will the White House call a full lid by 6:30 PM on November 17?",
+      "slug": "will-the-white-house-call-a-full-lid-by-630-pm-on-november-17-2026",
+      "daily_rate": 50.0,
+      "qual_notional": 118.55,
+      "est_daily": 48.7476,
+      "yield_pct": 9.7495,
+      "mid": "0.74",
+      "near_zero": false
+    },
+    {
+      "question": "Will Howard Lutnick leave the Trump administration before 2028?",
+      "slug": "will-howard-lutnick-leave-the-trump-administration-before-2028",
+      "daily_rate": 50.0,
+      "qual_notional": 390.52,
+      "est_daily": 46.335,
+      "yield_pct": 9.267,
+      "mid": "0.75",
+      "near_zero": false
+    },
+    {
+      "question": "Will Anthropic's IPO valuation be between $1.50T and $1.75T?",
+      "slug": "will-anthropics-ipo-valuation-be-between-1pt50t-and-1pt75t-12",
+      "daily_rate": 49.0,
+      "qual_notional": 415.5,
+      "est_daily": 46.3087,
+      "yield_pct": 9.2617,
+      "mid": "0.439",
+      "near_zero": false
+    },
+    {
+      "question": "Will Elon Musk post 65-89 tweets from November 16 to November 18, 2026?",
+      "slug": "elon-musk-of-tweets-november-16-november-18-2026-65-89",
+      "daily_rate": 81.0,
+      "qual_notional": 249.79,
+      "est_daily": 44.8756,
+      "yield_pct": 8.9751,
+      "mid": "0.35",
+      "near_zero": false
+    }
+  ],
+  "top10_near_zero": [
+    {
+      "question": "Will there be no next Gemini Carbon model (4.1+) release by December 31, 2026?",
+      "slug": "will-there-be-no-next-gemini-carbon-model-4pt1-release-by-december-31-2026",
+      "daily_rate": 184.0,
       "qual_notional": 0.0,
-      "est_daily": 100.0,
-      "yield_pct": 20.0,
-      "mid": "0.375",
+      "est_daily": 184.0,
+      "yield_pct": 36.8,
+      "mid": "0.61",
+      "near_zero": true
+    },
+    {
+      "question": "Will Meta be the #3 AI Lab at the end of November 2026 (Style Control On)?",
+      "slug": "will-meta-be-the-3-ai-lab-at-the-end-of-november-2026-style-control-on",
+      "daily_rate": 114.0,
+      "qual_notional": 0.0,
+      "est_daily": 114.0,
+      "yield_pct": 22.8,
+      "mid": "0.495",
+      "near_zero": true
+    },
+    {
+      "question": "Will the Ornn RTX 6000 Index be between $1.50 and $1.75 on November 30, 2026?",
+      "slug": "will-the-ornn-rtx-6000-index-be-between-1pt50-and-1pt75-on-november-30-2026",
+      "daily_rate": 106.0,
+      "qual_notional": 0.0,
+      "est_daily": 106.0,
+      "yield_pct": 21.2,
+      "mid": "0.495",
       "near_zero": true
     },
     {
@@ -169,17 +149,7 @@
       "qual_notional": 0.0,
       "est_daily": 100.0,
       "yield_pct": 20.0,
-      "mid": "0.5525",
-      "near_zero": true
-    },
-    {
-      "question": "Anthropic vs OpenAI - greater valuation growth November 2026",
-      "slug": "anthropic-vs-openai-greater-valuation-growth-november-2026",
-      "daily_rate": 100.0,
-      "qual_notional": 0.0,
-      "est_daily": 100.0,
-      "yield_pct": 20.0,
-      "mid": "0.66",
+      "mid": "0.53",
       "near_zero": true
     },
     {
@@ -189,7 +159,7 @@
       "qual_notional": 0.0,
       "est_daily": 100.0,
       "yield_pct": 20.0,
-      "mid": "0.645",
+      "mid": "0.59",
       "near_zero": true
     },
     {
@@ -199,17 +169,47 @@
       "qual_notional": 0.0,
       "est_daily": 100.0,
       "yield_pct": 20.0,
-      "mid": "0.585",
+      "mid": "0.525",
       "near_zero": true
     },
     {
-      "question": "Will Anthropic's valuation hit (LOW) $1.4T by November 30?",
-      "slug": "will-anthropics-valuation-hit-low-1pt4t-by-november-30-2026",
+      "question": "Will US gas hit $3.55 (Low) in November?",
+      "slug": "will-gas-hit-3pt55-low-by-november-30-2026",
       "daily_rate": 100.0,
       "qual_notional": 0.0,
       "est_daily": 100.0,
       "yield_pct": 20.0,
-      "mid": "0.7065",
+      "mid": "0.495",
+      "near_zero": true
+    },
+    {
+      "question": "Will US gas hit $3.90 (High) in November?",
+      "slug": "will-gas-hit-3pt90-high-by-november-30-2026",
+      "daily_rate": 100.0,
+      "qual_notional": 0.0,
+      "est_daily": 100.0,
+      "yield_pct": 20.0,
+      "mid": "0.52",
+      "near_zero": true
+    },
+    {
+      "question": "Will a dozen eggs cost between $2.40 and $2.50 in November?",
+      "slug": "will-a-dozen-eggs-cost-between-2pt40-and-2pt50-in-november-2026",
+      "daily_rate": 77.0,
+      "qual_notional": 0.0,
+      "est_daily": 77.0,
+      "yield_pct": 15.4,
+      "mid": "0.375",
+      "near_zero": true
+    },
+    {
+      "question": "Will Kewan Lacy be the 2026 D1 Rushing Yards Leader?",
+      "slug": "will-kewan-lacy-be-the-2026-d1-rushing-yards-leader-20260803210835751",
+      "daily_rate": 74.0,
+      "qual_notional": 0.0,
+      "est_daily": 74.0,
+      "yield_pct": 14.8,
+      "mid": "0.425",
       "near_zero": true
     }
   ],
