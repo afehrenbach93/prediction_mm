@@ -1,43 +1,43 @@
-# CLOB pulse — 2026-11-13T21:19:28Z
+# CLOB pulse — 2026-11-14T04:19:55Z
 
 - Domain: `https://clob.polymarket.com`
 - Budget: $500
 - Snapshot days on disk: 3
-- Scored: 250  competed: 190  near-zero: 60
+- Scored: 250  competed: 204  near-zero: 46
 - Pilot universe: 0 (provisional: 0)
-- Top-20 competed avg yield: 15.5949%/day (gross)
+- Top-20 competed avg yield: 13.3235%/day (gross)
 
 ## Top competed
 
 | # | yield%/d | est$/d | rate | qual$ | market |
 |---|----------|--------|------|-------|--------|
-| 1 | 27.70 | 138.49 | 330 | 638 | Howard Lutnick out as Secretary of Commerce by November  |
-| 2 | 21.84 | 109.20 | 500 | 4308 | Fourth Jensen Huang affair reported by December 31? |
-| 3 | 19.35 | 96.77 | 300 | 813 | Fourth Jensen Huang affair reported by November 20? |
-| 4 | 18.98 | 94.88 | 123 | 151 | Will Core PCE YoY be 3.2% in October? |
-| 5 | 18.64 | 93.21 | 798 | 3938 | Will Rene Haas be the next CEO of NVIDIA? |
-| 6 | 17.69 | 88.45 | 113 | 300 | Will UK annual inflation be between 3.7% and 3.9% in Oct |
-| 7 | 17.53 | 87.63 | 500 | 3739 | Jensen Huang admits to another affair with a woman by De |
-| 8 | 16.94 | 84.70 | 200 | 261 | Will "GTA VI" have a Metascore of at least 99? |
-| 9 | 16.74 | 83.71 | 100 | 250 | Will China’s CPI increase by ≤0.4% over the 12 month per |
-| 10 | 16.65 | 83.24 | 141 | 979 | Will MrBeast's next video get at least 110 million views |
+| 1 | 28.05 | 140.27 | 150 | 443 | Fourth Jensen Huang affair reported by November 20? |
+| 2 | 27.65 | 138.24 | 300 | 762 | Will it be confirmed that a software or configuration er |
+| 3 | 20.24 | 101.22 | 200 | 893 | Will Finland be 1st in the World Happiness Report 2027? |
+| 4 | 17.20 | 85.99 | 200 | 1138 | Jensen Huang admits to another affair with a woman by De |
+| 5 | 14.37 | 71.83 | 131 | 472 | Will the Fed hike-pause-hike in the next three decisions |
+| 6 | 14.27 | 71.35 | 86 | 220 | Will Iceland be 2nd in the World Happiness Report 2027? |
+| 7 | 12.18 | 60.89 | 84 | 308 | Will Jensen Huang not join any company by December 31, 2 |
+| 8 | 11.95 | 59.76 | 60 | 76 | Will "Reminders of Him" be the top US Netflix movie this |
+| 9 | 11.77 | 58.87 | 117 | 510 | Will Widow’s Bay win Best Television Series – Comedy or  |
+| 10 | 11.72 | 58.59 | 91 | 457 | Will Florence Pugh win Best Actress – Limited Series at  |
 
 ## Near-zero (excluded from pilot)
 
-| 1 | 50.00 | 250.00 | Will Jensen Huang join SpaceX by March 31, 2027? |
-| 2 | 50.00 | 250.00 | Will Jensen Huang join SpaceX by December 31, 2027? |
-| 3 | 24.80 | 124.00 | Will The Fate of Ophelia (Loud Luxury Remix) - Taylor Sw |
-| 4 | 20.40 | 102.00 | Will the Ornn RTX 5090 Index be between $0.65 and $0.70  |
-| 5 | 20.00 | 100.00 | Will Anthropic's valuation hit (HIGH) $1.75T by November |
-| 6 | 20.00 | 100.00 | Will Anthropic's valuation hit (HIGH) $1.575T by Novembe |
-| 7 | 20.00 | 100.00 | Will Anthropic's valuation hit (HIGH) $1.6T by November  |
-| 8 | 20.00 | 100.00 | Will Anthropic's valuation hit (LOW) $1.4T by November 3 |
-| 9 | 20.00 | 100.00 | Anthropic vs OpenAI - greater valuation growth November  |
-| 10 | 20.00 | 100.00 | Will "The Hunger Games: Sunrise on the Reaping" score at |
+| 1 | 40.00 | 200.00 | Will Workin' Man: Willie Sings Merle - Willie Nelson win |
+| 2 | 37.62 | 188.09 | Will Porcelana - Rosalia win Best Global Music Performan |
+| 3 | 32.40 | 162.00 | Will MrBeast's next video get at least 110 million views |
+| 4 | 21.60 | 108.00 | Will Google be the second-best AI Agent Lab at the end o |
+| 5 | 20.00 | 100.00 | Will the chopsticks catch the Starship for SpaceX Starsh |
+| 6 | 20.00 | 100.00 | Will Anthropic's valuation hit (HIGH) $1.75T by November |
+| 7 | 20.00 | 100.00 | Anthropic vs OpenAI - greater valuation growth November  |
+| 8 | 20.00 | 100.00 | Will Anthropic's valuation hit (HIGH) $1.6T by November  |
+| 9 | 20.00 | 100.00 | Will Anthropic's valuation hit (HIGH) $1.575T by Novembe |
+| 10 | 20.00 | 100.00 | Will Anthropic's valuation hit (LOW) $1.4T by November 3 |
 
 ## Rewards: actual vs estimated
 
-- ts: `2026-11-13T21:19:28Z`
+- ts: `2026-11-14T04:19:56Z`
 - total actual: $0
 - total estimated: $0
 - ratio: n/a
