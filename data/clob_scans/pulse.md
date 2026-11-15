@@ -1,43 +1,43 @@
-# CLOB pulse — 2026-11-15T04:04:17Z
+# CLOB pulse — 2026-11-15T20:15:20Z
 
 - Domain: `https://clob.polymarket.com`
 - Budget: $500
 - Snapshot days on disk: 3
-- Scored: 250  competed: 204  near-zero: 46
+- Scored: 250  competed: 172  near-zero: 78
 - Pilot universe: 0 (provisional: 0)
-- Top-20 competed avg yield: 12.2531%/day (gross)
+- Top-20 competed avg yield: 9.8761%/day (gross)
 
 ## Top competed
 
 | # | yield%/d | est$/d | rate | qual$ | market |
 |---|----------|--------|------|-------|--------|
-| 1 | 29.35 | 146.77 | 200 | 92 | Will there be no next Gemini Carbon model (4.1+) release |
-| 2 | 24.73 | 123.67 | 131 | 236 | Will MrBeast's next video get between 110 and 120 millio |
-| 3 | 18.88 | 94.41 | 96 | 80 | Will the next Gemini model family be named Gemini Krypto |
-| 4 | 18.45 | 92.25 | 101 | 100 | Will the next Gemini model family be named Gemini Helix? |
-| 5 | 15.09 | 75.44 | 174 | 445 | Will there be no next Meta Muse Spark model release by N |
-| 6 | 13.10 | 65.48 | 69 | 58 | Will Sweet Nuthins - Kehlani feat. Leon Thomas win Best  |
-| 7 | 12.13 | 60.67 | 100 | 183 | Will US gas hit $3.55 (Low) in November? |
-| 8 | 10.27 | 51.36 | 200 | 869 | Jensen Huang rejoins NVIDIA before divorce? |
-| 9 | 9.72 | 48.59 | 50 | 181 | Ossoff's Democratic nomination odds dip to 12% by Decemb |
-| 10 | 9.42 | 47.09 | 849 | 10534 | Will Ian Buck be the next CEO of NVIDIA? |
+| 1 | 18.48 | 92.38 | 100 | 213 | Will Anthropic's valuation hit (HIGH) $1.575T by Novembe |
+| 2 | 17.54 | 87.68 | 88 | 88 | Will Benjamin Netanyahu be the next leader out before 20 |
+| 3 | 16.01 | 80.05 | 100 | 221 | Jensen Huang rejoins NVIDIA before divorce? |
+| 4 | 13.35 | 66.73 | 200 | 2044 | Jensen Huang admits to another affair with a woman by De |
+| 5 | 10.70 | 53.51 | 205 | 1667 | Will Lindsay Clancy be the #1 searched person on Google  |
+| 6 | 9.80 | 49.01 | 519 | 11597 | Will there be no new be CEO of NVIDIA by December 31, 20 |
+| 7 | 9.50 | 47.48 | 50 | 259 | Will Gemini Krypton debut with an HLE-Diamond score of 7 |
+| 8 | 9.39 | 46.96 | 100 | 638 | Will the Bank of Israel decrease the Bank of Israel Inte |
+| 9 | 9.29 | 46.43 | 50 | 865 | US x Iran Effective Ceasefire by December 31? |
+| 10 | 9.14 | 45.72 | 150 | 1530 | Fourth Jensen Huang affair reported by November 20? |
 
 ## Near-zero (excluded from pilot)
 
-| 1 | 22.20 | 111.00 | Will MrBeast's next video get between 80 and 90 million  |
-| 2 | 20.00 | 100.00 | Will Anthropic's valuation hit (HIGH) $1.6T by November  |
+| 1 | 40.00 | 200.00 | Will there be no next Gemini Carbon model (4.1+) release |
+| 2 | 35.20 | 176.00 | Will MrBeast's next video get between 90 and 100 million |
 | 3 | 20.00 | 100.00 | Will Anthropic's valuation hit (HIGH) $1.75T by November |
-| 4 | 20.00 | 100.00 | Will Anthropic's valuation hit (HIGH) $1.575T by Novembe |
-| 5 | 20.00 | 100.00 | Anthropic vs OpenAI - greater valuation growth November  |
-| 6 | 17.00 | 85.00 | Will MrBeast's next video get between 90 and 100 million |
-| 7 | 12.60 | 63.00 | Will MrBeast's next video get at least 110 million views |
-| 8 | 12.40 | 62.00 | Will Kewan Lacy be the 2026 D1 Rushing Yards Leader? |
-| 9 | 12.20 | 61.00 | Will White House post 200+ posts from November 13 to Nov |
-| 10 | 11.80 | 59.00 | Will Anthropic’s valuation be between $1.25T and $1.50T  |
+| 4 | 20.00 | 100.00 | Will Anthropic's valuation hit (HIGH) $1.6T by November  |
+| 5 | 13.60 | 68.00 | Will MrBeast's next video get between 80 and 90 million  |
+| 6 | 11.00 | 55.00 | Will Kewan Lacy be the 2026 D1 Rushing Yards Leader? |
+| 7 | 10.00 | 50.00 | Will the next governing coalition of Sweden include S +  |
+| 8 | 10.00 | 50.00 | Will EU emergency diesel stocks be at least 37M tonnes a |
+| 9 | 10.00 | 50.00 | Will Anthropic's valuation hit (HIGH) $1.825T by Novembe |
+| 10 | 9.40 | 47.00 | Will Kroger Q3 identical sales without fuel growth be be |
 
 ## Rewards: actual vs estimated
 
-- ts: `2026-11-15T04:04:17Z`
+- ts: `2026-11-15T20:15:20Z`
 - total actual: $0
 - total estimated: $0
 - ratio: n/a
