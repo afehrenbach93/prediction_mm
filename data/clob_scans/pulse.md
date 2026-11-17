@@ -1,43 +1,43 @@
-# CLOB pulse — 2026-11-17T05:54:39Z
+# CLOB pulse — 2026-11-17T22:49:15Z
 
 - Domain: `https://clob.polymarket.com`
 - Budget: $500
 - Snapshot days on disk: 3
-- Scored: 250  competed: 202  near-zero: 48
+- Scored: 250  competed: 170  near-zero: 80
 - Pilot universe: 0 (provisional: 0)
-- Top-20 competed avg yield: 10.0276%/day (gross)
+- Top-20 competed avg yield: 12.3114%/day (gross)
 
 ## Top competed
 
 | # | yield%/d | est$/d | rate | qual$ | market |
 |---|----------|--------|------|-------|--------|
-| 1 | 15.45 | 77.26 | 200 | 1888 | Jensen Huang admits to another affair with a woman by De |
-| 2 | 15.00 | 74.99 | 200 | 409 | Hike 25 bps or No change favored for January Fed on Dece |
-| 3 | 13.26 | 66.28 | 147 | 1072 | Will MrBeast's next video get between 100 and 110 millio |
-| 4 | 12.51 | 62.55 | 100 | 305 | You Can See Everything's Best Picture odds hit 40% by Ja |
-| 5 | 12.20 | 60.98 | 100 | 232 | Le Pen's French presidential odds hit 55% by December 31 |
-| 6 | 11.72 | 58.60 | 139 | 1394 | Will 4 Jensen Huang affairs be reported by December 31? |
-| 7 | 10.90 | 54.52 | 75 | 158 | Will JOLTS Job Openings be below 7.2M in October? |
-| 8 | 10.72 | 53.60 | 100 | 1158 | Will Jensen Huang join SpaceX by March 31, 2027? |
-| 9 | 10.12 | 50.62 | 56 | 65 | Will the median home value in NYC be between $445,000 an |
-| 10 | 9.70 | 48.49 | 73 | 529 | Will Joe Henley win The Voice: Season 30? |
+| 1 | 38.77 | 193.85 | 300 | 532 | Will Jensen Huang rejoin NVIDIA by December 31, 2027? |
+| 2 | 24.51 | 122.54 | 244 | 738 | Margaret Qualley announced as next Bond girl? |
+| 3 | 20.00 | 100.00 | 100 | 70 | Democratic trifecta odds hit 60% by December 31? |
+| 4 | 19.89 | 99.47 | 100 | 52 | Will Trump say "Election" at APEC? |
+| 5 | 16.52 | 82.60 | 100 | 81 | Will Trump say "Rare Earth" at APEC? |
+| 6 | 12.93 | 64.67 | 109 | 1006 | Marco Rubio Republican nomination odds runner-up on Dece |
+| 7 | 12.82 | 64.08 | 98 | 448 | Will Anthropic's IPO valuation be between $1.50T and $1. |
+| 8 | 11.58 | 57.88 | 102 | 1314 | Will Anthropic's IPO valuation be between $1.25T and $1. |
+| 9 | 11.27 | 56.33 | 100 | 247 | Will Trump say "Spy" at APEC? |
+| 10 | 10.70 | 53.48 | 105 | 514 | Zendaya announced as next Bond girl? |
 
 ## Near-zero (excluded from pilot)
 
-| 1 | 23.76 | 118.78 | Will the Reserve Bank of India increase the policy repo  |
-| 2 | 22.60 | 113.00 | JD Vance Republican nomination odds leader on March 31? |
-| 3 | 21.60 | 108.00 | Will Canada’s November 2026 unemployment rate be 6.7%? |
-| 4 | 20.18 | 100.92 | Will the Ornn RTX 5090 Index be between $0.65 and $0.70  |
-| 5 | 20.00 | 100.00 | Will Anthropic's valuation hit (HIGH) $1.6T by November  |
-| 6 | 20.00 | 100.00 | Anthropic vs OpenAI - greater valuation growth November  |
-| 7 | 20.00 | 100.00 | You Can See Everything's Best Picture odds hit 30% by Ja |
-| 8 | 17.80 | 89.00 | Will Brazil's Q3 2026 GDP growth rate (QoQ) be between - |
-| 9 | 17.40 | 87.00 | Will there be no next Meta Muse Spark model release by N |
-| 10 | 15.80 | 79.00 | Will the median home value in the Chicago Metro be betwe |
+| 1 | 21.40 | 107.00 | Will the ECB increase the deposit facility rate by 25 bp |
+| 2 | 20.00 | 100.00 | Will Anthropic's valuation hit (HIGH) $1.575T by Novembe |
+| 3 | 20.00 | 100.00 | Will US gas hit $3.50 (Low) in November? |
+| 4 | 20.00 | 100.00 | Will Trump say "Jensen" or "Huang" at APEC? |
+| 5 | 20.00 | 100.00 | Will Trump say "Taiwan" at APEC? |
+| 6 | 20.00 | 100.00 | Will Trump say "Artificial" at APEC? |
+| 7 | 20.00 | 100.00 | Will Trump say "Nuclear" at APEC? |
+| 8 | 20.00 | 100.00 | Will Trump say "Palestine" at APEC? |
+| 9 | 19.90 | 99.48 | Will Trump say "Soybean" at APEC? |
+| 10 | 18.60 | 93.00 | Will the ECB make no change to the deposit facility rate |
 
 ## Rewards: actual vs estimated
 
-- ts: `2026-11-17T05:54:39Z`
+- ts: `2026-11-17T22:49:15Z`
 - total actual: $0
 - total estimated: $0
 - ratio: n/a
