@@ -1,125 +1,125 @@
 {
-  "ts": "2026-11-17T22:49:15Z",
+  "ts": "2026-11-18T05:22:14Z",
   "domain": "https://clob.polymarket.com",
   "budget_usd": 500.0,
   "snapshot_days": 3,
   "scored_markets": 250,
-  "competed": 170,
-  "near_zero": 80,
+  "competed": 172,
+  "near_zero": 78,
   "pilot_universe": 0,
   "pilot_provisional": 0,
-  "top20_competed_avg_yield_pct": 12.3114,
+  "top20_competed_avg_yield_pct": 12.1629,
   "top10_competed": [
     {
-      "question": "Will Jensen Huang rejoin NVIDIA by December 31, 2027?",
-      "slug": "will-jensen-huang-rejoin-nvidia-by-december-31-2027",
+      "question": "Will Canada's monthly inflation increase by \u22640.0% in November?",
+      "slug": "will-canadas-monthly-inflation-increase-by-0pt0-in-november-20261214",
+      "daily_rate": 200.0,
+      "qual_notional": 57.38,
+      "est_daily": 200.0,
+      "yield_pct": 40.0,
+      "mid": "0.905",
+      "near_zero": false
+    },
+    {
+      "question": "US-Canada deal to cut Section 338 tariffs by December 30, 2027?",
+      "slug": "us-canada-deal-to-cut-section-338-tariffs-by-december-30-2027",
+      "daily_rate": 200.0,
+      "qual_notional": 214.68,
+      "est_daily": 148.5586,
+      "yield_pct": 29.7117,
+      "mid": "0.4",
+      "near_zero": false
+    },
+    {
+      "question": "Will the ECB make no change to the deposit facility rate at the March meeting?",
+      "slug": "will-the-ecb-make-no-change-to-the-deposit-facility-rate-at-the-march-2027-meeting",
+      "daily_rate": 101.0,
+      "qual_notional": 432.56,
+      "est_daily": 72.1401,
+      "yield_pct": 14.428,
+      "mid": "0.505",
+      "near_zero": false
+    },
+    {
+      "question": "Will Anthropic raise between $65B and $75B in its IPO?",
+      "slug": "will-anthropic-raise-between-65b-and-75b-in-its-ipo",
+      "daily_rate": 60.0,
+      "qual_notional": 173.14,
+      "est_daily": 59.965,
+      "yield_pct": 11.993,
+      "mid": "0.7805",
+      "near_zero": false
+    },
+    {
+      "question": "Will the median home value in Miami be between $809,000 and $830,000 on December",
+      "slug": "will-the-median-home-value-in-miami-be-between-809000-and-830000-on-december-31-2026",
+      "daily_rate": 84.0,
+      "qual_notional": 210.36,
+      "est_daily": 57.2011,
+      "yield_pct": 11.4402,
+      "mid": "0.295",
+      "near_zero": false
+    },
+    {
+      "question": "Will the PP win the Spanish general election and Alberto N\u00fa\u00f1ez Feij\u00f3o become the",
+      "slug": "will-the-pp-win-the-spanish-general-election-and-feijoo-become-the-next-prime-minister",
+      "daily_rate": 56.0,
+      "qual_notional": 69.14,
+      "est_daily": 55.8537,
+      "yield_pct": 11.1707,
+      "mid": "0.69",
+      "near_zero": false
+    },
+    {
+      "question": "Will Kai Cenat finish his GTA VI marathon by November 24?",
+      "slug": "will-kai-cenat-finish-his-gta-vi-marathon-by-november-24",
+      "daily_rate": 100.0,
+      "qual_notional": 400.65,
+      "est_daily": 55.1552,
+      "yield_pct": 11.031,
+      "mid": "0.4",
+      "near_zero": false
+    },
+    {
+      "question": "US x Iran Effective Ceasefire by December 31?",
+      "slug": "us-x-iran-effective-ceasefire-by-december-31-20261108",
       "daily_rate": 300.0,
-      "qual_notional": 532.43,
-      "est_daily": 193.8536,
-      "yield_pct": 38.7707,
-      "mid": "0.25",
+      "qual_notional": 4237.26,
+      "est_daily": 49.6412,
+      "yield_pct": 9.9282,
+      "mid": "0.675",
       "near_zero": false
     },
     {
-      "question": "Margaret Qualley announced as next Bond girl?",
-      "slug": "margaret-qualley-announced-as-next-bond-girl",
-      "daily_rate": 244.0,
-      "qual_notional": 737.82,
-      "est_daily": 122.5404,
-      "yield_pct": 24.5081,
-      "mid": "0.26",
-      "near_zero": false
-    },
-    {
-      "question": "Democratic trifecta odds hit 60% by December 31?",
-      "slug": "democratic-trifecta-odds-hit-60-by-december-31",
-      "daily_rate": 100.0,
-      "qual_notional": 70.5,
-      "est_daily": 100.0,
-      "yield_pct": 20.0,
-      "mid": "0.705",
-      "near_zero": false
-    },
-    {
-      "question": "Will Trump say \"Election\" at APEC?",
-      "slug": "will-trump-say-election-at-apec",
-      "daily_rate": 100.0,
-      "qual_notional": 51.81,
-      "est_daily": 99.4719,
-      "yield_pct": 19.8944,
-      "mid": "0.31",
-      "near_zero": false
-    },
-    {
-      "question": "Will Trump say \"Rare Earth\" at APEC?",
-      "slug": "will-trump-say-rare-earth-at-apec",
-      "daily_rate": 100.0,
-      "qual_notional": 80.92,
-      "est_daily": 82.5963,
-      "yield_pct": 16.5193,
-      "mid": "0.325",
-      "near_zero": false
-    },
-    {
-      "question": "Marco Rubio Republican nomination odds runner-up on December 31?",
-      "slug": "marco-rubio-republican-nomination-odds-runner-up-on-december-31",
-      "daily_rate": 109.0,
-      "qual_notional": 1005.68,
-      "est_daily": 64.6669,
-      "yield_pct": 12.9334,
-      "mid": "0.665",
+      "question": "Will the total domestic gross for \"The Cat in the Hat\" be between $45M and $55M ",
+      "slug": "will-the-total-domestic-gross-for-the-cat-in-the-hat-be-between-45m-and-55m-by-november-30-20261108",
+      "daily_rate": 55.0,
+      "qual_notional": 116.52,
+      "est_daily": 48.3369,
+      "yield_pct": 9.6674,
+      "mid": "0.52",
       "near_zero": false
     },
     {
       "question": "Will Anthropic's IPO valuation be between $1.50T and $1.75T?",
       "slug": "will-anthropics-ipo-valuation-be-between-1pt50t-and-1pt75t-12",
-      "daily_rate": 98.0,
-      "qual_notional": 447.84,
-      "est_daily": 64.0762,
-      "yield_pct": 12.8152,
-      "mid": "0.28",
-      "near_zero": false
-    },
-    {
-      "question": "Will Anthropic's IPO valuation be between $1.25T and $1.50T?",
-      "slug": "will-anthropics-ipo-valuation-be-between-1pt25t-and-1pt50t-12",
-      "daily_rate": 102.0,
-      "qual_notional": 1313.68,
-      "est_daily": 57.8831,
-      "yield_pct": 11.5766,
-      "mid": "0.7085",
-      "near_zero": false
-    },
-    {
-      "question": "Will Trump say \"Spy\" at APEC?",
-      "slug": "will-trump-say-spy-at-apec",
-      "daily_rate": 100.0,
-      "qual_notional": 247.2,
-      "est_daily": 56.3312,
-      "yield_pct": 11.2662,
-      "mid": "0.245",
-      "near_zero": false
-    },
-    {
-      "question": "Zendaya announced as next Bond girl?",
-      "slug": "zendaya-announced-as-next-bond-girl",
-      "daily_rate": 105.0,
-      "qual_notional": 513.6,
-      "est_daily": 53.4803,
-      "yield_pct": 10.6961,
-      "mid": "0.145",
+      "daily_rate": 51.0,
+      "qual_notional": 493.54,
+      "est_daily": 45.9591,
+      "yield_pct": 9.1918,
+      "mid": "0.5025",
       "near_zero": false
     }
   ],
   "top10_near_zero": [
     {
-      "question": "Will the ECB increase the deposit facility rate by 25 bps at the March meeting?",
-      "slug": "will-the-ecb-increase-the-deposit-facility-rate-by-25-bps-at-the-march-2027-meeting",
-      "daily_rate": 107.0,
+      "question": "Will Canada's annual inflation increase by \u22642.9% in November?",
+      "slug": "will-canadas-annual-inflation-increase-by-2pt9-in-november-20261214",
+      "daily_rate": 168.0,
       "qual_notional": 0.0,
-      "est_daily": 107.0,
-      "yield_pct": 21.4,
-      "mid": "0.59",
+      "est_daily": 168.0,
+      "yield_pct": 33.6,
+      "mid": "0.725",
       "near_zero": true
     },
     {
@@ -129,7 +129,17 @@
       "qual_notional": 0.0,
       "est_daily": 100.0,
       "yield_pct": 20.0,
-      "mid": "0.73",
+      "mid": "0.735",
+      "near_zero": true
+    },
+    {
+      "question": "Anthropic vs OpenAI - greater valuation growth November 2026",
+      "slug": "anthropic-vs-openai-greater-valuation-growth-november-2026",
+      "daily_rate": 100.0,
+      "qual_notional": 0.0,
+      "est_daily": 100.0,
+      "yield_pct": 20.0,
+      "mid": "0.475",
       "near_zero": true
     },
     {
@@ -139,77 +149,67 @@
       "qual_notional": 0.0,
       "est_daily": 100.0,
       "yield_pct": 20.0,
-      "mid": "0.385",
+      "mid": "0.445",
       "near_zero": true
     },
     {
-      "question": "Will Trump say \"Jensen\" or \"Huang\" at APEC?",
-      "slug": "will-trump-say-jensen-at-apec",
-      "daily_rate": 100.0,
+      "question": "Will Jensen Huang not be named NVIDIA's next CEO and Nvidia's market cap be abov",
+      "slug": "jensen-huang-named-nvidia-ceo-and-nvidia-4t-end-of-2026-not-named-over",
+      "daily_rate": 99.0,
       "qual_notional": 0.0,
-      "est_daily": 100.0,
-      "yield_pct": 20.0,
-      "mid": "0.435",
+      "est_daily": 99.0,
+      "yield_pct": 19.8,
+      "mid": "0.525",
       "near_zero": true
     },
     {
-      "question": "Will Trump say \"Taiwan\" at APEC?",
-      "slug": "will-trump-say-taiwan-at-apec",
+      "question": "Will \"Focker-In-Law\" score at least 65 on the Rotten Tomatoes Tomatometer?",
+      "slug": "will-focker-in-law-score-at-least-65-on-the-rotten-tomatoes-tomatometer-20261130",
       "daily_rate": 100.0,
+      "qual_notional": 34.26,
+      "est_daily": 97.3599,
+      "yield_pct": 19.472,
+      "mid": "0.57",
+      "near_zero": true
+    },
+    {
+      "question": "Will the median home value in Miami be between $830,000 and $851,000 on December",
+      "slug": "will-the-median-home-value-in-miami-be-between-830000-and-851000-on-december-31-2026",
+      "daily_rate": 97.0,
       "qual_notional": 0.0,
-      "est_daily": 100.0,
-      "yield_pct": 20.0,
-      "mid": "0.31",
+      "est_daily": 97.0,
+      "yield_pct": 19.4,
+      "mid": "0.2985",
       "near_zero": true
     },
     {
-      "question": "Will Trump say \"Artificial\" at APEC?",
-      "slug": "will-trump-say-artificial-at-apec",
-      "daily_rate": 100.0,
-      "qual_notional": 0.0,
-      "est_daily": 100.0,
-      "yield_pct": 20.0,
-      "mid": "0.675",
-      "near_zero": true
-    },
-    {
-      "question": "Will Trump say \"Nuclear\" at APEC?",
-      "slug": "will-trump-say-nuclear-at-apec",
-      "daily_rate": 100.0,
-      "qual_notional": 0.0,
-      "est_daily": 100.0,
-      "yield_pct": 20.0,
-      "mid": "0.7",
-      "near_zero": true
-    },
-    {
-      "question": "Will Trump say \"Palestine\" at APEC?",
-      "slug": "will-trump-say-palestine-at-apec",
-      "daily_rate": 100.0,
-      "qual_notional": 0.0,
-      "est_daily": 100.0,
-      "yield_pct": 20.0,
-      "mid": "0.26",
-      "near_zero": true
-    },
-    {
-      "question": "Will Trump say \"Soybean\" at APEC?",
-      "slug": "will-trump-say-soybean-at-apec",
-      "daily_rate": 100.0,
-      "qual_notional": 47.21,
-      "est_daily": 99.4823,
-      "yield_pct": 19.8965,
-      "mid": "0.285",
-      "near_zero": true
-    },
-    {
-      "question": "Will the ECB make no change to the deposit facility rate at the March meeting?",
-      "slug": "will-the-ecb-make-no-change-to-the-deposit-facility-rate-at-the-march-2027-meeting",
+      "question": "Will Jensen Huang not be named NVIDIA's next CEO and Nvidia's market cap be belo",
+      "slug": "jensen-huang-named-nvidia-ceo-and-nvidia-4t-end-of-2026-not-named-under",
       "daily_rate": 93.0,
       "qual_notional": 0.0,
       "est_daily": 93.0,
       "yield_pct": 18.6,
-      "mid": "0.36",
+      "mid": "0.475",
+      "near_zero": true
+    },
+    {
+      "question": "Will Mexico GDP growth in Q4 2026 be less than 1.5%?",
+      "slug": "will-mexico-gdp-growth-in-q4-2026-be-less-than-1pt5",
+      "daily_rate": 79.0,
+      "qual_notional": 0.0,
+      "est_daily": 79.0,
+      "yield_pct": 15.8,
+      "mid": "0.405",
+      "near_zero": true
+    },
+    {
+      "question": "Will Big Walk win Best Multiplayer at the 2026 Game Awards?",
+      "slug": "will-big-walk-win-best-multiplayer-at-the-2026-game-awards-1785857785575",
+      "daily_rate": 69.0,
+      "qual_notional": 0.0,
+      "est_daily": 69.0,
+      "yield_pct": 13.8,
+      "mid": "0.615",
       "near_zero": true
     }
   ],
@@ -219,7 +219,7 @@
     "day_csvs": [
       "2026-07-19.csv",
       "2026-07-20.csv",
-      "2026-11-17.csv"
+      "2026-11-18.csv"
     ]
   }
 }
