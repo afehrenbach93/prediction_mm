@@ -1,43 +1,43 @@
-# CLOB pulse — 2026-11-18T22:31:02Z
+# CLOB pulse — 2026-11-19T05:18:59Z
 
 - Domain: `https://clob.polymarket.com`
 - Budget: $500
 - Snapshot days on disk: 3
-- Scored: 250  competed: 163  near-zero: 87
+- Scored: 250  competed: 193  near-zero: 57
 - Pilot universe: 0 (provisional: 0)
-- Top-20 competed avg yield: 15.0242%/day (gross)
+- Top-20 competed avg yield: 23.6981%/day (gross)
 
 ## Top competed
 
 | # | yield%/d | est$/d | rate | qual$ | market |
 |---|----------|--------|------|-------|--------|
-| 1 | 45.37 | 226.87 | 250 | 1174 | Anthropic IPO closing market cap above $1.5T? |
-| 2 | 19.28 | 96.42 | 120 | 114 | Will "Guarding Stars" be the top global Netflix movie th |
-| 3 | 18.64 | 93.18 | 300 | 999 | Will Kai Cenat finish his GTA VI marathon by November 26 |
-| 4 | 18.26 | 91.30 | 300 | 1205 | Will Kai Cenat finish his GTA VI marathon by November 28 |
-| 5 | 18.23 | 91.13 | 122 | 183 | Will OpenRouter process 260T or more tokens the week of  |
-| 6 | 17.39 | 86.94 | 200 | 512 | Will xQc finish GTA VI by November 21? |
-| 7 | 14.34 | 71.69 | 100 | 182 | Will Anthropic's valuation hit (HIGH) $1.75T by November |
-| 8 | 13.69 | 68.45 | 111 | 284 | Will Core PCE YoY be 3.2% in October? |
-| 9 | 13.29 | 66.43 | 102 | 738 | Will Anthropic's IPO valuation be between $1.25T and $1. |
-| 10 | 13.06 | 65.29 | 100 | 1052 | Will IShowSpeed finish GTA VI by November 28? |
+| 1 | 59.07 | 295.35 | 300 | 110 | Will Anthropic open between $80 and $90 on its first tra |
+| 2 | 44.71 | 223.56 | 311 | 110 | Will Anthropic close between $100 and $110 on its first  |
+| 3 | 28.72 | 143.59 | 400 | 790 | Anthropic IPO closing market cap above $1.6T? |
+| 4 | 28.32 | 141.58 | 300 | 312 | Will Anthropic open between $90 and $100 on its first tr |
+| 5 | 26.59 | 132.94 | 200 | 11079 | Will Anthropic's valuation hit (HIGH) $1.5T by December  |
+| 6 | 25.53 | 127.66 | 300 | 682 | Will xQc finish GTA VI by November 22? |
+| 7 | 22.73 | 113.64 | 400 | 1136 | Anthropic IPO closing market cap above $1.45T? |
+| 8 | 22.19 | 110.93 | 250 | 959 | Anthropic IPO closing market cap above $1.5T? |
+| 9 | 20.51 | 102.57 | 149 | 146 | Will Anthropic close between $110 and $120 on its first  |
+| 10 | 19.80 | 98.98 | 114 | 1805 | Will Anthropic’s market cap be between 1.2T and 1.5T at  |
 
 ## Near-zero (excluded from pilot)
 
-| 1 | 80.00 | 400.00 | Anthropic IPO closing market cap above $1.2T? |
-| 2 | 80.00 | 400.00 | Anthropic IPO closing market cap above $1.3T? |
-| 3 | 80.00 | 400.00 | Anthropic IPO closing market cap above $1.6T? |
-| 4 | 80.00 | 400.00 | Anthropic IPO closing market cap above $1.35T? |
-| 5 | 80.00 | 400.00 | Anthropic IPO closing market cap above $1.4T? |
-| 6 | 80.00 | 400.00 | Anthropic IPO closing market cap above $1.45T? |
-| 7 | 80.00 | 400.00 | Anthropic IPO closing market cap above $1.1T? |
-| 8 | 60.00 | 300.00 | Will IShowSpeed finish GTA VI by November 24? |
-| 9 | 60.00 | 300.00 | Will xQc finish GTA VI by November 22? |
-| 10 | 40.00 | 200.00 | Will xQc finish GTA VI by November 23? |
+| 1 | 71.40 | 357.00 | Will Matt Murphy be the next CEO of NVIDIA? |
+| 2 | 48.60 | 243.00 | Will Anthropic close between $90 and $100 on its first t |
+| 3 | 37.25 | 186.23 | Will Anthropic open between $100 and $110 on its first t |
+| 4 | 35.20 | 176.00 | Will Anthropic close $120 or more on its first trading d |
+| 5 | 28.20 | 141.00 | Will "Guarding Stars" be the top global Netflix movie th |
+| 6 | 22.80 | 114.00 | Will "Obsession" be the top US Netflix movie this week? |
+| 7 | 21.80 | 109.00 | Will Core PCE YoY be 3.2% in October? |
+| 8 | 21.60 | 108.00 | Will the Bank of England increase the Bank Rate by 25 bp |
+| 9 | 20.00 | 100.00 | Will Anthropic's valuation hit (HIGH) $1.6T by November  |
+| 10 | 20.00 | 100.00 | GTA VI Online released by March 31, 2027? |
 
 ## Rewards: actual vs estimated
 
-- ts: `2026-11-18T22:31:02Z`
+- ts: `2026-11-19T05:18:59Z`
 - total actual: $0
 - total estimated: $0
 - ratio: n/a

@@ -1,215 +1,215 @@
 {
-  "ts": "2026-11-18T22:31:02Z",
+  "ts": "2026-11-19T05:18:59Z",
   "domain": "https://clob.polymarket.com",
   "budget_usd": 500.0,
   "snapshot_days": 3,
   "scored_markets": 250,
-  "competed": 163,
-  "near_zero": 87,
+  "competed": 193,
+  "near_zero": 57,
   "pilot_universe": 0,
   "pilot_provisional": 0,
-  "top20_competed_avg_yield_pct": 15.0242,
+  "top20_competed_avg_yield_pct": 23.6981,
   "top10_competed": [
     {
-      "question": "Anthropic IPO closing market cap above $1.5T?",
-      "slug": "anthropic-ipo-closing-market-cap-above-1pt5t",
-      "daily_rate": 250.0,
-      "qual_notional": 1173.7,
-      "est_daily": 226.8716,
-      "yield_pct": 45.3743,
-      "mid": "0.1515",
-      "near_zero": false
-    },
-    {
-      "question": "Will \"Guarding Stars\" be the top global Netflix movie this week?",
-      "slug": "will-guarding-stars-be-the-top-global-netflix-movie-this-week",
-      "daily_rate": 120.0,
-      "qual_notional": 114.0,
-      "est_daily": 96.4208,
-      "yield_pct": 19.2842,
-      "mid": "0.6",
-      "near_zero": false
-    },
-    {
-      "question": "Will Kai Cenat finish his GTA VI marathon by November 26?",
-      "slug": "will-kai-cenat-finish-his-gta-vi-marathon-by-november-26",
+      "question": "Will Anthropic open between $80 and $90 on its first trading day?",
+      "slug": "anthropic-ipo-opening-price-80-90",
       "daily_rate": 300.0,
-      "qual_notional": 998.91,
-      "est_daily": 93.1824,
-      "yield_pct": 18.6365,
-      "mid": "0.44",
-      "near_zero": false
-    },
-    {
-      "question": "Will Kai Cenat finish his GTA VI marathon by November 28?",
-      "slug": "will-kai-cenat-finish-his-gta-vi-marathon-by-november-28",
-      "daily_rate": 300.0,
-      "qual_notional": 1205.43,
-      "est_daily": 91.3048,
-      "yield_pct": 18.261,
-      "mid": "0.715",
-      "near_zero": false
-    },
-    {
-      "question": "Will OpenRouter process 260T or more tokens the week of November 23?",
-      "slug": "will-openrouter-process-260t-or-more-tokens-the-week-of-november-23",
-      "daily_rate": 122.0,
-      "qual_notional": 182.7,
-      "est_daily": 91.1262,
-      "yield_pct": 18.2252,
-      "mid": "0.725",
-      "near_zero": false
-    },
-    {
-      "question": "Will xQc finish GTA VI by November 21?",
-      "slug": "will-xqc-finish-gta-vi-by-november-21",
-      "daily_rate": 200.0,
-      "qual_notional": 511.63,
-      "est_daily": 86.9407,
-      "yield_pct": 17.3881,
+      "qual_notional": 110.26,
+      "est_daily": 295.351,
+      "yield_pct": 59.0702,
       "mid": "0.28",
       "near_zero": false
     },
     {
-      "question": "Will Anthropic's valuation hit (HIGH) $1.75T by November 30?",
-      "slug": "will-anthropics-valuation-hit-high-1pt75t-by-november-30-2026",
-      "daily_rate": 100.0,
-      "qual_notional": 181.61,
-      "est_daily": 71.6934,
-      "yield_pct": 14.3387,
-      "mid": "0.285",
+      "question": "Will Anthropic close between $100 and $110 on its first trading day?",
+      "slug": "will-anthropic-close-between-100-and-110-on-its-first-trading-day",
+      "daily_rate": 311.0,
+      "qual_notional": 110.0,
+      "est_daily": 223.5623,
+      "yield_pct": 44.7125,
+      "mid": "0.275",
       "near_zero": false
-    },
-    {
-      "question": "Will Core PCE YoY be 3.2% in October?",
-      "slug": "will-core-pce-yoy-be-3pt2pct-in-october-2026",
-      "daily_rate": 111.0,
-      "qual_notional": 284.11,
-      "est_daily": 68.4547,
-      "yield_pct": 13.6909,
-      "mid": "0.575",
-      "near_zero": false
-    },
-    {
-      "question": "Will Anthropic's IPO valuation be between $1.25T and $1.50T?",
-      "slug": "will-anthropics-ipo-valuation-be-between-1pt25t-and-1pt50t-12",
-      "daily_rate": 102.0,
-      "qual_notional": 737.89,
-      "est_daily": 66.4329,
-      "yield_pct": 13.2866,
-      "mid": "0.69",
-      "near_zero": false
-    },
-    {
-      "question": "Will IShowSpeed finish GTA VI by November 28?",
-      "slug": "will-ishowspeed-finish-gta-vi-by-november-28",
-      "daily_rate": 100.0,
-      "qual_notional": 1051.65,
-      "est_daily": 65.2887,
-      "yield_pct": 13.0577,
-      "mid": "0.855",
-      "near_zero": false
-    }
-  ],
-  "top10_near_zero": [
-    {
-      "question": "Anthropic IPO closing market cap above $1.2T?",
-      "slug": "anthropic-ipo-closing-market-cap-above-1pt2t",
-      "daily_rate": 400.0,
-      "qual_notional": 0.0,
-      "est_daily": 400.0,
-      "yield_pct": 80.0,
-      "mid": "0.5",
-      "near_zero": true
-    },
-    {
-      "question": "Anthropic IPO closing market cap above $1.3T?",
-      "slug": "anthropic-ipo-closing-market-cap-above-1pt3t",
-      "daily_rate": 400.0,
-      "qual_notional": 0.0,
-      "est_daily": 400.0,
-      "yield_pct": 80.0,
-      "mid": "0.425",
-      "near_zero": true
     },
     {
       "question": "Anthropic IPO closing market cap above $1.6T?",
       "slug": "anthropic-ipo-closing-market-cap-above-1pt6t",
       "daily_rate": 400.0,
-      "qual_notional": 0.0,
-      "est_daily": 400.0,
-      "yield_pct": 80.0,
-      "mid": "0.095",
-      "near_zero": true
+      "qual_notional": 789.65,
+      "est_daily": 143.5874,
+      "yield_pct": 28.7175,
+      "mid": "0.12",
+      "near_zero": false
     },
     {
-      "question": "Anthropic IPO closing market cap above $1.35T?",
-      "slug": "anthropic-ipo-closing-market-cap-above-1pt35t",
-      "daily_rate": 400.0,
-      "qual_notional": 0.0,
-      "est_daily": 400.0,
-      "yield_pct": 80.0,
-      "mid": "0.28",
-      "near_zero": true
-    },
-    {
-      "question": "Anthropic IPO closing market cap above $1.4T?",
-      "slug": "anthropic-ipo-closing-market-cap-above-1pt4t",
-      "daily_rate": 400.0,
-      "qual_notional": 0.0,
-      "est_daily": 400.0,
-      "yield_pct": 80.0,
-      "mid": "0.25",
-      "near_zero": true
-    },
-    {
-      "question": "Anthropic IPO closing market cap above $1.45T?",
-      "slug": "anthropic-ipo-closing-market-cap-above-1pt45t",
-      "daily_rate": 400.0,
-      "qual_notional": 0.0,
-      "est_daily": 400.0,
-      "yield_pct": 80.0,
-      "mid": "0.17",
-      "near_zero": true
-    },
-    {
-      "question": "Anthropic IPO closing market cap above $1.1T?",
-      "slug": "anthropic-ipo-closing-market-cap-above-1pt1t",
-      "daily_rate": 400.0,
-      "qual_notional": 0.0,
-      "est_daily": 400.0,
-      "yield_pct": 80.0,
-      "mid": "0.624",
-      "near_zero": true
-    },
-    {
-      "question": "Will IShowSpeed finish GTA VI by November 24?",
-      "slug": "will-ishowspeed-finish-gta-vi-by-november-24",
+      "question": "Will Anthropic open between $90 and $100 on its first trading day?",
+      "slug": "anthropic-ipo-opening-price-90-100",
       "daily_rate": 300.0,
-      "qual_notional": 0.0,
-      "est_daily": 300.0,
-      "yield_pct": 60.0,
-      "mid": "0.42",
-      "near_zero": true
+      "qual_notional": 312.21,
+      "est_daily": 141.5837,
+      "yield_pct": 28.3167,
+      "mid": "0.325",
+      "near_zero": false
+    },
+    {
+      "question": "Will Anthropic's valuation hit (HIGH) $1.5T by December 31?",
+      "slug": "will-anthropics-valuation-hit-high-1pt5t-by-december-31-797",
+      "daily_rate": 200.0,
+      "qual_notional": 11078.92,
+      "est_daily": 132.9375,
+      "yield_pct": 26.5875,
+      "mid": "0.67",
+      "near_zero": false
     },
     {
       "question": "Will xQc finish GTA VI by November 22?",
       "slug": "will-xqc-finish-gta-vi-by-november-22",
       "daily_rate": 300.0,
+      "qual_notional": 682.41,
+      "est_daily": 127.6563,
+      "yield_pct": 25.5313,
+      "mid": "0.745",
+      "near_zero": false
+    },
+    {
+      "question": "Anthropic IPO closing market cap above $1.45T?",
+      "slug": "anthropic-ipo-closing-market-cap-above-1pt45t",
+      "daily_rate": 400.0,
+      "qual_notional": 1135.67,
+      "est_daily": 113.6434,
+      "yield_pct": 22.7287,
+      "mid": "0.295",
+      "near_zero": false
+    },
+    {
+      "question": "Anthropic IPO closing market cap above $1.5T?",
+      "slug": "anthropic-ipo-closing-market-cap-above-1pt5t",
+      "daily_rate": 250.0,
+      "qual_notional": 959.38,
+      "est_daily": 110.9286,
+      "yield_pct": 22.1857,
+      "mid": "0.155",
+      "near_zero": false
+    },
+    {
+      "question": "Will Anthropic close between $110 and $120 on its first trading day?",
+      "slug": "will-anthropic-close-between-110-and-120-on-its-first-trading-day",
+      "daily_rate": 149.0,
+      "qual_notional": 146.36,
+      "est_daily": 102.5715,
+      "yield_pct": 20.5143,
+      "mid": "0.165",
+      "near_zero": false
+    },
+    {
+      "question": "Will Anthropic\u2019s market cap be between 1.2T and 1.5T at market close on IPO day ",
+      "slug": "will-anthropics-market-cap-be-between-1pt2t-and-1pt5t-at-market-close-on-ipo-day-by-december-31-2027",
+      "daily_rate": 114.0,
+      "qual_notional": 1804.6,
+      "est_daily": 98.9808,
+      "yield_pct": 19.7962,
+      "mid": "0.601",
+      "near_zero": false
+    }
+  ],
+  "top10_near_zero": [
+    {
+      "question": "Will Matt Murphy be the next CEO of NVIDIA?",
+      "slug": "will-matt-murphy-be-the-next-ceo-of-nvidia",
+      "daily_rate": 357.0,
       "qual_notional": 0.0,
-      "est_daily": 300.0,
-      "yield_pct": 60.0,
-      "mid": "0.69",
+      "est_daily": 357.0,
+      "yield_pct": 71.4,
+      "mid": "0.1195",
       "near_zero": true
     },
     {
-      "question": "Will xQc finish GTA VI by November 23?",
-      "slug": "will-xqc-finish-gta-vi-by-november-23",
-      "daily_rate": 200.0,
+      "question": "Will Anthropic close between $90 and $100 on its first trading day?",
+      "slug": "will-anthropic-close-between-90-and-100-on-its-first-trading-day",
+      "daily_rate": 243.0,
       "qual_notional": 0.0,
-      "est_daily": 200.0,
-      "yield_pct": 40.0,
-      "mid": "0.765",
+      "est_daily": 243.0,
+      "yield_pct": 48.6,
+      "mid": "0.42",
+      "near_zero": true
+    },
+    {
+      "question": "Will Anthropic open between $100 and $110 on its first trading day?",
+      "slug": "anthropic-ipo-opening-price-100-110",
+      "daily_rate": 200.0,
+      "qual_notional": 43.59,
+      "est_daily": 186.2296,
+      "yield_pct": 37.2459,
+      "mid": "0.2905",
+      "near_zero": true
+    },
+    {
+      "question": "Will Anthropic close $120 or more on its first trading day?",
+      "slug": "will-anthropic-close-120-or-more-on-its-first-trading-day",
+      "daily_rate": 176.0,
+      "qual_notional": 0.0,
+      "est_daily": 176.0,
+      "yield_pct": 35.2,
+      "mid": "0.34",
+      "near_zero": true
+    },
+    {
+      "question": "Will \"Guarding Stars\" be the top global Netflix movie this week?",
+      "slug": "will-guarding-stars-be-the-top-global-netflix-movie-this-week",
+      "daily_rate": 141.0,
+      "qual_notional": 0.0,
+      "est_daily": 141.0,
+      "yield_pct": 28.2,
+      "mid": "0.425",
+      "near_zero": true
+    },
+    {
+      "question": "Will \"Obsession\" be the top US Netflix movie this week?",
+      "slug": "will-obsession-be-the-top-us-netflix-movie-this-week-20261124",
+      "daily_rate": 114.0,
+      "qual_notional": 0.0,
+      "est_daily": 114.0,
+      "yield_pct": 22.8,
+      "mid": "0.395",
+      "near_zero": true
+    },
+    {
+      "question": "Will Core PCE YoY be 3.2% in October?",
+      "slug": "will-core-pce-yoy-be-3pt2pct-in-october-2026",
+      "daily_rate": 109.0,
+      "qual_notional": 0.0,
+      "est_daily": 109.0,
+      "yield_pct": 21.8,
+      "mid": "0.58",
+      "near_zero": true
+    },
+    {
+      "question": "Will the Bank of England increase the Bank Rate by 25 bps at the February meetin",
+      "slug": "will-the-bank-of-england-increase-the-bank-rate-by-25-bps-at-the-february-2027-meeting",
+      "daily_rate": 108.0,
+      "qual_notional": 0.0,
+      "est_daily": 108.0,
+      "yield_pct": 21.6,
+      "mid": "0.545",
+      "near_zero": true
+    },
+    {
+      "question": "Will Anthropic's valuation hit (HIGH) $1.6T by November 30?",
+      "slug": "will-anthropics-valuation-hit-high-1pt6t-by-november-30-2026",
+      "daily_rate": 100.0,
+      "qual_notional": 0.0,
+      "est_daily": 100.0,
+      "yield_pct": 20.0,
+      "mid": "0.465",
+      "near_zero": true
+    },
+    {
+      "question": "GTA VI Online released by March 31, 2027?",
+      "slug": "gta-vi-online-released-by-march-31-2027",
+      "daily_rate": 100.0,
+      "qual_notional": 0.0,
+      "est_daily": 100.0,
+      "yield_pct": 20.0,
+      "mid": "0.575",
       "near_zero": true
     }
   ],
@@ -219,7 +219,7 @@
     "day_csvs": [
       "2026-07-19.csv",
       "2026-07-20.csv",
-      "2026-11-18.csv"
+      "2026-11-19.csv"
     ]
   }
 }
