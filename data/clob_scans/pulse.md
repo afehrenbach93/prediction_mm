@@ -1,43 +1,43 @@
-# CLOB pulse — 2026-11-19T05:18:59Z
+# CLOB pulse — 2026-11-19T22:37:18Z
 
 - Domain: `https://clob.polymarket.com`
 - Budget: $500
 - Snapshot days on disk: 3
-- Scored: 250  competed: 193  near-zero: 57
+- Scored: 250  competed: 158  near-zero: 92
 - Pilot universe: 0 (provisional: 0)
-- Top-20 competed avg yield: 23.6981%/day (gross)
+- Top-20 competed avg yield: 15.2272%/day (gross)
 
 ## Top competed
 
 | # | yield%/d | est$/d | rate | qual$ | market |
 |---|----------|--------|------|-------|--------|
-| 1 | 59.07 | 295.35 | 300 | 110 | Will Anthropic open between $80 and $90 on its first tra |
-| 2 | 44.71 | 223.56 | 311 | 110 | Will Anthropic close between $100 and $110 on its first  |
-| 3 | 28.72 | 143.59 | 400 | 790 | Anthropic IPO closing market cap above $1.6T? |
-| 4 | 28.32 | 141.58 | 300 | 312 | Will Anthropic open between $90 and $100 on its first tr |
-| 5 | 26.59 | 132.94 | 200 | 11079 | Will Anthropic's valuation hit (HIGH) $1.5T by December  |
-| 6 | 25.53 | 127.66 | 300 | 682 | Will xQc finish GTA VI by November 22? |
-| 7 | 22.73 | 113.64 | 400 | 1136 | Anthropic IPO closing market cap above $1.45T? |
-| 8 | 22.19 | 110.93 | 250 | 959 | Anthropic IPO closing market cap above $1.5T? |
-| 9 | 20.51 | 102.57 | 149 | 146 | Will Anthropic close between $110 and $120 on its first  |
-| 10 | 19.80 | 98.98 | 114 | 1805 | Will Anthropic’s market cap be between 1.2T and 1.5T at  |
+| 1 | 29.02 | 145.12 | 280 | 702 | Will dcampion be the first of these Kick streamers to fi |
+| 2 | 22.96 | 114.78 | 143 | 337 | David Lisnard French presidential odds runner-up on Dece |
+| 3 | 19.44 | 97.22 | 100 | 72 | Will "The Further Mis-Adventures of Cliff Booth" score a |
+| 4 | 18.93 | 94.65 | 100 | 165 | Will Irama compete in Sanremo 2027? |
+| 5 | 18.13 | 90.67 | 100 | 136 | Will "Jumanji: Open World" score at least 50 on the Rott |
+| 6 | 17.72 | 88.61 | 140 | 127 | Will xQc be the first of these Kick streamers to finish  |
+| 7 | 17.70 | 88.52 | 100 | 414 | Will Anthropic's valuation hit (HIGH) $1.575T by Novembe |
+| 8 | 16.09 | 80.43 | 150 | 1036 | Will Kai Cenat finish his GTA VI marathon by November 24 |
+| 9 | 15.02 | 75.12 | 100 | 86 | Will "The Angry Birds Movie 3" score at least 75 on the  |
+| 10 | 14.92 | 74.61 | 100 | 109 | Will Fedez compete in Sanremo 2027? |
 
 ## Near-zero (excluded from pilot)
 
-| 1 | 71.40 | 357.00 | Will Matt Murphy be the next CEO of NVIDIA? |
-| 2 | 48.60 | 243.00 | Will Anthropic close between $90 and $100 on its first t |
-| 3 | 37.25 | 186.23 | Will Anthropic open between $100 and $110 on its first t |
-| 4 | 35.20 | 176.00 | Will Anthropic close $120 or more on its first trading d |
-| 5 | 28.20 | 141.00 | Will "Guarding Stars" be the top global Netflix movie th |
-| 6 | 22.80 | 114.00 | Will "Obsession" be the top US Netflix movie this week? |
-| 7 | 21.80 | 109.00 | Will Core PCE YoY be 3.2% in October? |
-| 8 | 21.60 | 108.00 | Will the Bank of England increase the Bank Rate by 25 bp |
-| 9 | 20.00 | 100.00 | Will Anthropic's valuation hit (HIGH) $1.6T by November  |
-| 10 | 20.00 | 100.00 | GTA VI Online released by March 31, 2027? |
+| 1 | 158.15 | 790.75 | Will IShowSpeed be the first of these streamers to finis |
+| 2 | 26.00 | 130.00 | Will "Guarding Stars" be the top US Netflix movie this w |
+| 3 | 20.00 | 100.00 | Will Alanzoka finish GTA VI by November 24? |
+| 4 | 20.00 | 100.00 | Will "Violent Night 2" score at least 55 on the Rotten T |
+| 5 | 20.00 | 100.00 | Will "Violent Night 2" score at least 65 on the Rotten T |
+| 6 | 20.00 | 100.00 | Will US gas hit $3.45 (Low) in November? |
+| 7 | 20.00 | 100.00 | Will "Violent Night 2" score at least 50 on the Rotten T |
+| 8 | 20.00 | 100.00 | Will "Violent Night 2" score at least 70 on the Rotten T |
+| 9 | 20.00 | 100.00 | Will "Violent Night 2" score at least 75 on the Rotten T |
+| 10 | 20.00 | 100.00 | Will "The Angry Birds Movie 3" score at least 50 on the  |
 
 ## Rewards: actual vs estimated
 
-- ts: `2026-11-19T05:18:59Z`
+- ts: `2026-11-19T22:37:18Z`
 - total actual: $0
 - total estimated: $0
 - ratio: n/a
