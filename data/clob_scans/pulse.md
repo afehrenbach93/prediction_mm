@@ -1,43 +1,43 @@
-# CLOB pulse — 2026-11-20T22:11:14Z
+# CLOB pulse — 2026-11-21T04:59:06Z
 
 - Domain: `https://clob.polymarket.com`
 - Budget: $500
 - Snapshot days on disk: 3
-- Scored: 250  competed: 182  near-zero: 68
+- Scored: 250  competed: 194  near-zero: 56
 - Pilot universe: 0 (provisional: 0)
-- Top-20 competed avg yield: 20.9204%/day (gross)
+- Top-20 competed avg yield: 21.1633%/day (gross)
 
 ## Top competed
 
 | # | yield%/d | est$/d | rate | qual$ | market |
 |---|----------|--------|------|-------|--------|
-| 1 | 88.94 | 444.71 | 500 | 54 | Will Anthropic close below its IPO price by November 23, |
-| 2 | 48.24 | 241.22 | 400 | 396 | Will Alpöge's Lean proof of the Riemann Hypothesis pass  |
-| 3 | 26.90 | 134.50 | 200 | 1517 | AI bubble burst in 2026? |
-| 4 | 22.29 | 111.43 | 341 | 1118 | Will dcampion be the first of these Kick streamers to fi |
-| 5 | 19.87 | 99.35 | 400 | 2378 | Will Kai Cenat finish his GTA VI marathon by November 27 |
-| 6 | 19.08 | 95.40 | 300 | 1101 | Will Kai Cenat finish his GTA VI marathon by November 25 |
-| 7 | 18.79 | 93.97 | 180 | 608 | Will AI solve 2 more Millennium Prize Problems in 2026? |
-| 8 | 17.29 | 86.43 | 805 | 6037 | Will the Riemann Hypothesis be the next Millennium Prize |
-| 9 | 16.98 | 84.90 | 385 | 1080 | Will AI solve 0 more Millennium Prize Problems in 2026? |
-| 10 | 16.43 | 82.15 | 118 | 190 | Democratic 2028 presidential odds 66-68% on November 27? |
+| 1 | 55.53 | 277.64 | 300 | 93 | Will Kai Cenat finish his GTA VI marathon by November 24 |
+| 2 | 43.27 | 216.35 | 300 | 418 | Will Kai Cenat finish his GTA VI marathon by November 25 |
+| 3 | 32.70 | 163.48 | 400 | 912 | Will Kai Cenat finish his GTA VI marathon by November 26 |
+| 4 | 24.48 | 122.41 | 300 | 2511 | Will Kai Cenat finish his GTA VI marathon by November 27 |
+| 5 | 20.80 | 103.98 | 124 | 141 | Democratic 2028 presidential odds 64-66% on November 27? |
+| 6 | 20.49 | 102.46 | 200 | 701 | AI bubble burst in 2026? |
+| 7 | 20.02 | 100.12 | 150 | 847 | AI bubble burst by June 30, 2027? |
+| 8 | 19.91 | 99.56 | 500 | 1670 | Will Anthropic close below its IPO price by November 25, |
+| 9 | 18.90 | 94.52 | 100 | 84 | Will "Dune: Part Three" score at least 95 on the Rotten  |
+| 10 | 18.76 | 93.79 | 161 | 386 | Democratic 2028 presidential odds 66-68% on November 27? |
 
 ## Near-zero (excluded from pilot)
 
-| 1 | 100.00 | 500.00 | Will Anthropic close below its IPO price by November 25, |
-| 2 | 100.00 | 500.00 | Will Anthropic close below its IPO price by November 27, |
-| 3 | 40.00 | 200.00 | Will Anthropic close below its IPO price by December 4,  |
-| 4 | 30.00 | 150.00 | AI bubble burst by June 30, 2027? |
-| 5 | 25.80 | 129.00 | Democratic 2028 presidential odds 64-66% on November 27? |
-| 6 | 20.00 | 100.00 | Will US gas hit $3.75 (High) in November? |
-| 7 | 20.00 | 100.00 | Will "Avengers: Doomsday" score at least 80 on the Rotte |
-| 8 | 20.00 | 100.00 | Will "Avengers: Doomsday" score at least 75 on the Rotte |
-| 9 | 20.00 | 100.00 | Will "Avengers: Doomsday" score at least 85 on the Rotte |
-| 10 | 20.00 | 100.00 | Will "Avengers: Doomsday" score at least 90 on the Rotte |
+| 1 | 32.60 | 163.00 | Will the Reserve Bank of Australia make no change to the |
+| 2 | 26.60 | 133.00 | Will the Ornn RTX 5090 Index be between $0.65 and $0.70  |
+| 3 | 18.54 | 92.69 | Will Kai Cenat be the second of these streamers to finis |
+| 4 | 16.60 | 83.00 | Will the Ornn H100 Index be between $2.75 and $3.00 on N |
+| 5 | 12.60 | 63.00 | Will Alphabet’s market capitalization be between $3.00T  |
+| 6 | 10.80 | 54.00 | Will Typical Gamer be the second of these streamers to f |
+| 7 | 10.00 | 50.00 | Will Marvell (MRVL) beat quarterly earnings? |
+| 8 | 9.87 | 49.37 | Will Trump's approval rating be at least 38.0 on Novembe |
+| 9 | 9.20 | 46.00 | Will Micron Q1 adjusted gross margin be between 85% and  |
+| 10 | 9.20 | 46.00 | Will the Ornn H100 Index be between $3.00 and $3.25 on N |
 
 ## Rewards: actual vs estimated
 
-- ts: `2026-11-20T22:11:14Z`
+- ts: `2026-11-21T04:59:06Z`
 - total actual: $0
 - total estimated: $0
 - ratio: n/a
