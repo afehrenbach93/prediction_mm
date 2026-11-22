@@ -1,215 +1,215 @@
 {
-  "ts": "2026-11-21T20:51:08Z",
+  "ts": "2026-11-22T04:21:48Z",
   "domain": "https://clob.polymarket.com",
   "budget_usd": 500.0,
   "snapshot_days": 3,
   "scored_markets": 250,
-  "competed": 214,
-  "near_zero": 36,
+  "competed": 228,
+  "near_zero": 22,
   "pilot_universe": 0,
   "pilot_provisional": 0,
-  "top20_competed_avg_yield_pct": 14.7354,
+  "top20_competed_avg_yield_pct": 16.1246,
   "top10_competed": [
     {
       "question": "Will the Riemann Hypothesis be the next Millennium Prize Problem solved by AI?",
       "slug": "will-the-riemann-hypothesis-be-the-next-millennium-prize-problem-solved-by-ai",
       "daily_rate": 805.0,
-      "qual_notional": 2425.95,
-      "est_daily": 237.9269,
-      "yield_pct": 47.5854,
-      "mid": "0.761",
+      "qual_notional": 1480.2,
+      "est_daily": 253.9747,
+      "yield_pct": 50.7949,
+      "mid": "0.719",
       "near_zero": false
     },
     {
-      "question": "Will OpenAI announce another Millennium Prize solution by December 31, 2026?",
-      "slug": "will-openai-announce-another-millennium-prize-solution-by-december-31-2026",
-      "daily_rate": 190.0,
-      "qual_notional": 742.09,
-      "est_daily": 106.0499,
-      "yield_pct": 21.21,
-      "mid": "0.1025",
+      "question": "Will xQc be the next of these streamers to finish GTA VI by December 31, 2026?",
+      "slug": "will-xqc-be-the-next-of-these-streamers-to-finish-gta-vi-by-december-31-2026-20261121",
+      "daily_rate": 269.0,
+      "qual_notional": 160.05,
+      "est_daily": 181.9306,
+      "yield_pct": 36.3861,
+      "mid": "0.595",
+      "near_zero": false
+    },
+    {
+      "question": "Will AI solve 0 more Millennium Prize Problems in 2026?",
+      "slug": "will-ai-solve-0-more-millennium-prize-problems-in-2026",
+      "daily_rate": 385.0,
+      "qual_notional": 750.62,
+      "est_daily": 131.4891,
+      "yield_pct": 26.2978,
+      "mid": "0.195",
+      "near_zero": false
+    },
+    {
+      "question": "Will the Ornn RTX 5090 Index be between $0.65 and $0.70 on November 30, 2026?",
+      "slug": "will-the-ornn-rtx-5090-index-be-between-0pt65-and-0pt70-on-november-30-2026",
+      "daily_rate": 119.0,
+      "qual_notional": 61.77,
+      "est_daily": 118.221,
+      "yield_pct": 23.6442,
+      "mid": "0.435",
+      "near_zero": false
+    },
+    {
+      "question": "Will Anthropic close below its IPO price by December 4, 2026?",
+      "slug": "will-anthropic-close-below-its-ipo-price-by-december-4-2026",
+      "daily_rate": 100.0,
+      "qual_notional": 296.12,
+      "est_daily": 93.7152,
+      "yield_pct": 18.743,
+      "mid": "0.59",
       "near_zero": false
     },
     {
       "question": "US x Iran Effective Ceasefire by November 30?",
       "slug": "us-x-iran-effective-ceasefire-by-november-30-20261108",
       "daily_rate": 175.0,
-      "qual_notional": 812.53,
-      "est_daily": 98.1809,
-      "yield_pct": 19.6362,
-      "mid": "0.455",
+      "qual_notional": 1792.65,
+      "est_daily": 82.7581,
+      "yield_pct": 16.5516,
+      "mid": "0.47",
       "near_zero": false
     },
     {
-      "question": "Will Deere say \"Tenna\" during earnings call?",
-      "slug": "will-deere-say-tenna-during-earnings-call-20261125",
-      "daily_rate": 100.0,
-      "qual_notional": 176.72,
-      "est_daily": 97.5278,
-      "yield_pct": 19.5056,
-      "mid": "0.595",
-      "near_zero": false
-    },
-    {
-      "question": "Will Salesforce say \"Slack\" 30+ times during earnings call?",
-      "slug": "will-salesforce-say-slack-30-times-during-earnings-call-20261202",
-      "daily_rate": 100.0,
-      "qual_notional": 159.12,
-      "est_daily": 86.852,
-      "yield_pct": 17.3704,
-      "mid": "0.78",
-      "near_zero": false
-    },
-    {
-      "question": "Will \"Flower In A Hurricane - Justice, Tame Impala, SZA, King Gizzard & the Liza",
-      "slug": "will-flower-in-a-hurricane-justice-tame-impala-sza-king-gizzard-the-lizard-wizard-be-the-1-song-this-week-20261127",
-      "daily_rate": 132.0,
-      "qual_notional": 294.03,
-      "est_daily": 84.1054,
-      "yield_pct": 16.8211,
-      "mid": "0.605",
-      "near_zero": false
-    },
-    {
-      "question": "Will \"Black Doves: Season 2\" be the #2 global Netflix show this week?",
-      "slug": "will-black-doves-season-2-be-the-2-global-netflix-show-this-week-20261124",
-      "daily_rate": 94.0,
-      "qual_notional": 287.69,
-      "est_daily": 82.5595,
-      "yield_pct": 16.5119,
-      "mid": "0.785",
-      "near_zero": false
-    },
-    {
-      "question": "Will US gas hit $3.70 (High) in November?",
-      "slug": "will-gas-hit-3pt70-high-by-november-30-2026",
-      "daily_rate": 100.0,
-      "qual_notional": 62.4,
-      "est_daily": 81.9707,
-      "yield_pct": 16.3941,
-      "mid": "0.24",
-      "near_zero": false
-    },
-    {
-      "question": "Will the Ornn H100 Index be between $2.50 and $3.00 on December 31, 2026?",
-      "slug": "will-the-ornn-h100-index-be-between-2pt50-and-3pt00-on-december-31-2026-20260709164334627",
-      "daily_rate": 78.0,
-      "qual_notional": 67.73,
-      "est_daily": 77.6797,
-      "yield_pct": 15.5359,
-      "mid": "0.317",
-      "near_zero": false
-    },
-    {
-      "question": "Will Salesforce say \"AI\" 50+ times during earnings call?",
-      "slug": "will-salesforce-say-ai-50-times-during-earnings-call-20261202",
-      "daily_rate": 100.0,
-      "qual_notional": 372.96,
-      "est_daily": 76.3148,
-      "yield_pct": 15.263,
-      "mid": "0.74",
-      "near_zero": false
-    }
-  ],
-  "top10_near_zero": [
-    {
-      "question": "AI bubble burst by June 30, 2027?",
-      "slug": "ai-bubble-burst-by-june-30-2027",
-      "daily_rate": 150.0,
-      "qual_notional": 0.0,
-      "est_daily": 150.0,
-      "yield_pct": 30.0,
+      "question": "US x Iran Effective Ceasefire by December 31?",
+      "slug": "us-x-iran-effective-ceasefire-by-december-31-20261108",
+      "daily_rate": 120.0,
+      "qual_notional": 464.08,
+      "est_daily": 81.0375,
+      "yield_pct": 16.2075,
       "mid": "0.655",
-      "near_zero": true
-    },
-    {
-      "question": "Will Dell say \"CrowdStrike\" during earnings call?",
-      "slug": "will-dell-say-crowdstrike-during-earnings-call-20261124",
-      "daily_rate": 100.0,
-      "qual_notional": 0.0,
-      "est_daily": 100.0,
-      "yield_pct": 20.0,
-      "mid": "0.28",
-      "near_zero": true
-    },
-    {
-      "question": "Will Deere say \"Demand\" 20+ times during earnings call?",
-      "slug": "will-deere-say-demand-20-times-during-earnings-call-20261125",
-      "daily_rate": 100.0,
-      "qual_notional": 0.0,
-      "est_daily": 100.0,
-      "yield_pct": 20.0,
-      "mid": "0.43",
-      "near_zero": true
+      "near_zero": false
     },
     {
       "question": "Will Deere say \"ExactShot\" during earnings call?",
       "slug": "will-deere-say-exactshot-during-earnings-call-20261125",
       "daily_rate": 100.0,
-      "qual_notional": 0.0,
-      "est_daily": 100.0,
-      "yield_pct": 20.0,
-      "mid": "0.3",
+      "qual_notional": 354.45,
+      "est_daily": 75.782,
+      "yield_pct": 15.1564,
+      "mid": "0.49",
+      "near_zero": false
+    },
+    {
+      "question": "AI bubble burst by June 30, 2027?",
+      "slug": "ai-bubble-burst-by-june-30-2027",
+      "daily_rate": 150.0,
+      "qual_notional": 1079.37,
+      "est_daily": 71.0888,
+      "yield_pct": 14.2178,
+      "mid": "0.69",
+      "near_zero": false
+    },
+    {
+      "question": "Will the median home value in NYC be less than $445,000 on December 31?",
+      "slug": "will-the-median-home-value-in-nyc-be-less-than-445000-on-december-31-2026",
+      "daily_rate": 79.0,
+      "qual_notional": 170.0,
+      "est_daily": 64.1484,
+      "yield_pct": 12.8297,
+      "mid": "0.355",
+      "near_zero": false
+    }
+  ],
+  "top10_near_zero": [
+    {
+      "question": "Will HoneyMad be the next of these streamers to finish GTA VI by December 31, 20",
+      "slug": "will-honeymad-be-the-next-of-these-streamers-to-finish-gta-vi-by-december-31-2026-20261121",
+      "daily_rate": 231.0,
+      "qual_notional": 40.32,
+      "est_daily": 228.9843,
+      "yield_pct": 45.7969,
+      "mid": "0.345",
       "near_zero": true
     },
     {
-      "question": "Will Anthropic announce a Millennium Prize solution by December 31, 2026?",
-      "slug": "will-anthropic-announce-a-millennium-prize-solution-by-december-31-2026",
-      "daily_rate": 85.0,
+      "question": "Will a dozen eggs cost between $2.30 and $2.40 in November?",
+      "slug": "will-a-dozen-eggs-cost-between-2pt30-and-2pt40-in-november-2026",
+      "daily_rate": 112.0,
       "qual_notional": 0.0,
-      "est_daily": 85.0,
-      "yield_pct": 17.0,
-      "mid": "0.607",
-      "near_zero": true
-    },
-    {
-      "question": "Will xQc be the next of these streamers to finish GTA VI by December 31, 2026?",
-      "slug": "will-xqc-be-the-next-of-these-streamers-to-finish-gta-vi-by-december-31-2026-20261121",
-      "daily_rate": 55.0,
-      "qual_notional": 20.0,
-      "est_daily": 54.0393,
-      "yield_pct": 10.8079,
-      "mid": "0.5",
-      "near_zero": true
-    },
-    {
-      "question": "Will IlloJuan be the next of these streamers to finish GTA VI by December 31, 20",
-      "slug": "will-illojuan-be-the-next-of-these-streamers-to-finish-gta-vi-by-december-31-2026-20261121",
-      "daily_rate": 51.0,
-      "qual_notional": 0.0,
-      "est_daily": 51.0,
-      "yield_pct": 10.2,
-      "mid": "0.42",
-      "near_zero": true
-    },
-    {
-      "question": "Will US births in 2026 be between 3.50 million and 3.53 million?",
-      "slug": "will-us-births-in-2026-be-between-3pt50-million-and-3pt53-million",
-      "daily_rate": 51.0,
-      "qual_notional": 0.0,
-      "est_daily": 51.0,
-      "yield_pct": 10.2,
-      "mid": "0.446",
-      "near_zero": true
-    },
-    {
-      "question": "Will CaseOh be the next of these streamers to finish GTA VI by December 31, 2026",
-      "slug": "will-caseoh-be-the-next-of-these-streamers-to-finish-gta-vi-by-december-31-2026-20261121",
-      "daily_rate": 48.0,
-      "qual_notional": 0.0,
-      "est_daily": 48.0,
-      "yield_pct": 9.6,
-      "mid": "0.425",
-      "near_zero": true
-    },
-    {
-      "question": "Will RRaenee be the next of these streamers to finish GTA VI by December 31, 202",
-      "slug": "will-rraenee-be-the-next-of-these-streamers-to-finish-gta-vi-by-december-31-2026-20261121",
-      "daily_rate": 48.0,
-      "qual_notional": 0.0,
-      "est_daily": 48.0,
-      "yield_pct": 9.6,
+      "est_daily": 112.0,
+      "yield_pct": 22.4,
       "mid": "0.415",
+      "near_zero": true
+    },
+    {
+      "question": "Will Canada\u2019s November 2026 unemployment rate be 6.6%?",
+      "slug": "will-canadas-november-2026-unemployment-rate-be-6pt6",
+      "daily_rate": 48.0,
+      "qual_notional": 0.0,
+      "est_daily": 48.0,
+      "yield_pct": 9.6,
+      "mid": "0.16",
+      "near_zero": true
+    },
+    {
+      "question": "0 ships transit Hormuz on any date by January 31, 2027?",
+      "slug": "0-ships-transit-hormuz-on-any-date-by-january-31-2027",
+      "daily_rate": 40.0,
+      "qual_notional": 0.0,
+      "est_daily": 40.0,
+      "yield_pct": 8.0,
+      "mid": "0.675",
+      "near_zero": true
+    },
+    {
+      "question": "Will the 7-day average ship traffic through the Suez Canal be 42+ on November 30",
+      "slug": "will-the-7-day-average-ship-traffic-through-the-suez-canal-be-42-on-november-30",
+      "daily_rate": 40.0,
+      "qual_notional": 0.0,
+      "est_daily": 40.0,
+      "yield_pct": 8.0,
+      "mid": "0.77",
+      "near_zero": true
+    },
+    {
+      "question": "Will the 7-day average ship traffic through the Suez Canal be 44+ on November 30",
+      "slug": "will-the-7-day-average-ship-traffic-through-the-suez-canal-be-44-on-november-30",
+      "daily_rate": 40.0,
+      "qual_notional": 0.0,
+      "est_daily": 40.0,
+      "yield_pct": 8.0,
+      "mid": "0.65",
+      "near_zero": true
+    },
+    {
+      "question": "Will the 7-day average ship traffic through the Suez Canal be 40+ on November 30",
+      "slug": "will-the-7-day-average-ship-traffic-through-the-suez-canal-be-40-on-november-30",
+      "daily_rate": 40.0,
+      "qual_notional": 0.0,
+      "est_daily": 40.0,
+      "yield_pct": 8.0,
+      "mid": "0.88",
+      "near_zero": true
+    },
+    {
+      "question": "Will the 7-day average ship traffic through the Panama Canal be 27+ on November ",
+      "slug": "will-the-7-day-average-ship-traffic-through-the-panama-canal-be-27-on-november-30",
+      "daily_rate": 40.0,
+      "qual_notional": 0.0,
+      "est_daily": 40.0,
+      "yield_pct": 8.0,
+      "mid": "0.655",
+      "near_zero": true
+    },
+    {
+      "question": "Will the 7-day average ship traffic through the Suez Canal be 40+ on December 31",
+      "slug": "will-the-7-day-average-ship-traffic-through-the-suez-canal-be-40-on-december-31",
+      "daily_rate": 40.0,
+      "qual_notional": 0.0,
+      "est_daily": 40.0,
+      "yield_pct": 8.0,
+      "mid": "0.565",
+      "near_zero": true
+    },
+    {
+      "question": "Will 38+ ships transit the Bab el-Mandeb Strait on any day week of November 23?",
+      "slug": "will-38-ships-transit-the-bab-el-mandeb-strait-on-any-day-week-of-november-23",
+      "daily_rate": 40.0,
+      "qual_notional": 0.0,
+      "est_daily": 40.0,
+      "yield_pct": 8.0,
+      "mid": "0.19",
       "near_zero": true
     }
   ],
@@ -219,7 +219,7 @@
     "day_csvs": [
       "2026-07-19.csv",
       "2026-07-20.csv",
-      "2026-11-21.csv"
+      "2026-11-22.csv"
     ]
   }
 }
