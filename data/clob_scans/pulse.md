@@ -1,43 +1,43 @@
-# CLOB pulse — 2026-11-24T02:03:55Z
+# CLOB pulse — 2026-11-24T07:47:11Z
 
 - Domain: `https://clob.polymarket.com`
 - Budget: $500
 - Snapshot days on disk: 3
-- Scored: 250  competed: 236  near-zero: 14
+- Scored: 250  competed: 222  near-zero: 28
 - Pilot universe: 0 (provisional: 0)
-- Top-20 competed avg yield: 31.8041%/day (gross)
+- Top-20 competed avg yield: 17.5859%/day (gross)
 
 ## Top competed
 
 | # | yield%/d | est$/d | rate | qual$ | market |
 |---|----------|--------|------|-------|--------|
-| 1 | 37.15 | 185.73 | 204 | 249 | Will the average Ornn B200 rental price in March 2027 be |
-| 2 | 37.13 | 185.66 | 204 | 311 | Will the average Ornn B300 rental price in January 2027  |
-| 3 | 36.93 | 184.67 | 204 | 281 | Will the average Ornn B300 rental price in December 2027 |
-| 4 | 35.93 | 179.66 | 204 | 539 | Will the average Ornn B300 rental price in December 2027 |
-| 5 | 35.83 | 179.16 | 204 | 156 | Will the average Ornn B200 rental price in March 2027 be |
-| 6 | 35.73 | 178.65 | 204 | 2459 | Will the average Ornn B300 rental price in December 2027 |
-| 7 | 35.63 | 178.14 | 204 | 725 | Will the average Ornn H100 rental price in January 2027  |
-| 8 | 35.11 | 175.56 | 204 | 113 | Will the average Ornn B200 rental price in March 2027 be |
-| 9 | 34.96 | 174.79 | 204 | 423 | Will the average Ornn B200 rental price in March 2027 be |
-| 10 | 34.72 | 173.62 | 204 | 519 | Will the average Ornn B300 rental price in December 2027 |
+| 1 | 31.11 | 155.55 | 200 | 135 | Will Crusoe IPO by June 30, 2027? |
+| 2 | 30.98 | 154.88 | 200 | 166 | Will Jynxzi finish GTA VI by November 30? |
+| 3 | 27.28 | 136.39 | 200 | 154 | Will ohnePixel finish GTA VI by November 30? |
+| 4 | 27.20 | 136.01 | 200 | 240 | Will Jynxzi finish GTA VI by December 3? |
+| 5 | 24.20 | 121.01 | 200 | 333 | Will Nscale IPO by December 31, 2027? |
+| 6 | 23.61 | 118.06 | 200 | 395 | Will Elon Musk post 1400+ tweets in December 2026? |
+| 7 | 22.44 | 112.21 | 960 | 2866 | Will the average Ornn B300 rental price in January 2027  |
+| 8 | 19.22 | 96.12 | 100 | 119 | Poilievre announced resignation or removal by December 3 |
+| 9 | 16.40 | 82.01 | 100 | 148 | Will Jensen Huang say "Million" or "Billion" or "Trillio |
+| 10 | 15.16 | 75.81 | 100 | 263 | Will Jensen Huang say "Trump" during his GTC Washington, |
 
 ## Near-zero (excluded from pilot)
 
-| 1 | 40.80 | 204.00 | Will the average Ornn B300 rental price in January 2027  |
-| 2 | 40.80 | 204.00 | Will the average Ornn B300 rental price in January 2027  |
-| 3 | 40.80 | 204.00 | Will the average Ornn B300 rental price in January 2027  |
-| 4 | 40.80 | 204.00 | Will the average Ornn B300 rental price in January 2027  |
-| 5 | 40.80 | 204.00 | Will the average Ornn B300 rental price in January 2027  |
-| 6 | 40.80 | 204.00 | Will the average Ornn B300 rental price in January 2027  |
-| 7 | 40.80 | 204.00 | Will the average Ornn B300 rental price in January 2027  |
-| 8 | 40.80 | 204.00 | Will the average Ornn B300 rental price in January 2027  |
-| 9 | 40.80 | 204.00 | Will the average Ornn B300 rental price in December 2027 |
-| 10 | 40.80 | 204.00 | Will the average Ornn B200 rental price in March 2027 be |
+| 1 | 40.00 | 200.00 | Will ohnePixel finish GTA VI by November 28? |
+| 2 | 40.00 | 200.00 | Will a GPU compute futures contract trade on a US exchan |
+| 3 | 40.00 | 200.00 | Will a GPU compute futures contract trade on a US exchan |
+| 4 | 40.00 | 200.00 | Will Nscale IPO by March 31, 2027? |
+| 5 | 40.00 | 200.00 | Will Crusoe IPO by December 31, 2027? |
+| 6 | 20.00 | 100.00 | EU country expels a Russian diplomat by November 30, 202 |
+| 7 | 20.00 | 100.00 | EU country expels a Russian diplomat by December 15, 202 |
+| 8 | 20.00 | 100.00 | EU country expels a Russian diplomat by December 31, 202 |
+| 9 | 20.00 | 100.00 | U.S. diplomat expelled by March 31, 2027? |
+| 10 | 20.00 | 100.00 | U.S. diplomat expelled by June 30, 2027? |
 
 ## Rewards: actual vs estimated
 
-- ts: `2026-11-24T02:03:55Z`
+- ts: `2026-11-24T07:47:11Z`
 - total actual: $0
 - total estimated: $0
 - ratio: n/a
