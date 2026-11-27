@@ -1,215 +1,165 @@
 {
-  "ts": "2026-11-26T23:37:07Z",
+  "ts": "2026-11-27T06:01:27Z",
   "domain": "https://clob.polymarket.com",
   "budget_usd": 500.0,
   "snapshot_days": 3,
   "scored_markets": 250,
-  "competed": 223,
-  "near_zero": 27,
+  "competed": 245,
+  "near_zero": 5,
   "pilot_universe": 0,
   "pilot_provisional": 0,
-  "top20_competed_avg_yield_pct": 20.9726,
+  "top20_competed_avg_yield_pct": 15.4761,
   "top10_competed": [
     {
-      "question": "Will Jynxzi finish GTA VI by December 6?",
-      "slug": "will-jynxzi-finish-gta-vi-by-december-6",
+      "question": "Will Jensen Huang's resignation or removal be announced and Nvidia's market cap ",
+      "slug": "jensen-huang-resigned-or-removed-and-nvidia-4t-end-of-2026-resigned-over",
       "daily_rate": 300.0,
-      "qual_notional": 171.57,
-      "est_daily": 186.8485,
-      "yield_pct": 37.3697,
-      "mid": "0.36",
+      "qual_notional": 426.96,
+      "est_daily": 239.2792,
+      "yield_pct": 47.8558,
+      "mid": "0.37",
       "near_zero": false
     },
     {
-      "question": "Will Periodic Labs be acquired before 2028?",
-      "slug": "will-periodic-labs-be-acquired-before-2028",
-      "daily_rate": 200.0,
-      "qual_notional": 607.28,
-      "est_daily": 171.1289,
-      "yield_pct": 34.2258,
-      "mid": "0.19",
-      "near_zero": false
-    },
-    {
-      "question": "Will Inception Labs be acquired before 2028?",
-      "slug": "will-inception-labs-be-acquired-before-2028",
-      "daily_rate": 200.0,
-      "qual_notional": 1048.56,
-      "est_daily": 155.5098,
-      "yield_pct": 31.102,
-      "mid": "0.565",
-      "near_zero": false
-    },
-    {
-      "question": "Will Cohere be acquired before 2028?",
-      "slug": "will-cohere-be-acquired-before-2028",
-      "daily_rate": 200.0,
-      "qual_notional": 469.38,
-      "est_daily": 154.2857,
-      "yield_pct": 30.8571,
-      "mid": "0.125",
-      "near_zero": false
-    },
-    {
-      "question": "Will ohnePixel finish GTA VI by November 30?",
-      "slug": "will-ohnepixel-finish-gta-vi-by-november-30",
-      "daily_rate": 200.0,
-      "qual_notional": 184.62,
-      "est_daily": 123.8632,
-      "yield_pct": 24.7726,
-      "mid": "0.23",
-      "near_zero": false
-    },
-    {
-      "question": "Will Zohran Mamdani say \"Surgery\" during his next livestream?",
-      "slug": "will-zohran-mamdani-say-surgery-during-his-next-livestream-20261126",
-      "daily_rate": 100.0,
-      "qual_notional": 85.4,
-      "est_daily": 99.7695,
-      "yield_pct": 19.9539,
+      "question": "Will Jensen Huang's resignation or removal be announced and Nvidia's market cap ",
+      "slug": "jensen-huang-resigned-or-removed-and-nvidia-4t-end-of-2026-resigned-under",
+      "daily_rate": 400.0,
+      "qual_notional": 625.46,
+      "est_daily": 167.8252,
+      "yield_pct": 33.565,
       "mid": "0.61",
       "near_zero": false
     },
     {
-      "question": "Will Zohran Mamdani say \"President\" or \"Trump\" during his next livestream?",
-      "slug": "will-zohran-mamdani-say-president-or-trump-during-his-next-livestream-20261126",
-      "daily_rate": 100.0,
-      "qual_notional": 133.48,
-      "est_daily": 99.3721,
-      "yield_pct": 19.8744,
-      "mid": "0.47",
+      "question": "Will Jensen Huang be named NVIDIA's next CEO and Nvidia's market cap be above $4",
+      "slug": "jensen-huang-named-nvidia-ceo-and-nvidia-4t-end-of-2026-named-over",
+      "daily_rate": 175.0,
+      "qual_notional": 248.31,
+      "est_daily": 115.6606,
+      "yield_pct": 23.1321,
+      "mid": "0.367",
       "near_zero": false
     },
     {
-      "question": "Will Zohran Mamdani say \"Five Borough\" during his next livestream?",
-      "slug": "will-zohran-mamdani-say-five-borough-during-his-next-livestream-20261126",
-      "daily_rate": 100.0,
-      "qual_notional": 190.74,
-      "est_daily": 99.2239,
-      "yield_pct": 19.8448,
-      "mid": "0.51",
-      "near_zero": false
-    },
-    {
-      "question": "Will Zohran Mamdani say \"Governor\" or \"Hochul\" during his next livestream?",
-      "slug": "will-zohran-mamdani-say-governor-or-hochul-during-his-next-livestream-20261126",
-      "daily_rate": 100.0,
-      "qual_notional": 59.99,
-      "est_daily": 98.7536,
-      "yield_pct": 19.7507,
-      "mid": "0.35",
-      "near_zero": false
-    },
-    {
-      "question": "Will Zohran Mamdani say \"Christmas\" during his next livestream?",
-      "slug": "will-zohran-mamdani-say-christmas-during-his-next-livestream-20261126",
-      "daily_rate": 100.0,
-      "qual_notional": 83.62,
-      "est_daily": 97.0773,
-      "yield_pct": 19.4155,
-      "mid": "0.375",
-      "near_zero": false
-    }
-  ],
-  "top10_near_zero": [
-    {
-      "question": "Will Jynxzi finish GTA VI by December 3?",
-      "slug": "will-jynxzi-finish-gta-vi-by-december-3",
+      "question": "Will Jynxzi finish GTA VI by December 10?",
+      "slug": "will-jynxzi-finish-gta-vi-by-december-10",
       "daily_rate": 200.0,
-      "qual_notional": 47.91,
-      "est_daily": 189.4209,
-      "yield_pct": 37.8842,
-      "mid": "0.22",
-      "near_zero": true
+      "qual_notional": 292.94,
+      "est_daily": 85.8308,
+      "yield_pct": 17.1662,
+      "mid": "0.385",
+      "near_zero": false
     },
     {
-      "question": "Will NVIDIA (NVDA) get a credit rating downgrade before 2028?",
-      "slug": "will-nvidia-get-a-credit-rating-downgrade-before-2028",
-      "daily_rate": 100.0,
-      "qual_notional": 0.0,
-      "est_daily": 100.0,
-      "yield_pct": 20.0,
-      "mid": "0.505",
-      "near_zero": true
+      "question": "Will Jynxzi finish GTA VI by December 6?",
+      "slug": "will-jynxzi-finish-gta-vi-by-december-6",
+      "daily_rate": 300.0,
+      "qual_notional": 964.06,
+      "est_daily": 76.9204,
+      "yield_pct": 15.3841,
+      "mid": "0.205",
+      "near_zero": false
     },
     {
-      "question": "Will CoreWeave (CRWV) get a credit rating downgrade before 2028?",
-      "slug": "will-coreweave-get-a-credit-rating-downgrade-before-2028",
+      "question": "Will Sandisk (SNDK) get a credit rating downgrade before 2028?",
+      "slug": "will-sandisk-get-a-credit-rating-downgrade-before-2028",
       "daily_rate": 100.0,
-      "qual_notional": 0.0,
-      "est_daily": 100.0,
-      "yield_pct": 20.0,
-      "mid": "0.52",
-      "near_zero": true
-    },
-    {
-      "question": "Will Meta (META) get a credit rating downgrade before 2028?",
-      "slug": "will-meta-get-a-credit-rating-downgrade-before-2028",
-      "daily_rate": 100.0,
-      "qual_notional": 0.0,
-      "est_daily": 100.0,
-      "yield_pct": 20.0,
-      "mid": "0.5",
-      "near_zero": true
+      "qual_notional": 694.48,
+      "est_daily": 72.8033,
+      "yield_pct": 14.5607,
+      "mid": "0.17",
+      "near_zero": false
     },
     {
       "question": "Will Alphabet (GOOGL) get a credit rating downgrade before 2028?",
       "slug": "will-alphabet-get-a-credit-rating-downgrade-before-2028",
       "daily_rate": 100.0,
-      "qual_notional": 0.0,
-      "est_daily": 100.0,
-      "yield_pct": 20.0,
-      "mid": "0.5",
-      "near_zero": true
+      "qual_notional": 605.31,
+      "est_daily": 69.8943,
+      "yield_pct": 13.9789,
+      "mid": "0.23",
+      "near_zero": false
     },
     {
-      "question": "Will Amazon (AMZN) get a credit rating downgrade before 2028?",
-      "slug": "will-amazon-get-a-credit-rating-downgrade-before-2028",
-      "daily_rate": 100.0,
-      "qual_notional": 0.0,
-      "est_daily": 100.0,
-      "yield_pct": 20.0,
-      "mid": "0.495",
-      "near_zero": true
-    },
-    {
-      "question": "Will Broadcom (AVGO) get a credit rating downgrade before 2028?",
-      "slug": "will-broadcom-get-a-credit-rating-downgrade-before-2028",
-      "daily_rate": 100.0,
-      "qual_notional": 0.0,
-      "est_daily": 100.0,
-      "yield_pct": 20.0,
-      "mid": "0.5",
-      "near_zero": true
+      "question": "Will Jensen Huang post again on X by November 30?",
+      "slug": "will-jensen-huang-post-again-on-x-by-november-30-2026",
+      "daily_rate": 75.0,
+      "qual_notional": 232.86,
+      "est_daily": 69.8815,
+      "yield_pct": 13.9763,
+      "mid": "0.235",
+      "near_zero": false
     },
     {
       "question": "Will AMD get a credit rating downgrade before 2028?",
       "slug": "will-amd-get-a-credit-rating-downgrade-before-2028",
       "daily_rate": 100.0,
+      "qual_notional": 926.96,
+      "est_daily": 69.1506,
+      "yield_pct": 13.8301,
+      "mid": "0.2",
+      "near_zero": false
+    },
+    {
+      "question": "Will Micron (MU) get a credit rating downgrade before 2028?",
+      "slug": "will-micron-get-a-credit-rating-downgrade-before-2028",
+      "daily_rate": 100.0,
+      "qual_notional": 883.85,
+      "est_daily": 67.7221,
+      "yield_pct": 13.5444,
+      "mid": "0.21",
+      "near_zero": false
+    }
+  ],
+  "top10_near_zero": [
+    {
+      "question": "Will MrBeast's next video get between 80 and 90 million views on week 1?",
+      "slug": "will-mrbeasts-next-video-get-80-90m-views-on-week-1-20261125",
+      "daily_rate": 83.0,
       "qual_notional": 0.0,
-      "est_daily": 100.0,
-      "yield_pct": 20.0,
-      "mid": "0.5",
+      "est_daily": 83.0,
+      "yield_pct": 16.6,
+      "mid": "0.295",
       "near_zero": true
     },
     {
-      "question": "Will Oracle (ORCL) get a credit rating downgrade before 2028?",
-      "slug": "will-oracle-get-a-credit-rating-downgrade-before-2028",
-      "daily_rate": 100.0,
+      "question": "Will \"Guarding Stars\" be the #2 global Netflix movie this week?",
+      "slug": "will-guarding-stars-be-the-2-global-netflix-movie-this-week-20261201",
+      "daily_rate": 68.0,
       "qual_notional": 0.0,
-      "est_daily": 100.0,
-      "yield_pct": 20.0,
-      "mid": "0.5",
+      "est_daily": 68.0,
+      "yield_pct": 13.6,
+      "mid": "0.645",
       "near_zero": true
     },
     {
-      "question": "Will Microsoft (MSFT) get a credit rating downgrade before 2028?",
-      "slug": "will-microsoft-get-a-credit-rating-downgrade-before-2028",
-      "daily_rate": 100.0,
+      "question": "Will MrBeast's next video get between 90 and 100 million views on week 1?",
+      "slug": "will-mrbeasts-next-video-get-90-100m-views-on-week-1-20261125",
+      "daily_rate": 60.0,
       "qual_notional": 0.0,
-      "est_daily": 100.0,
-      "yield_pct": 20.0,
-      "mid": "0.5",
+      "est_daily": 60.0,
+      "yield_pct": 12.0,
+      "mid": "0.23",
+      "near_zero": true
+    },
+    {
+      "question": "Will MrBeast's next video get between 40 and 45 million views on day 1?",
+      "slug": "will-mrbeasts-next-video-get-40-45m-views-on-day-1-20261125",
+      "daily_rate": 58.0,
+      "qual_notional": 0.0,
+      "est_daily": 58.0,
+      "yield_pct": 11.6,
+      "mid": "0.22",
+      "near_zero": true
+    },
+    {
+      "question": "Will \"The Mosquito Bowl\" be the #2 US Netflix movie this week?",
+      "slug": "will-the-mosquito-bowl-be-the-2-us-netflix-movie-this-week",
+      "daily_rate": 57.0,
+      "qual_notional": 0.0,
+      "est_daily": 57.0,
+      "yield_pct": 11.4,
+      "mid": "0.5515",
       "near_zero": true
     }
   ],
@@ -219,7 +169,7 @@
     "day_csvs": [
       "2026-07-19.csv",
       "2026-07-20.csv",
-      "2026-11-26.csv"
+      "2026-11-27.csv"
     ]
   }
 }
