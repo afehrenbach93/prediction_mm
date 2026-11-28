@@ -1,43 +1,43 @@
-# CLOB pulse — 2026-11-27T23:18:23Z
+# CLOB pulse — 2026-11-28T05:43:08Z
 
 - Domain: `https://clob.polymarket.com`
 - Budget: $500
 - Snapshot days on disk: 3
-- Scored: 250  competed: 232  near-zero: 18
+- Scored: 250  competed: 234  near-zero: 16
 - Pilot universe: 0 (provisional: 0)
-- Top-20 competed avg yield: 13.7885%/day (gross)
+- Top-20 competed avg yield: 6.9288%/day (gross)
 
 ## Top competed
 
 | # | yield%/d | est$/d | rate | qual$ | market |
 |---|----------|--------|------|-------|--------|
-| 1 | 33.36 | 166.79 | 380 | 781 | Will Dejan Šoškić be the next Prime Minister of Serbia? |
-| 2 | 22.31 | 111.53 | 500 | 3811 | Jensen Huang announced resignation or removal again by D |
-| 3 | 18.36 | 91.79 | 106 | 157 | Will China’s CPI increase by ≤0.4% over the 12 month per |
-| 4 | 17.58 | 87.92 | 159 | 471 | Democratic 2028 presidential odds 66-68% on December 4? |
-| 5 | 16.17 | 80.84 | 100 | 87 | Montenegro joins the EU by December 31, 2027? |
-| 6 | 15.63 | 78.16 | 100 | 123 | Will Jynxzi finish GTA VI by December 10? |
-| 7 | 14.29 | 71.45 | 100 | 311 | Will Jensen Huang post again on X by November 30? |
-| 8 | 14.19 | 70.96 | 100 | 114 | Will "NITROUS" first week sales be at least 160k? |
-| 9 | 12.57 | 62.87 | 300 | 14146 | Will an open-source model be ranked #1 on Arena by March |
-| 10 | 12.41 | 62.04 | 100 | 339 | Will 5 Jensen Huang affairs be reported by December 31? |
+| 1 | 12.27 | 61.34 | 200 | 1622 | AI bubble burst in 2026? |
+| 2 | 9.18 | 45.89 | 120 | 4514 | Iran full airspace closure by December 31? |
+| 3 | 8.65 | 43.26 | 119 | 871 | Will the Bank of Brazil make no change to the target for |
+| 4 | 8.18 | 40.91 | 90 | 557 | Will the median home value in the US be less than $403,0 |
+| 5 | 7.82 | 39.12 | 100 | 1656 | Will Core Scientific (CORZ) get a credit rating downgrad |
+| 6 | 7.57 | 37.84 | 960 | 20086 | Will the average Ornn H200 rental price in December 2026 |
+| 7 | 7.40 | 36.99 | 350 | 6733 | Will Jensen Huang's resignation or removal be announced  |
+| 8 | 7.05 | 35.27 | 123 | 788 | Democratic 2028 presidential odds 64-66% on December 4? |
+| 9 | 6.85 | 34.25 | 500 | 9353 | Another NVIDIA board member announced resignation or rem |
+| 10 | 6.64 | 33.22 | 100 | 1666 | Will 5 Jensen Huang affairs be reported by December 31? |
 
 ## Near-zero (excluded from pilot)
 
-| 1 | 20.40 | 102.00 | Will the Ornn RTX 5090 Index be between $0.65 and $0.70  |
+| 1 | 21.20 | 106.00 | Will MrBeast's next video get between 80 and 90 million  |
 | 2 | 20.00 | 100.00 | Will Meta (META) get a credit rating downgrade before 20 |
-| 3 | 20.00 | 100.00 | Will Core Scientific (CORZ) get a credit rating downgrad |
-| 4 | 20.00 | 100.00 | Will Jynxzi finish GTA VI by December 13? |
+| 3 | 20.00 | 100.00 | Will SoftBank Group get a credit rating downgrade before |
+| 4 | 20.00 | 100.00 | Will TeraWulf (WULF) get a credit rating downgrade befor |
 | 5 | 20.00 | 100.00 | Will Jynxzi finish GTA VI by December 24? |
 | 6 | 20.00 | 100.00 | Will Jynxzi finish GTA VI by December 17? |
-| 7 | 20.00 | 100.00 | Will ohnePixel finish GTA VI by December 3? |
-| 8 | 20.00 | 100.00 | Will ohnePixel finish GTA VI by December 7? |
-| 9 | 20.00 | 100.00 | Will "NITROUS" first week sales be at least 120k? |
-| 10 | 20.00 | 100.00 | Will "NITROUS" first week sales be at least 140k? |
+| 7 | 20.00 | 100.00 | Will Jynxzi finish GTA VI by December 13? |
+| 8 | 20.00 | 100.00 | Will ohnePixel finish GTA VI by December 3? |
+| 9 | 20.00 | 100.00 | Will ohnePixel finish GTA VI by December 7? |
+| 10 | 17.00 | 85.00 | Will "Nate Bargatze: Good For Nathan" be the #2 US Netfl |
 
 ## Rewards: actual vs estimated
 
-- ts: `2026-11-27T23:18:23Z`
+- ts: `2026-11-28T05:43:08Z`
 - total actual: $0
 - total estimated: $0
 - ratio: n/a

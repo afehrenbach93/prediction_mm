@@ -1,125 +1,125 @@
 {
-  "ts": "2026-11-27T23:18:23Z",
+  "ts": "2026-11-28T05:43:08Z",
   "domain": "https://clob.polymarket.com",
   "budget_usd": 500.0,
   "snapshot_days": 3,
   "scored_markets": 250,
-  "competed": 232,
-  "near_zero": 18,
+  "competed": 234,
+  "near_zero": 16,
   "pilot_universe": 0,
   "pilot_provisional": 0,
-  "top20_competed_avg_yield_pct": 13.7885,
+  "top20_competed_avg_yield_pct": 6.9288,
   "top10_competed": [
     {
-      "question": "Will Dejan \u0160o\u0161ki\u0107 be the next Prime Minister of Serbia?",
-      "slug": "will-dejan-soskic-be-the-next-prime-minister-of-serbia",
-      "daily_rate": 380.0,
-      "qual_notional": 780.68,
-      "est_daily": 166.7852,
-      "yield_pct": 33.357,
-      "mid": "0.54",
+      "question": "AI bubble burst in 2026?",
+      "slug": "ai-industry-downturn-by-december-31-2026-857",
+      "daily_rate": 200.0,
+      "qual_notional": 1622.35,
+      "est_daily": 61.3443,
+      "yield_pct": 12.2689,
+      "mid": "0.189",
       "near_zero": false
     },
     {
-      "question": "Jensen Huang announced resignation or removal again by December 31, 2027?",
-      "slug": "jensen-huang-announced-resignation-or-removal-again-by-december-31-2027",
+      "question": "Iran full airspace closure by December 31?",
+      "slug": "iran-full-airspace-closure-by-december-31-20260727170429885",
+      "daily_rate": 120.0,
+      "qual_notional": 4514.15,
+      "est_daily": 45.8903,
+      "yield_pct": 9.1781,
+      "mid": "0.14",
+      "near_zero": false
+    },
+    {
+      "question": "Will the Bank of Brazil make no change to the target for the Selic rate at the M",
+      "slug": "will-the-bank-of-brazil-make-no-change-to-the-target-for-the-selic-rate-at-the-march-2027-meeting",
+      "daily_rate": 119.0,
+      "qual_notional": 870.88,
+      "est_daily": 43.2627,
+      "yield_pct": 8.6525,
+      "mid": "0.575",
+      "near_zero": false
+    },
+    {
+      "question": "Will the median home value in the US be less than $403,000 on December 31?",
+      "slug": "will-the-median-home-value-in-the-us-be-less-than-403000-on-december-31-2026",
+      "daily_rate": 90.0,
+      "qual_notional": 557.1,
+      "est_daily": 40.9086,
+      "yield_pct": 8.1817,
+      "mid": "0.4155",
+      "near_zero": false
+    },
+    {
+      "question": "Will Core Scientific (CORZ) get a credit rating downgrade before 2028?",
+      "slug": "will-core-scientific-get-a-credit-rating-downgrade-before-2028",
+      "daily_rate": 100.0,
+      "qual_notional": 1655.92,
+      "est_daily": 39.1241,
+      "yield_pct": 7.8248,
+      "mid": "0.375",
+      "near_zero": false
+    },
+    {
+      "question": "Will the average Ornn H200 rental price in December 2026 be above $6.50?",
+      "slug": "h200-average-rental-price-in-december-2026-above-6pt50",
+      "daily_rate": 960.0,
+      "qual_notional": 20085.7,
+      "est_daily": 37.8399,
+      "yield_pct": 7.568,
+      "mid": "0.555",
+      "near_zero": false
+    },
+    {
+      "question": "Will Jensen Huang's resignation or removal be announced and Nvidia's market cap ",
+      "slug": "jensen-huang-resigned-or-removed-and-nvidia-4t-end-of-2026-resigned-over",
+      "daily_rate": 350.0,
+      "qual_notional": 6732.56,
+      "est_daily": 36.9922,
+      "yield_pct": 7.3984,
+      "mid": "0.33",
+      "near_zero": false
+    },
+    {
+      "question": "Democratic 2028 presidential odds 64-66% on December 4?",
+      "slug": "democratic-2028-presidential-odds-64-66-on-december-4",
+      "daily_rate": 123.0,
+      "qual_notional": 788.04,
+      "est_daily": 35.2676,
+      "yield_pct": 7.0535,
+      "mid": "0.295",
+      "near_zero": false
+    },
+    {
+      "question": "Another NVIDIA board member announced resignation or removal by December 31, 202",
+      "slug": "another-nvidia-board-member-announced-resignation-or-removal-by-december-31-2026",
       "daily_rate": 500.0,
-      "qual_notional": 3810.68,
-      "est_daily": 111.5282,
-      "yield_pct": 22.3056,
-      "mid": "0.345",
-      "near_zero": false
-    },
-    {
-      "question": "Will China\u2019s CPI increase by \u22640.4% over the 12 month period ending in November 2",
-      "slug": "will-chinas-cpi-increase-by-0pt4-over-the-12-month-period-ending-in-november-2026",
-      "daily_rate": 106.0,
-      "qual_notional": 156.67,
-      "est_daily": 91.7882,
-      "yield_pct": 18.3576,
-      "mid": "0.485",
-      "near_zero": false
-    },
-    {
-      "question": "Democratic 2028 presidential odds 66-68% on December 4?",
-      "slug": "democratic-2028-presidential-odds-66-68-on-december-4",
-      "daily_rate": 159.0,
-      "qual_notional": 470.78,
-      "est_daily": 87.9165,
-      "yield_pct": 17.5833,
-      "mid": "0.505",
-      "near_zero": false
-    },
-    {
-      "question": "Montenegro joins the EU by December 31, 2027?",
-      "slug": "montenegro-joins-the-eu-by-december-31-2027",
-      "daily_rate": 100.0,
-      "qual_notional": 86.86,
-      "est_daily": 80.8422,
-      "yield_pct": 16.1684,
-      "mid": "0.165",
-      "near_zero": false
-    },
-    {
-      "question": "Will Jynxzi finish GTA VI by December 10?",
-      "slug": "will-jynxzi-finish-gta-vi-by-december-10",
-      "daily_rate": 100.0,
-      "qual_notional": 122.83,
-      "est_daily": 78.163,
-      "yield_pct": 15.6326,
-      "mid": "0.1665",
-      "near_zero": false
-    },
-    {
-      "question": "Will Jensen Huang post again on X by November 30?",
-      "slug": "will-jensen-huang-post-again-on-x-by-november-30-2026",
-      "daily_rate": 100.0,
-      "qual_notional": 311.03,
-      "est_daily": 71.4481,
-      "yield_pct": 14.2896,
-      "mid": "0.29",
-      "near_zero": false
-    },
-    {
-      "question": "Will \"NITROUS\" first week sales be at least 160k?",
-      "slug": "will-nitrous-first-week-sales-be-at-least-160k",
-      "daily_rate": 100.0,
-      "qual_notional": 113.74,
-      "est_daily": 70.9556,
-      "yield_pct": 14.1911,
+      "qual_notional": 9353.42,
+      "est_daily": 34.2492,
+      "yield_pct": 6.8498,
       "mid": "0.175",
-      "near_zero": false
-    },
-    {
-      "question": "Will an open-source model be ranked #1 on Arena by March 31, 2027?",
-      "slug": "open-source-model-ranked-1-on-arena-by-march-31-2027",
-      "daily_rate": 300.0,
-      "qual_notional": 14146.24,
-      "est_daily": 62.8676,
-      "yield_pct": 12.5735,
-      "mid": "0.1",
       "near_zero": false
     },
     {
       "question": "Will 5 Jensen Huang affairs be reported by December 31?",
       "slug": "will-5-jensen-huang-affairs-be-reported-by-december-31",
       "daily_rate": 100.0,
-      "qual_notional": 339.39,
-      "est_daily": 62.0369,
-      "yield_pct": 12.4074,
-      "mid": "0.115",
+      "qual_notional": 1665.93,
+      "est_daily": 33.2243,
+      "yield_pct": 6.6449,
+      "mid": "0.12",
       "near_zero": false
     }
   ],
   "top10_near_zero": [
     {
-      "question": "Will the Ornn RTX 5090 Index be between $0.65 and $0.70 on November 30, 2026?",
-      "slug": "will-the-ornn-rtx-5090-index-be-between-0pt65-and-0pt70-on-november-30-2026",
-      "daily_rate": 102.0,
+      "question": "Will MrBeast's next video get between 80 and 90 million views on week 1?",
+      "slug": "will-mrbeasts-next-video-get-80-90m-views-on-week-1-20261125",
+      "daily_rate": 106.0,
       "qual_notional": 0.0,
-      "est_daily": 102.0,
-      "yield_pct": 20.4,
-      "mid": "0.65",
+      "est_daily": 106.0,
+      "yield_pct": 21.2,
+      "mid": "0.415",
       "near_zero": true
     },
     {
@@ -133,13 +133,43 @@
       "near_zero": true
     },
     {
-      "question": "Will Core Scientific (CORZ) get a credit rating downgrade before 2028?",
-      "slug": "will-core-scientific-get-a-credit-rating-downgrade-before-2028",
+      "question": "Will SoftBank Group get a credit rating downgrade before 2028?",
+      "slug": "will-softbank-group-get-a-credit-rating-downgrade-before-2028",
       "daily_rate": 100.0,
       "qual_notional": 0.0,
       "est_daily": 100.0,
       "yield_pct": 20.0,
-      "mid": "0.5",
+      "mid": "0.245",
+      "near_zero": true
+    },
+    {
+      "question": "Will TeraWulf (WULF) get a credit rating downgrade before 2028?",
+      "slug": "will-terawulf-get-a-credit-rating-downgrade-before-2028",
+      "daily_rate": 100.0,
+      "qual_notional": 0.0,
+      "est_daily": 100.0,
+      "yield_pct": 20.0,
+      "mid": "0.59",
+      "near_zero": true
+    },
+    {
+      "question": "Will Jynxzi finish GTA VI by December 24?",
+      "slug": "will-jynxzi-finish-gta-vi-by-december-24",
+      "daily_rate": 100.0,
+      "qual_notional": 0.0,
+      "est_daily": 100.0,
+      "yield_pct": 20.0,
+      "mid": "0.635",
+      "near_zero": true
+    },
+    {
+      "question": "Will Jynxzi finish GTA VI by December 17?",
+      "slug": "will-jynxzi-finish-gta-vi-by-december-17",
+      "daily_rate": 100.0,
+      "qual_notional": 0.0,
+      "est_daily": 100.0,
+      "yield_pct": 20.0,
+      "mid": "0.54",
       "near_zero": true
     },
     {
@@ -153,33 +183,13 @@
       "near_zero": true
     },
     {
-      "question": "Will Jynxzi finish GTA VI by December 24?",
-      "slug": "will-jynxzi-finish-gta-vi-by-december-24",
-      "daily_rate": 100.0,
-      "qual_notional": 0.0,
-      "est_daily": 100.0,
-      "yield_pct": 20.0,
-      "mid": "0.61",
-      "near_zero": true
-    },
-    {
-      "question": "Will Jynxzi finish GTA VI by December 17?",
-      "slug": "will-jynxzi-finish-gta-vi-by-december-17",
-      "daily_rate": 100.0,
-      "qual_notional": 0.0,
-      "est_daily": 100.0,
-      "yield_pct": 20.0,
-      "mid": "0.555",
-      "near_zero": true
-    },
-    {
       "question": "Will ohnePixel finish GTA VI by December 3?",
       "slug": "will-ohnepixel-finish-gta-vi-by-december-3",
       "daily_rate": 100.0,
       "qual_notional": 0.0,
       "est_daily": 100.0,
       "yield_pct": 20.0,
-      "mid": "0.51",
+      "mid": "0.685",
       "near_zero": true
     },
     {
@@ -189,27 +199,17 @@
       "qual_notional": 0.0,
       "est_daily": 100.0,
       "yield_pct": 20.0,
-      "mid": "0.695",
+      "mid": "0.685",
       "near_zero": true
     },
     {
-      "question": "Will \"NITROUS\" first week sales be at least 120k?",
-      "slug": "will-nitrous-first-week-sales-be-at-least-120k",
-      "daily_rate": 100.0,
+      "question": "Will \"Nate Bargatze: Good For Nathan\" be the #2 US Netflix show this week?",
+      "slug": "will-nate-bargatze-good-for-nathan-be-the-2-us-netflix-show-this-week-20261201",
+      "daily_rate": 85.0,
       "qual_notional": 0.0,
-      "est_daily": 100.0,
-      "yield_pct": 20.0,
-      "mid": "0.665",
-      "near_zero": true
-    },
-    {
-      "question": "Will \"NITROUS\" first week sales be at least 140k?",
-      "slug": "will-nitrous-first-week-sales-be-at-least-140k",
-      "daily_rate": 100.0,
-      "qual_notional": 0.0,
-      "est_daily": 100.0,
-      "yield_pct": 20.0,
-      "mid": "0.645",
+      "est_daily": 85.0,
+      "yield_pct": 17.0,
+      "mid": "0.4975",
       "near_zero": true
     }
   ],
@@ -219,7 +219,7 @@
     "day_csvs": [
       "2026-07-19.csv",
       "2026-07-20.csv",
-      "2026-11-27.csv"
+      "2026-11-28.csv"
     ]
   }
 }
